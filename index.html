@@ -12,6 +12,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+     <title>Login - Sistem Manajemen Surat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #0d47a1;
@@ -25,10 +28,147 @@
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
             --shadow-lg: 0 8px 28px rgba(0,0,0,0.15);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
         }
         
+        body {
+            background: var(--gradient-primary);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .login-body {
+            padding: 25px;
+        }
+        
+        .app-logo {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .app-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 5px 0 0;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-label i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+        }
+        
+        .input-group-text {
+            background: white;
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+            border-radius: 8px;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .watermark {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
         /* Dark Mode Variables */
         [data-theme="dark"] {
             --primary-color: #4f83cc;
@@ -1232,8 +1372,65 @@
     </style>
 </head>
 <body>
-    <!-- Particle Background -->
+      <!-- Particle Background -->
     <div id="particles-js"></div>
+
+    <div class="login-container animate-fadeIn">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="app-logo">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h1 class="app-title">SISTEM MANAJEMEN SURAT</h1>
+                <p class="app-subtitle">Dinas Peternakan dan Perikanan Situbondo</p>
+            </div>
+            
+            <div class="login-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-user"></i>Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Masukkan username" required>
+                        <div class="error-message" id="usernameError">Username harus diisi</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-lock"></i>Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" placeholder="Masukkan password" required>
+                            <span class="input-group-text" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="error-message" id="passwordError">Password harus diisi</div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Ingat saya</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+                </form>
+                
+                <div class="login-footer">
+                    <p>Default username: <strong>admin</strong></p>
+                    <p>Default password: <strong>Disnakan05</strong></p>
+                    <p class="mt-2">Hubungi administrator untuk bantuan</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="watermark">
+            Lentera Karya Situbondo © 2023
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
     
     <!-- Welcome Notification -->
     <div class="welcome-notification" id="welcomeNotification">
@@ -3857,6 +4054,183 @@
                 },
                 retina_detect: true
             });
+        }
+
+        // Inisialisasi aplikasi
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup particles.js
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 30, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffffff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ffffff",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Cek jika ada informasi login yang disimpan
+            checkRememberedLogin();
+        });
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                performLogin();
+            });
+            
+            // Toggle password visibility
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const icon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        }
+        
+        // Cek jika ada informasi login yang disimpan
+        function checkRememberedLogin() {
+            const rememberedUsername = localStorage.getItem('rememberedUsername');
+            if (rememberedUsername) {
+                document.getElementById('username').value = rememberedUsername;
+                document.getElementById('rememberMe').checked = true;
+            }
+        }
+        
+        // Validasi form
+        function validateForm() {
+            let isValid = true;
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(msg => {
+                msg.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.classList.remove('is-invalid');
+            });
+            
+            // Validasi username
+            const username = document.getElementById('username');
+            if (!username.value.trim()) {
+                document.getElementById('usernameError').style.display = 'block';
+                username.classList.add('is-invalid');
+                isValid = false;
+            }
+            
+            // Validasi password
+            const password = document.getElementById('password');
+            if (!password.value) {
+                document.getElementById('passwordError').style.display = 'block';
+                password.classList.add('is-invalid');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+        
+        // Lakukan login
+        function performLogin() {
+            // Validasi form
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Dapatkan nilai dari form
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // Simpan username jika remember me dicentang
+            if (rememberMe) {
+                localStorage.setItem('rememberedUsername', username);
+            } else {
+                localStorage.removeItem('rememberedUsername');
+            }
+            
+            // Validasi kredensial
+            if (username === 'admin' && password === 'Disnakan05') {
+                // Login berhasil
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', username);
+                
+                // Redirect ke halaman utama
+                window.location.href = 'index.html';
+            } else {
+                // Login gagal
+                showError('Username atau password salah. Silakan coba lagi.');
+            }
+        }
+        
+        // Tampilkan error
+        function showError(message) {
+            // Buat elemen alert jika belum ada
+            let alertDiv = document.querySelector('.alert');
+            
+            if (!alertDiv) {
+                alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-danger';
+                alertDiv.setAttribute('role', 'alert');
+                document.querySelector('.login-body').insertBefore(alertDiv, document.getElementById('loginForm'));
+            }
+            
+            // Set pesan error
+            alertDiv.innerHTML = `
+                <i class="fas fa-exclamation-circle me-2"></i>
+                ${message}
+                <button type="button" class="btn-close float-end" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Tambahkan event listener untuk tombol close
+            const closeButton = alertDiv.querySelector('.btn-close');
+            closeButton.addEventListener('click', function() {
+                alertDiv.remove();
+            });
+            
+            // Hilangkan alert setelah 5 detik
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
         }
     </script>
 </body>
