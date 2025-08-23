@@ -28,140 +28,8 @@
             --transition: all 0.3s ease;
         }
         
-        /* Login Page Styles */
-        .login-page {
-            background: var(--gradient-primary);
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .login-card {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-        }
-        
-        .login-header {
-            background: var(--gradient-primary);
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        .login-body {
-            padding: 25px;
-        }
-        
-        .app-logo {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .app-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0;
-        }
-        
-        .app-subtitle {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin: 5px 0 0;
-        }
-        
-        .form-label {
-            font-weight: 600;
-            color: #444;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .form-label i {
-            margin-right: 8px;
-            color: var(--primary-color);
-        }
-        
-        .form-control {
-            border-radius: 8px;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
-        }
-        
-        .input-group-text {
-            background: white;
-            border-radius: 8px 0 0 8px;
-        }
-        
-        .btn-primary {
-            background: var(--gradient-primary);
-            border: none;
-            padding: 12px;
-            font-weight: 600;
-            box-shadow: var(--shadow-md);
-            border-radius: 8px;
-            transition: var(--transition);
-            width: 100%;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .login-footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-            color: #666;
-            font-size: 0.85rem;
-        }
-        
-        .watermark {
-            text-align: center;
-            margin-top: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-        
-        .error-message {
-            color: #dc3545;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-fadeIn {
-            animation: fadeIn 0.5s ease forwards;
-        }
-        
         /* Main App Styles */
         .app-container {
-            display: none;
             max-width: 1800px;
             margin: 0 auto;
             background: white;
@@ -706,163 +574,6 @@
             background: var(--dark-blue);
         }
         
-        /* Welcome notification styles */
-        .welcome-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: linear-gradient(135deg, #0d47a1 0%, #082e5c 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
-            z-index: 2000;
-            text-align: center;
-            width: 90%;
-            max-width: 650px;
-            opacity: 0;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            overflow: hidden;
-        }
-        
-        .welcome-notification::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 65%);
-            pointer-events: none;
-            animation: rotateGradient 15s linear infinite;
-        }
-        
-        .welcome-notification.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        
-        .welcome-notification h3 {
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 2.2rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-            color: white;
-        }
-        
-        .welcome-notification p {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            opacity: 0.9;
-            position: relative;
-            z-index: 2;
-            color: white;
-        }
-        
-        .welcome-notification .icon {
-            font-size: 4rem;
-            margin-bottom: 25px;
-            color: #ff8f00;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-            animation: pulse 2s infinite;
-        }
-        
-        .welcome-notification .btn-close-welcome {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 3;
-        }
-        
-        .welcome-notification .btn-close-welcome:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
-        }
-        
-        .welcome-notification .highlight {
-            color: #ff8f00;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-        
-        .welcome-notification .particles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes rotateGradient {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Particle Background */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-        
-        /* Status badges */
-        .badge-status {
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.75rem;
-        }
-        
-        .badge-important {
-            background: var(--gradient-accent);
-            color: white;
-        }
-        
-        .badge-normal {
-            background: #e9ecef;
-            color: #495057;
-        }
-        
-        .badge-incoming {
-            background: var(--gradient-primary);
-            color: white;
-        }
-        
-        .badge-outgoing {
-            background: var(--gradient-secondary);
-            color: white;
-        }
-        
         /* Link section */
         .link-section {
             background-color: #f8f9fa;
@@ -1024,22 +735,6 @@
                 padding: 8px 12px;
                 font-size: 0.8rem;
             }
-            
-            .welcome-notification {
-                padding: 25px 20px;
-            }
-            
-            .welcome-notification h3 {
-                font-size: 1.8rem;
-            }
-            
-            .welcome-notification p {
-                font-size: 1.1rem;
-            }
-            
-            .welcome-notification .icon {
-                font-size: 3.5rem;
-            }
         }
         
         @media (max-width: 576px) {
@@ -1072,93 +767,14 @@
             .stats-label {
                 font-size: 0.8rem;
             }
-            
-            .welcome-notification {
-                padding: 20px 15px;
-            }
-            
-            .welcome-notification h3 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
-            }
-            
-            .welcome-notification p {
-                font-size: 1rem;
-                margin-bottom: 10px;
-            }
-            
-            .welcome-notification .icon {
-                font-size: 3rem;
-                margin-bottom: 15px;
-            }
-            
-            .welcome-notification .btn-close-welcome {
-                width: 30px;
-                height: 30px;
-                top: 10px;
-                right: 10px;
-            }
         }
     </style>
 </head>
-<body class="login-page">
+<body>
     <!-- Particle Background -->
     <div id="particles-js"></div>
 
-    <!-- Login Form -->
-    <div class="login-container animate-fadeIn">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="app-logo">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <h1 class="app-title">SISTEM MANAJEMEN SURAT</h1>
-                <p class="app-subtitle">Dinas Peternakan dan Perikanan Situbondo</p>
-            </div>
-            
-            <div class="login-body">
-                <form id="loginForm">
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-user"></i>Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Masukkan username" required>
-                        <div class="error-message" id="usernameError">Username harus diisi</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label"><i class="fas fa-lock"></i>Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="password" placeholder="Masukkan password" required>
-                            <span class="input-group-text" id="togglePassword">
-                                <i class="fas fa-eye"></i>
-                            </span>
-                        </div>
-                        <div class="error-message" id="passwordError">Password harus diisi</div>
-                    </div>
-                    
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Ingat saya</label>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-sign-in-alt me-2"></i>Login
-                    </button>
-                </form>
-                
-                <div class="login-footer">
-                    <p>Default username: <strong>admin</strong></p>
-                    <p>Default password: <strong>Disnakan05</strong></p>
-                    <p class="mt-2">Hubungi administrator untuk bantuan</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="watermark">
-            Lentera Karya Situbondo © 2023
-        </div>
-    </div>
-
-    <!-- Main Application (Initially Hidden) -->
+    <!-- Main Application -->
     <div class="app-container" id="mainApp">
         <div class="app-header">
             <div class="app-logo">
@@ -1218,11 +834,6 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-section="settings">
                             <i class="fas fa-cog feature-icon"></i> Pengaturan
-                        </a>
-                    </li>
-                    <li class="nav-item mt-4">
-                        <a href="#" class="nav-link text-danger" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt feature-icon"></i> Logout
                         </a>
                     </li>
                 </ul>
@@ -1346,7 +957,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            </div>
                     </div>
                 </div>
                 
@@ -1466,14 +1077,19 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label"><i class="fas fa-search"></i>Cari</label>
+                                <label class="form-label"><i class="fas fa-search"></i>Pencarian</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="searchInput" placeholder="Cari surat...">
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Cari...">
                                     <button class="btn btn-primary" type="button" id="searchButton">
                                         <i class="fas fa-search"></i>
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                        <div class="mt-3">
+                            <button class="btn btn-sm btn-outline-primary" id="advancedSearchToggle">
+                                <i class="fas fa-cog me-1"></i>Pencarian Lanjutan
+                            </button>
                         </div>
                     </div>
                     
@@ -1481,16 +1097,16 @@
                         <h5 class="mb-3"><i class="fas fa-search-plus me-2"></i>Pencarian Lanjutan</h5>
                         <div class="row">
                             <div class="col-md-4">
-                                <label class="form-label">Tanggal Mulai</label>
-                                <input type="date" class="form-control" id="startDate">
+                                <label class="form-label">Perihal</label>
+                                <input type="text" class="form-control" id="advSubject" placeholder="Kata kunci perihal">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Tanggal Akhir</label>
-                                <input type="date" class="form-control" id="endDate">
+                                <label class="form-label">Asal/Tujuan</label>
+                                <input type="text" class="form-control" id="advOrigin" placeholder="Instansi/Perusahaan">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Status</label>
-                                <select class="form-select" id="statusFilter">
+                                <select class="form-select" id="advStatus">
                                     <option value="">Semua Status</option>
                                     <option value="pending">Pending</option>
                                     <option value="process">Proses</option>
@@ -1498,36 +1114,40 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="mt-3">
+                        <div class="mt-3 text-end">
                             <button class="btn btn-primary" id="applyAdvancedSearch">
-                                <i class="fas fa-check me-2"></i>Terapkan Filter
-                            </button>
-                            <button class="btn btn-secondary ms-2" id="resetAdvancedSearch">
-                                <i class="fas fa-undo me-2"></i>Reset
+                                <i class="fas fa-check me-1"></i>Terapkan Filter
                             </button>
                         </div>
                     </div>
                     
                     <div class="control-panel">
-                        <div class="control-title">Kelola Data</div>
+                        <div class="control-title">Kontrol Data</div>
                         <div class="d-flex flex-wrap gap-2">
-                            <button class="btn btn-success" id="addMailBtn">
-                                <i class="fas fa-plus me-2"></i>Tambah Data
-                            </button>
-                            <button class="btn btn-primary" id="exportPdfBtn">
-                                <i class="fas fa-file-pdf me-2"></i>Export PDF
-                            </button>
                             <button class="btn btn-success" id="exportExcelBtn">
-                                <i class="fas fa-file-excel me-2"></i>Export Excel
+                                <i class="fas fa-file-excel me-1"></i>Export Excel
                             </button>
-                            <button class="btn btn-info" id="toggleAdvancedSearch">
-                                <i class="fas fa-search-plus me-2"></i>Pencarian Lanjutan
+                            <button class="btn btn-danger" id="exportPdfBtn">
+                                <i class="fas fa-file-pdf me-1"></i>Export PDF
                             </button>
+                            <button class="btn btn-info" id="printBtn">
+                                <i class="fas fa-print me-1"></i>Cetak
+                            </button>
+                            <div class="ms-auto">
+                                <div class="btn-group">
+                                    <button class="btn btn-outline-primary" id="tableViewBtn">
+                                        <i class="fas fa-table me-1"></i>Tabel
+                                    </button>
+                                    <button class="btn btn-outline-secondary" id="cardViewBtn">
+                                        <i class="fas fa-th-large me-1"></i>Kartu
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="table-responsive mt-3">
-                        <table class="table table-striped table-hover data-table" id="mailTable">
+                        <table class="table table-striped table-bordered data-table" id="mailTable">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -1536,8 +1156,7 @@
                                     <th>Tanggal</th>
                                     <th>Asal/Tujuan</th>
                                     <th>Perihal</th>
-                                    <th>Status</th>
-                                    <th>File</th>
+                                    <th>Link File</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -1547,14 +1166,14 @@
                                     <td><span class="badge bg-primary">Masuk</span></td>
                                     <td>SM/123/XI/2023</td>
                                     <td>15/11/2023</td>
-                                    <td>Dinas Pertanian</td>
+                                    <td>Dinas Kesehatan</td>
                                     <td>Undangan Rapat Koordinasi</td>
-                                    <td><span class="badge bg-success">Selesai</span></td>
                                     <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1563,14 +1182,14 @@
                                     <td><span class="badge bg-success">Keluar</span></td>
                                     <td>SK/456/XI/2023</td>
                                     <td>14/11/2023</td>
-                                    <td>Kecamatan Panarukan</td>
+                                    <td>PT. Sumber Hasil Laut</td>
                                     <td>Surat Tugas Monitoring</td>
-                                    <td><span class="badge bg-warning">Proses</span></td>
                                     <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1579,14 +1198,14 @@
                                     <td><span class="badge bg-primary">Masuk</span></td>
                                     <td>SM/789/XI/2023</td>
                                     <td>13/11/2023</td>
-                                    <td>BPS Kabupaten</td>
+                                    <td>BPS Kabupaten Situbondo</td>
                                     <td>Permohonan Data Statistik</td>
-                                    <td><span class="badge bg-info">Review</span></td>
                                     <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1595,14 +1214,14 @@
                                     <td><span class="badge bg-success">Keluar</span></td>
                                     <td>SK/101/XI/2023</td>
                                     <td>12/11/2023</td>
-                                    <td>Dinas Kesehatan</td>
+                                    <td>Dinas Perikanan Provinsi</td>
                                     <td>Laporan Bulanan</td>
-                                    <td><span class="badge bg-success">Selesai</span></td>
                                     <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1613,12 +1232,12 @@
                                     <td>10/11/2023</td>
                                     <td>BPKP</td>
                                     <td>Pengumuman Lelang</td>
-                                    <td><span class="badge bg-danger">Pending</span></td>
                                     <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -1626,19 +1245,20 @@
                         </table>
                     </div>
                     
-                    <nav aria-label="Page navigation" class="mt-3">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>Menampilkan 1 hingga 5 dari 250 entri</div>
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item disabled"><a class="page-link" href="#">Sebelumnya</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Selanjutnya</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
                 
                 <!-- Pencarian Section -->
@@ -1664,35 +1284,32 @@
                                 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-building"></i>Asal/Tujuan Surat</label>
+                                        <label class="form-label"><i class="fas fa-building"></i>Asal/Tujuan</label>
                                         <input type="text" class="form-control" id="searchOrigin" placeholder="Instansi/Perusahaan">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label"><i class="fas fa-calendar"></i>Rentang Tanggal</label>
                                         <div class="input-group">
-                                            <input type="date" class="form-control" id="searchStartDate">
+                                            <input type="date" class="form-control" id="searchDateFrom">
                                             <span class="input-group-text">s/d</span>
-                                            <input type="date" class="form-control" id="searchEndDate">
+                                            <input type="date" class="form-control" id="searchDateTo">
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-align-left"></i>Kata Kunci</label>
-                                    <input type="text" class="form-control" id="searchKeywords" placeholder="Masukkan kata kunci pencarian">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search me-2"></i>Cari Surat
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary ms-2">
+                                        <i class="fas fa-undo me-2"></i>Reset Form
+                                    </button>
                                 </div>
-                                
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-search me-2"></i>Cari Surat
-                                </button>
-                                <button type="reset" class="btn btn-secondary ms-2">
-                                    <i class="fas fa-undo me-2"></i>Reset Form
-                                </button>
                             </form>
                         </div>
                     </div>
                     
-                    <div class="card mt-4">
+                    <div class="card mt-4 d-none" id="searchResultsCard">
                         <div class="card-header">
                             <i class="fas fa-list me-2"></i>Hasil Pencarian
                         </div>
@@ -1707,16 +1324,11 @@
                                             <th>Tanggal</th>
                                             <th>Asal/Tujuan</th>
                                             <th>Perihal</th>
-                                            <th>File</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody id="searchResults">
-                                        <tr>
-                                            <td colspan="7" class="text-center py-4">
-                                                <i class="fas fa-search fa-2x mb-3 text-muted"></i>
-                                                <p class="text-muted">Gunakan form di atas untuk melakukan pencarian</p>
-                                            </td>
-                                        </tr>
+                                        <!-- Results will be populated here -->
                                     </tbody>
                                 </table>
                             </div>
@@ -1724,60 +1336,55 @@
                     </div>
                 </div>
                 
-                <!-- Kalender Section -->
+                <!-- Calendar Section -->
                 <div class="content-section d-none" id="calendarSection">
                     <h2 class="section-title">Kalender Surat</h2>
                     
                     <div class="card">
                         <div class="card-header">
-                            <i class="fas fa-calendar me-2"></i>Kalender
+                            <i class="fas fa-calendar me-2"></i>Pilih Bulan dan Tahun
                         </div>
                         <div class="card-body">
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                        <select class="form-select" id="calendarMonth">
-                                            <option value="0">Januari</option>
-                                            <option value="1">Februari</option>
-                                            <option value="2">Maret</option>
-                                            <option value="3">April</option>
-                                            <option value="4">Mei</option>
-                                            <option value="5">Juni</option>
-                                            <option value="6">Juli</option>
-                                            <option value="7">Agustus</option>
-                                            <option value="8">September</option>
-                                            <option value="9">Oktober</option>
-                                            <option value="10">November</option>
-                                            <option value="11">Desember</option>
-                                        </select>
-                                        <select class="form-select" id="calendarYear">
-                                            <option value="2023">2023</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2021">2021</option>
-                                        </select>
-                                        <button class="btn btn-primary" id="viewCalendarBtn">
-                                            <i class="fas fa-eye me-2"></i>Tampilkan
-                                        </button>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label">Bulan</label>
+                                    <select class="form-select" id="calendarMonth">
+                                        <option value="1">Januari</option>
+                                        <option value="2">Februari</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">Juli</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex justify-content-end">
-                                        <div class="me-3">
-                                            <span class="badge bg-primary p-2">Surat Masuk</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-success p-2">Surat Keluar</span>
-                                        </div>
-                                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Tahun</label>
+                                    <select class="form-select" id="calendarYear">
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2020">2020</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button class="btn btn-primary w-100" id="loadCalendar">
+                                        <i class="fas fa-sync me-2"></i>Muat Kalender
+                                    </button>
                                 </div>
                             </div>
-                            
-                            <div class="calendar-view" id="calendarView">
-                                <div class="calendar-grid" id="calendarGrid">
-                                    <!-- Calendar will be generated here -->
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-view mt-4" id="calendarView">
+                        <h4 class="text-center mb-3" id="calendarTitle">November 2023</h4>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be generated here -->
                         </div>
                     </div>
                 </div>
@@ -1794,46 +1401,43 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="template-item">
-                                        <h5><i class="fas fa-file-contract text-primary me-2"></i>Surat Tugas</h5>
-                                        <p class="text-muted">Template untuk membuat surat tugas resmi</p>
+                                        <h5>Surat Tugas</h5>
+                                        <p>Template untuk membuat surat tugas</p>
                                         <button class="btn btn-sm btn-primary">Gunakan Template</button>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="template-item">
-                                        <h5><i class="fas fa-file-invoice text-success me-2"></i>Surat Pernyataan</h5>
-                                        <p class="text-muted">Template untuk membuat surat pernyataan</p>
+                                        <h5>Surat Undangan</h5>
+                                        <p>Template untuk membuat surat undangan</p>
                                         <button class="btn btn-sm btn-primary">Gunakan Template</button>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="template-item">
-                                        <h5><i class="fas fa-file-signature text-warning me-2"></i>Surat Kuasa</h5>
-                                        <p class="text-muted">Template untuk membuat surat kuasa</p>
-                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="template-item">
-                                        <h5><i class="fas fa-envelope-open-text text-info me-2"></i>Surat Undangan</h5>
-                                        <p class="text-muted">Template untuk membuat surat undangan</p>
+                                        <h5>Surat Keterangan</h5>
+                                        <p>Template untuk membuat surat keterangan</p>
                                         <button class="btn btn-sm btn-primary">Gunakan Template</button>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="template-item">
-                                        <h5><i class="fas fa-file-medical text-danger me-2"></i>Surat Keterangan</h5>
-                                        <p class="text-muted">Template untuk membuat surat keterangan</p>
+                                        <h5>Laporan Bulanan</h5>
+                                        <p>Template untuk membuat laporan bulanan</p>
                                         <button class="btn btn-sm btn-primary">Gunakan Template</button>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="template-item">
-                                        <h5><i class="fas fa-file-export text-secondary me-2"></i>Surat Pengantar</h5>
-                                        <p class="text-muted">Template untuk membuat surat pengantar</p>
+                                        <h5>Surat Permohonan</h5>
+                                        <p>Template untuk membuat surat permohonan</p>
+                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="template-item">
+                                        <h5>Surat Edaran</h5>
+                                        <p>Template untuk membuat surat edaran</p>
                                         <button class="btn btn-sm btn-primary">Gunakan Template</button>
                                     </div>
                                 </div>
@@ -1842,7 +1446,7 @@
                     </div>
                 </div>
                 
-                <!-- Pengguna Section -->
+                <!-- Users Section -->
                 <div class="content-section d-none" id="usersSection">
                     <h2 class="section-title">Manajemen Pengguna</h2>
                     
@@ -1869,16 +1473,16 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="user-avatar me-2">A</div>
-                                                    <div>Administrator</div>
+                                                    <div>Admin Sistem</div>
                                                 </div>
                                             </td>
                                             <td>admin</td>
-                                            <td><span class="badge bg-primary">Administrator</span></td>
+                                            <td><span class="badge bg-danger">Administrator</span></td>
                                             <td><span class="badge bg-success">Aktif</span></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -1886,17 +1490,17 @@
                                             <td>2</td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="user-avatar me-2">U</div>
-                                                    <div>User Biasa</div>
+                                                    <div class="user-avatar me-2">B</div>
+                                                    <div>Budi Santoso</div>
                                                 </div>
                                             </td>
-                                            <td>user</td>
-                                            <td><span class="badge bg-secondary">User</span></td>
+                                            <td>budi</td>
+                                            <td><span class="badge bg-primary">Operator</span></td>
                                             <td><span class="badge bg-success">Aktif</span></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -1904,34 +1508,28 @@
                                             <td>3</td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="user-avatar me-2">P</div>
-                                                    <div>Petugas Surat</div>
+                                                    <div class="user-avatar me-2">S</div>
+                                                    <div>Siti Rahayu</div>
                                                 </div>
                                             </td>
-                                            <td>petugas</td>
-                                            <td><span class="badge bg-info">Petugas</span></td>
-                                            <td><span class="badge bg-warning">Non-Aktif</span></td>
+                                            <td>siti</td>
+                                            <td><span class="badge bg-info">Viewer</span></td>
+                                            <td><span class="badge bg-success">Aktif</span></td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+                                                    <button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            
-                            <div class="d-flex justify-content-end mt-3">
-                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                                    <i class="fas fa-plus me-2"></i>Tambah Pengguna
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Pengaturan Section -->
+                <!-- Settings Section -->
                 <div class="content-section d-none" id="settingsSection">
                     <h2 class="section-title">Pengaturan Sistem</h2>
                     
@@ -1943,54 +1541,79 @@
                             <form id="settingsForm">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-font"></i>Nama Instansi</label>
-                                        <input type="text" class="form-control" value="Dinas Peternakan dan Perikanan Situbondo">
+                                        <label class="form-label">Nama Instansi</label>
+                                        <input type="text" class="form-control" value="Dinas Peternakan dan Perikanan Kabupaten Situbondo">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-envelope"></i>Email Instansi</label>
-                                        <input type="email" class="form-control" value="disnakan@situbondokab.go.id">
+                                        <label class="form-label">Alamat Instansi</label>
+                                        <input type="text" class="form-control" value="Jl. Raya Situbondo No. 123">
                                     </div>
                                 </div>
                                 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-phone"></i>Telepon</label>
-                                        <input type="text" class="form-control" value="(0338) 671191">
+                                        <label class="form-label">Format Nomor Surat Masuk</label>
+                                        <input type="text" class="form-control" value="SM/[number]/[month]/[year]">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-map-marker-alt"></i>Alamat</label>
-                                        <input type="text" class="form-control" value="Jl. Jend. Sudirman No. 74, Situbondo">
+                                        <label class="form-label">Format Nomor Surat Keluar</label>
+                                        <input type="text" class="form-control" value="SK/[number]/[month]/[year]">
                                     </div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-link"></i>Website</label>
-                                    <input type="url" class="form-control" value="https://disnakan.situbondokab.go.id">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Notifikasi Email</label>
+                                        <select class="form-select">
+                                            <option>Aktif</option>
+                                            <option>Non-Aktif</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Backup Otomatis</label>
+                                        <select class="form-select">
+                                            <option>Aktif</option>
+                                            <option>Non-Aktif</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-database"></i>Backup Database</label>
-                                    <div>
-                                        <button type="button" class="btn btn-primary">
-                                            <i class="fas fa-download me-2"></i>Backup Sekarang
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Simpan Pengaturan
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <i class="fas fa-database me-2"></i>Manajemen Data
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success">
+                                            <i class="fas fa-download me-2"></i>Backup Database
+                                        </button>
+                                        <button class="btn btn-info">
+                                            <i class="fas fa-upload me-2"></i>Restore Database
                                         </button>
                                     </div>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-paint-brush"></i>Tema Aplikasi</label>
-                                    <select class="form-select" id="themeSelector">
-                                        <option value="light">Light Mode</option>
-                                        <option value="dark">Dark Mode</option>
-                                        <option value="blue">Blue Theme</option>
-                                        <option value="green">Green Theme</option>
-                                    </select>
+                                <div class="col-md-6">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-warning">
+                                            <i class="fas fa-sync me-2"></i>Reset Data
+                                        </button>
+                                        <button class="btn btn-danger">
+                                            <i class="fas fa-trash me-2"></i>Hapus Semua Data
+                                        </button>
+                                    </div>
                                 </div>
-                                
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save me-2"></i>Simpan Pengaturan
-                                </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1998,460 +1621,241 @@
         </div>
         
         <div class="copyright">
-            &copy; 2023 Dinas Peternakan dan Perikanan Kabupaten Situbondo - Sistem Manajemen Surat
+            &copy; 2023 Dinas Peternakan dan Perikanan Kabupaten Situbondo. All rights reserved.
         </div>
     </div>
-
+    
     <!-- Floating Action Button -->
-    <div class="floating-action-btn" id="floatingActionBtn">
+    <div class="floating-action-btn" id="fab">
         <i class="fas fa-plus"></i>
     </div>
-
+    
     <!-- Theme Switcher -->
     <div class="theme-switcher" id="themeSwitcher">
         <i class="fas fa-palette"></i>
     </div>
-
-    <!-- Welcome Notification -->
-    <div class="welcome-notification" id="welcomeNotification">
-        <button class="btn-close-welcome" id="closeWelcome">
-            <i class="fas fa-times"></i>
-        </button>
-        <div class="icon">
-            <i class="fas fa-check-circle"></i>
+    
+    <!-- Notification Toast -->
+    <div class="toast notification-toast" role="alert" aria-live="assertive" aria-atomic="true" id="notificationToast">
+        <div class="toast-header bg-primary text-white">
+            <strong class="me-auto"><i class="fas fa-bell me-2"></i>Notifikasi</strong>
+            <small>Baru saja</small>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <h3>Selamat Datang di Sistem Manajemen Surat</h3>
-        <p>Anda telah berhasil login sebagai <span class="highlight" id="welcomeUsername">Administrator</span></p>
-        <p>Sistem siap membantu Anda mengelola surat masuk dan keluar dengan lebih efisien</p>
-        <div class="particles-container" id="welcomeParticles"></div>
+        <div class="toast-body" id="toastMessage">
+            Selamat datang di Sistem Manajemen Surat!
+        </div>
     </div>
-
+    
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         // Initialize particles.js
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof particlesJS !== 'undefined') {
-                particlesJS('particles-js', {
-                    particles: {
-                        number: { value: 80, density: { enable: true, value_area: 800 } },
-                        color: { value: "#ffffff" },
-                        shape: { type: "circle" },
-                        opacity: { value: 0.5, random: true },
-                        size: { value: 3, random: true },
-                        line_linked: {
-                            enable: true,
-                            distance: 150,
-                            color: "#ffffff",
-                            opacity: 0.4,
-                            width: 1
-                        },
-                        move: {
-                            enable: true,
-                            speed: 2,
-                            direction: "none",
-                            random: true,
-                            straight: false,
-                            out_mode: "out",
-                            bounce: false
-                        }
-                    },
-                    interactivity: {
-                        detect_on: "canvas",
-                        events: {
-                            onhover: { enable: true, mode: "grab" },
-                            onclick: { enable: true, mode: "push" },
-                            resize: true
-                        }
-                    },
-                    retina_detect: true
-                });
-            }
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 30, density: { enable: true, value_area: 800 } },
+                color: { value: "#0d47a1" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#0d47a1",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
         });
-
-        // Main Application Logic
+        
+        // Initialize charts
         document.addEventListener('DOMContentLoaded', function() {
-            // DOM Elements
-            const loginForm = document.getElementById('loginForm');
-            const mainApp = document.getElementById('mainApp');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const togglePassword = document.getElementById('togglePassword');
-            const usernameError = document.getElementById('usernameError');
-            const passwordError = document.getElementById('passwordError');
-            const navLinks = document.querySelectorAll('.nav-link[data-section]');
-            const contentSections = document.querySelectorAll('.content-section');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const sidebar = document.getElementById('sidebar');
-            const welcomeNotification = document.getElementById('welcomeNotification');
-            const closeWelcome = document.getElementById('closeWelcome');
-            const welcomeUsername = document.getElementById('welcomeUsername');
-            const toggleAdvancedSearch = document.getElementById('toggleAdvancedSearch');
-            const advancedSearchPanel = document.getElementById('advancedSearchPanel');
-            
-            // Default credentials
-            const defaultUsername = 'admin';
-            const defaultPassword = 'Disnakan05';
-            
-            // Toggle password visibility
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.querySelector('i').classList.toggle('fa-eye');
-                this.querySelector('i').classList.toggle('fa-eye-slash');
-            });
-            
-            // Login form validation
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                let isValid = true;
-                
-                // Reset errors
-                usernameError.style.display = 'none';
-                passwordError.style.display = 'none';
-                usernameInput.classList.remove('input-error');
-                passwordInput.classList.remove('input-error');
-                
-                // Validate username
-                if (!usernameInput.value.trim()) {
-                    usernameError.style.display = 'block';
-                    usernameInput.classList.add('input-error');
-                    isValid = false;
-                }
-                
-                // Validate password
-                if (!passwordInput.value.trim()) {
-                    passwordError.style.display = 'block';
-                    passwordInput.classList.add('input-error');
-                    isValid = false;
-                }
-                
-                // Check credentials
-                if (isValid) {
-                    if (usernameInput.value === defaultUsername && passwordInput.value === defaultPassword) {
-                        // Successful login
-                        document.querySelector('.login-container').style.display = 'none';
-                        mainApp.style.display = 'block';
-                        
-                        // Show welcome notification
-                        welcomeUsername.textContent = usernameInput.value;
-                        setTimeout(() => {
-                            welcomeNotification.classList.add('show');
-                        }, 500);
-                    } else {
-                        // Failed login
-                        alert('Username atau password salah! Silakan coba lagi.\n\nDefault username: admin\nDefault password: Disnakan05');
+            // Mail statistics chart
+            const mailCtx = document.getElementById('mailChart').getContext('2d');
+            const mailChart = new Chart(mailCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [
+                        {
+                            label: 'Surat Masuk',
+                            data: [12, 19, 15, 17, 14, 16, 18, 16, 14, 17, 15, 18],
+                            borderColor: '#0d47a1',
+                            backgroundColor: 'rgba(13, 71, 161, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Surat Keluar',
+                            data: [8, 12, 10, 14, 11, 13, 10, 12, 9, 11, 10, 12],
+                            borderColor: '#00695c',
+                            backgroundColor: 'rgba(0, 105, 92, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
                     }
                 }
             });
             
-            // Navigation
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all links
-                    navLinks.forEach(navLink => {
-                        navLink.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                    
-                    // Hide all sections
-                    contentSections.forEach(section => {
-                        section.classList.add('d-none');
-                    });
-                    
-                    // Show the selected section
-                    const sectionId = this.getAttribute('data-section') + 'Section';
-                    document.getElementById(sectionId).classList.remove('d-none');
-                    
-                    // Close sidebar on mobile
-                    if (window.innerWidth < 992) {
-                        document.body.classList.remove('sidebar-open');
-                        sidebarOverlay.classList.remove('active');
+            // Category chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            const categoryChart = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Undangan', 'Laporan', 'Permohonan', 'Tugas', 'Lainnya'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: [
+                            '#0d47a1',
+                            '#00695c',
+                            '#ff8f00',
+                            '#c62828',
+                            '#6a1b9a'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
                     }
-                });
-            });
-            
-            // Logout
-            logoutBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (confirm('Apakah Anda yakin ingin logout?')) {
-                    mainApp.style.display = 'none';
-                    document.querySelector('.login-container').style.display = 'flex';
-                    loginForm.reset();
                 }
             });
+            
+            // Show notification toast
+            const toast = new bootstrap.Toast(document.getElementById('notificationToast'));
+            toast.show();
             
             // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', function() {
-                document.body.classList.add('sidebar-open');
-                sidebarOverlay.classList.add('active');
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.body.classList.toggle('sidebar-open');
+                document.getElementById('sidebarOverlay').classList.toggle('active');
             });
             
-            sidebarOverlay.addEventListener('click', function() {
+            document.getElementById('sidebarOverlay').addEventListener('click', function() {
                 document.body.classList.remove('sidebar-open');
                 this.classList.remove('active');
             });
             
-            // Close welcome notification
-            closeWelcome.addEventListener('click', function() {
-                welcomeNotification.classList.remove('show');
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.getAttribute('data-section') + 'Section';
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.add('d-none');
+                    });
+                    document.getElementById(sectionId).classList.remove('d-none');
+                    
+                    // Close mobile menu if open
+                    document.body.classList.remove('sidebar-open');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                });
+            });
+            
+            // Form validation
+            document.getElementById('mailForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                
+                // Simple validation
+                const requiredFields = this.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('input-error');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('input-error');
+                    }
+                });
+                
+                if (isValid) {
+                    // Show success notification
+                    document.getElementById('toastMessage').textContent = 'Surat berhasil disimpan!';
+                    toast.show();
+                    
+                    // Reset form
+                    this.reset();
+                }
             });
             
             // Toggle advanced search
-            toggleAdvancedSearch.addEventListener('click', function() {
-                if (advancedSearchPanel.style.display === 'none' || !advancedSearchPanel.style.display) {
-                    advancedSearchPanel.style.display = 'block';
-                    this.innerHTML = '<i class="fas fa-search-minus me-2"></i>Sembunyikan Pencarian';
-                } else {
-                    advancedSearchPanel.style.display = 'none';
-                    this.innerHTML = '<i class="fas fa-search-plus me-2"></i>Pencarian Lanjutan';
-                }
+            document.getElementById('advancedSearchToggle').addEventListener('click', function() {
+                const panel = document.getElementById('advancedSearchPanel');
+                panel.style.display = panel.style.display === 'none' || !panel.style.display ? 'block' : 'none';
             });
             
-            // Initialize charts
-            if (typeof Chart !== 'undefined') {
-                // Mail statistics chart
-                const mailCtx = document.getElementById('mailChart').getContext('2d');
-                const mailChart = new Chart(mailCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                        datasets: [
-                            {
-                                label: 'Surat Masuk',
-                                data: [12, 19, 8, 15, 17, 12, 16, 14, 18, 16, 15, 10],
-                                backgroundColor: '#0d47a1'
-                            },
-                            {
-                                label: 'Surat Keluar',
-                                data: [8, 12, 6, 10, 14, 9, 11, 13, 10, 12, 8, 7],
-                                backgroundColor: '#00695c'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top'
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
+            // FAB click handler
+            document.getElementById('fab').addEventListener('click', function() {
+                // Switch to input section
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
                 });
+                document.querySelector('[data-section="input"]').classList.add('active');
                 
-                // Category chart
-                const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-                const categoryChart = new Chart(categoryCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Undangan', 'Laporan', 'Tugas', 'Permohonan', 'Lainnya'],
-                        datasets: [{
-                            data: [30, 25, 20, 15, 10],
-                            backgroundColor: [
-                                '#0d47a1',
-                                '#00695c',
-                                '#ff8f00',
-                                '#9e9d24',
-                                '#78909c'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }
+                // Show input section
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.add('d-none');
                 });
-            }
-            
-            // Initialize calendar view
-            const viewCalendarBtn = document.getElementById('viewCalendarBtn');
-            if (viewCalendarBtn) {
-                viewCalendarBtn.addEventListener('click', function() {
-                    document.getElementById('calendarView').style.display = 'block';
-                    generateCalendar();
-                });
-            }
-            
-            // Generate calendar function
-            function generateCalendar() {
-                const month = parseInt(document.getElementById('calendarMonth').value);
-                const year = parseInt(document.getElementById('calendarYear').value);
-                const calendarGrid = document.getElementById('calendarGrid');
+                document.getElementById('inputSection').classList.remove('d-none');
                 
-                // Clear previous calendar
-                calendarGrid.innerHTML = '';
-                
-                // Get first day of month and number of days
-                const firstDay = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-                
-                // Create day headers
-                const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                dayNames.forEach(day => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.classList.add('calendar-day-header');
-                    dayHeader.textContent = day;
-                    calendarGrid.appendChild(dayHeader);
-                });
-                
-                // Add empty cells for days before the first day of the month
-                for (let i = 0; i < firstDay; i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.classList.add('calendar-day');
-                    calendarGrid.appendChild(emptyDay);
-                }
-                
-                // Add cells for each day of the month
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dayCell = document.createElement('div');
-                    dayCell.classList.add('calendar-day');
-                    
-                    const dayHeader = document.createElement('div');
-                    dayHeader.classList.add('calendar-day-header');
-                    dayHeader.textContent = day;
-                    dayCell.appendChild(dayHeader);
-                    
-                    // Randomly add events for demonstration
-                    if (Math.random() > 0.7) {
-                        dayCell.classList.add('has-events');
-                        
-                        const eventCount = Math.floor(Math.random() * 2) + 1;
-                        for (let i = 0; i < eventCount; i++) {
-                            const event = document.createElement('div');
-                            event.classList.add('calendar-event');
-                            event.textContent = Math.random() > 0.5 ? 'Surat Masuk' : 'Surat Keluar';
-                            event.style.backgroundColor = Math.random() > 0.5 ? 'rgba(13, 71, 161, 0.2)' : 'rgba(0, 105, 92, 0.2)';
-                            dayCell.appendChild(event);
-                        }
-                    }
-                    
-                    calendarGrid.appendChild(dayCell);
-                }
-            }
-            
-            // Add mail button functionality
-            const addMailBtn = document.getElementById('addMailBtn');
-            if (addMailBtn) {
-                addMailBtn.addEventListener('click', function() {
-                    // Switch to input section
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    document.querySelector('[data-section="input"]').classList.add('active');
-                    
-                    contentSections.forEach(section => section.classList.add('d-none'));
-                    document.getElementById('inputSection').classList.remove('d-none');
-                });
-            }
-            
-            // Form submission
-            const mailForm = document.getElementById('mailForm');
-            if (mailForm) {
-                mailForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Surat berhasil disimpan!');
-                    this.reset();
-                });
-            }
-            
-            // Search form submission
-            const searchForm = document.getElementById('searchForm');
-            if (searchForm) {
-                searchForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const searchResults = document.getElementById('searchResults');
-                    
-                    // Show loading state
-                    searchResults.innerHTML = `
-                        <tr>
-                            <td colspan="7" class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <p class="mt-2 text-muted">Sedang mencari...</p>
-                            </td>
-                        </tr>
-                    `;
-                    
-                    // Simulate search delay
-                    setTimeout(() => {
-                        // Mock search results
-                        searchResults.innerHTML = `
-                            <tr>
-                                <td>1</td>
-                                <td><span class="badge bg-primary">Masuk</span></td>
-                                <td>SM/123/XI/2023</td>
-                                <td>15/11/2023</td>
-                                <td>Dinas Pertanian</td>
-                                <td>Undangan Rapat Koordinasi</td>
-                                <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><span class="badge bg-success">Keluar</span></td>
-                                <td>SK/456/XI/2023</td>
-                                <td>14/11/2023</td>
-                                <td>Kecamatan Panarukan</td>
-                                <td>Surat Tugas Monitoring</td>
-                                <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                            </tr>
-                        `;
-                    }, 1500);
-                });
-            }
-            
-            // Export buttons
-            const exportPdfBtn = document.getElementById('exportPdfBtn');
-            if (exportPdfBtn) {
-                exportPdfBtn.addEventListener('click', function() {
-                    alert('Fitur export PDF akan segera tersedia!');
-                });
-            }
-            
-            const exportExcelBtn = document.getElementById('exportExcelBtn');
-            if (exportExcelBtn) {
-                exportExcelBtn.addEventListener('click', function() {
-                    alert('Fitur export Excel akan segera tersedia!');
-                });
-            }
+                // Show notification
+                document.getElementById('toastMessage').textContent = 'Buat surat baru';
+                toast.show();
+            });
             
             // Theme switcher
-            const themeSwitcher = document.getElementById('themeSwitcher');
-            if (themeSwitcher) {
-                themeSwitcher.addEventListener('click', function() {
-                    alert('Fitur pengganti tema akan segera tersedia!');
-                });
-            }
-            
-            // Floating action button
-            const floatingActionBtn = document.getElementById('floatingActionBtn');
-            if (floatingActionBtn) {
-                floatingActionBtn.addEventListener('click', function() {
-                    // Switch to input section
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    document.querySelector('[data-section="input"]').classList.add('active');
-                    
-                    contentSections.forEach(section => section.classList.add('d-none'));
-                    document.getElementById('inputSection').classList.remove('d-none');
-                });
-            }
+            document.getElementById('themeSwitcher').addEventListener('click', function() {
+                const body = document.body;
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.removeAttribute('data-theme');
+                    document.getElementById('toastMessage').textContent = 'Mode terang diaktifkan';
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    document.getElementById('toastMessage').textContent = 'Mode gelap diaktifkan';
+                }
+                toast.show();
+            });
         });
     </script>
 </body>
