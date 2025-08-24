@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lentera Karya Situbondo - Portal Utama</title>
+    <title>Lentera Karya Situbondo - Sistem Manajemen Surat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Styles from the first index.html (landing page) */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,7 +25,6 @@
             overflow-x: hidden;
         }
         
-        /* Particle Background */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -36,7 +34,6 @@
             z-index: 0;
         }
         
-        /* Header & Navigation */
         header {
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -109,7 +106,6 @@
             background: rgba(52, 152, 219, 0.1);
         }
         
-        /* Main Content */
         .main-content {
             flex: 1;
             display: flex;
@@ -191,7 +187,6 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
-        /* Features Section */
         .features {
             display: flex;
             flex-wrap: wrap;
@@ -242,7 +237,6 @@
             line-height: 1.6;
         }
         
-        /* Footer */
         footer {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px 5%;
@@ -288,7 +282,6 @@
             margin-top: 20px;
         }
         
-        /* Login Modal */
         .modal {
             display: none;
             position: fixed;
@@ -343,7 +336,6 @@
             transform: rotate(90deg);
         }
         
-        /* Responsive Design */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -396,7 +388,7 @@
             }
         }
 
-        /* Dashboard Styles (from the second index.html) */
+        /* Dashboard Styles */
         :root {
             --primary-color: #0d47a1;
             --secondary-color: #00695c;
@@ -420,7 +412,7 @@
             box-shadow: var(--shadow-lg);
             border-radius: var(--border-radius);
             overflow: hidden;
-            display: none; /* Initially hidden */
+            display: none;
         }
         
         .app-header {
@@ -600,21 +592,6 @@
         
         .badge-warning {
             background: var(--gradient-accent);
-        }
-        
-        .template-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .template-item:hover {
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
         }
         
         .notification {
@@ -1012,6 +989,7 @@
             color: #7f8c8d;
             font-size: 18px;
             z-index: 1;
+            pointer-events: none;
         }
         
         .input-with-icon input {
@@ -1145,135 +1123,38 @@
         }
         
         .login-error {
-            background: linear-gradient(to right, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.2));
+            background: linear-gradient(to right, rgba(231, 76, 60, 0.2), rgba(235, 87, 87, 0.2));
             color: #2c3e50;
-            border: 1px solid rgba(192, 57, 43, 0.3);
-        }
-        
-        .password-info {
-            margin-top: 30px;
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
-            padding: 22px;
-            border-radius: 15px;
-            border: 1px solid rgba(52, 152, 219, 0.2);
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .password-info h3 {
-            margin-bottom: 18px;
-            color: #2c3e50;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            font-weight: 600;
-        }
-        
-        .password-info p {
-            font-size: 15px;
-            color: #34495e;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            font-weight: 400;
-        }
-        
-        .password-hint {
-            margin-top: 18px;
-            font-size: 14px;
-            font-style: italic;
-            background: rgba(52, 152, 219, 0.1);
-            padding: 12px;
-            border-radius: 10px;
-            color: #3498db;
-            border-left: 3px solid #3498db;
-            font-weight: 500;
-        }
-        
-        .login-developer-info {
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
-            border-radius: 15px;
-            text-align: center;
-            border-top: 1px solid rgba(52, 152, 219, 0.2);
-        }
-        
-        .login-developer-info h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 17px;
-            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 600;
-        }
-        
-        .login-contact-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .login-contact-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #3498db;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s;
-            padding: 10px 16px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(52, 152, 219, 0.2);
-            font-weight: 500;
-        }
-        
-        .login-contact-link:hover {
-            background: rgba(52, 152, 219, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(52, 152, 219, 0.2);
-            color: #2980b9;
+            border: 1px solid rgba(235, 87, 87, 0.3);
         }
         
         .login-footer {
-            text-align: center;
-            padding: 22px;
-            font-size: 14px;
-            color: #7f8c8d;
+            margin-top: 30px;
+            padding-top: 25px;
             border-top: 1px solid rgba(52, 152, 219, 0.2);
-            background: rgba(255, 255, 255, 0.7);
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-        
-        .attempts-counter {
-            text-align: right;
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 8px;
-            font-weight: 500;
-        }
-        
-        .countdown-timer {
-            margin-top: 15px;
-            padding: 12px;
-            background: linear-gradient(to right, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
-            border-radius: 10px;
             text-align: center;
-            display: none;
-            border: 1px solid rgba(192, 57, 43, 0.2);
-            font-weight: 500;
-            color: #c0392b;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .login-footer p {
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .login-footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .login-footer a:hover {
+            color: #2ecc71;
+            text-decoration: underline;
         }
         
         @keyframes fadeIn {
@@ -1281,458 +1162,422 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        .shake {
-            animation: shake 0.5s;
-        }
-        
-        @media (max-width: 768px) {
+        @media (max-width: 576px) {
             .login-container {
-                border-radius: 15px;
-                max-width: 90%;
-            }
-            
-            .login-content {
-                padding: 25px;
+                margin: 15px;
+                width: calc(100% - 30px);
             }
             
             .login-header {
                 padding: 25px 20px;
             }
             
-            .login-contact-links {
-                flex-direction: column;
-                align-items: center;
+            .login-content {
+                padding: 25px 20px;
             }
             
-            .login-contact-link {
-                width: 100%;
-                justify-content: center;
+            .login-logo {
+                width: 80px;
+                height: 80px;
             }
             
             .login-header h1 {
                 font-size: 24px;
             }
             
-            .welcome-message h2 {
-                font-size: 20px;
-            }
-        }
-        
-        @media (max-width: 500px) {
-            .login-container {
-                border-radius: 12px;
-                max-width: 95%;
-            }
-            
-            .login-content {
-                padding: 20px;
-            }
-            
-            .login-header {
-                padding: 20px 15px;
-            }
-            
-            .login-header h1 {
-                font-size: 22px;
+            .login-header p {
+                font-size: 14px;
             }
             
             .welcome-message {
                 padding: 15px;
             }
             
-            .password-info {
-                padding: 18px;
+            .welcome-message h2 {
+                font-size: 18px;
             }
             
-            .login-developer-info {
-                padding: 15px;
+            .welcome-message p {
+                font-size: 14px;
             }
             
-            .login-contact-link {
-                padding: 8px 12px;
-                font-size: 13px;
+            .form-group label {
+                font-size: 14px;
+            }
+            
+            .form-group input {
+                padding: 14px;
+                font-size: 14px;
+            }
+            
+            .login-btn {
+                padding: 14px;
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Particles Background -->
     <div id="particles-js"></div>
     
-    <!-- Landing Page -->
-    <div id="landing-page">
-        <header>
-            <div class="logo-container">
-                <div class="logo">
-                    <img src="https://raw.githubusercontent.com/LKS-88/anekamarket/refs/heads/main/Logo-Anekamarketku.png" alt="Lentera Karya Situbondo">
-                </div>
-                <div class="brand">Lentera <span>Karya</span></div>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-envelope-open-text text-white"></i>
             </div>
-            
-            <nav>
-                <ul>
-                    <li><a href="#home">Beranda</a></li>
-                    <li><a href="#features">Fitur</a></li>
-                    <li><a href="#about">Tentang</a></li>
-                    <li><a href="#" id="login-link">Login</a></li>
-                </ul>
-            </nav>
-        </header>
-        
-        <div class="main-content">
-            <section class="hero" id="home">
-                <h1>Sistem Manajemen <span>Surat Digital</span></h1>
-                <p>Platform terintegrasi untuk pengelolaan surat masuk dan keluar dengan keamanan tingkat tinggi dan efisiensi maksimal bagi Lentera Karya Situbondo.</p>
-                
-                <div class="cta-buttons">
-                    <a href="#" class="btn btn-primary" id="login-btn-main">
-                        <i class="fas fa-sign-in-alt"></i> Login Sistem
-                    </a>
-                    <a href="#features" class="btn btn-secondary">
-                        <i class="fas fa-info-circle"></i> Pelajari Lebih Lanjut
-                    </a>
-                </div>
-            </section>
-            
-            <section class="features" id="features">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3>Manajemen Surat</h3>
-                    <p>Kelola surat masuk dan keluar dengan sistem yang terintegrasi dan mudah digunakan.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Keamanan Premium</h3>
-                    <p>Dilengkapi dengan sistem keamanan berlapis untuk melindungi data penting Anda.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Laporan Real-time</h3>
-                    <p>Pantau aktivitas surat dengan dashboard dan laporan yang selalu diperbarui.</p>
-                </div>
-            </section>
+            <div class="brand">Lentera <span>Karya</span></div>
         </div>
         
-        <footer>
-            <div class="footer-content">
-                <div class="footer-links">
-                    <a href="https://www.anekamarket.my.id" target="_blank">
-                        <i class="fas fa-globe"></i> Website
-                    </a>
-                    <a href="https://wa.me/6285647709114" target="_blank">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
-                    </a>
-                    <a href="mailto:admin@anekamarket.my.id">
-                        <i class="fas fa-envelope"></i> Email
-                    </a>
-                </div>
-                <div class="copyright">
-                    &copy; 2025 Lentera Karya Situbondo. Hak Cipta Dilindungi.
-                </div>
+        <nav>
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Beranda</a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i> Tentang</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Layanan</a></li>
+                <li><a href="#"><i class="fas fa-phone"></i> Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="hero">
+            <h1>Sistem Manajemen <span>Surat Digital</span></h1>
+            <p>Kelola surat masuk dan keluar dengan mudah dan efisien. Sistem terintegrasi untuk meningkatkan produktivitas dan transparansi pengelolaan surat di Lentera Karya Situbondo.</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login ke Sistem
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-book"></i> Panduan Pengguna
+                </a>
             </div>
-        </footer>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Surat Masuk</h3>
+                <p>Kelola semua surat masuk dengan sistem pencatatan yang rapi dan terstruktur. Dapatkan notifikasi untuk surat baru.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
+                <h3>Surat Keluar</h3>
+                <p>Buat dan kelola surat keluar dengan template profesional. Lacak status pengiriman dan penerimaan surat.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Laporan & Analitik</h3>
+                <p>Hasilkan laporan lengkap dan analitik untuk pengambilan keputusan yang lebih baik dalam manajemen surat.</p>
+            </div>
+        </div>
     </div>
     
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
+                <a href="#"><i class="fas fa-file-contract"></i> Syarat & Ketentuan</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Bantuan</a>
+                <a href="#"><i class="fas fa-phone-alt"></i> Hubungi Kami</a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 Lentera Karya Situbondo. Hak Cipta Dilindungi.
+            </div>
+        </div>
+    </footer>
+    
     <!-- Login Modal -->
-    <div class="modal" id="login-modal">
-        <div class="close-modal" id="close-login-modal">
+    <div class="modal" id="loginModal">
+        <div class="close-modal" id="closeLoginModal">
             <i class="fas fa-times"></i>
         </div>
+        
         <div class="login-container">
             <div class="login-header">
                 <div class="login-logo">
-                    <img src="https://raw.githubusercontent.com/LKS-88/anekamarket/refs/heads/main/Logo-Anekamarketku.png" alt="Lentera Karya Situbondo">
+                    <i class="fas fa-envelope-open-text text-white"></i>
                 </div>
-                <h1>Lentera Karya Situbondo</h1>
-                <p>Sistem Keamanan Premium</p>
+                <h1>Login Sistem</h1>
+                <p>Masuk ke sistem manajemen surat digital</p>
             </div>
             
             <div class="login-content">
                 <div class="welcome-message">
-                    <h2>Selamat Datang!</h2>
-                    <p>Kami mengucapkan terima kasih atas kepercayaan Anda menggunakan aplikasi Lentera Karya Situbondo. Sistem ini dirancang untuk memberikan pengalaman terbaik dengan keamanan tingkat tinggi yang melindungi data dan informasi penting Anda.</p>
+                    <h2>Selamat Datang Kembali!</h2>
+                    <p>Silakan masukkan kredensial Anda untuk mengakses sistem manajemen surat Lentera Karya Situbondo.</p>
                 </div>
                 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <div class="username-display" id="username-display">
-                        <i class="fas fa-user-circle"></i> Lentera Karya Situbondo
+                    <div class="username-display">
+                        <i class="fas fa-user"></i> admin.lenterakarya
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-with-icon">
-                        <i class="fas fa-key"></i>
-                        <input type="password" id="password" placeholder="Masukkan password yang valid">
-                        <span class="toggle-password" id="toggle-password">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Masukkan password Anda">
+                        <span class="toggle-password" id="togglePassword">
                             <i class="fas fa-eye"></i>
                         </span>
                     </div>
-                    <div class="attempts-counter">
-                        <i class="fas fa-shield-alt"></i>
-                        Percobaan: <span id="attempts-count">0</span>/5
-                    </div>
                 </div>
                 
-                <div id="countdown-timer" class="countdown-timer">
-                    <i class="fas fa-clock"></i> Tombol login dibekukan selama: <span id="countdown">05:00</span>
-                </div>
-                
-                <button id="login-btn" class="login-btn">
-                    <i class="fas fa-lock"></i> Akses Sistem
+                <button class="login-btn" id="submitLogin">
+                    <i class="fas fa-sign-in-alt"></i> Login
                 </button>
                 
-                <div id="notification" class="login-notification"></div>
-                
-                <div class="password-info">
-                    <h3>
-                        <i class="fas fa-info-circle"></i>
-                        Informasi Password
-                    </h3>
-                    <p>Password terdiri dari 9 karakter dengan format khusus yang telah ditentukan. Pastikan Anda memasukkan password dengan format yang benar untuk mengakses sistem.</p>
+                <div class="login-notification login-error" id="loginError">
+                    <i class="fas fa-exclamation-circle"></i> Password yang Anda masukkan salah. Silakan coba lagi.
                 </div>
                 
-                <div class="login-developer-info">
-                    <h3>Hak Cipta &copy; 2025 Lentera Karya Situbondo</h3>
-                    <p>Untuk bantuan dan informasi lebih lanjut:</p>
-                    <div class="login-contact-links">
-                        <a href="https://www.anekamarket.my.id" target="_blank" class="login-contact-link">
-                            <i class="fas fa-globe"></i> www.anekamarket.my.id
-                        </a>
-                        <a href="https://wa.me/6285647709114" target="_blank" class="login-contact-link">
-                            <i class="fab fa-whatsapp"></i> +62 856-4770-9114
-                        </a>
-                        <a href="mailto:admin@anekamarket.my.id" class="login-contact-link">
-                            <i class="fas fa-envelope"></i> admin@anekamarket.my.id
-                        </a>
-                    </div>
+                <div class="login-footer">
+                    <p>Lupa password Anda? <a href="#"><i class="fas fa-key"></i> Reset Password</a></p>
+                    <p>Butuh bantuan? <a href="#"><i class="fas fa-headset"></i> Hubungi Administrator</a></p>
                 </div>
-            </div>
-            
-            <div class="login-footer">
-                &copy; 2025 Lentera Karya Situbondo. Hak Cipta Dilindungi.
             </div>
         </div>
     </div>
     
-    <!-- Dashboard (initially hidden) -->
-    <div class="app-container" id="dashboard">
+    <!-- Dashboard Application -->
+    <div class="app-container" id="appContainer">
         <div class="app-header">
-            <h1 class="app-title">Sistem Manajemen Surat</h1>
-            <p class="app-subtitle">Lentera Karya Situbondo</p>
+            <h1 class="app-title">Sistem Manajemen Surat - Lentera Karya</h1>
+            <p class="app-subtitle">Kelola surat masuk dan keluar dengan mudah dan efisien</p>
         </div>
         
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar Navigation -->
-                <div class="col-md-3 col-lg-2 bg-light p-3 border-end">
-                    <div class="d-flex flex-column">
-                        <ul class="nav nav-pills flex-column mb-auto">
+                <div class="col-md-3 col-lg-2 bg-light sidebar">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav flex-column nav-pills">
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
-                                    <i class="fas fa-home me-2"></i> Dashboard
+                                <a class="nav-link active" href="#">
+                                    <i class="fas fa-tachometer-alt me-2"></i>
+                                    Dashboard
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-envelope me-2"></i> Surat Masuk
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-envelope me-2"></i>
+                                    Surat Masuk
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-paper-plane me-2"></i> Surat Keluar
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Surat Keluar
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-file-alt me-2"></i> Template Surat
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-users me-2"></i>
+                                    Kontak
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-chart-bar me-2"></i> Laporan
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-chart-bar me-2"></i>
+                                    Laporan
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-cog me-2"></i> Pengaturan
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-cog me-2"></i>
+                                    Pengaturan
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="nav-link" id="logout-btn">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            <li class="nav-item mt-4">
+                                <a class="nav-link text-danger" href="#" id="logoutBtn">
+                                    <i class="fas fa-sign-out-alt me-2"></i>
+                                    Logout
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 
-                <!-- Main Content -->
-                <div class="col-md-9 col-lg-10 p-4">
-                    <h2 class="section-title">Dashboard Utama</h2>
-                    
-                    <!-- Stats Overview -->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-envelope-open text-primary fs-1"></i>
-                                <div class="stats-number">24</div>
-                                <div class="stats-label">Surat Masuk Hari Ini</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-paper-plane text-success fs-1"></i>
-                                <div class="stats-number">18</div>
-                                <div class="stats-label">Surat Keluar Hari Ini</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-clock text-warning fs-1"></i>
-                                <div class="stats-number">7</div>
-                                <div class="stats-label">Menunggu Tindakan</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-check-circle text-info fs-1"></i>
-                                <div class="stats-number">89%</div>
-                                <div class="stats-label">Efisiensi Sistem</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Recent Activity -->
-                    <div class="row mt-4">
-                        <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-history me-2"></i> Aktivitas Terbaru
+                <!-- Main Content Area -->
+                <div class="col-md-9 col-lg-10 main-content-area">
+                    <div class="container-fluid pt-4">
+                        <h2 class="section-title">Dashboard</h2>
+                        
+                        <!-- Statistics Cards -->
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="stats-box">
+                                    <div class="stats-icon text-primary">
+                                        <i class="fas fa-envelope fa-2x"></i>
+                                    </div>
+                                    <div class="stats-number">24</div>
+                                    <div class="stats-label">Surat Masuk Hari Ini</div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="data-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Waktu</th>
-                                                    <th>Aktivitas</th>
-                                                    <th>Pengguna</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>10:25</td>
-                                                    <td>Surat masuk dari Dinas Pendidikan</td>
-                                                    <td>Admin</td>
-                                                    <td><span class="badge badge-primary">Baru</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>09:48</td>
-                                                    <td>Surat keluar ke Pemda Situbondo</td>
-                                                    <td>Budi</td>
-                                                    <td><span class="badge badge-success">Terkirim</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>09:15</td>
-                                                    <td>Surat masuk dari PT. Sejahtera</td>
-                                                    <td>Admin</td>
-                                                    <td><span class="badge badge-warning">Proses</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>08:55</td>
-                                                    <td>Pembuatan template surat undangan</td>
-                                                    <td>Sari</td>
-                                                    <td><span class="badge badge-success">Selesai</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>08:30</td>
-                                                    <td>Surat keluar ke Dinas Kesehatan</td>
-                                                    <td>Budi</td>
-                                                    <td><span class="badge badge-primary">Draft</span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="stats-box">
+                                    <div class="stats-icon text-success">
+                                        <i class="fas fa-paper-plane fa-2x"></i>
+                                    </div>
+                                    <div class="stats-number">18</div>
+                                    <div class="stats-label">Surat Keluar Hari Ini</div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="stats-box">
+                                    <div class="stats-icon text-warning">
+                                        <i class="fas fa-clock fa-2x"></i>
+                                    </div>
+                                    <div class="stats-number">7</div>
+                                    <div class="stats-label">Menunggu Tindakan</div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="stats-box">
+                                    <div class="stats-icon text-info">
+                                        <i class="fas fa-check-circle fa-2x"></i>
+                                    </div>
+                                    <div class="stats-number">92%</div>
+                                    <div class="stats-label">Efisiensi Sistem</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Activity and Stats -->
+                        <div class="row">
+                            <!-- Recent Activity -->
+                            <div class="col-lg-6 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-history me-2"></i>
+                                        Aktivitas Terbaru
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="list-group list-group-flush">
+                                            <div class="list-group-item d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <div class="avatar bg-primary text-white rounded-circle">
+                                                        <i class="fas fa-envelope-open"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">Surat masuk baru</h6>
+                                                    <p class="mb-0 text-muted small">Nomor: 123/UM/LK/XI/2023</p>
+                                                    <small class="text-muted">2 menit yang lalu</small>
+                                                </div>
+                                            </div>
+                                            <div class="list-group-item d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <div class="avatar bg-success text-white rounded-circle">
+                                                        <i class="fas fa-paper-plane"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">Surat keluar terkirim</h6>
+                                                    <p class="mb-0 text-muted small">Kepada: Dinas Pendidikan</p>
+                                                    <small class="text-muted">1 jam yang lalu</small>
+                                                </div>
+                                            </div>
+                                            <div class="list-group-item d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <div class="avatar bg-info text-white rounded-circle">
+                                                        <i class="fas fa-user-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">User login</h6>
+                                                    <p class="mb-0 text-muted small">Admin melakukan login</p>
+                                                    <small class="text-muted">3 jam yang lalu</small>
+                                                </div>
+                                            </div>
+                                            <div class="list-group-item d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <div class="avatar bg-warning text-white rounded-circle">
+                                                        <i class="fas fa-exclamation-triangle"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">Peringatan sistem</h6>
+                                                    <p class="mb-0 text-muted small">Penyimpanan hampir penuh</p>
+                                                    <small class="text-muted">5 jam yang lalu</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Statistics Chart -->
+                            <div class="col-lg-6 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-2"></i>
+                                        Statistik Surat Bulan Ini
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="letterStatsChart" height="250"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-tasks me-2"></i> Tugas Hari Ini
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="mb-0">Progress Penyelesaian</h6>
-                                        <span class="badge badge-primary">75%</span>
-                                    </div>
-                                    <div class="progress mb-4" style="height: 10px;">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task1" checked>
-                                            <label class="form-check-label" for="task1">Verifikasi surat masuk</label>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task2" checked>
-                                            <label class="form-check-label" for="task2">Distribusi surat internal</label>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task3">
-                                            <label class="form-check-label" for="task3">Arsip surat keluar</label>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task4">
-                                            <label class="form-check-label" for="task4">Buat laporan bulanan</label>
-                                        </div>
+                        <!-- Quick Actions -->
+                        <h2 class="section-title mt-5">Aksi Cepat</h2>
+                        <div class="row mb-4">
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center bg-primary text-white">
+                                    <div class="card-body">
+                                        <i class="fas fa-plus-circle fa-3x mb-3"></i>
+                                        <h5 class="card-title">Buat Surat Baru</h5>
+                                        <p class="card-text">Buat surat masuk atau keluar baru</p>
+                                        <a href="#" class="btn btn-light">Buat</a>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <h3 class="section-title">Aksi Cepat</h3>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-plus me-2"></i> Surat Baru
-                                </button>
-                                <button class="btn btn-success">
-                                    <i class="fas fa-download me-2"></i> Ekspor Laporan
-                                </button>
-                                <button class="btn btn-drive">
-                                    <i class="fab fa-google-drive me-2"></i> Simpan ke Drive
-                                </button>
-                                <button class="btn btn-undo">
-                                    <i class="fas fa-undo me-2"></i> Batalkan Terakhir
-                                </button>
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center bg-success text-white">
+                                    <div class="card-body">
+                                        <i class="fas fa-search fa-3x mb-3"></i>
+                                        <h5 class="card-title">Cari Surat</h5>
+                                        <p class="card-text">Cari surat berdasarkan kriteria</p>
+                                        <a href="#" class="btn btn-light">Cari</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center bg-info text-white">
+                                    <div class="card-body">
+                                        <i class="fas fa-download fa-3x mb-3"></i>
+                                        <h5 class="card-title">Ekspor Data</h5>
+                                        <p class="card-text">Ekspor data surat ke Excel/PDF</p>
+                                        <a href="#" class="btn btn-light">Ekspor</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <div class="card text-center bg-warning text-white">
+                                    <div class="card-body">
+                                        <i class="fas fa-cog fa-3x mb-3"></i>
+                                        <h5 class="card-title">Pengaturan</h5>
+                                        <p class="card-text">Kelola pengaturan sistem</p>
+                                        <a href="#" class="btn btn-light">Kelola</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1740,47 +1585,85 @@
             </div>
         </div>
         
+        <!-- Footer -->
         <div class="footer">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Lentera Karya Situbondo</h5>
-                    <p>Sistem Manajemen Surat Digital Terintegrasi</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <div class="developer-info">
-                        <p>Untuk bantuan teknis hubungi: <a href="mailto:admin@anekamarket.my.id">admin@anekamarket.my.id</a></p>
-                        <p>© 2025 Lentera Karya Situbondo. All rights reserved.</p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Sistem Manajemen Surat - Lentera Karya</h5>
+                        <p>Jl. Raya Situbondo No. 123, Situbondo, Jawa Timur</p>
+                        <p>Email: info@lenterakarya.id | Telp: (0331) 123456</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p>&copy; 2023 Lentera Karya Situbondo. All rights reserved.</p>
+                        <div class="developer-info">
+                            <p>Dikembangkan oleh: <a href="#">Tim IT Lentera Karya</a> | Versi: 2.1.0</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="floating-action-btn">
-            <i class="fas fa-plus"></i>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle me-2"></i>
+        <span id="notificationText"></span>
+    </div>
+    
+    <!-- Floating Action Button -->
+    <div class="floating-action-btn" id="helpBtn">
+        <i class="fas fa-question"></i>
+    </div>
+    
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <button class="close-welcome" id="closeWelcome">&times;</button>
+            <h2 class="text-center mb-4">Selamat Datang di Sistem Manajemen Surat</h2>
+            <div class="text-center mb-4">
+                <i class="fas fa-check-circle fa-5x text-success"></i>
+            </div>
+            <h4 class="text-center mb-3">Login Berhasil!</h4>
+            <p class="text-center mb-4">Anda telah berhasil login ke sistem manajemen surat Lentera Karya Situbondo. Sekarang Anda dapat mengelola surat masuk dan keluar dengan mudah.</p>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary btn-lg" id="startUsingBtn">Mulai Menggunakan Sistem</button>
+            </div>
         </div>
-        
-        <div class="notification" id="app-notification">
-            <i class="fas fa-check-circle me-2 text-success"></i>
-            <span id="notification-text">Operasi berhasil dilakukan</span>
+    </div>
+    
+    <!-- Password Modal -->
+    <div class="password-modal" id="passwordModal" style="display: none;">
+        <div class="password-content">
+            <h3 class="text-center mb-4">Masukkan Password</h3>
+            <div class="form-group mb-3">
+                <label for="adminPassword">Password Administrator</label>
+                <input type="password" class="form-control" id="adminPassword" placeholder="Masukkan password administrator">
+            </div>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" id="submitAdminPassword">Submit</button>
+                <button class="btn btn-secondary" id="cancelPassword">Batal</button>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Initialize Particles.js
         document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi partikel background
             particlesJS('particles-js', {
                 particles: {
                     number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: ["#3498db", "#2ecc71", "#f39c12"] },
+                    color: { value: "#ffffff" },
                     shape: { type: "circle" },
                     opacity: { value: 0.5, random: true },
                     size: { value: 3, random: true },
                     line_linked: {
                         enable: true,
                         distance: 150,
-                        color: "#3498db",
+                        color: "#ffffff",
                         opacity: 0.4,
                         width: 1
                     },
@@ -1805,31 +1688,36 @@
                 retina_detect: true
             });
             
-            // Elements
-            const loginModal = document.getElementById('login-modal');
-            const closeLoginModal = document.getElementById('close-login-modal');
-            const loginLink = document.getElementById('login-link');
-            const loginBtnMain = document.getElementById('login-btn-main');
-            const landingPage = document.getElementById('landing-page');
-            const dashboard = document.getElementById('dashboard');
-            const logoutBtn = document.getElementById('logout-btn');
-            
-            // Login form elements
+            // Get DOM elements
+            const loginBtn = document.getElementById('loginBtn');
+            const closeLoginModal = document.getElementById('closeLoginModal');
+            const loginModal = document.getElementById('loginModal');
+            const togglePassword = document.getElementById('togglePassword');
             const passwordInput = document.getElementById('password');
-            const loginBtn = document.getElementById('login-btn');
+            const submitLogin = document.getElementById('submitLogin');
+            const loginError = document.getElementById('loginError');
+            const appContainer = document.getElementById('appContainer');
+            const welcomeModal = document.getElementById('welcomeModal');
+            const closeWelcome = document.getElementById('closeWelcome');
+            const startUsingBtn = document.getElementById('startUsingBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const helpBtn = document.getElementById('helpBtn');
             const notification = document.getElementById('notification');
-            const attemptsCounter = document.getElementById('attempts-count');
-            const togglePassword = document.getElementById('toggle-password');
-            const countdownTimer = document.getElementById('countdown-timer');
-            const countdownDisplay = document.getElementById('countdown');
+            const notificationText = document.getElementById('notificationText');
             
-            // Open login modal
-            loginLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginModal.style.display = 'flex';
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    togglePassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
+                }
             });
             
-            loginBtnMain.addEventListener('click', function(e) {
+            // Open login modal
+            loginBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 loginModal.style.display = 'flex';
             });
@@ -1837,227 +1725,122 @@
             // Close login modal
             closeLoginModal.addEventListener('click', function() {
                 loginModal.style.display = 'none';
+                loginError.style.display = 'none';
+                passwordInput.value = '';
+                passwordInput.type = 'password';
+                togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
             });
             
-            // Close modal when clicking outside
-            window.addEventListener('click', function(e) {
-                if (e.target === loginModal) {
-                    loginModal.style.display = 'none';
+            // Submit login form
+            submitLogin.addEventListener('click', function() {
+                // Simple validation
+                if (passwordInput.value === '') {
+                    loginError.textContent = 'Password tidak boleh kosong. Silakan masukkan password.';
+                    loginError.style.display = 'block';
+                    return;
                 }
+                
+                // Simulate login process
+                submitLogin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+                submitLogin.disabled = true;
+                
+                // Simulate API call delay
+                setTimeout(function() {
+                    // Check password (for demo purposes, password is "admin123")
+                    if (passwordInput.value === 'admin123') {
+                        // Login successful
+                        loginModal.style.display = 'none';
+                        loginError.style.display = 'none';
+                        welcomeModal.style.display = 'flex';
+                    } else {
+                        // Login failed
+                        loginError.style.display = 'block';
+                        submitLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                        submitLogin.disabled = false;
+                    }
+                    
+                    passwordInput.value = '';
+                }, 1500);
+            });
+            
+            // Close welcome modal and show app
+            closeWelcome.addEventListener('click', function() {
+                welcomeModal.style.display = 'none';
+                appContainer.style.display = 'block';
+                showNotification('Selamat datang di Sistem Manajemen Surat Lentera Karya!');
+            });
+            
+            startUsingBtn.addEventListener('click', function() {
+                welcomeModal.style.display = 'none';
+                appContainer.style.display = 'block';
+                showNotification('Selamat datang di Sistem Manajemen Surat Lentera Karya!');
             });
             
             // Logout functionality
             logoutBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                localStorage.removeItem('isLoggedIn');
-                dashboard.style.display = 'none';
-                landingPage.style.display = 'block';
-                showAppNotification('Anda telah logout dari sistem', 'info');
+                appContainer.style.display = 'none';
+                loginModal.style.display = 'flex';
+                showNotification('Anda telah logout dari sistem.');
             });
             
-            // Check if user is already logged in
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                landingPage.style.display = 'none';
-                dashboard.style.display = 'block';
-            }
-            
-            // Inisialisasi jumlah percobaan login
-            let loginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
-            attemptsCounter.textContent = loginAttempts;
-            
-            // Waktu pembekuan tombol (dalam milidetik)
-            const LOCK_DURATION = 5 * 60 * 1000; // 5 menit
-            
-            // Batas maksimal percobaan login
-            const MAX_ATTEMPTS = 5;
-            
-            // Cek apakah tombol login sedang dibekukan
-            const lockUntil = localStorage.getItem('loginLockUntil');
-            if (lockUntil && new Date().getTime() < parseInt(lockUntil)) {
-                disableLoginForm();
-                const timeLeft = parseInt(lockUntil) - new Date().getTime();
-                startCountdown(timeLeft);
-            } else if (loginAttempts >= MAX_ATTEMPTS) {
-                disableLoginForm();
-                showNotification('Anda telah melebihi batas percobaan login. Silakan coba lagi nanti.', 'error');
-            }
-            
-            // Fungsi untuk memvalidasi password
-            function isValidPassword(password) {
-                // Cek panjang password
-                if (password.length !== 9) {
-                    return false;
-                }
-                
-                // Cek apakah karakter pertama adalah huruf kapital A-Z
-                const firstChar = password.charAt(0);
-                if (!/^[A-Z]$/.test(firstChar)) {
-                    return false;
-                }
-                
-                // Cek apakah karakter kedua adalah angka 0
-                if (password.charAt(1) !== '0') {
-                    return false;
-                }
-                
-                // Cek apakah 7 karakter berikutnya adalah angka
-                const numberPart = password.substring(2);
-                if (!/^\d{7}$/.test(numberPart)) {
-                    return false;
-                }
-                
-                return true;
-            }
-            
-            // Fungsi untuk menonaktifkan form login
-            function disableLoginForm() {
-                passwordInput.disabled = true;
-                loginBtn.disabled = true;
-                loginBtn.style.opacity = '0.7';
-                loginBtn.style.cursor = 'not-allowed';
-                loginBtn.innerHTML = '<i class="fas fa-ban"></i> Login Diblokir';
-            }
-            
-            // Fungsi untuk mengaktifkan form login
-            function enableLoginForm() {
-                passwordInput.disabled = false;
-                loginBtn.disabled = false;
-                loginBtn.style.opacity = '1';
-                loginBtn.style.cursor = 'pointer';
-                loginBtn.innerHTML = '<i class="fas fa-lock"></i> Akses Sistem';
-                countdownTimer.style.display = 'none';
-                
-                // Reset counter percobaan
-                loginAttempts = 0;
-                localStorage.setItem('loginAttempts', loginAttempts);
-                attemptsCounter.textContent = loginAttempts;
-                
-                // Hapus waktu pembekuan
-                localStorage.removeItem('loginLockUntil');
-            }
-            
-            // Fungsi untuk memulai countdown
-            function startCountdown(duration) {
-                let timer = duration;
-                const interval = 1000; // 1 detik
-                
-                countdownTimer.style.display = 'block';
-                
-                const countdownInterval = setInterval(function() {
-                    const minutes = Math.floor(timer / 60000);
-                    const seconds = Math.floor((timer % 60000) / 1000);
-                    
-                    countdownDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timer <= 0) {
-                        clearInterval(countdownInterval);
-                        enableLoginForm();
-                    }
-                    
-                    timer -= interval;
-                }, interval);
-            }
-            
-            // Event listener untuk tombol login
-            loginBtn.addEventListener('click', function() {
-                const password = passwordInput.value.trim();
-                
-                if (!password) {
-                    showNotification('Silakan masukkan password', 'error');
-                    passwordInput.classList.add('shake');
-                    setTimeout(() => passwordInput.classList.remove('shake'), 500);
-                    return;
-                }
-                
-                if (isValidPassword(password)) {
-                    showNotification('Akses diberikan! Mengarahkan ke dashboard...', 'success');
-                    
-                    // Reset counter percobaan
-                    localStorage.setItem('loginAttempts', '0');
-                    
-                    // Simpan status login di localStorage
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('loginTime', new Date().getTime());
-                    
-                    // Redirect setelah 2 detik
-                    setTimeout(function() {
-                        loginModal.style.display = 'none';
-                        landingPage.style.display = 'none';
-                        dashboard.style.display = 'block';
-                        showAppNotification('Selamat datang di Sistem Manajemen Surat', 'success');
-                    }, 2000);
-                } else {
-                    // Tambah counter percobaan
-                    loginAttempts++;
-                    localStorage.setItem('loginAttempts', loginAttempts);
-                    attemptsCounter.textContent = loginAttempts;
-                    
-                    showNotification('Password tidak valid. Silakan coba lagi.', 'error');
-                    passwordInput.classList.add('shake');
-                    setTimeout(() => passwordInput.classList.remove('shake'), 500);
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                    
-                    // Cek jika sudah melebihi batas percobaan
-                    if (loginAttempts >= MAX_ATTEMPTS) {
-                        // Set waktu pembekuan
-                        const lockUntilTime = new Date().getTime() + LOCK_DURATION;
-                        localStorage.setItem('loginLockUntil', lockUntilTime);
-                        
-                        disableLoginForm();
-                        startCountdown(LOCK_DURATION);
-                        showNotification('Anda telah melebihi batas percobaan login. Silakan coba lagi setelah 5 menit.', 'error');
-                    }
-                }
+            // Help button
+            helpBtn.addEventListener('click', function() {
+                showNotification('Bantuan: Hubungi administrator di admin@lenterakarya.id');
             });
             
-            // Event listener untuk toggle password visibility
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                
-                // Toggle icon
-                togglePassword.innerHTML = type === 'password' ? 
-                    '<i class="fas fa-eye"></i>' : 
-                    '<i class="fas fa-eye-slash"></i>';
-            });
-            
-            // Event listener untuk tekan Enter di field password
-            passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    loginBtn.click();
-                }
-            });
-            
-            // Fungsi untuk menampilkan notifikasi
-            function showNotification(message, type) {
-                notification.textContent = message;
-                notification.className = 'login-notification ' + 'login-' + type;
-                notification.style.display = 'block';
-                
-                // Sembunyikan notifikasi setelah 5 detik
-                setTimeout(function() {
-                    notification.style.display = 'none';
-                }, 5000);
-            }
-            
-            // Fungsi untuk menampilkan notifikasi di dashboard
-            function showAppNotification(message, type) {
-                const notificationEl = document.getElementById('app-notification');
-                const notificationText = document.getElementById('notification-text');
-                
+            // Show notification function
+            function showNotification(message) {
                 notificationText.textContent = message;
-                notificationEl.className = 'notification ' + type + ' show';
+                notification.classList.add('show');
                 
-                // Sembunyikan notifikasi setelah 5 detik
                 setTimeout(function() {
-                    notificationEl.classList.remove('show');
-                }, 5000);
+                    notification.classList.remove('show');
+                }, 3000);
             }
             
-            // Fokus ke input password saat modal dibuka
-            loginModal.addEventListener('shown', function() {
-                passwordInput.focus();
+            // Initialize chart
+            const ctx = document.getElementById('letterStatsChart').getContext('2d');
+            const letterChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
+                    datasets: [
+                        {
+                            label: 'Surat Masuk',
+                            data: [12, 19, 7, 15],
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Surat Keluar',
+                            data: [8, 12, 6, 10],
+                            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Statistik Surat Bulan November 2023'
+                        }
+                    }
+                }
             });
         });
     </script>
