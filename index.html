@@ -964,11 +964,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="data">
-                            <i class="fas fa-table feature-icon"></i> Data Surat
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="#" class="nav-link" data-section="search">
                             <i class="fas fa-search feature-icon"></i> Pencarian
                         </a>
@@ -981,11 +976,6 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-section="templates">
                             <i class="fas fa-file-alt feature-icon"></i> Template
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="users">
-                            <i class="fas fa-users feature-icon"></i> Pengguna
                         </a>
                     </li>
                     <li class="nav-item">
@@ -1145,98 +1135,125 @@
                                 
                                 <div class="mb-3">
                                     <label class="form-label"><i class="fas fa-sticky-note"></i>Keterangan</label>
-                                    <textarea class="form-control" id="mailDescription" rows="3" placeholder="Keterangan tambahan"></textarea>
+                                    <textarea class="form-control" id="mailNotes" rows="2" placeholder="Keterangan tambahan"></textarea>
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-link"></i>Tautan Dokumen (Google Drive)</label>
-                                    <input type="url" class="form-control" id="mailLink" placeholder="https://drive.google.com/...">
+                                    <label class="form-label"><i class="fas fa-link"></i>Link Google Drive</label>
+                                    <input type="url" class="form-control" id="mailLink" placeholder="Link dokumen di Google Drive">
                                 </div>
                                 
                                 <div class="d-flex justify-content-end">
-                                    <button type="reset" class="btn btn-secondary me-2"><i class="fas fa-times me-1"></i>Batal</button>
-                                    <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Simpan Surat</button>
+                                    <button type="button" class="btn btn-secondary me-2" id="resetForm">Reset</button>
+                                    <button type="submit" class="btn btn-success">Simpan Surat</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Data Surat Section -->
-                <div class="content-section d-none" id="dataSection">
-                    <h2 class="section-title">Data Surat</h2>
                     
-                    <div class="filter-section">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label class="form-label">Jenis Surat</label>
-                                <select class="form-select" id="filterType">
-                                    <option value="">Semua Jenis</option>
-                                    <option value="masuk">Surat Masuk</option>
-                                    <option value="keluar">Surat Keluar</option>
-                                </select>
+                    <!-- Data Surat Section (moved from sidebar) -->
+                    <div class="mt-4">
+                        <h2 class="section-title">Data Surat</h2>
+                        
+                        <div class="filter-section">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Jenis Surat</label>
+                                    <select class="form-select" id="filterType">
+                                        <option value="">Semua Jenis</option>
+                                        <option value="masuk">Surat Masuk</option>
+                                        <option value="keluar">Surat Keluar</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Kategori</label>
+                                    <select class="form-select" id="filterCategory">
+                                        <option value="">Semua Kategori</option>
+                                        <option value="resmi">Resmi</option>
+                                        <option value="penting">Penting</option>
+                                        <option value="biasa">Biasa</option>
+                                        <option value="rahasia">Rahasia</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Bulan</label>
+                                    <select class="form-select" id="filterMonth">
+                                        <option value="">Semua Bulan</option>
+                                        <option value="1">Januari</option>
+                                        <option value="2">Februari</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">Juli</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tahun</label>
+                                    <select class="form-select" id="filterYear">
+                                        <option value="">Semua Tahun</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Kategori</label>
-                                <select class="form-select" id="filterCategory">
-                                    <option value="">Semua Kategori</option>
-                                    <option value="resmi">Resmi</option>
-                                    <option value="penting">Penting</option>
-                                    <option value="biasa">Biasa</option>
-                                    <option value="rahasia">Rahasia</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Status</label>
-                                <select class="form-select" id="filterStatus">
-                                    <option value="">Semua Status</option>
-                                    <option value="pending">Menunggu</option>
-                                    <option value="processed">Diproses</option>
-                                    <option value="completed">Selesai</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Urutkan</label>
-                                <select class="form-select" id="sortBy">
-                                    <option value="date-desc">Tanggal (Terbaru)</option>
-                                    <option value="date-asc">Tanggal (Terlama)</option>
-                                    <option value="number">Nomor Surat</option>
-                                </select>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="searchInput" placeholder="Cari berdasarkan nomor, perihal, atau pengirim...">
+                                        <button class="btn btn-primary" type="button" id="searchButton">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <button class="btn btn-outline-secondary" id="exportExcel">
+                                        <i class="fas fa-file-excel"></i> Export Excel
+                                    </button>
+                                    <button class="btn btn-outline-danger" id="exportPDF">
+                                        <i class="fas fa-file-pdf"></i> Export PDF
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="table-responsive">
-                        <table class="table table-hover data-table">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Jenis</th>
-                                    <th>Nomor</th>
-                                    <th>Tanggal</th>
-                                    <th>Perihal</th>
-                                    <th>Kategori</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="mailTableBody">
-                                <!-- Data will be populated here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div class="text-muted" id="tableInfo">Menampilkan 0 dari 0 data</div>
-                        <nav>
-                            <ul class="pagination" id="pagination">
-                                <!-- Pagination will be generated here -->
-                            </ul>
-                        </nav>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered data-table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Jenis</th>
+                                        <th>Nomor</th>
+                                        <th>Tanggal</th>
+                                        <th>Perihal</th>
+                                        <th>Pengirim/Penerima</th>
+                                        <th>Kategori</th>
+                                        <th>Link</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mailTableBody">
+                                    <!-- Data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="form-text" id="tableInfo">Menampilkan 0 dari 0 data</div>
+                            <nav>
+                                <ul class="pagination justify-content-end" id="pagination">
+                                    <!-- Pagination will be populated here -->
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Pencarian Section -->
+                <!-- Search Section -->
                 <div class="content-section d-none" id="searchSection">
                     <h2 class="section-title">Pencarian Surat</h2>
                     
@@ -1245,18 +1262,12 @@
                             <i class="fas fa-search me-2"></i>Form Pencarian
                         </div>
                         <div class="card-body">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="searchInput" placeholder="Masukkan kata kunci pencarian...">
-                                <button class="btn btn-success" type="button" id="searchButton"><i class="fas fa-search me-1"></i>Cari</button>
-                            </div>
-                            
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" id="advancedSearchToggle">
-                                <label class="form-check-label" for="advancedSearchToggle">Pencarian Lanjutan</label>
-                            </div>
-                            
-                            <div class="advanced-search-panel" id="advancedSearchPanel">
-                                <div class="row">
+                            <form id="searchForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Kata Kunci</label>
+                                        <input type="text" class="form-control" id="searchKeyword" placeholder="Nomor, perihal, pengirim/penerima">
+                                    </div>
                                     <div class="col-md-4">
                                         <label class="form-label">Jenis Surat</label>
                                         <select class="form-select" id="searchType">
@@ -1275,47 +1286,72 @@
                                             <option value="rahasia">Rahasia</option>
                                         </select>
                                     </div>
+                                </div>
+                                
+                                <div class="row mb-3">
                                     <div class="col-md-4">
-                                        <label class="form-label">Rentang Tanggal</label>
-                                        <div class="input-group">
-                                            <input type="date" class="form-control" id="searchDateFrom">
-                                            <span class="input-group-text">s/d</span>
-                                            <input type="date" class="form-control" id="searchDateTo">
-                                        </div>
+                                        <label class="form-label">Tanggal Mulai</label>
+                                        <input type="date" class="form-control" id="searchStartDate">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Tanggal Selesai</label>
+                                        <input type="date" class="form-control" id="searchEndDate">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Status</label>
+                                        <select class="form-select" id="searchStatus">
+                                            <option value="">Semua Status</option>
+                                            <option value="pending">Menunggu</option>
+                                            <option value="processed">Diproses</option>
+                                            <option value="completed">Selesai</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
+                                
+                                <div class="d-flex justify-content-end">
+                                    <button type="button" class="btn btn-secondary me-2" id="resetSearch">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Cari</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     
-                    <div class="card mt-4 d-none" id="searchResultsCard">
-                        <div class="card-header">
-                            <i class="fas fa-list me-2"></i>Hasil Pencarian
+                    <div class="mt-4">
+                        <h3 class="section-title">Hasil Pencarian</h3>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered data-table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Jenis</th>
+                                        <th>Nomor</th>
+                                        <th>Tanggal</th>
+                                        <th>Perihal</th>
+                                        <th>Pengirim/Penerima</th>
+                                        <th>Kategori</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="searchResults">
+                                    <!-- Search results will be populated here -->
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Jenis</th>
-                                            <th>Nomor</th>
-                                            <th>Tanggal</th>
-                                            <th>Perihal</th>
-                                            <th>Kategori</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="searchResults">
-                                        <!-- Search results will be populated here -->
-                                    </tbody>
-                                </table>
-                            </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="form-text" id="searchInfo">Menampilkan 0 hasil</div>
+                            <nav>
+                                <ul class="pagination justify-content-end" id="searchPagination">
+                                    <!-- Pagination will be populated here -->
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Kalender Section -->
+                <!-- Calendar Section -->
                 <div class="content-section d-none" id="calendarSection">
                     <h2 class="section-title">Kalender Surat</h2>
                     
@@ -1325,220 +1361,115 @@
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h4 id="currentMonthYear">Januari 2023</h4>
+                                <h4 id="calendarMonthYear">Januari 2023</h4>
                                 <div>
-                                    <button class="btn btn-sm btn-outline-primary me-2" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-                                    <button class="btn btn-sm btn-outline-primary" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary me-2" id="prevMonth">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" id="nextMonth">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
                                 </div>
                             </div>
                             
-                            <div class="calendar-view" id="calendarView">
-                                <!-- Calendar will be generated here -->
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar will be populated here -->
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Template Section -->
+                <!-- Templates Section -->
                 <div class="content-section d-none" id="templatesSection">
                     <h2 class="section-title">Template Surat</h2>
                     
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="card template-item" data-template="tugas">
+                            <div class="card template-item" data-link="https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing">
                                 <div class="card-body text-center">
                                     <i class="fas fa-file-contract" style="font-size: 3rem; color: #0d47a1;"></i>
                                     <h5 class="mt-3">Surat Tugas</h5>
-                                    <p class="text-muted">Template untuk membuat surat tugas</p>
-                                    <button class="btn btn-primary use-template-btn" data-template="tugas"><i class="fas fa-download me-1"></i>Gunakan Template</button>
+                                    <p class="text-muted">Template untuk membuat surat tugas resmi</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card template-item" data-template="pernyataan">
+                            <div class="card template-item" data-link="https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link">
                                 <div class="card-body text-center">
                                     <i class="fas fa-file-signature" style="font-size: 3rem; color: #00695c;"></i>
                                     <h5 class="mt-3">Surat Pernyataan</h5>
                                     <p class="text-muted">Template untuk membuat surat pernyataan</p>
-                                    <button class="btn btn-primary use-template-btn" data-template="pernyataan"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card template-item" data-template="kuasa">
+                            <div class="card template-item" data-link="https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-contract" style="font-size: 3rem; color: #ff8f00;"></i>
+                                    <i class="fas fa-file-alt" style="font-size: 3rem; color: #ff8f00;"></i>
                                     <h5 class="mt-3">Surat Kuasa</h5>
                                     <p class="text-muted">Template untuk membuat surat kuasa</p>
-                                    <button class="btn btn-primary use-template-btn" data-template="kuasa"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <div class="card template-item" data-template="undangan">
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="card template-item" data-link="https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-invoice" style="font-size: 3rem; color: #9c27b0;"></i>
+                                    <i class="fas fa-envelope-open-text" style="font-size: 3rem; color: #9c27b0;"></i>
                                     <h5 class="mt-3">Surat Undangan</h5>
                                     <p class="text-muted">Template untuk membuat surat undangan</p>
-                                    <button class="btn btn-primary use-template-btn" data-template="undangan"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <div class="card template-item" data-template="keterangan">
+                        <div class="col-md-4">
+                            <div class="card template-item" data-link="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-alt" style="font-size: 3rem; color: #2e7d32;"></i>
+                                    <i class="fas fa-file-medical" style="font-size: 3rem; color: #2e7d32;"></i>
                                     <h5 class="mt-3">Surat Keterangan</h5>
                                     <p class="text-muted">Template untuk membuat surat keterangan</p>
-                                    <button class="btn btn-primary use-template-btn" data-template="keterangan"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mt-4">
-                            <div class="card template-item" data-template="pengantar">
+                        <div class="col-md-4">
+                            <div class="card template-item" data-link="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-export" style="font-size: 3rem; color: #d32f2f;"></i>
+                                    <i class="fas fa-file-import" style="font-size: 3rem; color: #d32f2f;"></i>
                                     <h5 class="mt-3">Surat Pengantar</h5>
                                     <p class="text-muted">Template untuk membuat surat pengantar</p>
-                                    <button class="btn btn-primary use-template-btn" data-template="pengantar"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="link-section mt-4">
-                        <h4 class="link-section-title">Tautan Template</h4>
-                        <div class="link-input-group">
-                            <label class="form-label">Surat Tugas</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing" readonly>
-                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing')"><i class="fas fa-copy"></i></button>
-                            </div>
-                        </div>
-                        <div class="link-input-group">
-                            <label class="form-label">Surat Pernyataan</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link" readonly>
-                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
-                            </div>
-                        </div>
-                        <div class="link-input-group">
-                            <label class="form-label">Surat Kuasa</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link" readonly>
-                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
-                            </div>
-                        </div>
-                        <div class="link-input-group">
-                            <label class="form-label">Surat Undangan</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link" readonly>
-                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
-                            </div>
-                        </div>
-                        <div class="link-input-group">
-                            <label class="form-label">Surat Keterangan</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link" readonly>
-                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
-                            </div>
-                        </div>
-                        <div class="link-input-group">
-                            <label class="form-label">Surat Pengantar</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link" readonly>
-                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Pengguna Section -->
-                <div class="content-section d-none" id="usersSection">
-                    <h2 class="section-title">Manajemen Pengguna</h2>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-user-plus me-2"></i>Tambah Pengguna Baru
-                        </div>
-                        <div class="card-body">
-                            <form id="userForm">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-user"></i>Nama Lengkap</label>
-                                        <input type="text" class="form-control" id="userName" placeholder="Nama lengkap" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-envelope"></i>Email</label>
-                                        <input type="email" class="form-control" id="userEmail" placeholder="Alamat email" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-key"></i>Password</label>
-                                        <input type="password" class="form-control" id="userPassword" placeholder="Password" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-user-tag"></i>Role</label>
-                                        <select class="form-select" id="userRole" required>
-                                            <option value="">Pilih Role</option>
-                                            <option value="admin">Administrator</option>
-                                            <option value="user">Pengguna</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="d-flex justify-content-end">
-                                    <button type="reset" class="btn btn-secondary me-2"><i class="fas fa-times me-1"></i>Batal</button>
-                                    <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Simpan Pengguna</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <i class="fas fa-users me-2"></i>Daftar Pengguna
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="userTableBody">
-                                        <!-- Users will be populated here -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Pengaturan Section -->
+                <!-- Settings Section -->
                 <div class="content-section d-none" id="settingsSection">
-                    <h2 class="section-title">Pengaturan Sistem</h2>
+                    <h2 class="section-title">Pengaturan Aplikasi</h2>
                     
                     <div class="row">
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-database me-2"></i>Backup & Restore Data
+                                    <i class="fas fa-key me-2"></i>Ganti Password
                                 </div>
                                 <div class="card-body">
-                                    <div class="d-grid gap-2">
-                                        <button class="btn btn-success mb-2" id="backupBtn"><i class="fas fa-download me-1"></i>Backup Data</button>
-                                        <button class="btn btn-warning mb-2" id="restoreBtn"><i class="fas fa-upload me-1"></i>Restore Data</button>
-                                        <button class="btn btn-danger" id="resetBtn"><i class="fas fa-trash me-1"></i>Reset Data</button>
-                                    </div>
+                                    <form id="passwordForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Password Saat Ini</label>
+                                            <input type="password" class="form-control" id="currentPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Password Baru</label>
+                                            <input type="password" class="form-control" id="newPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Konfirmasi Password Baru</label>
+                                            <input type="password" class="form-control" id="confirmPassword" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Simpan Password</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -1546,49 +1477,34 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-info-circle me-2"></i>Informasi Sistem
+                                    <i class="fas fa-database me-2"></i>Backup & Restore Data
                                 </div>
                                 <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Versi Aplikasi
-                                            <span class="badge bg-primary">v2.0.0</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Total Surat
-                                            <span class="badge bg-primary" id="totalMailsSetting">0</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Total Pengguna
-                                            <span class="badge bg-primary" id="totalUsersSetting">0</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Ukuran Penyimpanan
-                                            <span class="badge bg-primary" id="storageSize">0 KB</span>
-                                        </li>
-                                    </ul>
+                                    <div class="mb-3">
+                                        <label class="form-label">Backup Data</label>
+                                        <p class="form-text">Simpan salinan data surat ke file JSON</p>
+                                        <button class="btn btn-outline-primary w-100" id="backupData">
+                                            <i class="fas fa-download me-2"></i>Backup Data
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Restore Data</label>
+                                        <p class="form-text">Muat data dari file backup sebelumnya</p>
+                                        <input type="file" class="form-control mb-2" id="restoreFile" accept=".json">
+                                        <button class="btn btn-outline-success w-100" id="restoreData">
+                                            <i class="fas fa-upload me-2"></i>Restore Data
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Reset Data</label>
+                                        <p class="form-text">Hapus semua data surat (tidak dapat dibatalkan)</p>
+                                        <button class="btn btn-outline-danger w-100" id="resetData">
+                                            <i class="fas fa-trash-alt me-2"></i>Reset Data
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <i class="fas fa-shield-alt me-2"></i>Keamanan
-                        </div>
-                        <div class="card-body">
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>Pastikan untuk melakukan backup data secara berkala untuk mencegah kehilangan data.
-                            </div>
-                            
-                            <div class="form-check form-switch mb-3">
-                                <input class="form-check-input" type="checkbox" id="autoBackup">
-                                <label class="form-check-label" for="autoBackup">Backup Otomatis (setiap 7 hari)</label>
-                            </div>
-                            
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="passwordProtection">
-                                <label class="form-check-label" for="passwordProtection">Perlindungan dengan Password</label>
                             </div>
                         </div>
                     </div>
@@ -1599,10 +1515,6 @@
         <div class="copyright">
             &copy; 2023 Dinas Peternakan dan Perikanan Kabupaten Situbondo. All rights reserved.
         </div>
-        
-        <div class="floating-action-btn" id="floatingActionBtn">
-            <i class="fas fa-plus"></i>
-        </div>
     </div>
     
     <!-- Welcome Notification -->
@@ -1610,133 +1522,36 @@
         <button class="btn-close-welcome" id="closeWelcome">
             <i class="fas fa-times"></i>
         </button>
+        
         <div class="icon">
             <i class="fas fa-mail-bulk"></i>
         </div>
+        
         <h3>Selamat Datang di Sistem Manajemen Surat</h3>
-        <p>Sistem ini membantu Anda mengelola <span class="highlight">surat masuk dan keluar</span> dengan lebih efisien.</p>
-        <p>Gunakan menu di sebelah kiri untuk mulai menjelajahi fitur-fitur aplikasi.</p>
+        
+        <p>Sistem ini membantu Anda mengelola <span class="highlight">surat masuk dan keluar</span> dengan lebih efisien dan terorganisir.</p>
+        
+        <p>Gunakan menu di sebelah kiri untuk menjelajahi fitur-fitur aplikasi.</p>
+        
         <div class="particles-container" id="welcomeParticles"></div>
     </div>
     
-    <!-- Toast Notification -->
-    <div class="toast notification-toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="successToast">
-        <div class="d-flex">
-            <div class="toast-body">
-                <i class="fas fa-check-circle me-2"></i><span id="toastMessage">Operasi berhasil dilakukan</span>
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-    
-    <!-- Password Modal -->
-    <div class="modal fade password-modal" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="passwordModalLabel"><i class="fas fa-lock me-2"></i>Konfirmasi Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Masukkan password administrator untuk melanjutkan:</p>
-                    <input type="password" class="form-control" id="adminPassword" placeholder="Password administrator">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-success" id="confirmPassword">Konfirmasi</button>
-                </div>
-            </div>
-        </div>
+    <!-- Floating Action Button -->
+    <div class="floating-action-btn" id="floatingActionBtn">
+        <i class="fas fa-plus"></i>
     </div>
     
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
-        // Initialize particles.js
-        document.addEventListener('DOMContentLoaded', function() {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": {
-                        "value": 80,
-                        "density": {
-                            "enable": true,
-                            "value_area": 800
-                        }
-                    },
-                    "color": {
-                        "value": "#0d47a1"
-                    },
-                    "shape": {
-                        "type": "circle",
-                        "stroke": {
-                            "width": 0,
-                            "color": "#000000"
-                        }
-                    },
-                    "opacity": {
-                        "value": 0.5,
-                        "random": false
-                    },
-                    "size": {
-                        "value": 3,
-                        "random": true
-                    },
-                    "line_linked": {
-                        "enable": true,
-                        "distance": 150,
-                        "color": "#0d47a1",
-                        "opacity": 0.4,
-                        "width": 1
-                    },
-                    "move": {
-                        "enable": true,
-                        "speed": 2,
-                        "direction": "none",
-                        "random": false,
-                        "straight": false,
-                        "out_mode": "out",
-                        "bounce": false
-                    }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": {
-                        "onhover": {
-                            "enable": true,
-                            "mode": "grab"
-                        },
-                        "onclick": {
-                            "enable": true,
-                            "mode": "push"
-                        },
-                        "resize": true
-                    },
-                    "modes": {
-                        "grab": {
-                            "distance": 140,
-                            "line_linked": {
-                                "opacity": 1
-                            }
-                        },
-                        "push": {
-                            "particles_nb": 4
-                        }
-                    }
-                },
-                "retina_detect": true
-            });
-        });
-        
         // Main Application Code
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize variables
-            let currentPage = 1;
-            const itemsPerPage = 10;
-            let mailData = [];
-            let userData = [];
+            // Initialize the application
+            initApp();
             
             // Show welcome notification
             setTimeout(() => {
@@ -1754,6 +1569,7 @@
                 document.getElementById('sidebarOverlay').classList.toggle('active');
             });
             
+            // Close sidebar when clicking on overlay
             document.getElementById('sidebarOverlay').addEventListener('click', function() {
                 document.body.classList.remove('sidebar-open');
                 this.classList.remove('active');
@@ -1764,74 +1580,131 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    // Update active nav link
-                    document.querySelectorAll('.nav-link').forEach(navLink => {
-                        navLink.classList.remove('active');
-                    });
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
                     this.classList.add('active');
                     
-                    // Show corresponding section
-                    const sectionId = this.getAttribute('data-section') + 'Section';
+                    // Hide all sections
                     document.querySelectorAll('.content-section').forEach(section => {
                         section.classList.add('d-none');
                     });
+                    
+                    // Show the selected section
+                    const sectionId = this.getAttribute('data-section') + 'Section';
                     document.getElementById(sectionId).classList.remove('d-none');
                     
-                    // Close mobile menu after selection
-                    document.body.classList.remove('sidebar-open');
-                    document.getElementById('sidebarOverlay').classList.remove('active');
+                    // Close sidebar on mobile after selection
+                    if (window.innerWidth < 992) {
+                        document.body.classList.remove('sidebar-open');
+                        document.getElementById('sidebarOverlay').classList.remove('active');
+                    }
                     
-                    // Load data for the section if needed
-                    if (sectionId === 'dataSection') {
-                        loadMailData();
-                    } else if (sectionId === 'usersSection') {
-                        loadUserData();
-                    } else if (sectionId === 'calendarSection') {
-                        generateCalendar();
-                    } else if (sectionId === 'settingsSection') {
-                        updateSettingsInfo();
+                    // If input section is selected, reset the form
+                    if (sectionId === 'inputSection') {
+                        resetMailForm();
                     }
                 });
             });
             
-            // Initialize data
-            initializeData();
+            // Floating action button
+            document.getElementById('floatingActionBtn').addEventListener('click', function() {
+                // Show input section
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelector('[data-section="input"]').classList.add('active');
+                
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.add('d-none');
+                });
+                document.getElementById('inputSection').classList.remove('d-none');
+                
+                // Scroll to form
+                document.getElementById('mailForm').scrollIntoView({ behavior: 'smooth' });
+            });
             
-            // Load initial data
-            loadMailData();
-            loadUserData();
-            updateDashboard();
-            
-            // Mail form submission
+            // Form submission
             document.getElementById('mailForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 saveMail();
             });
             
-            // User form submission
-            document.getElementById('userForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveUser();
+            // Reset form
+            document.getElementById('resetForm').addEventListener('click', function() {
+                resetMailForm();
             });
             
-            // Search functionality
-            document.getElementById('searchButton').addEventListener('click', function() {
+            // Search form submission
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
                 performSearch();
             });
             
-            document.getElementById('searchInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
+            // Reset search
+            document.getElementById('resetSearch').addEventListener('click', function() {
+                document.getElementById('searchForm').reset();
+                document.getElementById('searchResults').innerHTML = '';
+                document.getElementById('searchInfo').textContent = 'Menampilkan 0 hasil';
+            });
+            
+            // Password form submission
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                changePassword();
+            });
+            
+            // Backup data
+            document.getElementById('backupData').addEventListener('click', function() {
+                backupData();
+            });
+            
+            // Restore data
+            document.getElementById('restoreData').addEventListener('click', function() {
+                restoreData();
+            });
+            
+            // Reset data
+            document.getElementById('resetData').addEventListener('click', function() {
+                resetData();
+            });
+            
+            // Template items
+            document.querySelectorAll('.template-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const link = this.getAttribute('data-link');
+                    window.open(link, '_blank');
+                });
+            });
+            
+            // Export buttons
+            document.getElementById('exportExcel').addEventListener('click', function() {
+                exportToExcel();
+            });
+            
+            document.getElementById('exportPDF').addEventListener('click', function() {
+                exportToPDF();
+            });
+            
+            // Calendar navigation
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
                 }
+                renderCalendar(currentMonth, currentYear);
             });
             
-            // Advanced search toggle
-            document.getElementById('advancedSearchToggle').addEventListener('change', function() {
-                const panel = document.getElementById('advancedSearchPanel');
-                panel.style.display = this.checked ? 'block' : 'none';
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear);
             });
             
-            // Filter functionality
+            // Filter change events
             document.getElementById('filterType').addEventListener('change', function() {
                 loadMailData();
             });
@@ -1840,427 +1713,354 @@
                 loadMailData();
             });
             
-            document.getElementById('filterStatus').addEventListener('change', function() {
+            document.getElementById('filterMonth').addEventListener('change', function() {
                 loadMailData();
             });
             
-            document.getElementById('sortBy').addEventListener('change', function() {
+            document.getElementById('filterYear').addEventListener('change', function() {
                 loadMailData();
             });
             
-            // Calendar navigation
-            document.getElementById('prevMonth').addEventListener('click', function() {
-                // Implementation for previous month
-                alert('Fitur kalender akan segera hadir!');
+            // Search input
+            document.getElementById('searchButton').addEventListener('click', function() {
+                loadMailData();
             });
             
-            document.getElementById('nextMonth').addEventListener('click', function() {
-                // Implementation for next month
-                alert('Fitur kalender akan segera hadir!');
-            });
-            
-            // Template buttons
-            document.querySelectorAll('.use-template-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const templateType = this.getAttribute('data-template');
-                    useTemplate(templateType);
-                });
-            });
-            
-            // Backup, Restore, Reset buttons
-            document.getElementById('backupBtn').addEventListener('click', function() {
-                backupData();
-            });
-            
-            document.getElementById('restoreBtn').addEventListener('click', function() {
-                restoreData();
-            });
-            
-            document.getElementById('resetBtn').addEventListener('click', function() {
-                showPasswordModal('reset');
-            });
-            
-            // Password confirmation
-            document.getElementById('confirmPassword').addEventListener('click', function() {
-                const password = document.getElementById('adminPassword').value;
-                if (password === 'admin123') { // Default password, can be changed
-                    const action = document.getElementById('passwordModal').getAttribute('data-action');
-                    if (action === 'reset') {
-                        resetData();
-                    }
-                    bootstrap.Modal.getInstance(document.getElementById('passwordModal')).hide();
-                    document.getElementById('adminPassword').value = '';
-                } else {
-                    alert('Password salah!');
+            document.getElementById('searchInput').addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    loadMailData();
                 }
             });
+        });
+        
+        // Initialize the application
+        function initApp() {
+            // Initialize current date
+            const today = new Date();
+            document.getElementById('mailDate').valueAsDate = today;
+            document.getElementById('mailActionDate').valueAsDate = today;
             
-            // Floating action button
-            document.getElementById('floatingActionBtn').addEventListener('click', function() {
-                // Switch to input section
-                document.querySelectorAll('.nav-link').forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
-                document.querySelector('[data-section="input"]').classList.add('active');
-                
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.add('d-none');
-                });
-                document.getElementById('inputSection').classList.remove('d-none');
-            });
+            // Initialize year filter
+            const yearSelect = document.getElementById('filterYear');
+            const currentYear = today.getFullYear();
+            for (let year = currentYear - 5; year <= currentYear + 1; year++) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                if (year === currentYear) {
+                    option.selected = true;
+                }
+                yearSelect.appendChild(option);
+            }
             
-            // Initialize date inputs with current date
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('mailDate').value = today;
-            document.getElementById('mailActionDate').value = today;
+            // Load mail data
+            loadMailData();
             
             // Initialize charts
             initCharts();
-        });
-        
-        // Initialize application data
-        function initializeData() {
-            // Check if mail data exists in localStorage
-            if (!localStorage.getItem('mailData')) {
-                // Create sample data
-                const sampleData = [
-                    {
-                        id: 1,
-                        type: 'masuk',
-                        number: '001/DPP/VI/2023',
-                        date: '2023-06-15',
-                        actionDate: '2023-06-16',
-                        party: 'Dinas Pertanian Provinsi Jawa Timur',
-                        category: 'penting',
-                        subject: 'Undangan Rapat Koordinasi',
-                        description: 'Rapat koordinasi mengenai program pengembangan peternakan',
-                        link: '',
-                        status: 'pending',
-                        createdAt: new Date().toISOString()
-                    },
-                    {
-                        id: 2,
-                        type: 'keluar',
-                        number: '002/DPP/VI/2023',
-                        date: '2023-06-18',
-                        actionDate: '2023-06-19',
-                        party: 'Dinas Kesehatan Kabupaten Situbondo',
-                        category: 'resmi',
-                        subject: 'Permohonan Data Vaksinasi Hewan Ternak',
-                        description: 'Permohonan data vaksinasi hewan ternak periode Januari-Juni 2023',
-                        link: '',
-                        status: 'processed',
-                        createdAt: new Date().toISOString()
-                    },
-                    {
-                        id: 3,
-                        type: 'masuk',
-                        number: '003/DPP/VI/2023',
-                        date: '2023-06-20',
-                        actionDate: '2023-06-21',
-                        party: 'PT. Sumber Pangan',
-                        category: 'biasa',
-                        subject: 'Permohonan Kerjasama Distribusi Hasil Ternak',
-                        description: 'Permohonan kerjasama dalam distribusi hasil ternak wilayah Situbondo',
-                        link: '',
-                        status: 'completed',
-                        createdAt: new Date().toISOString()
-                    }
-                ];
-                
-                localStorage.setItem('mailData', JSON.stringify(sampleData));
-            }
             
-            // Check if user data exists in localStorage
-            if (!localStorage.getItem('userData')) {
-                // Create sample user data
-                const sampleUsers = [
-                    {
-                        id: 1,
-                        name: 'Administrator',
-                        email: 'admin@dpp-situbondo.go.id',
-                        password: 'admin123',
-                        role: 'admin',
-                        status: 'active',
-                        createdAt: new Date().toISOString()
+            // Initialize calendar
+            currentMonth = today.getMonth();
+            currentYear = today.getFullYear();
+            renderCalendar(currentMonth, currentYear);
+            
+            // Initialize particles
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 30, density: { enable: true, value_area: 800 } },
+                    color: { value: "#0d47a1" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#0d47a1",
+                        opacity: 0.4,
+                        width: 1
                     },
-                    {
-                        id: 2,
-                        name: 'Budi Santoso',
-                        email: 'budi.santoso@dpp-situbondo.go.id',
-                        password: 'user123',
-                        role: 'user',
-                        status: 'active',
-                        createdAt: new Date().toISOString()
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
                     }
-                ];
-                
-                localStorage.setItem('userData', JSON.stringify(sampleUsers));
-            }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
         }
         
-        // Load mail data
+        // Load mail data from localStorage
         function loadMailData() {
-            mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
             
             // Apply filters
             const typeFilter = document.getElementById('filterType').value;
             const categoryFilter = document.getElementById('filterCategory').value;
-            const statusFilter = document.getElementById('filterStatus').value;
-            const sortBy = document.getElementById('sortBy').value;
-            
-            let filteredData = mailData;
+            const monthFilter = document.getElementById('filterMonth').value;
+            const yearFilter = document.getElementById('filterYear').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
             if (typeFilter) {
-                filteredData = filteredData.filter(mail => mail.type === typeFilter);
+                mailData = mailData.filter(mail => mail.type === typeFilter);
             }
             
             if (categoryFilter) {
-                filteredData = filteredData.filter(mail => mail.category === categoryFilter);
+                mailData = mailData.filter(mail => mail.category === categoryFilter);
             }
             
-            if (statusFilter) {
-                filteredData = filteredData.filter(mail => mail.status === statusFilter);
+            if (monthFilter) {
+                mailData = mailData.filter(mail => {
+                    const mailDate = new Date(mail.date);
+                    return (mailDate.getMonth() + 1) === parseInt(monthFilter);
+                });
             }
             
-            // Apply sorting
-            if (sortBy === 'date-desc') {
-                filteredData.sort((a, b) => new Date(b.date) - new Date(a.date));
-            } else if (sortBy === 'date-asc') {
-                filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
-            } else if (sortBy === 'number') {
-                filteredData.sort((a, b) => a.number.localeCompare(b.number));
+            if (yearFilter) {
+                mailData = mailData.filter(mail => {
+                    const mailDate = new Date(mail.date);
+                    return mailDate.getFullYear() === parseInt(yearFilter);
+                });
             }
             
-            // Update table info
-            document.getElementById('tableInfo').textContent = `Menampilkan ${filteredData.length} dari ${filteredData.length} data`;
-            
-            // Generate table rows
-            const tableBody = document.getElementById('mailTableBody');
-            tableBody.innerHTML = '';
-            
-            if (filteredData.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data surat</td></tr>';
-                return;
+            if (searchTerm) {
+                mailData = mailData.filter(mail => 
+                    mail.number.toLowerCase().includes(searchTerm) ||
+                    mail.subject.toLowerCase().includes(searchTerm) ||
+                    mail.party.toLowerCase().includes(searchTerm)
+                );
             }
             
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
+            // Update dashboard stats
+            updateDashboardStats(mailData);
             
-            for (let i = startIndex; i < endIndex; i++) {
-                const mail = filteredData[i];
+            // Render table
+            renderMailTable(mailData);
+        }
+        
+        // Update dashboard statistics
+        function updateDashboardStats(mailData) {
+            const totalIncoming = mailData.filter(mail => mail.type === 'masuk').length;
+            const totalOutgoing = mailData.filter(mail => mail.type === 'keluar').length;
+            const totalPending = mailData.filter(mail => mail.status === 'pending').length;
+            const totalProcessed = mailData.filter(mail => mail.status === 'processed' || mail.status === 'completed').length;
+            
+            document.getElementById('totalIncoming').textContent = totalIncoming;
+            document.getElementById('totalOutgoing').textContent = totalOutgoing;
+            document.getElementById('totalPending').textContent = totalPending;
+            document.getElementById('totalProcessed').textContent = totalProcessed;
+            
+            // Update recent activities
+            updateRecentActivities(mailData);
+        }
+        
+        // Update recent activities
+        function updateRecentActivities(mailData) {
+            const recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = '';
+            
+            // Sort by date (newest first)
+            const sortedData = [...mailData].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Get top 5
+            const top5 = sortedData.slice(0, 5);
+            
+            top5.forEach(mail => {
                 const row = document.createElement('tr');
                 
-                // Format date for display
-                const mailDate = new Date(mail.date);
-                const formattedDate = mailDate.toLocaleDateString('id-ID', {
+                const date = new Date(mail.date).toLocaleDateString('id-ID', {
                     day: '2-digit',
-                    month: '2-digit',
+                    month: 'short',
                     year: 'numeric'
                 });
                 
-                // Determine badge class based on category
-                let badgeClass = 'badge-normal';
-                if (mail.category === 'penting') badgeClass = 'badge-important';
-                if (mail.category === 'rahasia') badgeClass = 'badge-primary';
+                const typeBadge = mail.type === 'masuk' ? 
+                    '<span class="badge bg-primary">Masuk</span>' : 
+                    '<span class="badge bg-success">Keluar</span>';
                 
-                // Determine status badge
-                let statusBadge = '';
-                if (mail.status === 'pending') {
-                    statusBadge = '<span class="badge bg-warning">Menunggu</span>';
-                } else if (mail.status === 'processed') {
-                    statusBadge = '<span class="badge bg-info">Diproses</span>';
-                } else if (mail.status === 'completed') {
-                    statusBadge = '<span class="badge bg-success">Selesai</span>';
-                }
+                const statusBadge = mail.status === 'pending' ? 
+                    '<span class="badge bg-warning">Menunggu</span>' : 
+                    mail.status === 'processed' ? 
+                    '<span class="badge bg-info">Diproses</span>' : 
+                    '<span class="badge bg-success">Selesai</span>';
                 
                 row.innerHTML = `
-                    <td>${i + 1}</td>
-                    <td><span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'}">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span></td>
+                    <td>${date}</td>
+                    <td>${typeBadge}</td>
                     <td>${mail.number}</td>
-                    <td>${formattedDate}</td>
                     <td>${mail.subject}</td>
-                    <td><span class="badge ${badgeClass}">${mail.category}</span></td>
                     <td>${statusBadge}</td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-primary edit-mail" data-id="${mail.id}"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-outline-danger delete-mail" data-id="${mail.id}"><i class="fas fa-trash"></i></button>
-                        </div>
+                `;
+                
+                recentActivities.appendChild(row);
+            });
+        }
+        
+        // Render mail table
+        function renderMailTable(mailData) {
+            const tableBody = document.getElementById('mailTableBody');
+            tableBody.innerHTML = '';
+            
+            if (mailData.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="9" class="text-center">Tidak ada data surat</td>`;
+                tableBody.appendChild(row);
+                document.getElementById('tableInfo').textContent = 'Menampilkan 0 dari 0 data';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            mailData.forEach((mail, index) => {
+                const row = document.createElement('tr');
+                
+                const date = new Date(mail.date).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                const typeBadge = mail.type === 'masuk' ? 
+                    '<span class="badge badge-incoming">Masuk</span>' : 
+                    '<span class="badge badge-outgoing">Keluar</span>';
+                
+                const categoryBadge = mail.category === 'penting' ? 
+                    '<span class="badge badge-important">Penting</span>' : 
+                    mail.category === 'rahasia' ? 
+                    '<span class="badge badge-danger">Rahasia</span>' : 
+                    '<span class="badge badge-normal">Biasa</span>';
+                
+                const linkElement = mail.link ? 
+                    `<a href="${mail.link}" target="_blank" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a>` : 
+                    '<span class="text-muted">Tidak ada</span>';
+                
+                row.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td class="text-center">${typeBadge}</td>
+                    <td>${mail.number}</td>
+                    <td>${date}</td>
+                    <td>${mail.subject}</td>
+                    <td>${mail.party}</td>
+                    <td class="text-center">${categoryBadge}</td>
+                    <td class="text-center">${linkElement}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${mail.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${mail.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 `;
                 
                 tableBody.appendChild(row);
-            }
+            });
+            
+            document.getElementById('tableInfo').textContent = `Menampilkan ${mailData.length} dari ${mailData.length} data`;
             
             // Add event listeners to edit and delete buttons
-            document.querySelectorAll('.edit-mail').forEach(btn => {
+            document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const mailId = parseInt(this.getAttribute('data-id'));
-                    editMail(mailId);
+                    const id = this.getAttribute('data-id');
+                    editMail(id);
                 });
             });
             
-            document.querySelectorAll('.delete-mail').forEach(btn => {
+            document.querySelectorAll('.delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const mailId = parseInt(this.getAttribute('data-id'));
-                    deleteMail(mailId);
+                    const id = this.getAttribute('data-id');
+                    deleteMail(id);
                 });
             });
-            
-            // Generate pagination
-            generatePagination(filteredData.length);
         }
         
-        // Generate pagination
-        function generatePagination(totalItems) {
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            const paginationElement = document.getElementById('pagination');
-            paginationElement.innerHTML = '';
-            
-            if (totalPages <= 1) return;
-            
-            // Previous button
-            const prevLi = document.createElement('li');
-            prevLi.classList.add('page-item');
-            if (currentPage === 1) prevLi.classList.add('disabled');
-            
-            prevLi.innerHTML = `
-                <a class="page-link" href="#" aria-label="Previous" ${currentPage === 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            `;
-            
-            prevLi.querySelector('a').addEventListener('click', function(e) {
-                e.preventDefault();
-                if (currentPage > 1) {
-                    currentPage--;
-                    loadMailData();
-                }
-            });
-            
-            paginationElement.appendChild(prevLi);
-            
-            // Page numbers
-            for (let i = 1; i <= totalPages; i++) {
-                const pageLi = document.createElement('li');
-                pageLi.classList.add('page-item');
-                if (i === currentPage) pageLi.classList.add('active');
-                
-                pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-                
-                pageLi.querySelector('a').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    currentPage = i;
-                    loadMailData();
-                });
-                
-                paginationElement.appendChild(pageLi);
-            }
-            
-            // Next button
-            const nextLi = document.createElement('li');
-            nextLi.classList.add('page-item');
-            if (currentPage === totalPages) nextLi.classList.add('disabled');
-            
-            nextLi.innerHTML = `
-                <a class="page-link" href="#" aria-label="Next" ${currentPage === totalPages ? 'tabindex="-1" aria-disabled="true"' : ''}>
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            `;
-            
-            nextLi.querySelector('a').addEventListener('click', function(e) {
-                e.preventDefault();
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    loadMailData();
-                }
-            });
-            
-            paginationElement.appendChild(nextLi);
-        }
-        
-        // Save mail (create or update)
+        // Save mail to localStorage
         function saveMail() {
-            const editId = document.getElementById('editId').value;
-            const mailType = document.getElementById('mailType').value;
-            const mailNumber = document.getElementById('mailNumber').value;
-            const mailDate = document.getElementById('mailDate').value;
-            const mailActionDate = document.getElementById('mailActionDate').value;
-            const mailParty = document.getElementById('mailParty').value;
-            const mailCategory = document.getElementById('mailCategory').value;
-            const mailSubject = document.getElementById('mailSubject').value;
-            const mailDescription = document.getElementById('mailDescription').value;
-            const mailLink = document.getElementById('mailLink').value;
+            const id = document.getElementById('editId').value;
+            const type = document.getElementById('mailType').value;
+            const number = document.getElementById('mailNumber').value;
+            const date = document.getElementById('mailDate').value;
+            const actionDate = document.getElementById('mailActionDate').value;
+            const party = document.getElementById('mailParty').value;
+            const category = document.getElementById('mailCategory').value;
+            const subject = document.getElementById('mailSubject').value;
+            const notes = document.getElementById('mailNotes').value;
+            const link = document.getElementById('mailLink').value;
             
             // Validate required fields
-            if (!mailType || !mailNumber || !mailDate || !mailActionDate || !mailParty || !mailCategory || !mailSubject) {
-                showToast('Harap isi semua field yang wajib diisi', 'error');
+            if (!type || !number || !date || !actionDate || !party || !category || !subject) {
+                showNotification('Harap isi semua field yang wajib diisi', 'danger');
                 return;
             }
             
-            // Get existing data
-            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
             
-            if (editId) {
-                // Update existing mail
-                const index = mailData.findIndex(mail => mail.id === parseInt(editId));
+            if (id) {
+                // Edit existing mail
+                const index = mailData.findIndex(mail => mail.id === id);
                 if (index !== -1) {
                     mailData[index] = {
                         ...mailData[index],
-                        type: mailType,
-                        number: mailNumber,
-                        date: mailDate,
-                        actionDate: mailActionDate,
-                        party: mailParty,
-                        category: mailCategory,
-                        subject: mailSubject,
-                        description: mailDescription,
-                        link: mailLink,
+                        type,
+                        number,
+                        date,
+                        actionDate,
+                        party,
+                        category,
+                        subject,
+                        notes,
+                        link,
                         updatedAt: new Date().toISOString()
                     };
-                    
-                    localStorage.setItem('mailData', JSON.stringify(mailData));
-                    showToast('Surat berhasil diperbarui', 'success');
                 }
             } else {
-                // Create new mail
+                // Add new mail
                 const newMail = {
-                    id: mailData.length > 0 ? Math.max(...mailData.map(mail => mail.id)) + 1 : 1,
-                    type: mailType,
-                    number: mailNumber,
-                    date: mailDate,
-                    actionDate: mailActionDate,
-                    party: mailParty,
-                    category: mailCategory,
-                    subject: mailSubject,
-                    description: mailDescription,
-                    link: mailLink,
+                    id: generateId(),
+                    type,
+                    number,
+                    date,
+                    actionDate,
+                    party,
+                    category,
+                    subject,
+                    notes,
+                    link,
                     status: 'pending',
-                    createdAt: new Date().toISOString()
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
                 };
                 
-                mailData.push(newMail);
-                localStorage.setItem('mailData', JSON.stringify(mailData));
-                showToast('Surat berhasil disimpan', 'success');
+                mailData.unshift(newMail);
             }
             
+            // Save to localStorage
+            localStorage.setItem('mailData', JSON.stringify(mailData));
+            
+            // Show success notification
+            showNotification(id ? 'Surat berhasil diperbarui' : 'Surat berhasil disimpan', 'success');
+            
             // Reset form
-            document.getElementById('mailForm').reset();
-            document.getElementById('editId').value = '';
+            resetMailForm();
             
-            // Update dashboard and data table
-            updateDashboard();
+            // Reload data
             loadMailData();
-            
-            // Switch to data section
-            document.querySelector('[data-section="data"]').click();
         }
         
         // Edit mail
         function editMail(id) {
-            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
-            const mail = mailData.find(mail => mail.id === id);
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            const mail = mailData.find(m => m.id === id);
             
             if (mail) {
                 document.getElementById('editId').value = mail.id;
@@ -2271,11 +2071,8 @@
                 document.getElementById('mailParty').value = mail.party;
                 document.getElementById('mailCategory').value = mail.category;
                 document.getElementById('mailSubject').value = mail.subject;
-                document.getElementById('mailDescription').value = mail.description || '';
+                document.getElementById('mailNotes').value = mail.notes || '';
                 document.getElementById('mailLink').value = mail.link || '';
-                
-                // Switch to input section
-                document.querySelector('[data-section="input"]').click();
                 
                 // Scroll to form
                 document.getElementById('mailForm').scrollIntoView({ behavior: 'smooth' });
@@ -2285,536 +2082,356 @@
         // Delete mail
         function deleteMail(id) {
             if (confirm('Apakah Anda yakin ingin menghapus surat ini?')) {
-                let mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+                let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
                 mailData = mailData.filter(mail => mail.id !== id);
                 localStorage.setItem('mailData', JSON.stringify(mailData));
                 
-                showToast('Surat berhasil dihapus', 'success');
+                // Show success notification
+                showNotification('Surat berhasil dihapus', 'success');
                 
-                // Update dashboard and data table
-                updateDashboard();
+                // Reload data
                 loadMailData();
             }
         }
         
-        // Load user data
-        function loadUserData() {
-            userData = JSON.parse(localStorage.getItem('userData') || '[]');
-            const tableBody = document.getElementById('userTableBody');
-            tableBody.innerHTML = '';
+        // Reset mail form
+        function resetMailForm() {
+            document.getElementById('mailForm').reset();
+            document.getElementById('editId').value = '';
             
-            if (userData.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada data pengguna</td></tr>';
-                return;
-            }
-            
-            userData.forEach((user, index) => {
-                const row = document.createElement('tr');
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="user-avatar me-2">${user.name.charAt(0)}</div>
-                            ${user.name}
-                        </div>
-                    </td>
-                    <td>${user.email}</td>
-                    <td><span class="badge ${user.role === 'admin' ? 'bg-primary' : 'bg-secondary'}">${user.role}</span></td>
-                    <td><span class="badge bg-success">${user.status}</span></td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-primary edit-user" data-id="${user.id}"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-outline-danger delete-user" data-id="${user.id}"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            // Add event listeners to edit and delete buttons
-            document.querySelectorAll('.edit-user').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = parseInt(this.getAttribute('data-id'));
-                    editUser(userId);
-                });
-            });
-            
-            document.querySelectorAll('.delete-user').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = parseInt(this.getAttribute('data-id'));
-                    deleteUser(userId);
-                });
-            });
+            const today = new Date();
+            document.getElementById('mailDate').valueAsDate = today;
+            document.getElementById('mailActionDate').valueAsDate = today;
         }
         
-        // Save user (create or update)
-        function saveUser() {
-            const userName = document.getElementById('userName').value;
-            const userEmail = document.getElementById('userEmail').value;
-            const userPassword = document.getElementById('userPassword').value;
-            const userRole = document.getElementById('userRole').value;
+        // Change password
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             
-            // Validate required fields
-            if (!userName || !userEmail || !userPassword || !userRole) {
-                showToast('Harap isi semua field yang wajib diisi', 'error');
+            // Validate
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('Harap isi semua field password', 'danger');
                 return;
             }
             
-            // Get existing data
-            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
-            
-            // Check if email already exists
-            const existingUser = userData.find(user => user.email === userEmail);
-            if (existingUser) {
-                showToast('Email sudah terdaftar', 'error');
+            if (newPassword !== confirmPassword) {
+                showNotification('Password baru dan konfirmasi password tidak cocok', 'danger');
                 return;
             }
             
-            // Create new user
-            const newUser = {
-                id: userData.length > 0 ? Math.max(...userData.map(user => user.id)) + 1 : 1,
-                name: userName,
-                email: userEmail,
-                password: userPassword,
-                role: userRole,
-                status: 'active',
-                createdAt: new Date().toISOString()
-            };
-            
-            userData.push(newUser);
-            localStorage.setItem('userData', JSON.stringify(userData));
-            showToast('Pengguna berhasil ditambahkan', 'success');
+            // In a real application, you would verify the current password and update it
+            // For this demo, we'll just show a success message
+            showNotification('Password berhasil diubah', 'success');
             
             // Reset form
-            document.getElementById('userForm').reset();
-            
-            // Reload user data
-            loadUserData();
-        }
-        
-        // Edit user
-        function editUser(id) {
-            // Implementation for editing user
-            alert('Fitur edit pengguna akan segera hadir!');
-        }
-        
-        // Delete user
-        function deleteUser(id) {
-            if (id === 1) {
-                showToast('Tidak dapat menghapus administrator utama', 'error');
-                return;
-            }
-            
-            if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
-                let userData = JSON.parse(localStorage.getItem('userData') || '[]');
-                userData = userData.filter(user => user.id !== id);
-                localStorage.setItem('userData', JSON.stringify(userData));
-                
-                showToast('Pengguna berhasil dihapus', 'success');
-                loadUserData();
-            }
-        }
-        
-        // Perform search
-        function performSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const typeFilter = document.getElementById('searchType').value;
-            const categoryFilter = document.getElementById('searchCategory').value;
-            const dateFrom = document.getElementById('searchDateFrom').value;
-            const dateTo = document.getElementById('searchDateTo').value;
-            
-            if (!query && !typeFilter && !categoryFilter && !dateFrom && !dateTo) {
-                showToast('Masukkan kata kunci pencarian atau gunakan filter', 'info');
-                return;
-            }
-            
-            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
-            let results = mailData;
-            
-            // Apply text search
-            if (query) {
-                results = results.filter(mail => 
-                    mail.number.toLowerCase().includes(query) ||
-                    mail.subject.toLowerCase().includes(query) ||
-                    mail.party.toLowerCase().includes(query) ||
-                    mail.description.toLowerCase().includes(query)
-                );
-            }
-            
-            // Apply type filter
-            if (typeFilter) {
-                results = results.filter(mail => mail.type === typeFilter);
-            }
-            
-            // Apply category filter
-            if (categoryFilter) {
-                results = results.filter(mail => mail.category === categoryFilter);
-            }
-            
-            // Apply date range filter
-            if (dateFrom) {
-                results = results.filter(mail => mail.date >= dateFrom);
-            }
-            
-            if (dateTo) {
-                results = results.filter(mail => mail.date <= dateTo);
-            }
-            
-            // Display results
-            const resultsContainer = document.getElementById('searchResults');
-            resultsContainer.innerHTML = '';
-            
-            if (results.length === 0) {
-                resultsContainer.innerHTML = '<tr><td colspan="7" class="text-center">Tidak ada hasil pencarian</td></tr>';
-            } else {
-                results.forEach((mail, index) => {
-                    const mailDate = new Date(mail.date);
-                    const formattedDate = mailDate.toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td><span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'}">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span></td>
-                        <td>${mail.number}</td>
-                        <td>${formattedDate}</td>
-                        <td>${mail.subject}</td>
-                        <td><span class="badge ${mail.category === 'penting' ? 'badge-important' : 'badge-normal'}">${mail.category}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary view-mail" data-id="${mail.id}"><i class="fas fa-eye"></i></button>
-                        </td>
-                    `;
-                    
-                    resultsContainer.appendChild(row);
-                });
-                
-                // Add event listeners to view buttons
-                document.querySelectorAll('.view-mail').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const mailId = parseInt(this.getAttribute('data-id'));
-                        viewMail(mailId);
-                    });
-                });
-            }
-            
-            // Show results card
-            document.getElementById('searchResultsCard').classList.remove('d-none');
-        }
-        
-        // View mail details
-        function viewMail(id) {
-            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
-            const mail = mailData.find(mail => mail.id === id);
-            
-            if (mail) {
-                // Format dates for display
-                const mailDate = new Date(mail.date);
-                const actionDate = new Date(mail.actionDate);
-                
-                const formattedMailDate = mailDate.toLocaleDateString('id-ID', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                });
-                
-                const formattedActionDate = actionDate.toLocaleDateString('id-ID', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric'
-                });
-                
-                // Create modal content
-                const modalContent = `
-                    <div class="modal fade" id="mailDetailModal" tabindex="-1" aria-labelledby="mailDetailModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="mailDetailModalLabel">Detail Surat</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <strong>Jenis Surat:</strong>
-                                            <span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'} ms-2">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>Nomor Surat:</strong> ${mail.number}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <strong>Tanggal Surat:</strong> ${formattedMailDate}
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>Tanggal ${mail.type === 'masuk' ? 'Diterima' : 'Dikirim'}:</strong> ${formattedActionDate}
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <strong>${mail.type === 'masuk' ? 'Pengirim' : 'Penerima'}:</strong> ${mail.party}
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>Kategori:</strong> <span class="badge ${mail.category === 'penting' ? 'badge-important' : 'badge-normal'}">${mail.category}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <strong>Perihal:</strong>
-                                        <p>${mail.subject}</p>
-                                    </div>
-                                    
-                                    ${mail.description ? `
-                                    <div class="mb-3">
-                                        <strong>Keterangan:</strong>
-                                        <p>${mail.description}</p>
-                                    </div>
-                                    ` : ''}
-                                    
-                                    ${mail.link ? `
-                                    <div class="mb-3">
-                                        <strong>Tautan Dokumen:</strong>
-                                        <p><a href="${mail.link}" target="_blank" class="drive-link"><i class="fas fa-external-link-alt"></i>${mail.link}</a></p>
-                                    </div>
-                                    ` : ''}
-                                    
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <strong>Status:</strong> 
-                                            ${mail.status === 'pending' ? '<span class="badge bg-warning">Menunggu</span>' : ''}
-                                            ${mail.status === 'processed' ? '<span class="badge bg-info">Diproses</span>' : ''}
-                                            ${mail.status === 'completed' ? '<span class="badge bg-success">Selesai</span>' : ''}
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>Dibuat pada:</strong> ${new Date(mail.createdAt).toLocaleDateString('id-ID')}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                // Add modal to document
-                document.body.insertAdjacentHTML('beforeend', modalContent);
-                
-                // Show modal
-                const modal = new bootstrap.Modal(document.getElementById('mailDetailModal'));
-                modal.show();
-                
-                // Remove modal from DOM after hiding
-                document.getElementById('mailDetailModal').addEventListener('hidden.bs.modal', function() {
-                    this.remove();
-                });
-            }
-        }
-        
-        // Generate calendar
-        function generateCalendar() {
-            // Implementation for calendar generation
-            document.getElementById('calendarView').innerHTML = `
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle me-2"></i>Fitur kalender akan segera hadir dalam pembaruan berikutnya.
-                </div>
-            `;
-        }
-        
-        // Use template
-        function useTemplate(templateType) {
-            const templateLinks = {
-                'tugas': 'https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing',
-                'pernyataan': 'https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link',
-                'kuasa': 'https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link',
-                'undangan': 'https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link',
-                'keterangan': 'https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link',
-                'pengantar': 'https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link'
-            };
-            
-            window.open(templateLinks[templateType], '_blank');
-            showToast(`Membuka template ${templateType}`, 'info');
+            document.getElementById('passwordForm').reset();
         }
         
         // Backup data
         function backupData() {
-            const mailData = localStorage.getItem('mailData');
-            const userData = localStorage.getItem('userData');
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
             
-            const backupData = {
-                mailData: mailData ? JSON.parse(mailData) : [],
-                userData: userData ? JSON.parse(userData) : [],
-                backupDate: new Date().toISOString()
-            };
+            if (mailData.length === 0) {
+                showNotification('Tidak ada data untuk di-backup', 'warning');
+                return;
+            }
             
-            const dataStr = JSON.stringify(backupData);
+            const dataStr = JSON.stringify(mailData, null, 2);
             const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
             
-            const exportFileDefaultName = `backup-surat-${new Date().toISOString().split('T')[0]}.json`;
+            const exportFileDefaultName = `backup-surat-${new Date().toISOString().slice(0,10)}.json`;
             
             const linkElement = document.createElement('a');
             linkElement.setAttribute('href', dataUri);
             linkElement.setAttribute('download', exportFileDefaultName);
             linkElement.click();
             
-            showToast('Backup data berhasil', 'success');
+            showNotification('Backup data berhasil', 'success');
         }
         
         // Restore data
         function restoreData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
+            const fileInput = document.getElementById('restoreFile');
+            const file = fileInput.files[0];
             
-            input.onchange = e => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    try {
-                        const backupData = JSON.parse(event.target.result);
-                        
-                        if (backupData.mailData && backupData.userData) {
-                            localStorage.setItem('mailData', JSON.stringify(backupData.mailData));
-                            localStorage.setItem('userData', JSON.stringify(backupData.userData));
-                            
-                            showToast('Data berhasil dipulihkan', 'success');
-                            
-                            // Reload data
-                            loadMailData();
-                            loadUserData();
-                            updateDashboard();
-                        } else {
-                            showToast('File backup tidak valid', 'error');
-                        }
-                    } catch (error) {
-                        showToast('Gagal memulihkan data: ' + error.message, 'error');
+            if (!file) {
+                showNotification('Pilih file backup terlebih dahulu', 'warning');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const mailData = JSON.parse(e.target.result);
+                    
+                    if (Array.isArray(mailData)) {
+                        localStorage.setItem('mailData', JSON.stringify(mailData));
+                        showNotification('Data berhasil dipulihkan', 'success');
+                        loadMailData();
+                    } else {
+                        showNotification('Format file backup tidak valid', 'danger');
                     }
-                };
-                
-                reader.readAsText(file);
+                } catch (error) {
+                    showNotification('Gagal memproses file backup', 'danger');
+                    console.error(error);
+                }
             };
-            
-            input.click();
+            reader.readAsText(file);
         }
         
         // Reset data
         function resetData() {
-            if (confirm('Apakah Anda yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan.')) {
+            if (confirm('Apakah Anda yakin ingin menghapus semua data? Tindakan ini tidak dapat dibatalkan.')) {
                 localStorage.removeItem('mailData');
-                localStorage.removeItem('userData');
-                
-                // Reinitialize with sample data
-                initializeData();
-                
-                showToast('Semua data telah direset', 'success');
-                
-                // Reload data
+                showNotification('Semua data telah dihapus', 'success');
                 loadMailData();
-                loadUserData();
-                updateDashboard();
             }
         }
         
-        // Show password modal
-        function showPasswordModal(action) {
-            document.getElementById('passwordModal').setAttribute('data-action', action);
-            const modal = new bootstrap.Modal(document.getElementById('passwordModal'));
-            modal.show();
+        // Export to Excel
+        function exportToExcel() {
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            
+            if (mailData.length === 0) {
+                showNotification('Tidak ada data untuk diexport', 'warning');
+                return;
+            }
+            
+            // Prepare data for Excel
+            const data = mailData.map(mail => ({
+                'Jenis Surat': mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar',
+                'Nomor Surat': mail.number,
+                'Tanggal Surat': new Date(mail.date).toLocaleDateString('id-ID'),
+                'Tanggal Diterima/Dikirim': new Date(mail.actionDate).toLocaleDateString('id-ID'),
+                'Pengirim/Penerima': mail.party,
+                'Kategori': mail.category,
+                'Perihal': mail.subject,
+                'Keterangan': mail.notes || '',
+                'Link': mail.link || ''
+            }));
+            
+            // Create worksheet
+            const worksheet = XLSX.utils.json_to_sheet(data);
+            
+            // Create workbook
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data Surat');
+            
+            // Generate Excel file
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            
+            // Download file
+            const fileName = `data-surat-${new Date().toISOString().slice(0,10)}.xlsx`;
+            saveAs(blob, fileName);
+            
+            showNotification('Data berhasil diexport ke Excel', 'success');
         }
         
-        // Update dashboard
-        function updateDashboard() {
-            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+        // Export to PDF
+        function exportToPDF() {
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
             
-            // Count incoming and outgoing mails
-            const incomingMails = mailData.filter(mail => mail.type === 'masuk').length;
-            const outgoingMails = mailData.filter(mail => mail.type === 'keluar').length;
+            if (mailData.length === 0) {
+                showNotification('Tidak ada data untuk diexport', 'warning');
+                return;
+            }
             
-            // Count by status
-            const pendingMails = mailData.filter(mail => mail.status === 'pending').length;
-            const processedMails = mailData.filter(mail => mail.status === 'processed').length;
-            const completedMails = mailData.filter(mail => mail.status === 'completed').length;
+            // Create PDF document
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
             
-            // Update dashboard numbers
-            document.getElementById('totalIncoming').textContent = incomingMails;
-            document.getElementById('totalOutgoing').textContent = outgoingMails;
-            document.getElementById('totalPending').textContent = pendingMails;
-            document.getElementById('totalProcessed').textContent = processedMails + completedMails;
+            // Add title
+            doc.setFontSize(18);
+            doc.text('DATA SURAT', 105, 15, { align: 'center' });
+            doc.setFontSize(12);
+            doc.text(`Dinas Peternakan dan Perikanan Kabupaten Situbondo`, 105, 22, { align: 'center' });
+            doc.text(`Tanggal Export: ${new Date().toLocaleDateString('id-ID')}`, 105, 29, { align: 'center' });
             
-            // Update recent activities
-            const recentActivities = document.getElementById('recentActivities');
-            recentActivities.innerHTML = '';
+            // Prepare table data
+            const tableData = mailData.map(mail => [
+                mail.type === 'masuk' ? 'Masuk' : 'Keluar',
+                mail.number,
+                new Date(mail.date).toLocaleDateString('id-ID'),
+                mail.subject,
+                mail.party,
+                mail.category
+            ]);
             
-            // Get recent mails (last 5)
-            const recentMails = [...mailData]
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                .slice(0, 5);
+            // Create table
+            doc.autoTable({
+                head: [['Jenis', 'Nomor', 'Tanggal', 'Perihal', 'Pengirim/Penerima', 'Kategori']],
+                body: tableData,
+                startY: 35,
+                theme: 'grid',
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [13, 71, 161] }
+            });
             
-            if (recentMails.length === 0) {
-                recentActivities.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td></tr>';
-            } else {
-                recentMails.forEach(mail => {
-                    const mailDate = new Date(mail.date);
-                    const formattedDate = mailDate.toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${formattedDate}</td>
-                        <td><span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'}">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span></td>
-                        <td>${mail.number}</td>
-                        <td>${mail.subject}</td>
-                        <td>
-                            ${mail.status === 'pending' ? '<span class="badge bg-warning">Menunggu</span>' : ''}
-                            ${mail.status === 'processed' ? '<span class="badge bg-info">Diproses</span>' : ''}
-                            ${mail.status === 'completed' ? '<span class="badge bg-success">Selesai</span>' : ''}
-                        </td>
-                    `;
-                    
-                    recentActivities.appendChild(row);
+            // Save PDF
+            doc.save(`data-surat-${new Date().toISOString().slice(0,10)}.pdf`);
+            
+            showNotification('Data berhasil diexport ke PDF', 'success');
+        }
+        
+        // Perform search
+        function performSearch() {
+            const keyword = document.getElementById('searchKeyword').value.toLowerCase();
+            const type = document.getElementById('searchType').value;
+            const category = document.getElementById('searchCategory').value;
+            const startDate = document.getElementById('searchStartDate').value;
+            const endDate = document.getElementById('searchEndDate').value;
+            const status = document.getElementById('searchStatus').value;
+            
+            let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            
+            // Apply filters
+            if (keyword) {
+                mailData = mailData.filter(mail => 
+                    mail.number.toLowerCase().includes(keyword) ||
+                    mail.subject.toLowerCase().includes(keyword) ||
+                    mail.party.toLowerCase().includes(keyword) ||
+                    (mail.notes && mail.notes.toLowerCase().includes(keyword))
+                );
+            }
+            
+            if (type) {
+                mailData = mailData.filter(mail => mail.type === type);
+            }
+            
+            if (category) {
+                mailData = mailData.filter(mail => mail.category === category);
+            }
+            
+            if (startDate) {
+                mailData = mailData.filter(mail => new Date(mail.date) >= new Date(startDate));
+            }
+            
+            if (endDate) {
+                mailData = mailData.filter(mail => new Date(mail.date) <= new Date(endDate));
+            }
+            
+            if (status) {
+                mailData = mailData.filter(mail => mail.status === status);
+            }
+            
+            // Render results
+            renderSearchResults(mailData);
+        }
+        
+        // Render search results
+        function renderSearchResults(mailData) {
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = '';
+            
+            if (mailData.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="9" class="text-center">Tidak ada hasil ditemukan</td>`;
+                resultsContainer.appendChild(row);
+                document.getElementById('searchInfo').textContent = 'Menampilkan 0 hasil';
+                document.getElementById('searchPagination').innerHTML = '';
+                return;
+            }
+            
+            mailData.forEach((mail, index) => {
+                const row = document.createElement('tr');
+                
+                const date = new Date(mail.date).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
                 });
-            }
+                
+                const typeBadge = mail.type === 'masuk' ? 
+                    '<span class="badge bg-primary">Masuk</span>' : 
+                    '<span class="badge bg-success">Keluar</span>';
+                
+                const statusBadge = mail.status === 'pending' ? 
+                    '<span class="badge bg-warning">Menunggu</span>' : 
+                    mail.status === 'processed' ? 
+                    '<span class="badge bg-info">Diproses</span>' : 
+                    '<span class="badge bg-success">Selesai</span>';
+                
+                row.innerHTML = `
+                    <td class="text-center">${index + 1}</td>
+                    <td class="text-center">${typeBadge}</td>
+                    <td>${mail.number}</td>
+                    <td>${date}</td>
+                    <td>${mail.subject}</td>
+                    <td>${mail.party}</td>
+                    <td>${mail.category}</td>
+                    <td class="text-center">${statusBadge}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-primary view-btn" data-id="${mail.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                
+                resultsContainer.appendChild(row);
+            });
             
-            // Update charts
-            updateCharts();
+            document.getElementById('searchInfo').textContent = `Menampilkan ${mailData.length} hasil`;
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewMailDetails(id);
+                });
+            });
+        }
+        
+        // View mail details
+        function viewMailDetails(id) {
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            const mail = mailData.find(m => m.id === id);
+            
+            if (mail) {
+                // In a real application, you would show a modal with details
+                // For this demo, we'll just show an alert with basic info
+                alert(`Detail Surat:\nNomor: ${mail.number}\nPerihal: ${mail.subject}\nPengirim/Penerima: ${mail.party}\nTanggal: ${new Date(mail.date).toLocaleDateString('id-ID')}`);
+            }
         }
         
         // Initialize charts
         function initCharts() {
-            // Mail trend chart
-            const mailCtx = document.getElementById('mailChart').getContext('2d');
-            window.mailChart = new Chart(mailCtx, {
-                type: 'line',
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            
+            // Monthly chart data
+            const monthlyData = {
+                incoming: Array(12).fill(0),
+                outgoing: Array(12).fill(0)
+            };
+            
+            mailData.forEach(mail => {
+                const date = new Date(mail.date);
+                const month = date.getMonth();
+                
+                if (mail.type === 'masuk') {
+                    monthlyData.incoming[month]++;
+                } else {
+                    monthlyData.outgoing[month]++;
+                }
+            });
+            
+            // Render monthly chart
+            const mailChart = new Chart(document.getElementById('mailChart'), {
+                type: 'bar',
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
                     datasets: [
                         {
                             label: 'Surat Masuk',
-                            data: [12, 19, 8, 15, 17, 12, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#0d47a1',
-                            backgroundColor: 'rgba(13, 71, 161, 0.1)',
-                            tension: 0.3,
-                            fill: true
+                            data: monthlyData.incoming,
+                            backgroundColor: 'rgba(13, 71, 161, 0.7)'
                         },
                         {
                             label: 'Surat Keluar',
-                            data: [8, 12, 6, 10, 14, 9, 0, 0, 0, 0, 0, 0],
-                            borderColor: '#00695c',
-                            backgroundColor: 'rgba(0, 105, 92, 0.1)',
-                            tension: 0.3,
-                            fill: true
+                            data: monthlyData.outgoing,
+                            backgroundColor: 'rgba(0, 105, 92, 0.7)'
                         }
                     ]
                 },
@@ -2822,33 +2439,40 @@
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'top',
+                            position: 'top'
                         },
                         title: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                            display: true,
+                            text: 'Statistik Surat Bulanan'
                         }
                     }
                 }
             });
             
-            // Category chart
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            window.categoryChart = new Chart(categoryCtx, {
+            // Category chart data
+            const categoryCount = {
+                resmi: 0,
+                penting: 0,
+                biasa: 0,
+                rahasia: 0
+            };
+            
+            mailData.forEach(mail => {
+                categoryCount[mail.category]++;
+            });
+            
+            // Render category chart
+            const categoryChart = new Chart(document.getElementById('categoryChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Resmi', 'Penting', 'Biasa', 'Rahasia'],
                     datasets: [{
-                        data: [10, 15, 20, 5],
+                        data: [categoryCount.resmi, categoryCount.penting, categoryCount.biasa, categoryCount.rahasia],
                         backgroundColor: [
-                            '#0d47a1',
-                            '#ff8f00',
-                            '#00695c',
-                            '#d32f2f'
+                            'rgba(13, 71, 161, 0.7)',
+                            'rgba(255, 143, 0, 0.7)',
+                            'rgba(0, 105, 92, 0.7)',
+                            'rgba(200, 50, 50, 0.7)'
                         ]
                     }]
                 },
@@ -2856,107 +2480,133 @@
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'bottom',
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribusi Kategori Surat'
                         }
                     }
                 }
             });
         }
         
-        // Update charts with real data
-        function updateCharts() {
-            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
-            
-            // Count mails by month (for the current year)
-            const currentYear = new Date().getFullYear();
-            const monthlyCounts = Array(12).fill(0).map(() => ({ incoming: 0, outgoing: 0 }));
-            
-            mailData.forEach(mail => {
-                const mailDate = new Date(mail.date);
-                if (mailDate.getFullYear() === currentYear) {
-                    const month = mailDate.getMonth();
-                    if (mail.type === 'masuk') {
-                        monthlyCounts[month].incoming++;
-                    } else {
-                        monthlyCounts[month].outgoing++;
-                    }
-                }
-            });
-            
-            // Update mail trend chart
-            window.mailChart.data.datasets[0].data = monthlyCounts.map(count => count.incoming);
-            window.mailChart.data.datasets[1].data = monthlyCounts.map(count => count.outgoing);
-            window.mailChart.update();
-            
-            // Count mails by category
-            const categoryCounts = {
-                'resmi': 0,
-                'penting': 0,
-                'biasa': 0,
-                'rahasia': 0
-            };
-            
-            mailData.forEach(mail => {
-                categoryCounts[mail.category]++;
-            });
-            
-            // Update category chart
-            window.categoryChart.data.datasets[0].data = [
-                categoryCounts['resmi'],
-                categoryCounts['penting'],
-                categoryCounts['biasa'],
-                categoryCounts['rahasia']
-            ];
-            window.categoryChart.update();
-        }
+        // Calendar variables
+        let currentMonth, currentYear;
         
-        // Update settings information
-        function updateSettingsInfo() {
-            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
-            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+        // Render calendar
+        function renderCalendar(month, year) {
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
             
-            document.getElementById('totalMailsSetting').textContent = mailData.length;
-            document.getElementById('totalUsersSetting').textContent = userData.length;
+            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
             
-            // Calculate storage size (approximate)
-            const mailDataSize = JSON.stringify(mailData).length;
-            const userDataSize = JSON.stringify(userData).length;
-            const totalSize = mailDataSize + userDataSize;
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
             
-            document.getElementById('storageSize').textContent = `${Math.round(totalSize / 1024)} KB`;
-        }
-        
-        // Show toast notification
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('successToast');
-            const toastMessage = document.getElementById('toastMessage');
-            
-            // Set message and style based on type
-            toastMessage.textContent = message;
-            
-            if (type === 'error') {
-                toast.classList.remove('bg-success');
-                toast.classList.add('bg-danger');
-            } else if (type === 'info') {
-                toast.classList.remove('bg-success');
-                toast.classList.add('bg-info');
-            } else {
-                toast.classList.remove('bg-danger', 'bg-info');
-                toast.classList.add('bg-success');
+            // Create day headers
+            const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            for (let i = 0; i < 7; i++) {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = dayNames[i];
+                calendarGrid.appendChild(dayHeader);
             }
             
-            // Show toast
-            const bsToast = new bootstrap.Toast(toast);
-            bsToast.show();
+            // Add empty cells for days before the first day
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Get mail data for the month
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            const monthMail = mailData.filter(mail => {
+                const mailDate = new Date(mail.date);
+                return mailDate.getMonth() === month && mailDate.getFullYear() === year;
+            });
+            
+            // Add days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                dayElement.appendChild(dayHeader);
+                
+                // Check if there are events on this day
+                const dayMail = monthMail.filter(mail => {
+                    const mailDate = new Date(mail.date);
+                    return mailDate.getDate() === day;
+                });
+                
+                if (dayMail.length > 0) {
+                    dayElement.classList.add('has-events');
+                    
+                    // Show up to 2 events
+                    dayMail.slice(0, 2).forEach(mail => {
+                        const eventElement = document.createElement('div');
+                        eventElement.className = 'calendar-event';
+                        eventElement.textContent = mail.type === 'masuk' ? `📥 ${mail.number}` : `📤 ${mail.number}`;
+                        eventElement.title = mail.subject;
+                        dayElement.appendChild(eventElement);
+                    });
+                    
+                    // Show more indicator if there are more events
+                    if (dayMail.length > 2) {
+                        const moreElement = document.createElement('div');
+                        moreElement.className = 'calendar-event';
+                        moreElement.textContent = `+${dayMail.length - 2} lebih`;
+                        dayElement.appendChild(moreElement);
+                    }
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
         }
         
-        // Copy to clipboard
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Tautan berhasil disalin', 'success');
-            }).catch(err => {
-                showToast('Gagal menyalin tautan', 'error');
-            });
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show notification-toast`;
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // Generate unique ID
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+        
+        // SaveAs polyfill for older browsers
+        function saveAs(blob, fileName) {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
         }
     </script>
 </body>
