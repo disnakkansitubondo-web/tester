@@ -6,11 +6,6 @@
     <title>SISTEM MANAJEMEN SURAT - Dinas Peternakan dan Perikanan Situbondo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         :root {
             --primary-color: #0d47a1;
@@ -28,17 +23,18 @@
             --transition: all 0.3s ease;
         }
         
-        /* Main App Styles */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         .app-container {
             max-width: 1800px;
-            margin: 0 auto;
+            margin: 20px auto;
             background: white;
             box-shadow: var(--shadow-lg);
             border-radius: var(--border-radius);
             overflow: hidden;
-            position: relative;
-            z-index: 10;
-            transition: var(--transition);
         }
         
         .app-header {
@@ -47,18 +43,17 @@
             padding: 20px 15px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
         
-        .app-header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-            pointer-events: none;
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .app-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
         }
         
         .nav-pills .nav-link {
@@ -70,8 +65,6 @@
             transition: var(--transition);
             display: flex;
             align-items: center;
-            font-size: 0.9rem;
-            background: #f8f9fa;
         }
         
         .nav-pills .nav-link:hover {
@@ -94,140 +87,34 @@
             font-weight: 700;
             color: var(--dark-blue);
             font-size: 1.4rem;
-            position: relative;
         }
         
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            left: 12px;
-            width: 40px;
-            height: 2px;
-            background: var(--gradient-primary);
-            border-radius: 2px;
-        }
-        
-        .btn-success {
-            background: var(--gradient-secondary);
-            border: none;
-            padding: 10px 20px;
-            font-weight: 600;
+        .stats-box {
+            text-align: center;
+            padding: 20px 15px;
+            border-radius: 10px;
+            background: white;
             box-shadow: var(--shadow-md);
-            border-radius: 8px;
             transition: var(--transition);
-            font-size: 0.9rem;
+            margin-bottom: 15px;
         }
         
-        .btn-success:hover {
-            transform: translateY(-2px);
+        .stats-box:hover {
+            transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
         }
         
-        .btn-warning {
-            background: var(--gradient-accent);
-            border: none;
-            padding: 10px 20px;
-            font-weight: 600;
-            box-shadow: var(--shadow-md);
-            border-radius: 8px;
-            transition: var(--transition);
-            font-size: 0.9rem;
-        }
-        
-        .btn-warning:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .form-label i {
-            margin-right: 6px;
+        .stats-number {
+            font-size: 1.8rem;
+            font-weight: 800;
             color: var(--primary-color);
+            margin: 10px 0;
         }
         
-        .form-control, .form-select {
-            border-radius: 8px;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
+        .stats-label {
             font-size: 0.9rem;
-            background: white;
-            color: #333;
-        }
-        
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
-            transform: translateY(-2px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding: 20px;
-            background-color: var(--light-blue);
-            color: var(--dark-blue);
-            font-size: 0.9rem;
+            color: #666;
             font-weight: 500;
-        }
-        
-        .data-table {
-            font-size: 0.85rem;
-            border-collapse: separate;
-            border-spacing: 0;
-            box-shadow: var(--shadow-sm);
-            border-radius: 8px;
-            overflow: hidden;
-            background: white;
-        }
-        
-        .data-table th {
-            background: var(--gradient-primary);
-            color: white;
-            font-weight: 600;
-            padding: 12px 10px;
-            text-align: center;
-            position: relative;
-            font-size: 0.85rem;
-        }
-        
-        .data-table th::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: rgba(255,255,255,0.3);
-        }
-        
-        .data-table td {
-            padding: 10px 8px;
-            vertical-align: middle;
-            border-bottom: 1px solid #eee;
-            font-size: 0.85rem;
-            color: #444;
-        }
-        
-        .data-table tr:nth-child(even) {
-            background-color: #f9fbff;
-        }
-        
-        .data-table tr:hover {
-            background-color: #edf5ff;
-        }
-        
-        .feature-icon {
-            font-size: 1.1rem;
-            margin-right: 8px;
-            width: 24px;
-            text-align: center;
-        }
-        
-        .password-modal .modal-content {
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            border: none;
         }
         
         .card {
@@ -235,9 +122,7 @@
             border: none;
             box-shadow: var(--shadow-md);
             transition: var(--transition);
-            overflow: hidden;
-            margin-bottom: 15px;
-            background: white;
+            margin-bottom: 20px;
         }
         
         .card:hover {
@@ -251,222 +136,86 @@
             padding: 15px 20px;
             background: var(--gradient-primary);
             color: white;
-            font-size: 0.95rem;
         }
         
-        .stats-box {
-            text-align: center;
-            padding: 20px 15px;
-            border-radius: 10px;
-            background: white;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-        
-        .stats-box::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gradient-primary);
-        }
-        
-        .stats-box:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .stats-number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            margin: 10px 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .stats-label {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: 500;
-        }
-        
-        .notification-toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1050;
-            min-width: 280px;
+        .form-control, .form-select {
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            max-width: calc(100vw - 40px);
-        }
-        
-        .input-error {
-            border-color: #dc3545;
-            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
-        }
-        
-        .watermark {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            opacity: 0.8;
-            font-size: 0.8rem;
-            color: white;
-            font-weight: 300;
-        }
-        
-        .control-panel {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .control-title {
-            font-size: 1rem;
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--light-blue);
-        }
-        
-        .floating-action-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-lg);
-            z-index: 1000;
-            cursor: pointer;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
             transition: var(--transition);
         }
         
-        .floating-action-btn:hover {
-            transform: scale(1.1) rotate(90deg);
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
         }
         
-        .filter-section {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .badge-custom {
+        .btn-primary {
             background: var(--gradient-primary);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 1050;
-            background: var(--gradient-primary);
-            color: white;
             border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1040;
-        }
-        
-        /* Advanced Search Panel */
-        .advanced-search-panel {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-sm);
-            display: none;
-        }
-        
-        /* Calendar View */
-        .calendar-view {
-            display: none;
-            margin-top: 20px;
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-        
-        .calendar-day {
-            background: white;
-            border-radius: 8px;
-            padding: 10px;
-            min-height: 100px;
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .calendar-day:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .calendar-day.has-events {
-            background: #e3f2fd;
-        }
-        
-        .calendar-day-header {
+            padding: 10px 20px;
             font-weight: 600;
-            margin-bottom: 5px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
-            text-align: center;
+            border-radius: 8px;
         }
         
-        .calendar-event {
-            font-size: 0.75rem;
-            padding: 3px 5px;
-            margin-top: 5px;
-            border-radius: 4px;
-            background: var(--light-blue);
+        .btn-success {
+            background: var(--gradient-secondary);
+            border: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
+            border-radius: 8px;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
         }
         
-        /* Template Styles */
+        .data-table th {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9fbff;
+        }
+        
+        .data-table tr:hover {
+            background-color: #edf5ff;
+        }
+        
+        .badge {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        
+        .badge-primary {
+            background: var(--gradient-primary);
+        }
+        
+        .badge-success {
+            background: var(--gradient-secondary);
+        }
+        
+        .badge-warning {
+            background: var(--gradient-accent);
+        }
+        
         .template-item {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -482,279 +231,57 @@
             transform: translateY(-2px);
         }
         
-        /* User Management */
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1rem;
-        }
-        
-        /* Dashboard Widgets */
-        .dashboard-widget {
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
             background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
-            transition: var(--transition);
-            height: 100%;
-        }
-        
-        .dashboard-widget:hover {
-            transform: translateY(-5px);
             box-shadow: var(--shadow-lg);
-        }
-        
-        .widget-header {
+            z-index: 1000;
             display: flex;
-            justify-content: between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
         }
         
-        .widget-title {
-            font-weight: 600;
-            color: var(--primary-color);
-            margin: 0;
+        .notification.show {
+            transform: translateX(0);
         }
         
-        .widget-actions {
-            display: flex;
-            gap: 5px;
+        .notification.success {
+            border-left: 4px solid #28a745;
         }
         
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .notification.error {
+            border-left: 4px solid #dc3545;
         }
         
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 8px;
+        .notification.info {
+            border-left: 4px solid #17a2b8;
         }
         
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 8px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--dark-blue);
-        }
-        
-        /* Welcome notification styles */
-        .welcome-notification {
+        .floating-action-btn {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: linear-gradient(135deg, #0d47a1 0%, #082e5c 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
-            z-index: 2000;
-            text-align: center;
-            width: 90%;
-            max-width: 650px;
-            opacity: 0;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            overflow: hidden;
-        }
-        
-        .welcome-notification.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        
-        .welcome-notification h3 {
-            margin-bottom: 20px;
-            font-weight: 700;
-            font-size: 2.2rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-            color: white;
-        }
-        
-        .welcome-notification p {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            opacity: 0.9;
-            position: relative;
-            z-index: 2;
-            color: white;
-        }
-        
-        .welcome-notification .icon {
-            font-size: 4rem;
-            margin-bottom: 25px;
-            color: #ff8f00;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-            animation: pulse 2s infinite;
-        }
-        
-        .welcome-notification .btn-close-welcome {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
             cursor: pointer;
-            transition: all 0.3s;
-            z-index: 3;
+            transition: var(--transition);
         }
         
-        .welcome-notification .btn-close-welcome:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
-        }
-        
-        .welcome-notification .highlight {
-            color: #ff8f00;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-        
-        .welcome-notification .particles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes rotateGradient {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Particle Background */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-        
-        /* Status badges */
-        .badge-status {
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.75rem;
-        }
-        
-        .badge-important {
-            background: var(--gradient-accent);
-            color: white;
-        }
-        
-        .badge-normal {
-            background: #e9ecef;
-            color: #495057;
-        }
-        
-        .badge-incoming {
-            background: var(--gradient-primary);
-            color: white;
-        }
-        
-        .badge-outgoing {
-            background: var(--gradient-secondary);
-            color: white;
-        }
-        
-        /* Link section */
-        .link-section {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .link-section-title {
-            font-size: 1.1rem;
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .link-input-group {
-            margin-bottom: 10px;
-        }
-        
-        /* Link styles in table */
-        .drive-link {
-            color: #0d47a1;
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.2s;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        .drive-link:hover {
-            color: #ff8f00;
-            text-decoration: underline;
-        }
-        
-        .drive-link i {
-            margin-right: 4px;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive styles */
-        @media (max-width: 1200px) {
-            .app-title {
-                font-size: 1.6rem;
-            }
-            
-            .app-logo {
-                font-size: 2.2rem;
-            }
-            
-            .stats-number {
-                font-size: 1.6rem;
-            }
+        .floating-action-btn:hover {
+            transform: scale(1.1);
         }
         
         @media (max-width: 992px) {
@@ -762,46 +289,12 @@
                 font-size: 1.4rem;
             }
             
-            .app-logo {
-                font-size: 2rem;
+            .app-subtitle {
+                font-size: 0.9rem;
             }
             
             .stats-number {
                 font-size: 1.4rem;
-            }
-            
-            .section-title {
-                font-size: 1.2rem;
-            }
-            
-            .col-md-3.col-lg-2.p-4.bg-light {
-                position: fixed;
-                top: 0;
-                left: -300px;
-                width: 280px;
-                height: 100vh;
-                z-index: 1050;
-                overflow-y: auto;
-                transition: left 0.3s ease;
-                padding: 20px 15px !important;
-            }
-            
-            .sidebar-open .col-md-3.col-lg-2.p-4.bg-light {
-                left: 0;
-            }
-            
-            .mobile-menu-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .sidebar-overlay.active {
-                display: block;
-            }
-            
-            .col-md-9.col-lg-10.p-5 {
-                padding: 15px !important;
             }
         }
         
@@ -810,183 +303,53 @@
                 font-size: 1.3rem;
             }
             
-            .app-logo {
-                font-size: 1.8rem;
-            }
-            
             .section-title {
                 font-size: 1.1rem;
             }
             
             .stats-box {
                 padding: 15px;
-                margin-bottom: 15px;
-            }
-            
-            .floating-action-btn {
-                bottom: 15px;
-                right: 15px;
-                width: 45px;
-                height: 45px;
-            }
-            
-            .col-md-9.col-lg-10.p-5 {
-                padding: 10px !important;
-            }
-            
-            .app-header {
-                padding: 15px 10px;
-            }
-            
-            .data-table {
-                font-size: 0.8rem;
-            }
-            
-            .data-table th, .data-table td {
-                padding: 8px 5px;
-            }
-            
-            .btn-group .btn {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-            
-            .welcome-notification {
-                padding: 25px 20px;
-            }
-            
-            .welcome-notification h3 {
-                font-size: 1.8rem;
-            }
-            
-            .welcome-notification p {
-                font-size: 1.1rem;
-            }
-            
-            .welcome-notification .icon {
-                font-size: 3.5rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .app-title {
-                font-size: 1.2rem;
-            }
-            
-            .app-subtitle {
-                font-size: 0.9rem;
-            }
-            
-            .app-logo {
-                font-size: 1.6rem;
-            }
-            
-            .section-title {
-                font-size: 1rem;
-                margin: 15px 0;
-            }
-            
-            .form-control, .form-select, .btn {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-            
-            .stats-number {
-                font-size: 1.3rem;
-            }
-            
-            .stats-label {
-                font-size: 0.8rem;
-            }
-            
-            .welcome-notification {
-                padding: 20px 15px;
-            }
-            
-            .welcome-notification h3 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
-            }
-            
-            .welcome-notification p {
-                font-size: 1rem;
-                margin-bottom: 10px;
-            }
-            
-            .welcome-notification .icon {
-                font-size: 3rem;
-                margin-bottom: 15px;
-            }
-            
-            .welcome-notification .btn-close-welcome {
-                width: 30px;
-                height: 30px;
-                top: 10px;
-                right: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
-
     <!-- Main Application -->
-    <div class="app-container" id="mainApp">
+    <div class="app-container">
         <div class="app-header">
-            <div class="app-logo">
-                <i class="fas fa-mail-bulk"></i>
-            </div>
             <h1 class="app-title">SISTEM MANAJEMEN SURAT</h1>
             <p class="app-subtitle">Dinas Peternakan dan Perikanan Kabupaten Situbondo</p>
-            <div class="watermark">
-                <i class="fas fa-shield-alt me-1"></i> Premium Edition
-            </div>
         </div>
         
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
-            <i class="fas fa-bars"></i>
-        </button>
-        
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        
         <div class="row g-0">
-            <div class="col-md-3 col-lg-2 p-4 bg-light" style="transition: all 0.3s ease;" id="sidebar">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 p-4 bg-light">
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
                         <a href="#" class="nav-link active" data-section="dashboard">
-                            <i class="fas fa-tachometer-alt feature-icon"></i> Dashboard
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-section="input">
-                            <i class="fas fa-plus-circle feature-icon"></i> Input Surat
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="search">
-                            <i class="fas fa-search feature-icon"></i> Pencarian
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="calendar">
-                            <i class="fas fa-calendar-alt feature-icon"></i> Kalender
+                            <i class="fas fa-plus-circle me-2"></i> Input Surat
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-section="templates">
-                            <i class="fas fa-file-alt feature-icon"></i> Template
+                            <i class="fas fa-file-alt me-2"></i> Template
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-section="settings">
-                            <i class="fas fa-cog feature-icon"></i> Pengaturan
+                            <i class="fas fa-cog me-2"></i> Pengaturan
                         </a>
                     </li>
                 </ul>
             </div>
             
-            <div class="col-md-9 col-lg-10 p-5" id="mainContent">
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-5">
                 <!-- Dashboard Section -->
                 <div class="content-section" id="dashboardSection">
                     <h2 class="section-title">Dashboard</h2>
@@ -994,53 +357,30 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-envelope-open text-primary" style="font-size: 2rem;"></i>
+                                <i class="fas fa-envelope-open text-primary mb-2" style="font-size: 2rem;"></i>
                                 <div class="stats-number" id="totalIncoming">0</div>
                                 <div class="stats-label">Total Surat Masuk</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-paper-plane text-success" style="font-size: 2rem;"></i>
+                                <i class="fas fa-paper-plane text-success mb-2" style="font-size: 2rem;"></i>
                                 <div class="stats-number" id="totalOutgoing">0</div>
                                 <div class="stats-label">Total Surat Keluar</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-clock text-warning" style="font-size: 2rem;"></i>
+                                <i class="fas fa-clock text-warning mb-2" style="font-size: 2rem;"></i>
                                 <div class="stats-number" id="totalPending">0</div>
                                 <div class="stats-label">Menunggu Tindakan</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-check-circle text-info" style="font-size: 2rem;"></i>
+                                <i class="fas fa-check-circle text-info mb-2" style="font-size: 2rem;"></i>
                                 <div class="stats-number" id="totalProcessed">0</div>
                                 <div class="stats-label">Telah Diproses</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-4">
-                        <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-line me-2"></i>Statistik Surat Bulanan
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="mailChart" height="250"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-list-alt me-2"></i>Ringkasan Kategori
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="categoryChart" height="250"></canvas>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -1064,7 +404,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="recentActivities">
-                                                <!-- Recent activities will be populated here -->
+                                                <tr>
+                                                    <td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -1087,7 +429,7 @@
                                 <input type="hidden" id="editId" value="">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-mail-bulk"></i>Jenis Surat</label>
+                                        <label class="form-label">Jenis Surat</label>
                                         <select class="form-select" id="mailType" required>
                                             <option value="">Pilih Jenis Surat</option>
                                             <option value="masuk">Surat Masuk</option>
@@ -1095,29 +437,29 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-hashtag"></i>Nomor Surat</label>
+                                        <label class="form-label">Nomor Surat</label>
                                         <input type="text" class="form-control" id="mailNumber" placeholder="Nomor surat" required>
                                     </div>
                                 </div>
                                 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-calendar"></i>Tanggal Surat</label>
+                                        <label class="form-label">Tanggal Surat</label>
                                         <input type="date" class="form-control" id="mailDate" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-calendar-check"></i>Tanggal Diterima/Dikirim</label>
+                                        <label class="form-label">Tanggal Diterima/Dikirim</label>
                                         <input type="date" class="form-control" id="mailActionDate" required>
                                     </div>
                                 </div>
                                 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-user"></i>Pengirim/Penerima</label>
+                                        <label class="form-label">Pengirim/Penerima</label>
                                         <input type="text" class="form-control" id="mailParty" placeholder="Nama pengirim/penerima" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-tag"></i>Kategori</label>
+                                        <label class="form-label">Kategori</label>
                                         <select class="form-select" id="mailCategory" required>
                                             <option value="">Pilih Kategori</option>
                                             <option value="resmi">Resmi</option>
@@ -1129,251 +471,66 @@
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-file-alt"></i>Perihal</label>
+                                    <label class="form-label">Perihal</label>
                                     <textarea class="form-control" id="mailSubject" rows="2" placeholder="Perihal surat" required></textarea>
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-sticky-note"></i>Keterangan</label>
-                                    <textarea class="form-control" id="mailNotes" rows="2" placeholder="Keterangan tambahan"></textarea>
+                                    <label class="form-label">Keterangan</label>
+                                    <textarea class="form-control" id="mailDescription" rows="3" placeholder="Keterangan tambahan"></textarea>
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-link"></i>Link Google Drive</label>
-                                    <input type="url" class="form-control" id="mailLink" placeholder="Link dokumen di Google Drive">
+                                    <label class="form-label">Tautan Dokumen (Google Drive)</label>
+                                    <input type="url" class="form-control" id="mailLink" placeholder="https://drive.google.com/...">
                                 </div>
                                 
                                 <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn btn-secondary me-2" id="resetForm">Reset</button>
+                                    <button type="button" class="btn btn-secondary me-2" id="resetBtn">Batal</button>
                                     <button type="submit" class="btn btn-success">Simpan Surat</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     
-                    <!-- Data Surat Section (moved from sidebar) -->
-                    <div class="mt-4">
-                        <h2 class="section-title">Data Surat</h2>
-                        
-                        <div class="filter-section">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="form-label">Jenis Surat</label>
-                                    <select class="form-select" id="filterType">
-                                        <option value="">Semua Jenis</option>
-                                        <option value="masuk">Surat Masuk</option>
-                                        <option value="keluar">Surat Keluar</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Kategori</label>
-                                    <select class="form-select" id="filterCategory">
-                                        <option value="">Semua Kategori</option>
-                                        <option value="resmi">Resmi</option>
-                                        <option value="penting">Penting</option>
-                                        <option value="biasa">Biasa</option>
-                                        <option value="rahasia">Rahasia</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Bulan</label>
-                                    <select class="form-select" id="filterMonth">
-                                        <option value="">Semua Bulan</option>
-                                        <option value="1">Januari</option>
-                                        <option value="2">Februari</option>
-                                        <option value="3">Maret</option>
-                                        <option value="4">April</option>
-                                        <option value="5">Mei</option>
-                                        <option value="6">Juni</option>
-                                        <option value="7">Juli</option>
-                                        <option value="8">Agustus</option>
-                                        <option value="9">September</option>
-                                        <option value="10">Oktober</option>
-                                        <option value="11">November</option>
-                                        <option value="12">Desember</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Tahun</label>
-                                    <select class="form-select" id="filterYear">
-                                        <option value="">Semua Tahun</option>
-                                        <!-- Options will be populated by JavaScript -->
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="searchInput" placeholder="Cari berdasarkan nomor, perihal, atau pengirim...">
-                                        <button class="btn btn-primary" type="button" id="searchButton">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 text-end">
-                                    <button class="btn btn-outline-secondary" id="exportExcel">
-                                        <i class="fas fa-file-excel"></i> Export Excel
-                                    </button>
-                                    <button class="btn btn-outline-danger" id="exportPDF">
-                                        <i class="fas fa-file-pdf"></i> Export PDF
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered data-table">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Jenis</th>
-                                        <th>Nomor</th>
-                                        <th>Tanggal</th>
-                                        <th>Perihal</th>
-                                        <th>Pengirim/Penerima</th>
-                                        <th>Kategori</th>
-                                        <th>Link</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="mailTableBody">
-                                    <!-- Data will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="form-text" id="tableInfo">Menampilkan 0 dari 0 data</div>
-                            <nav>
-                                <ul class="pagination justify-content-end" id="pagination">
-                                    <!-- Pagination will be populated here -->
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Search Section -->
-                <div class="content-section d-none" id="searchSection">
-                    <h2 class="section-title">Pencarian Surat</h2>
+                    <!-- Data Surat Table -->
+                    <h2 class="section-title mt-5">Data Surat</h2>
                     
                     <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-search me-2"></i>Form Pencarian
-                        </div>
-                        <div class="card-body">
-                            <form id="searchForm">
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label">Kata Kunci</label>
-                                        <input type="text" class="form-control" id="searchKeyword" placeholder="Nomor, perihal, pengirim/penerima">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Jenis Surat</label>
-                                        <select class="form-select" id="searchType">
-                                            <option value="">Semua Jenis</option>
-                                            <option value="masuk">Surat Masuk</option>
-                                            <option value="keluar">Surat Keluar</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Kategori</label>
-                                        <select class="form-select" id="searchCategory">
-                                            <option value="">Semua Kategori</option>
-                                            <option value="resmi">Resmi</option>
-                                            <option value="penting">Penting</option>
-                                            <option value="biasa">Biasa</option>
-                                            <option value="rahasia">Rahasia</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label">Tanggal Mulai</label>
-                                        <input type="date" class="form-control" id="searchStartDate">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Tanggal Selesai</label>
-                                        <input type="date" class="form-control" id="searchEndDate">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Status</label>
-                                        <select class="form-select" id="searchStatus">
-                                            <option value="">Semua Status</option>
-                                            <option value="pending">Menunggu</option>
-                                            <option value="processed">Diproses</option>
-                                            <option value="completed">Selesai</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="d-flex justify-content-end">
-                                    <button type="button" class="btn btn-secondary me-2" id="resetSearch">Reset</button>
-                                    <button type="submit" class="btn btn-primary">Cari</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <h3 class="section-title">Hasil Pencarian</h3>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered data-table">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Jenis</th>
-                                        <th>Nomor</th>
-                                        <th>Tanggal</th>
-                                        <th>Perihal</th>
-                                        <th>Pengirim/Penerima</th>
-                                        <th>Kategori</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="searchResults">
-                                    <!-- Search results will be populated here -->
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="form-text" id="searchInfo">Menampilkan 0 hasil</div>
-                            <nav>
-                                <ul class="pagination justify-content-end" id="searchPagination">
-                                    <!-- Pagination will be populated here -->
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Calendar Section -->
-                <div class="content-section d-none" id="calendarSection">
-                    <h2 class="section-title">Kalender Surat</h2>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-calendar me-2"></i>Kalender
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h4 id="calendarMonthYear">Januari 2023</h4>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-primary me-2" id="prevMonth">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" id="nextMonth">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
-                                </div>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-table me-2"></i>Daftar Surat
                             </div>
-                            
-                            <div class="calendar-grid" id="calendarGrid">
-                                <!-- Calendar will be populated here -->
+                            <div class="d-flex">
+                                <select class="form-select form-select-sm me-2" id="filterType" style="width: auto;">
+                                    <option value="">Semua Jenis</option>
+                                    <option value="masuk">Surat Masuk</option>
+                                    <option value="keluar">Surat Keluar</option>
+                                </select>
+                                <input type="text" class="form-control form-control-sm me-2" placeholder="Cari..." id="searchInput" style="width: auto;">
+                                <button class="btn btn-sm btn-primary" id="searchBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Jenis</th>
+                                            <th>Nomor</th>
+                                            <th>Tanggal</th>
+                                            <th>Perihal</th>
+                                            <th>Kategori</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="mailTableBody">
+                                        <!-- Data akan diisi oleh JavaScript -->
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -1384,60 +541,63 @@
                     <h2 class="section-title">Template Surat</h2>
                     
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="card template-item" data-link="https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing">
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing', '_blank')">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-contract" style="font-size: 3rem; color: #0d47a1;"></i>
-                                    <h5 class="mt-3">Surat Tugas</h5>
-                                    <p class="text-muted">Template untuk membuat surat tugas resmi</p>
+                                    <i class="fas fa-file-contract mb-3" style="font-size: 3rem; color: #0d47a1;"></i>
+                                    <h5>Surat Tugas</h5>
+                                    <p class="text-muted">Template untuk membuat surat tugas</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card template-item" data-link="https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link">
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link', '_blank')">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-signature" style="font-size: 3rem; color: #00695c;"></i>
-                                    <h5 class="mt-3">Surat Pernyataan</h5>
+                                    <i class="fas fa-file-signature mb-3" style="font-size: 3rem; color: #00695c;"></i>
+                                    <h5>Surat Pernyataan</h5>
                                     <p class="text-muted">Template untuk membuat surat pernyataan</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card template-item" data-link="https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link">
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link', '_blank')">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-alt" style="font-size: 3rem; color: #ff8f00;"></i>
-                                    <h5 class="mt-3">Surat Kuasa</h5>
+                                    <i class="fas fa-file-contract mb-3" style="font-size: 3rem; color: #ff8f00;"></i>
+                                    <h5>Surat Kuasa</h5>
                                     <p class="text-muted">Template untuk membuat surat kuasa</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="row mt-4">
-                        <div class="col-md-4">
-                            <div class="card template-item" data-link="https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link">
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link', '_blank')">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-envelope-open-text" style="font-size: 3rem; color: #9c27b0;"></i>
-                                    <h5 class="mt-3">Surat Undangan</h5>
+                                    <i class="fas fa-file-invoice mb-3" style="font-size: 3rem; color: #9c27b0;"></i>
+                                    <h5>Surat Undangan</h5>
                                     <p class="text-muted">Template untuk membuat surat undangan</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card template-item" data-link="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link">
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link', '_blank')">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-medical" style="font-size: 3rem; color: #2e7d32;"></i>
-                                    <h5 class="mt-3">Surat Keterangan</h5>
+                                    <i class="fas fa-file-alt mb-3" style="font-size: 3rem; color: #2e7d32;"></i>
+                                    <h5>Surat Keterangan</h5>
                                     <p class="text-muted">Template untuk membuat surat keterangan</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card template-item" data-link="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link">
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link', '_blank')">
                                 <div class="card-body text-center">
-                                    <i class="fas fa-file-import" style="font-size: 3rem; color: #d32f2f;"></i>
-                                    <h5 class="mt-3">Surat Pengantar</h5>
+                                    <i class="fas fa-file-export mb-3" style="font-size: 3rem; color: #d32f2f;"></i>
+                                    <h5>Surat Pengantar</h5>
                                     <p class="text-muted">Template untuk membuat surat pengantar</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
                                 </div>
                             </div>
                         </div>
@@ -1446,9 +606,30 @@
                 
                 <!-- Settings Section -->
                 <div class="content-section d-none" id="settingsSection">
-                    <h2 class="section-title">Pengaturan Aplikasi</h2>
+                    <h2 class="section-title">Pengaturan Sistem</h2>
                     
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-database me-2"></i>Backup & Restore Data
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success mb-2" id="backupBtn">
+                                            <i class="fas fa-download me-1"></i>Backup Data
+                                        </button>
+                                        <button class="btn btn-warning mb-2" id="restoreBtn">
+                                            <i class="fas fa-upload me-1"></i>Restore Data
+                                        </button>
+                                        <button class="btn btn-danger" id="resetDataBtn">
+                                            <i class="fas fa-trash me-1"></i>Reset Data
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
@@ -1473,67 +654,14 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-database me-2"></i>Backup & Restore Data
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <label class="form-label">Backup Data</label>
-                                        <p class="form-text">Simpan salinan data surat ke file JSON</p>
-                                        <button class="btn btn-outline-primary w-100" id="backupData">
-                                            <i class="fas fa-download me-2"></i>Backup Data
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label">Restore Data</label>
-                                        <p class="form-text">Muat data dari file backup sebelumnya</p>
-                                        <input type="file" class="form-control mb-2" id="restoreFile" accept=".json">
-                                        <button class="btn btn-outline-success w-100" id="restoreData">
-                                            <i class="fas fa-upload me-2"></i>Restore Data
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label">Reset Data</label>
-                                        <p class="form-text">Hapus semua data surat (tidak dapat dibatalkan)</p>
-                                        <button class="btn btn-outline-danger w-100" id="resetData">
-                                            <i class="fas fa-trash-alt me-2"></i>Reset Data
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="copyright">
+        <div class="text-center p-4 bg-light">
             &copy; 2023 Dinas Peternakan dan Perikanan Kabupaten Situbondo. All rights reserved.
         </div>
-    </div>
-    
-    <!-- Welcome Notification -->
-    <div class="welcome-notification" id="welcomeNotification">
-        <button class="btn-close-welcome" id="closeWelcome">
-            <i class="fas fa-times"></i>
-        </button>
-        
-        <div class="icon">
-            <i class="fas fa-mail-bulk"></i>
-        </div>
-        
-        <h3>Selamat Datang di Sistem Manajemen Surat</h3>
-        
-        <p>Sistem ini membantu Anda mengelola <span class="highlight">surat masuk dan keluar</span> dengan lebih efisien dan terorganisir.</p>
-        
-        <p>Gunakan menu di sebelah kiri untuk menjelajahi fitur-fitur aplikasi.</p>
-        
-        <div class="particles-container" id="welcomeParticles"></div>
     </div>
     
     <!-- Floating Action Button -->
@@ -1541,39 +669,19 @@
         <i class="fas fa-plus"></i>
     </div>
     
+    <!-- Notification -->
+    <div class="notification success d-none" id="successNotification">
+        <i class="fas fa-check-circle me-2 text-success"></i>
+        <span id="notificationMessage">Operasi berhasil dilakukan</span>
+    </div>
+    
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-    
     <script>
         // Main Application Code
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize the application
             initApp();
-            
-            // Show welcome notification
-            setTimeout(() => {
-                document.getElementById('welcomeNotification').classList.add('show');
-            }, 1000);
-            
-            // Close welcome notification
-            document.getElementById('closeWelcome').addEventListener('click', function() {
-                document.getElementById('welcomeNotification').classList.remove('show');
-            });
-            
-            // Mobile menu toggle
-            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-                document.body.classList.toggle('sidebar-open');
-                document.getElementById('sidebarOverlay').classList.toggle('active');
-            });
-            
-            // Close sidebar when clicking on overlay
-            document.getElementById('sidebarOverlay').addEventListener('click', function() {
-                document.body.classList.remove('sidebar-open');
-                this.classList.remove('active');
-            });
             
             // Navigation
             document.querySelectorAll('.nav-link').forEach(link => {
@@ -1594,18 +702,45 @@
                     // Show the selected section
                     const sectionId = this.getAttribute('data-section') + 'Section';
                     document.getElementById(sectionId).classList.remove('d-none');
-                    
-                    // Close sidebar on mobile after selection
-                    if (window.innerWidth < 992) {
-                        document.body.classList.remove('sidebar-open');
-                        document.getElementById('sidebarOverlay').classList.remove('active');
-                    }
-                    
-                    // If input section is selected, reset the form
-                    if (sectionId === 'inputSection') {
-                        resetMailForm();
-                    }
                 });
+            });
+            
+            // Form submission
+            document.getElementById('mailForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveMail();
+            });
+            
+            // Reset form
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                document.getElementById('mailForm').reset();
+                document.getElementById('editId').value = '';
+                
+                // Set current date
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('mailDate').value = today;
+                document.getElementById('mailActionDate').value = today;
+            });
+            
+            // Password form submission
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                changePassword();
+            });
+            
+            // Backup data
+            document.getElementById('backupBtn').addEventListener('click', function() {
+                backupData();
+            });
+            
+            // Restore data
+            document.getElementById('restoreBtn').addEventListener('click', function() {
+                restoreData();
+            });
+            
+            // Reset data
+            document.getElementById('resetDataBtn').addEventListener('click', function() {
+                resetData();
             });
             
             // Floating action button
@@ -1623,106 +758,12 @@
                 document.getElementById('mailForm').scrollIntoView({ behavior: 'smooth' });
             });
             
-            // Form submission
-            document.getElementById('mailForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveMail();
-            });
-            
-            // Reset form
-            document.getElementById('resetForm').addEventListener('click', function() {
-                resetMailForm();
-            });
-            
-            // Search form submission
-            document.getElementById('searchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                performSearch();
-            });
-            
-            // Reset search
-            document.getElementById('resetSearch').addEventListener('click', function() {
-                document.getElementById('searchForm').reset();
-                document.getElementById('searchResults').innerHTML = '';
-                document.getElementById('searchInfo').textContent = 'Menampilkan 0 hasil';
-            });
-            
-            // Password form submission
-            document.getElementById('passwordForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                changePassword();
-            });
-            
-            // Backup data
-            document.getElementById('backupData').addEventListener('click', function() {
-                backupData();
-            });
-            
-            // Restore data
-            document.getElementById('restoreData').addEventListener('click', function() {
-                restoreData();
-            });
-            
-            // Reset data
-            document.getElementById('resetData').addEventListener('click', function() {
-                resetData();
-            });
-            
-            // Template items
-            document.querySelectorAll('.template-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const link = this.getAttribute('data-link');
-                    window.open(link, '_blank');
-                });
-            });
-            
-            // Export buttons
-            document.getElementById('exportExcel').addEventListener('click', function() {
-                exportToExcel();
-            });
-            
-            document.getElementById('exportPDF').addEventListener('click', function() {
-                exportToPDF();
-            });
-            
-            // Calendar navigation
-            document.getElementById('prevMonth').addEventListener('click', function() {
-                currentMonth--;
-                if (currentMonth < 0) {
-                    currentMonth = 11;
-                    currentYear--;
-                }
-                renderCalendar(currentMonth, currentYear);
-            });
-            
-            document.getElementById('nextMonth').addEventListener('click', function() {
-                currentMonth++;
-                if (currentMonth > 11) {
-                    currentMonth = 0;
-                    currentYear++;
-                }
-                renderCalendar(currentMonth, currentYear);
-            });
-            
-            // Filter change events
+            // Filter and search
             document.getElementById('filterType').addEventListener('change', function() {
                 loadMailData();
             });
             
-            document.getElementById('filterCategory').addEventListener('change', function() {
-                loadMailData();
-            });
-            
-            document.getElementById('filterMonth').addEventListener('change', function() {
-                loadMailData();
-            });
-            
-            document.getElementById('filterYear').addEventListener('change', function() {
-                loadMailData();
-            });
-            
-            // Search input
-            document.getElementById('searchButton').addEventListener('click', function() {
+            document.getElementById('searchBtn').addEventListener('click', function() {
                 loadMailData();
             });
             
@@ -1731,229 +772,118 @@
                     loadMailData();
                 }
             });
+            
+            // Set current date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('mailDate').value = today;
+            document.getElementById('mailActionDate').value = today;
         });
         
         // Initialize the application
         function initApp() {
-            // Initialize current date
-            const today = new Date();
-            document.getElementById('mailDate').valueAsDate = today;
-            document.getElementById('mailActionDate').valueAsDate = today;
+            // Initialize data if not exists
+            if (!localStorage.getItem('mailData')) {
+                const sampleData = [
+                    {
+                        id: 1,
+                        type: 'masuk',
+                        number: '001/DPP/VI/2023',
+                        date: '2023-06-15',
+                        actionDate: '2023-06-16',
+                        party: 'Dinas Pertanian Provinsi Jawa Timur',
+                        category: 'penting',
+                        subject: 'Undangan Rapat Koordinasi',
+                        description: 'Rapat koordinasi mengenai program pengembangan peternakan',
+                        link: '',
+                        status: 'pending',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        type: 'keluar',
+                        number: '002/DPP/VI/2023',
+                        date: '2023-06-18',
+                        actionDate: '2023-06-19',
+                        party: 'Dinas Kesehatan Kabupaten Situbondo',
+                        category: 'resmi',
+                        subject: 'Permohonan Data Vaksinasi Hewan Ternak',
+                        description: 'Permohonan data vaksinasi hewan ternak periode Januari-Juni 2023',
+                        link: '',
+                        status: 'processed',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                
+                localStorage.setItem('mailData', JSON.stringify(sampleData));
+            }
             
-            // Initialize year filter
-            const yearSelect = document.getElementById('filterYear');
-            const currentYear = today.getFullYear();
-            for (let year = currentYear - 5; year <= currentYear + 1; year++) {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                if (year === currentYear) {
-                    option.selected = true;
-                }
-                yearSelect.appendChild(option);
+            // Initialize password if not exists
+            if (!localStorage.getItem('appPassword')) {
+                localStorage.setItem('appPassword', 'admin123');
             }
             
             // Load mail data
             loadMailData();
             
-            // Initialize charts
-            initCharts();
-            
-            // Initialize calendar
-            currentMonth = today.getMonth();
-            currentYear = today.getFullYear();
-            renderCalendar(currentMonth, currentYear);
-            
-            // Initialize particles
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 30, density: { enable: true, value_area: 800 } },
-                    color: { value: "#0d47a1" },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.5, random: true },
-                    size: { value: 3, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#0d47a1",
-                        opacity: 0.4,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 2,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "grab" },
-                        onclick: { enable: true, mode: "push" },
-                        resize: true
-                    }
-                },
-                retina_detect: true
-            });
+            // Update dashboard
+            updateDashboard();
         }
         
-        // Load mail data from localStorage
+        // Load mail data
         function loadMailData() {
-            let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+            const tableBody = document.getElementById('mailTableBody');
+            tableBody.innerHTML = '';
             
             // Apply filters
             const typeFilter = document.getElementById('filterType').value;
-            const categoryFilter = document.getElementById('filterCategory').value;
-            const monthFilter = document.getElementById('filterMonth').value;
-            const yearFilter = document.getElementById('filterYear').value;
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
+            let filteredData = mailData;
+            
             if (typeFilter) {
-                mailData = mailData.filter(mail => mail.type === typeFilter);
-            }
-            
-            if (categoryFilter) {
-                mailData = mailData.filter(mail => mail.category === categoryFilter);
-            }
-            
-            if (monthFilter) {
-                mailData = mailData.filter(mail => {
-                    const mailDate = new Date(mail.date);
-                    return (mailDate.getMonth() + 1) === parseInt(monthFilter);
-                });
-            }
-            
-            if (yearFilter) {
-                mailData = mailData.filter(mail => {
-                    const mailDate = new Date(mail.date);
-                    return mailDate.getFullYear() === parseInt(yearFilter);
-                });
+                filteredData = filteredData.filter(mail => mail.type === typeFilter);
             }
             
             if (searchTerm) {
-                mailData = mailData.filter(mail => 
+                filteredData = filteredData.filter(mail => 
                     mail.number.toLowerCase().includes(searchTerm) ||
                     mail.subject.toLowerCase().includes(searchTerm) ||
                     mail.party.toLowerCase().includes(searchTerm)
                 );
             }
             
-            // Update dashboard stats
-            updateDashboardStats(mailData);
-            
-            // Render table
-            renderMailTable(mailData);
-        }
-        
-        // Update dashboard statistics
-        function updateDashboardStats(mailData) {
-            const totalIncoming = mailData.filter(mail => mail.type === 'masuk').length;
-            const totalOutgoing = mailData.filter(mail => mail.type === 'keluar').length;
-            const totalPending = mailData.filter(mail => mail.status === 'pending').length;
-            const totalProcessed = mailData.filter(mail => mail.status === 'processed' || mail.status === 'completed').length;
-            
-            document.getElementById('totalIncoming').textContent = totalIncoming;
-            document.getElementById('totalOutgoing').textContent = totalOutgoing;
-            document.getElementById('totalPending').textContent = totalPending;
-            document.getElementById('totalProcessed').textContent = totalProcessed;
-            
-            // Update recent activities
-            updateRecentActivities(mailData);
-        }
-        
-        // Update recent activities
-        function updateRecentActivities(mailData) {
-            const recentActivities = document.getElementById('recentActivities');
-            recentActivities.innerHTML = '';
-            
-            // Sort by date (newest first)
-            const sortedData = [...mailData].sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            // Get top 5
-            const top5 = sortedData.slice(0, 5);
-            
-            top5.forEach(mail => {
-                const row = document.createElement('tr');
-                
-                const date = new Date(mail.date).toLocaleDateString('id-ID', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-                
-                const typeBadge = mail.type === 'masuk' ? 
-                    '<span class="badge bg-primary">Masuk</span>' : 
-                    '<span class="badge bg-success">Keluar</span>';
-                
-                const statusBadge = mail.status === 'pending' ? 
-                    '<span class="badge bg-warning">Menunggu</span>' : 
-                    mail.status === 'processed' ? 
-                    '<span class="badge bg-info">Diproses</span>' : 
-                    '<span class="badge bg-success">Selesai</span>';
-                
-                row.innerHTML = `
-                    <td>${date}</td>
-                    <td>${typeBadge}</td>
-                    <td>${mail.number}</td>
-                    <td>${mail.subject}</td>
-                    <td>${statusBadge}</td>
-                `;
-                
-                recentActivities.appendChild(row);
-            });
-        }
-        
-        // Render mail table
-        function renderMailTable(mailData) {
-            const tableBody = document.getElementById('mailTableBody');
-            tableBody.innerHTML = '';
-            
-            if (mailData.length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="9" class="text-center">Tidak ada data surat</td>`;
-                tableBody.appendChild(row);
-                document.getElementById('tableInfo').textContent = 'Menampilkan 0 dari 0 data';
-                document.getElementById('pagination').innerHTML = '';
+            if (filteredData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center">Tidak ada data surat</td></tr>';
                 return;
             }
             
-            mailData.forEach((mail, index) => {
+            filteredData.forEach((mail, index) => {
                 const row = document.createElement('tr');
                 
-                const date = new Date(mail.date).toLocaleDateString('id-ID', {
+                const mailDate = new Date(mail.date);
+                const formattedDate = mailDate.toLocaleDateString('id-ID', {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric'
                 });
                 
                 const typeBadge = mail.type === 'masuk' ? 
-                    '<span class="badge badge-incoming">Masuk</span>' : 
-                    '<span class="badge badge-outgoing">Keluar</span>';
+                    '<span class="badge badge-primary">Masuk</span>' : 
+                    '<span class="badge badge-success">Keluar</span>';
                 
                 const categoryBadge = mail.category === 'penting' ? 
-                    '<span class="badge badge-important">Penting</span>' : 
-                    mail.category === 'rahasia' ? 
-                    '<span class="badge badge-danger">Rahasia</span>' : 
-                    '<span class="badge badge-normal">Biasa</span>';
-                
-                const linkElement = mail.link ? 
-                    `<a href="${mail.link}" target="_blank" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a>` : 
-                    '<span class="text-muted">Tidak ada</span>';
+                    '<span class="badge badge-warning">Penting</span>' : 
+                    '<span class="badge badge-primary">' + mail.category + '</span>';
                 
                 row.innerHTML = `
-                    <td class="text-center">${index + 1}</td>
-                    <td class="text-center">${typeBadge}</td>
+                    <td>${index + 1}</td>
+                    <td>${typeBadge}</td>
                     <td>${mail.number}</td>
-                    <td>${date}</td>
+                    <td>${formattedDate}</td>
                     <td>${mail.subject}</td>
-                    <td>${mail.party}</td>
-                    <td class="text-center">${categoryBadge}</td>
-                    <td class="text-center">${linkElement}</td>
-                    <td class="text-center">
+                    <td>${categoryBadge}</td>
+                    <td>
                         <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${mail.id}">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -1965,8 +895,6 @@
                 
                 tableBody.appendChild(row);
             });
-            
-            document.getElementById('tableInfo').textContent = `Menampilkan ${mailData.length} dari ${mailData.length} data`;
             
             // Add event listeners to edit and delete buttons
             document.querySelectorAll('.edit-btn').forEach(btn => {
@@ -1984,7 +912,7 @@
             });
         }
         
-        // Save mail to localStorage
+        // Save mail
         function saveMail() {
             const id = document.getElementById('editId').value;
             const type = document.getElementById('mailType').value;
@@ -1994,12 +922,12 @@
             const party = document.getElementById('mailParty').value;
             const category = document.getElementById('mailCategory').value;
             const subject = document.getElementById('mailSubject').value;
-            const notes = document.getElementById('mailNotes').value;
+            const description = document.getElementById('mailDescription').value;
             const link = document.getElementById('mailLink').value;
             
             // Validate required fields
             if (!type || !number || !date || !actionDate || !party || !category || !subject) {
-                showNotification('Harap isi semua field yang wajib diisi', 'danger');
+                showNotification('Harap isi semua field yang wajib diisi', 'error');
                 return;
             }
             
@@ -2007,7 +935,7 @@
             
             if (id) {
                 // Edit existing mail
-                const index = mailData.findIndex(mail => mail.id === id);
+                const index = mailData.findIndex(mail => mail.id == id);
                 if (index !== -1) {
                     mailData[index] = {
                         ...mailData[index],
@@ -2018,7 +946,7 @@
                         party,
                         category,
                         subject,
-                        notes,
+                        description,
                         link,
                         updatedAt: new Date().toISOString()
                     };
@@ -2026,7 +954,7 @@
             } else {
                 // Add new mail
                 const newMail = {
-                    id: generateId(),
+                    id: Date.now(),
                     type,
                     number,
                     date,
@@ -2034,7 +962,7 @@
                     party,
                     category,
                     subject,
-                    notes,
+                    description,
                     link,
                     status: 'pending',
                     createdAt: new Date().toISOString(),
@@ -2051,16 +979,25 @@
             showNotification(id ? 'Surat berhasil diperbarui' : 'Surat berhasil disimpan', 'success');
             
             // Reset form
-            resetMailForm();
+            document.getElementById('mailForm').reset();
+            document.getElementById('editId').value = '';
+            
+            // Set current date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('mailDate').value = today;
+            document.getElementById('mailActionDate').value = today;
             
             // Reload data
             loadMailData();
+            
+            // Update dashboard
+            updateDashboard();
         }
         
         // Edit mail
         function editMail(id) {
             const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            const mail = mailData.find(m => m.id === id);
+            const mail = mailData.find(m => m.id == id);
             
             if (mail) {
                 document.getElementById('editId').value = mail.id;
@@ -2071,7 +1008,7 @@
                 document.getElementById('mailParty').value = mail.party;
                 document.getElementById('mailCategory').value = mail.category;
                 document.getElementById('mailSubject').value = mail.subject;
-                document.getElementById('mailNotes').value = mail.notes || '';
+                document.getElementById('mailDescription').value = mail.description || '';
                 document.getElementById('mailLink').value = mail.link || '';
                 
                 // Scroll to form
@@ -2083,7 +1020,7 @@
         function deleteMail(id) {
             if (confirm('Apakah Anda yakin ingin menghapus surat ini?')) {
                 let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-                mailData = mailData.filter(mail => mail.id !== id);
+                mailData = mailData.filter(mail => mail.id != id);
                 localStorage.setItem('mailData', JSON.stringify(mailData));
                 
                 // Show success notification
@@ -2091,17 +1028,77 @@
                 
                 // Reload data
                 loadMailData();
+                
+                // Update dashboard
+                updateDashboard();
             }
         }
         
-        // Reset mail form
-        function resetMailForm() {
-            document.getElementById('mailForm').reset();
-            document.getElementById('editId').value = '';
+        // Update dashboard
+        function updateDashboard() {
+            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
             
-            const today = new Date();
-            document.getElementById('mailDate').valueAsDate = today;
-            document.getElementById('mailActionDate').valueAsDate = today;
+            // Count stats
+            const totalIncoming = mailData.filter(mail => mail.type === 'masuk').length;
+            const totalOutgoing = mailData.filter(mail => mail.type === 'keluar').length;
+            const totalPending = mailData.filter(mail => mail.status === 'pending').length;
+            const totalProcessed = mailData.filter(mail => mail.status === 'processed' || mail.status === 'completed').length;
+            
+            // Update dashboard numbers
+            document.getElementById('totalIncoming').textContent = totalIncoming;
+            document.getElementById('totalOutgoing').textContent = totalOutgoing;
+            document.getElementById('totalPending').textContent = totalPending;
+            document.getElementById('totalProcessed').textContent = totalProcessed;
+            
+            // Update recent activities
+            updateRecentActivities(mailData);
+        }
+        
+        // Update recent activities
+        function updateRecentActivities(mailData) {
+            const recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = '';
+            
+            // Sort by date (newest first)
+            const sortedData = [...mailData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            // Get top 5
+            const top5 = sortedData.slice(0, 5);
+            
+            if (top5.length === 0) {
+                recentActivities.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td></tr>';
+                return;
+            }
+            
+            top5.forEach(mail => {
+                const row = document.createElement('tr');
+                
+                const date = new Date(mail.date).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                const typeBadge = mail.type === 'masuk' ? 
+                    '<span class="badge badge-primary">Masuk</span>' : 
+                    '<span class="badge badge-success">Keluar</span>';
+                
+                const statusBadge = mail.status === 'pending' ? 
+                    '<span class="badge badge-warning">Menunggu</span>' : 
+                    mail.status === 'processed' ? 
+                    '<span class="badge badge-primary">Diproses</span>' : 
+                    '<span class="badge badge-success">Selesai</span>';
+                
+                row.innerHTML = `
+                    <td>${date}</td>
+                    <td>${typeBadge}</td>
+                    <td>${mail.number}</td>
+                    <td>${mail.subject}</td>
+                    <td>${statusBadge}</td>
+                `;
+                
+                recentActivities.appendChild(row);
+            });
         }
         
         // Change password
@@ -2112,17 +1109,27 @@
             
             // Validate
             if (!currentPassword || !newPassword || !confirmPassword) {
-                showNotification('Harap isi semua field password', 'danger');
+                showNotification('Harap isi semua field password', 'error');
                 return;
             }
             
+            // Check if current password is correct
+            const storedPassword = localStorage.getItem('appPassword');
+            if (currentPassword !== storedPassword) {
+                showNotification('Password saat ini salah', 'error');
+                return;
+            }
+            
+            // Check if new password matches confirmation
             if (newPassword !== confirmPassword) {
-                showNotification('Password baru dan konfirmasi password tidak cocok', 'danger');
+                showNotification('Password baru dan konfirmasi password tidak cocok', 'error');
                 return;
             }
             
-            // In a real application, you would verify the current password and update it
-            // For this demo, we'll just show a success message
+            // Save new password
+            localStorage.setItem('appPassword', newPassword);
+            
+            // Show success notification
             showNotification('Password berhasil diubah', 'success');
             
             // Reset form
@@ -2134,7 +1141,7 @@
             const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
             
             if (mailData.length === 0) {
-                showNotification('Tidak ada data untuk di-backup', 'warning');
+                showNotification('Tidak ada data untuk di-backup', 'error');
                 return;
             }
             
@@ -2153,32 +1160,36 @@
         
         // Restore data
         function restoreData() {
-            const fileInput = document.getElementById('restoreFile');
-            const file = fileInput.files[0];
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
             
-            if (!file) {
-                showNotification('Pilih file backup terlebih dahulu', 'warning');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const mailData = JSON.parse(e.target.result);
-                    
-                    if (Array.isArray(mailData)) {
-                        localStorage.setItem('mailData', JSON.stringify(mailData));
-                        showNotification('Data berhasil dipulihkan', 'success');
-                        loadMailData();
-                    } else {
-                        showNotification('Format file backup tidak valid', 'danger');
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    try {
+                        const mailData = JSON.parse(event.target.result);
+                        
+                        if (Array.isArray(mailData)) {
+                            localStorage.setItem('mailData', JSON.stringify(mailData));
+                            showNotification('Data berhasil dipulihkan', 'success');
+                            loadMailData();
+                            updateDashboard();
+                        } else {
+                            showNotification('Format file backup tidak valid', 'error');
+                        }
+                    } catch (error) {
+                        showNotification('Gagal memproses file backup', 'error');
+                        console.error(error);
                     }
-                } catch (error) {
-                    showNotification('Gagal memproses file backup', 'danger');
-                    console.error(error);
-                }
+                };
+                
+                reader.readAsText(file);
             };
-            reader.readAsText(file);
+            
+            input.click();
         }
         
         // Reset data
@@ -2187,426 +1198,34 @@
                 localStorage.removeItem('mailData');
                 showNotification('Semua data telah dihapus', 'success');
                 loadMailData();
-            }
-        }
-        
-        // Export to Excel
-        function exportToExcel() {
-            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            
-            if (mailData.length === 0) {
-                showNotification('Tidak ada data untuk diexport', 'warning');
-                return;
-            }
-            
-            // Prepare data for Excel
-            const data = mailData.map(mail => ({
-                'Jenis Surat': mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar',
-                'Nomor Surat': mail.number,
-                'Tanggal Surat': new Date(mail.date).toLocaleDateString('id-ID'),
-                'Tanggal Diterima/Dikirim': new Date(mail.actionDate).toLocaleDateString('id-ID'),
-                'Pengirim/Penerima': mail.party,
-                'Kategori': mail.category,
-                'Perihal': mail.subject,
-                'Keterangan': mail.notes || '',
-                'Link': mail.link || ''
-            }));
-            
-            // Create worksheet
-            const worksheet = XLSX.utils.json_to_sheet(data);
-            
-            // Create workbook
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data Surat');
-            
-            // Generate Excel file
-            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-            const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            
-            // Download file
-            const fileName = `data-surat-${new Date().toISOString().slice(0,10)}.xlsx`;
-            saveAs(blob, fileName);
-            
-            showNotification('Data berhasil diexport ke Excel', 'success');
-        }
-        
-        // Export to PDF
-        function exportToPDF() {
-            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            
-            if (mailData.length === 0) {
-                showNotification('Tidak ada data untuk diexport', 'warning');
-                return;
-            }
-            
-            // Create PDF document
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            // Add title
-            doc.setFontSize(18);
-            doc.text('DATA SURAT', 105, 15, { align: 'center' });
-            doc.setFontSize(12);
-            doc.text(`Dinas Peternakan dan Perikanan Kabupaten Situbondo`, 105, 22, { align: 'center' });
-            doc.text(`Tanggal Export: ${new Date().toLocaleDateString('id-ID')}`, 105, 29, { align: 'center' });
-            
-            // Prepare table data
-            const tableData = mailData.map(mail => [
-                mail.type === 'masuk' ? 'Masuk' : 'Keluar',
-                mail.number,
-                new Date(mail.date).toLocaleDateString('id-ID'),
-                mail.subject,
-                mail.party,
-                mail.category
-            ]);
-            
-            // Create table
-            doc.autoTable({
-                head: [['Jenis', 'Nomor', 'Tanggal', 'Perihal', 'Pengirim/Penerima', 'Kategori']],
-                body: tableData,
-                startY: 35,
-                theme: 'grid',
-                styles: { fontSize: 8 },
-                headStyles: { fillColor: [13, 71, 161] }
-            });
-            
-            // Save PDF
-            doc.save(`data-surat-${new Date().toISOString().slice(0,10)}.pdf`);
-            
-            showNotification('Data berhasil diexport ke PDF', 'success');
-        }
-        
-        // Perform search
-        function performSearch() {
-            const keyword = document.getElementById('searchKeyword').value.toLowerCase();
-            const type = document.getElementById('searchType').value;
-            const category = document.getElementById('searchCategory').value;
-            const startDate = document.getElementById('searchStartDate').value;
-            const endDate = document.getElementById('searchEndDate').value;
-            const status = document.getElementById('searchStatus').value;
-            
-            let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            
-            // Apply filters
-            if (keyword) {
-                mailData = mailData.filter(mail => 
-                    mail.number.toLowerCase().includes(keyword) ||
-                    mail.subject.toLowerCase().includes(keyword) ||
-                    mail.party.toLowerCase().includes(keyword) ||
-                    (mail.notes && mail.notes.toLowerCase().includes(keyword))
-                );
-            }
-            
-            if (type) {
-                mailData = mailData.filter(mail => mail.type === type);
-            }
-            
-            if (category) {
-                mailData = mailData.filter(mail => mail.category === category);
-            }
-            
-            if (startDate) {
-                mailData = mailData.filter(mail => new Date(mail.date) >= new Date(startDate));
-            }
-            
-            if (endDate) {
-                mailData = mailData.filter(mail => new Date(mail.date) <= new Date(endDate));
-            }
-            
-            if (status) {
-                mailData = mailData.filter(mail => mail.status === status);
-            }
-            
-            // Render results
-            renderSearchResults(mailData);
-        }
-        
-        // Render search results
-        function renderSearchResults(mailData) {
-            const resultsContainer = document.getElementById('searchResults');
-            resultsContainer.innerHTML = '';
-            
-            if (mailData.length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="9" class="text-center">Tidak ada hasil ditemukan</td>`;
-                resultsContainer.appendChild(row);
-                document.getElementById('searchInfo').textContent = 'Menampilkan 0 hasil';
-                document.getElementById('searchPagination').innerHTML = '';
-                return;
-            }
-            
-            mailData.forEach((mail, index) => {
-                const row = document.createElement('tr');
-                
-                const date = new Date(mail.date).toLocaleDateString('id-ID', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-                
-                const typeBadge = mail.type === 'masuk' ? 
-                    '<span class="badge bg-primary">Masuk</span>' : 
-                    '<span class="badge bg-success">Keluar</span>';
-                
-                const statusBadge = mail.status === 'pending' ? 
-                    '<span class="badge bg-warning">Menunggu</span>' : 
-                    mail.status === 'processed' ? 
-                    '<span class="badge bg-info">Diproses</span>' : 
-                    '<span class="badge bg-success">Selesai</span>';
-                
-                row.innerHTML = `
-                    <td class="text-center">${index + 1}</td>
-                    <td class="text-center">${typeBadge}</td>
-                    <td>${mail.number}</td>
-                    <td>${date}</td>
-                    <td>${mail.subject}</td>
-                    <td>${mail.party}</td>
-                    <td>${mail.category}</td>
-                    <td class="text-center">${statusBadge}</td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-outline-primary view-btn" data-id="${mail.id}">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                `;
-                
-                resultsContainer.appendChild(row);
-            });
-            
-            document.getElementById('searchInfo').textContent = `Menampilkan ${mailData.length} hasil`;
-            
-            // Add event listeners to view buttons
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    viewMailDetails(id);
-                });
-            });
-        }
-        
-        // View mail details
-        function viewMailDetails(id) {
-            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            const mail = mailData.find(m => m.id === id);
-            
-            if (mail) {
-                // In a real application, you would show a modal with details
-                // For this demo, we'll just show an alert with basic info
-                alert(`Detail Surat:\nNomor: ${mail.number}\nPerihal: ${mail.subject}\nPengirim/Penerima: ${mail.party}\nTanggal: ${new Date(mail.date).toLocaleDateString('id-ID')}`);
-            }
-        }
-        
-        // Initialize charts
-        function initCharts() {
-            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            
-            // Monthly chart data
-            const monthlyData = {
-                incoming: Array(12).fill(0),
-                outgoing: Array(12).fill(0)
-            };
-            
-            mailData.forEach(mail => {
-                const date = new Date(mail.date);
-                const month = date.getMonth();
-                
-                if (mail.type === 'masuk') {
-                    monthlyData.incoming[month]++;
-                } else {
-                    monthlyData.outgoing[month]++;
-                }
-            });
-            
-            // Render monthly chart
-            const mailChart = new Chart(document.getElementById('mailChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
-                    datasets: [
-                        {
-                            label: 'Surat Masuk',
-                            data: monthlyData.incoming,
-                            backgroundColor: 'rgba(13, 71, 161, 0.7)'
-                        },
-                        {
-                            label: 'Surat Keluar',
-                            data: monthlyData.outgoing,
-                            backgroundColor: 'rgba(0, 105, 92, 0.7)'
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Statistik Surat Bulanan'
-                        }
-                    }
-                }
-            });
-            
-            // Category chart data
-            const categoryCount = {
-                resmi: 0,
-                penting: 0,
-                biasa: 0,
-                rahasia: 0
-            };
-            
-            mailData.forEach(mail => {
-                categoryCount[mail.category]++;
-            });
-            
-            // Render category chart
-            const categoryChart = new Chart(document.getElementById('categoryChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Resmi', 'Penting', 'Biasa', 'Rahasia'],
-                    datasets: [{
-                        data: [categoryCount.resmi, categoryCount.penting, categoryCount.biasa, categoryCount.rahasia],
-                        backgroundColor: [
-                            'rgba(13, 71, 161, 0.7)',
-                            'rgba(255, 143, 0, 0.7)',
-                            'rgba(0, 105, 92, 0.7)',
-                            'rgba(200, 50, 50, 0.7)'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Distribusi Kategori Surat'
-                        }
-                    }
-                }
-            });
-        }
-        
-        // Calendar variables
-        let currentMonth, currentYear;
-        
-        // Render calendar
-        function renderCalendar(month, year) {
-            const calendarGrid = document.getElementById('calendarGrid');
-            calendarGrid.innerHTML = '';
-            
-            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
-            
-            // Get first day of month and number of days
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            // Create day headers
-            const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            for (let i = 0; i < 7; i++) {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'calendar-day-header';
-                dayHeader.textContent = dayNames[i];
-                calendarGrid.appendChild(dayHeader);
-            }
-            
-            // Add empty cells for days before the first day
-            for (let i = 0; i < firstDay; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day';
-                calendarGrid.appendChild(emptyDay);
-            }
-            
-            // Get mail data for the month
-            const mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            const monthMail = mailData.filter(mail => {
-                const mailDate = new Date(mail.date);
-                return mailDate.getMonth() === month && mailDate.getFullYear() === year;
-            });
-            
-            // Add days
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayElement = document.createElement('div');
-                dayElement.className = 'calendar-day';
-                
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'calendar-day-header';
-                dayHeader.textContent = day;
-                dayElement.appendChild(dayHeader);
-                
-                // Check if there are events on this day
-                const dayMail = monthMail.filter(mail => {
-                    const mailDate = new Date(mail.date);
-                    return mailDate.getDate() === day;
-                });
-                
-                if (dayMail.length > 0) {
-                    dayElement.classList.add('has-events');
-                    
-                    // Show up to 2 events
-                    dayMail.slice(0, 2).forEach(mail => {
-                        const eventElement = document.createElement('div');
-                        eventElement.className = 'calendar-event';
-                        eventElement.textContent = mail.type === 'masuk' ? `📥 ${mail.number}` : `📤 ${mail.number}`;
-                        eventElement.title = mail.subject;
-                        dayElement.appendChild(eventElement);
-                    });
-                    
-                    // Show more indicator if there are more events
-                    if (dayMail.length > 2) {
-                        const moreElement = document.createElement('div');
-                        moreElement.className = 'calendar-event';
-                        moreElement.textContent = `+${dayMail.length - 2} lebih`;
-                        dayElement.appendChild(moreElement);
-                    }
-                }
-                
-                calendarGrid.appendChild(dayElement);
+                updateDashboard();
             }
         }
         
         // Show notification
-        function showNotification(message, type = 'info') {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `alert alert-${type} alert-dismissible fade show notification-toast`;
-            notification.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('successNotification');
+            const notificationMessage = document.getElementById('notificationMessage');
             
-            // Add to document
-            document.body.appendChild(notification);
+            notificationMessage.textContent = message;
             
-            // Auto remove after 5 seconds
+            // Remove all type classes
+            notification.classList.remove('success', 'error', 'info');
+            
+            // Add the appropriate type class
+            notification.classList.add(type);
+            
+            // Show notification
+            notification.classList.remove('d-none');
+            notification.classList.add('show');
+            
+            // Hide notification after 3 seconds
             setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 5000);
-        }
-        
-        // Generate unique ID
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-        
-        // SaveAs polyfill for older browsers
-        function saveAs(blob, fileName) {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.classList.add('d-none');
+                }, 300);
+            }, 3000);
         }
     </script>
 </body>
