@@ -496,29 +496,6 @@
             font-size: 1rem;
         }
         
-        /* Theme Switcher */
-        .theme-switcher {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-lg);
-            z-index: 1000;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .theme-switcher:hover {
-            transform: rotate(30deg);
-        }
-        
         /* Dashboard Widgets */
         .dashboard-widget {
             background: white;
@@ -594,18 +571,6 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             overflow: hidden;
-        }
-        
-        .welcome-notification::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 65%);
-            pointer-events: none;
-            animation: rotateGradient 15s linear infinite;
         }
         
         .welcome-notification.show {
@@ -865,13 +830,6 @@
                 height: 45px;
             }
             
-            .theme-switcher {
-                bottom: 70px;
-                right: 15px;
-                width: 45px;
-                height: 45px;
-            }
-            
             .col-md-9.col-lg-10.p-5 {
                 padding: 10px !important;
             }
@@ -1047,28 +1005,28 @@
                         <div class="col-md-3">
                             <div class="stats-box">
                                 <i class="fas fa-envelope-open text-primary" style="font-size: 2rem;"></i>
-                                <div class="stats-number">152</div>
+                                <div class="stats-number" id="totalIncoming">0</div>
                                 <div class="stats-label">Total Surat Masuk</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
                                 <i class="fas fa-paper-plane text-success" style="font-size: 2rem;"></i>
-                                <div class="stats-number">98</div>
+                                <div class="stats-number" id="totalOutgoing">0</div>
                                 <div class="stats-label">Total Surat Keluar</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
                                 <i class="fas fa-clock text-warning" style="font-size: 2rem;"></i>
-                                <div class="stats-number">24</div>
+                                <div class="stats-number" id="totalPending">0</div>
                                 <div class="stats-label">Menunggu Tindakan</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
                                 <i class="fas fa-check-circle text-info" style="font-size: 2rem;"></i>
-                                <div class="stats-number">226</div>
+                                <div class="stats-number" id="totalProcessed">0</div>
                                 <div class="stats-label">Telah Diproses</div>
                             </div>
                         </div>
@@ -1115,42 +1073,8 @@
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>15/11/2023</td>
-                                                    <td><span class="badge bg-primary">Masuk</span></td>
-                                                    <td>SM/123/XI/2023</td>
-                                                    <td>Undangan Rapat Koordinasi</td>
-                                                    <td><span class="badge bg-success">Selesai</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>14/11/2023</td>
-                                                    <td><span class="badge bg-success">Keluar</span></td>
-                                                    <td>SK/456/XI/2023</td>
-                                                    <td>Surat Tugas Monitoring</td>
-                                                    <td><span class="badge bg-warning">Proses</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>13/11/2023</td>
-                                                    <td><span class="badge bg-primary">Masuk</span></td>
-                                                    <td>SM/789/XI/2023</td>
-                                                    <td>Permohonan Data Statistik</td>
-                                                    <td><span class="badge bg-info">Review</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>12/11/2023</td>
-                                                    <td><span class="badge bg-success">Keluar</span></td>
-                                                    <td>SK/101/XI/2023</td>
-                                                    <td>Laporan Bulanan</td>
-                                                    <td><span class="badge bg-success">Selesai</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10/11/2023</td>
-                                                    <td><span class="badge bg-primary">Masuk</span></td>
-                                                    <td>SM/202/XI/2023</td>
-                                                    <td>Pengumuman Lelang</td>
-                                                    <td><span class="badge bg-danger">Pending</span></td>
-                                                </tr>
+                                            <tbody id="recentActivities">
+                                                <!-- Recent activities will be populated here -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -1170,6 +1094,7 @@
                         </div>
                         <div class="card-body">
                             <form id="mailForm">
+                                <input type="hidden" id="editId" value="">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label"><i class="fas fa-mail-bulk"></i>Jenis Surat</label>
@@ -1196,38 +1121,41 @@
                                     </div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-building"></i>Asal/Tujuan Surat</label>
-                                    <input type="text" class="form-control" id="mailOrigin" placeholder="Instansi/Perusahaan" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-tag"></i>Perihal</label>
-                                    <input type="text" class="form-control" id="mailSubject" placeholder="Perihal surat" required>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-align-left"></i>Ringkasan</label>
-                                    <textarea class="form-control" id="mailSummary" rows="3" placeholder="Ringkasan isi surat"></textarea>
-                                </div>
-                                
-                                <div class="link-section">
-                                    <div class="link-section-title">
-                                        <i class="fas fa-link me-2"></i>Link Google Drive
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i class="fas fa-user"></i>Pengirim/Penerima</label>
+                                        <input type="text" class="form-control" id="mailParty" placeholder="Nama pengirim/penerima" required>
                                     </div>
-                                    <div class="link-input-group">
-                                        <label class="form-label"><i class="fas fa-file-pdf"></i>Link File Surat (PDF)</label>
-                                        <input type="url" class="form-control" id="fileLink" placeholder="https://drive.google.com/...">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i class="fas fa-tag"></i>Kategori</label>
+                                        <select class="form-select" id="mailCategory" required>
+                                            <option value="">Pilih Kategori</option>
+                                            <option value="resmi">Resmi</option>
+                                            <option value="penting">Penting</option>
+                                            <option value="biasa">Biasa</option>
+                                            <option value="rahasia">Rahasia</option>
+                                        </select>
                                     </div>
                                 </div>
                                 
-                                <div class="mt-4">
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-save me-2"></i>Simpan Surat
-                                    </button>
-                                    <button type="reset" class="btn btn-secondary ms-2">
-                                        <i class="fas fa-undo me-2"></i>Reset Form
-                                    </button>
+                                <div class="mb-3">
+                                    <label class="form-label"><i class="fas fa-file-alt"></i>Perihal</label>
+                                    <textarea class="form-control" id="mailSubject" rows="2" placeholder="Perihal surat" required></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label"><i class="fas fa-sticky-note"></i>Keterangan</label>
+                                    <textarea class="form-control" id="mailDescription" rows="3" placeholder="Keterangan tambahan"></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label"><i class="fas fa-link"></i>Tautan Dokumen (Google Drive)</label>
+                                    <input type="url" class="form-control" id="mailLink" placeholder="https://drive.google.com/...">
+                                </div>
+                                
+                                <div class="d-flex justify-content-end">
+                                    <button type="reset" class="btn btn-secondary me-2"><i class="fas fa-times me-1"></i>Batal</button>
+                                    <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Simpan Surat</button>
                                 </div>
                             </form>
                         </div>
@@ -1241,7 +1169,7 @@
                     <div class="filter-section">
                         <div class="row">
                             <div class="col-md-3">
-                                <label class="form-label"><i class="fas fa-filter"></i>Jenis Surat</label>
+                                <label class="form-label">Jenis Surat</label>
                                 <select class="form-select" id="filterType">
                                     <option value="">Semua Jenis</option>
                                     <option value="masuk">Surat Masuk</option>
@@ -1249,206 +1177,63 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label"><i class="fas fa-calendar"></i>Bulan</label>
-                                <select class="form-select" id="filterMonth">
-                                    <option value="">Semua Bulan</option>
-                                    <option value="1">Januari</option>
-                                    <option value="2">Februari</option>
-                                    <option value="3">Maret</option>
-                                    <option value="4">April</option>
-                                    <option value="5">Mei</option>
-                                    <option value="6">Juni</option>
-                                    <option value="7">Juli</option>
-                                    <option value="8">Agustus</option>
-                                    <option value="9">September</option>
-                                    <option value="10">Oktober</option>
-                                    <option value="11">November</option>
-                                    <option value="12">Desember</option>
+                                <label class="form-label">Kategori</label>
+                                <select class="form-select" id="filterCategory">
+                                    <option value="">Semua Kategori</option>
+                                    <option value="resmi">Resmi</option>
+                                    <option value="penting">Penting</option>
+                                    <option value="biasa">Biasa</option>
+                                    <option value="rahasia">Rahasia</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label"><i class="fas fa-calendar-day"></i>Tahun</label>
-                                <select class="form-select" id="filterYear">
-                                    <option value="">Semua Tahun</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label"><i class="fas fa-search"></i>Cari</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="searchInput" placeholder="Cari surat...">
-                                    <button class="btn btn-primary" type="button" id="searchButton">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="advanced-search-panel" id="advancedSearchPanel">
-                        <h5 class="mb-3"><i class="fas fa-search-plus me-2"></i>Pencarian Lanjutan</h5>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label class="form-label">Tanggal Mulai</label>
-                                <input type="date" class="form-control" id="startDate">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Tanggal Akhir</label>
-                                <input type="date" class="form-control" id="endDate">
-                            </div>
-                            <div class="col-md-4">
                                 <label class="form-label">Status</label>
-                                <select class="form-select" id="statusFilter">
+                                <select class="form-select" id="filterStatus">
                                     <option value="">Semua Status</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="process">Proses</option>
+                                    <option value="pending">Menunggu</option>
+                                    <option value="processed">Diproses</option>
                                     <option value="completed">Selesai</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="mt-3">
-                            <button class="btn btn-primary" id="applyAdvancedSearch">
-                                <i class="fas fa-check me-2"></i>Terapkan Filter
-                            </button>
-                            <button class="btn btn-secondary ms-2" id="resetAdvancedSearch">
-                                <i class="fas fa-undo me-2"></i>Reset
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="control-panel">
-                        <div class="control-title">Kelola Data</div>
-                        <div class="d-flex flex-wrap gap-2">
-                            <button class="btn btn-success" id="addMailBtn">
-                                <i class="fas fa-plus me-2"></i>Tambah Data
-                            </button>
-                            <button class="btn btn-primary" id="exportPdfBtn">
-                                <i class="fas fa-file-pdf me-2"></i>Export PDF
-                            </button>
-                            <button class="btn btn-success" id="exportExcelBtn">
-                                <i class="fas fa-file-excel me-2"></i>Export Excel
-                            </button>
-                            <button class="btn btn-info" id="toggleAdvancedSearch">
-                                <i class="fas fa-search-plus me-2"></i>Pencarian Lanjutan
-                            </button>
+                            <div class="col-md-3">
+                                <label class="form-label">Urutkan</label>
+                                <select class="form-select" id="sortBy">
+                                    <option value="date-desc">Tanggal (Terbaru)</option>
+                                    <option value="date-asc">Tanggal (Terlama)</option>
+                                    <option value="number">Nomor Surat</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="table-responsive mt-3">
-                        <table class="table table-striped table-hover data-table" id="mailTable">
+                    <div class="table-responsive">
+                        <table class="table table-hover data-table">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Jenis</th>
                                     <th>Nomor</th>
                                     <th>Tanggal</th>
-                                    <th>Asal/Tujuan</th>
                                     <th>Perihal</th>
+                                    <th>Kategori</th>
                                     <th>Status</th>
-                                    <th>File</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><span class="badge bg-primary">Masuk</span></td>
-                                    <td>SM/123/XI/2023</td>
-                                    <td>15/11/2023</td>
-                                    <td>Dinas Pertanian</td>
-                                    <td>Undangan Rapat Koordinasi</td>
-                                    <td><span class="badge bg-success">Selesai</span></td>
-                                    <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><span class="badge bg-success">Keluar</span></td>
-                                    <td>SK/456/XI/2023</td>
-                                    <td>14/11/2023</td>
-                                    <td>Kecamatan Panarukan</td>
-                                    <td>Surat Tugas Monitoring</td>
-                                    <td><span class="badge bg-warning">Proses</span></td>
-                                    <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><span class="badge bg-primary">Masuk</span></td>
-                                    <td>SM/789/XI/2023</td>
-                                    <td>13/11/2023</td>
-                                    <td>BPS Kabupaten</td>
-                                    <td>Permohonan Data Statistik</td>
-                                    <td><span class="badge bg-info">Review</span></td>
-                                    <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><span class="badge bg-success">Keluar</span></td>
-                                    <td>SK/101/XI/2023</td>
-                                    <td>12/11/2023</td>
-                                    <td>Dinas Kesehatan</td>
-                                    <td>Laporan Bulanan</td>
-                                    <td><span class="badge bg-success">Selesai</span></td>
-                                    <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><span class="badge bg-primary">Masuk</span></td>
-                                    <td>SM/202/XI/2023</td>
-                                    <td>10/11/2023</td>
-                                    <td>BPKP</td>
-                                    <td>Pengumuman Lelang</td>
-                                    <td><span class="badge bg-danger">Pending</span></td>
-                                    <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody id="mailTableBody">
+                                <!-- Data will be populated here -->
                             </tbody>
                         </table>
                     </div>
                     
-                    <nav aria-label="Page navigation" class="mt-3">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-muted" id="tableInfo">Menampilkan 0 dari 0 data</div>
+                        <nav>
+                            <ul class="pagination" id="pagination">
+                                <!-- Pagination will be generated here -->
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
                 
                 <!-- Pencarian Section -->
@@ -1460,49 +1245,50 @@
                             <i class="fas fa-search me-2"></i>Form Pencarian
                         </div>
                         <div class="card-body">
-                            <form id="searchForm">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-hashtag"></i>Nomor Surat</label>
-                                        <input type="text" class="form-control" id="searchNumber" placeholder="Masukkan nomor surat">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Masukkan kata kunci pencarian...">
+                                <button class="btn btn-success" type="button" id="searchButton"><i class="fas fa-search me-1"></i>Cari</button>
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="advancedSearchToggle">
+                                <label class="form-check-label" for="advancedSearchToggle">Pencarian Lanjutan</label>
+                            </div>
+                            
+                            <div class="advanced-search-panel" id="advancedSearchPanel">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Jenis Surat</label>
+                                        <select class="form-select" id="searchType">
+                                            <option value="">Semua Jenis</option>
+                                            <option value="masuk">Surat Masuk</option>
+                                            <option value="keluar">Surat Keluar</option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-tag"></i>Perihal</label>
-                                        <input type="text" class="form-control" id="searchSubject" placeholder="Masukkan perihal surat">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Kategori</label>
+                                        <select class="form-select" id="searchCategory">
+                                            <option value="">Semua Kategori</option>
+                                            <option value="resmi">Resmi</option>
+                                            <option value="penting">Penting</option>
+                                            <option value="biasa">Biasa</option>
+                                            <option value="rahasia">Rahasia</option>
+                                        </select>
                                     </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-building"></i>Asal/Tujuan Surat</label>
-                                        <input type="text" class="form-control" id="searchOrigin" placeholder="Instansi/Perusahaan">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-calendar"></i>Rentang Tanggal</label>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Rentang Tanggal</label>
                                         <div class="input-group">
-                                            <input type="date" class="form-control" id="searchStartDate">
+                                            <input type="date" class="form-control" id="searchDateFrom">
                                             <span class="input-group-text">s/d</span>
-                                            <input type="date" class="form-control" id="searchEndDate">
+                                            <input type="date" class="form-control" id="searchDateTo">
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-align-left"></i>Kata Kunci</label>
-                                    <input type="text" class="form-control" id="searchKeywords" placeholder="Masukkan kata kunci pencarian">
-                                </div>
-                                
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-search me-2"></i>Cari Surat
-                                </button>
-                                <button type="reset" class="btn btn-secondary ms-2">
-                                    <i class="fas fa-undo me-2"></i>Reset Form
-                                </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="card mt-4">
+                    <div class="card mt-4 d-none" id="searchResultsCard">
                         <div class="card-header">
                             <i class="fas fa-list me-2"></i>Hasil Pencarian
                         </div>
@@ -1515,18 +1301,13 @@
                                             <th>Jenis</th>
                                             <th>Nomor</th>
                                             <th>Tanggal</th>
-                                            <th>Asal/Tujuan</th>
                                             <th>Perihal</th>
-                                            <th>File</th>
+                                            <th>Kategori</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody id="searchResults">
-                                        <tr>
-                                            <td colspan="7" class="text-center py-4">
-                                                <i class="fas fa-search fa-2x mb-3 text-muted"></i>
-                                                <p class="text-muted">Gunakan form di atas untuk melakukan pencarian</p>
-                                            </td>
-                                        </tr>
+                                        <!-- Search results will be populated here -->
                                     </tbody>
                                 </table>
                             </div>
@@ -1543,50 +1324,16 @@
                             <i class="fas fa-calendar me-2"></i>Kalender
                         </div>
                         <div class="card-body">
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                        <select class="form-select" id="calendarMonth">
-                                            <option value="0">Januari</option>
-                                            <option value="1">Februari</option>
-                                            <option value="2">Maret</option>
-                                            <option value="3">April</option>
-                                            <option value="4">Mei</option>
-                                            <option value="5">Juni</option>
-                                            <option value="6">Juli</option>
-                                            <option value="7">Agustus</option>
-                                            <option value="8">September</option>
-                                            <option value="9">Oktober</option>
-                                            <option value="10">November</option>
-                                            <option value="11">Desember</option>
-                                        </select>
-                                        <select class="form-select" id="calendarYear">
-                                            <option value="2023">2023</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2021">2021</option>
-                                        </select>
-                                        <button class="btn btn-primary" id="viewCalendarBtn">
-                                            <i class="fas fa-eye me-2"></i>Tampilkan
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex justify-content-end">
-                                        <div class="me-3">
-                                            <span class="badge bg-primary p-2">Surat Masuk</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-success p-2">Surat Keluar</span>
-                                        </div>
-                                    </div>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4 id="currentMonthYear">Januari 2023</h4>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary me-2" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
                                 </div>
                             </div>
                             
                             <div class="calendar-view" id="calendarView">
-                                <div class="calendar-grid" id="calendarGrid">
-                                    <!-- Calendar will be generated here -->
-                                </div>
+                                <!-- Calendar will be generated here -->
                             </div>
                         </div>
                     </div>
@@ -1596,57 +1343,111 @@
                 <div class="content-section d-none" id="templatesSection">
                     <h2 class="section-title">Template Surat</h2>
                     
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-file-alt me-2"></i>Daftar Template
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="template-item">
-                                        <h5><i class="fas fa-file-contract text-primary me-2"></i>Surat Tugas</h5>
-                                        <p class="text-muted">Template untuk membuat surat tugas resmi</p>
-                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="template-item">
-                                        <h5><i class="fas fa-file-invoice text-success me-2"></i>Surat Pernyataan</h5>
-                                        <p class="text-muted">Template untuk membuat surat pernyataan</p>
-                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="template-item">
-                                        <h5><i class="fas fa-file-signature text-warning me-2"></i>Surat Kuasa</h5>
-                                        <p class="text-muted">Template untuk membuat surat kuasa</p>
-                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card template-item" data-template="tugas">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-contract" style="font-size: 3rem; color: #0d47a1;"></i>
+                                    <h5 class="mt-3">Surat Tugas</h5>
+                                    <p class="text-muted">Template untuk membuat surat tugas</p>
+                                    <button class="btn btn-primary use-template-btn" data-template="tugas"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
                             </div>
-                            
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="template-item">
-                                        <h5><i class="fas fa-envelope-open-text text-info me-2"></i>Surat Undangan</h5>
-                                        <p class="text-muted">Template untuk membuat surat undangan</p>
-                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
-                                    </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card template-item" data-template="pernyataan">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-signature" style="font-size: 3rem; color: #00695c;"></i>
+                                    <h5 class="mt-3">Surat Pernyataan</h5>
+                                    <p class="text-muted">Template untuk membuat surat pernyataan</p>
+                                    <button class="btn btn-primary use-template-btn" data-template="pernyataan"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="template-item">
-                                        <h5><i class="fas fa-file-medical text-danger me-2"></i>Surat Keterangan</h5>
-                                        <p class="text-muted">Template untuk membuat surat keterangan</p>
-                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card template-item" data-template="kuasa">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-contract" style="font-size: 3rem; color: #ff8f00;"></i>
+                                    <h5 class="mt-3">Surat Kuasa</h5>
+                                    <p class="text-muted">Template untuk membuat surat kuasa</p>
+                                    <button class="btn btn-primary use-template-btn" data-template="kuasa"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="template-item">
-                                        <h5><i class="fas fa-file-export text-secondary me-2"></i>Surat Pengantar</h5>
-                                        <p class="text-muted">Template untuk membuat surat pengantar</p>
-                                        <button class="btn btn-sm btn-primary">Gunakan Template</button>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <div class="card template-item" data-template="undangan">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-invoice" style="font-size: 3rem; color: #9c27b0;"></i>
+                                    <h5 class="mt-3">Surat Undangan</h5>
+                                    <p class="text-muted">Template untuk membuat surat undangan</p>
+                                    <button class="btn btn-primary use-template-btn" data-template="undangan"><i class="fas fa-download me-1"></i>Gunakan Template</button>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <div class="card template-item" data-template="keterangan">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-alt" style="font-size: 3rem; color: #2e7d32;"></i>
+                                    <h5 class="mt-3">Surat Keterangan</h5>
+                                    <p class="text-muted">Template untuk membuat surat keterangan</p>
+                                    <button class="btn btn-primary use-template-btn" data-template="keterangan"><i class="fas fa-download me-1"></i>Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <div class="card template-item" data-template="pengantar">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-export" style="font-size: 3rem; color: #d32f2f;"></i>
+                                    <h5 class="mt-3">Surat Pengantar</h5>
+                                    <p class="text-muted">Template untuk membuat surat pengantar</p>
+                                    <button class="btn btn-primary use-template-btn" data-template="pengantar"><i class="fas fa-download me-1"></i>Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="link-section mt-4">
+                        <h4 class="link-section-title">Tautan Template</h4>
+                        <div class="link-input-group">
+                            <label class="form-label">Surat Tugas</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing')"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="link-input-group">
+                            <label class="form-label">Surat Pernyataan</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="link-input-group">
+                            <label class="form-label">Surat Kuasa</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="link-input-group">
+                            <label class="form-label">Surat Undangan</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="link-input-group">
+                            <label class="form-label">Surat Keterangan</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
+                            </div>
+                        </div>
+                        <div class="link-input-group">
+                            <label class="form-label">Surat Pengantar</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link" readonly>
+                                <button class="btn btn-outline-primary" type="button" onclick="copyToClipboard('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link')"><i class="fas fa-copy"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1658,6 +1459,46 @@
                     
                     <div class="card">
                         <div class="card-header">
+                            <i class="fas fa-user-plus me-2"></i>Tambah Pengguna Baru
+                        </div>
+                        <div class="card-body">
+                            <form id="userForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i class="fas fa-user"></i>Nama Lengkap</label>
+                                        <input type="text" class="form-control" id="userName" placeholder="Nama lengkap" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i class="fas fa-envelope"></i>Email</label>
+                                        <input type="email" class="form-control" id="userEmail" placeholder="Alamat email" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i class="fas fa-key"></i>Password</label>
+                                        <input type="password" class="form-control" id="userPassword" placeholder="Password" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i class="fas fa-user-tag"></i>Role</label>
+                                        <select class="form-select" id="userRole" required>
+                                            <option value="">Pilih Role</option>
+                                            <option value="admin">Administrator</option>
+                                            <option value="user">Pengguna</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end">
+                                    <button type="reset" class="btn btn-secondary me-2"><i class="fas fa-times me-1"></i>Batal</button>
+                                    <button type="submit" class="btn btn-success"><i class="fas fa-save me-1"></i>Simpan Pengguna</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
                             <i class="fas fa-users me-2"></i>Daftar Pengguna
                         </div>
                         <div class="card-body">
@@ -1667,75 +1508,16 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Username</th>
+                                            <th>Email</th>
                                             <th>Role</th>
                                             <th>Status</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="user-avatar me-2">A</div>
-                                                    <div>Administrator</div>
-                                                </div>
-                                            </td>
-                                            <td>admin</td>
-                                            <td><span class="badge bg-primary">Administrator</span></td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="user-avatar me-2">U</div>
-                                                    <div>User Biasa</div>
-                                                </div>
-                                            </td>
-                                            <td>user</td>
-                                            <td><span class="badge bg-secondary">User</span></td>
-                                            <td><span class="badge bg-success">Aktif</span></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="user-avatar me-2">P</div>
-                                                    <div>Petugas Surat</div>
-                                                </div>
-                                            </td>
-                                            <td>petugas</td>
-                                            <td><span class="badge bg-info">Petugas</span></td>
-                                            <td><span class="badge bg-warning">Non-Aktif</span></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
-                                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    <tbody id="userTableBody">
+                                        <!-- Users will be populated here -->
                                     </tbody>
                                 </table>
-                            </div>
-                            
-                            <div class="d-flex justify-content-end mt-3">
-                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                                    <i class="fas fa-plus me-2"></i>Tambah Pengguna
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -1745,62 +1527,69 @@
                 <div class="content-section d-none" id="settingsSection">
                     <h2 class="section-title">Pengaturan Sistem</h2>
                     
-                    <div class="card">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-database me-2"></i>Backup & Restore Data
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success mb-2" id="backupBtn"><i class="fas fa-download me-1"></i>Backup Data</button>
+                                        <button class="btn btn-warning mb-2" id="restoreBtn"><i class="fas fa-upload me-1"></i>Restore Data</button>
+                                        <button class="btn btn-danger" id="resetBtn"><i class="fas fa-trash me-1"></i>Reset Data</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-info-circle me-2"></i>Informasi Sistem
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Versi Aplikasi
+                                            <span class="badge bg-primary">v2.0.0</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Total Surat
+                                            <span class="badge bg-primary" id="totalMailsSetting">0</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Total Pengguna
+                                            <span class="badge bg-primary" id="totalUsersSetting">0</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Ukuran Penyimpanan
+                                            <span class="badge bg-primary" id="storageSize">0 KB</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
                         <div class="card-header">
-                            <i class="fas fa-cog me-2"></i>Pengaturan Umum
+                            <i class="fas fa-shield-alt me-2"></i>Keamanan
                         </div>
                         <div class="card-body">
-                            <form id="settingsForm">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-font"></i>Nama Instansi</label>
-                                        <input type="text" class="form-control" value="Dinas Peternakan dan Perikanan Situbondo">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-envelope"></i>Email Instansi</label>
-                                        <input type="email" class="form-control" value="disnakan@situbondokab.go.id">
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-phone"></i>Telepon</label>
-                                        <input type="text" class="form-control" value="(0338) 671191">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label"><i class="fas fa-map-marker-alt"></i>Alamat</label>
-                                        <input type="text" class="form-control" value="Jl. Jend. Sudirman No. 74, Situbondo">
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-link"></i>Website</label>
-                                    <input type="url" class="form-control" value="https://disnakan.situbondokab.go.id">
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-database"></i>Backup Database</label>
-                                    <div>
-                                        <button type="button" class="btn btn-primary">
-                                            <i class="fas fa-download me-2"></i>Backup Sekarang
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label"><i class="fas fa-paint-brush"></i>Tema Aplikasi</label>
-                                    <select class="form-select" id="themeSelector">
-                                        <option value="light">Light Mode</option>
-                                        <option value="dark">Dark Mode</option>
-                                        <option value="blue">Blue Theme</option>
-                                        <option value="green">Green Theme</option>
-                                    </select>
-                                </div>
-                                
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save me-2"></i>Simpan Pengaturan
-                                </button>
-                            </form>
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>Pastikan untuk melakukan backup data secara berkala untuk mencegah kehilangan data.
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="autoBackup">
+                                <label class="form-check-label" for="autoBackup">Backup Otomatis (setiap 7 hari)</label>
+                            </div>
+                            
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="passwordProtection">
+                                <label class="form-check-label" for="passwordProtection">Perlindungan dengan Password</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1808,391 +1597,1367 @@
         </div>
         
         <div class="copyright">
-            &copy; 2023 Dinas Peternakan dan Perikanan Kabupaten Situbondo - Sistem Manajemen Surat
+            &copy; 2023 Dinas Peternakan dan Perikanan Kabupaten Situbondo. All rights reserved.
+        </div>
+        
+        <div class="floating-action-btn" id="floatingActionBtn">
+            <i class="fas fa-plus"></i>
         </div>
     </div>
-
-    <!-- Floating Action Button -->
-    <div class="floating-action-btn" id="floatingActionBtn">
-        <i class="fas fa-plus"></i>
-    </div>
-
-    <!-- Theme Switcher -->
-    <div class="theme-switcher" id="themeSwitcher">
-        <i class="fas fa-palette"></i>
-    </div>
-
+    
     <!-- Welcome Notification -->
     <div class="welcome-notification" id="welcomeNotification">
         <button class="btn-close-welcome" id="closeWelcome">
             <i class="fas fa-times"></i>
         </button>
         <div class="icon">
-            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-mail-bulk"></i>
         </div>
         <h3>Selamat Datang di Sistem Manajemen Surat</h3>
-        <p>Sistem siap membantu Anda mengelola surat masuk dan keluar dengan lebih efisien</p>
+        <p>Sistem ini membantu Anda mengelola <span class="highlight">surat masuk dan keluar</span> dengan lebih efisien.</p>
+        <p>Gunakan menu di sebelah kiri untuk mulai menjelajahi fitur-fitur aplikasi.</p>
         <div class="particles-container" id="welcomeParticles"></div>
     </div>
-
+    
+    <!-- Toast Notification -->
+    <div class="toast notification-toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="successToast">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-check-circle me-2"></i><span id="toastMessage">Operasi berhasil dilakukan</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    
+    <!-- Password Modal -->
+    <div class="modal fade password-modal" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel"><i class="fas fa-lock me-2"></i>Konfirmasi Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Masukkan password administrator untuk melanjutkan:</p>
+                    <input type="password" class="form-control" id="adminPassword" placeholder="Password administrator">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-success" id="confirmPassword">Konfirmasi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    
     <script>
         // Initialize particles.js
         document.addEventListener('DOMContentLoaded', function() {
-            if (typeof particlesJS !== 'undefined') {
-                particlesJS('particles-js', {
-                    particles: {
-                        number: { value: 80, density: { enable: true, value_area: 800 } },
-                        color: { value: "#ffffff" },
-                        shape: { type: "circle" },
-                        opacity: { value: 0.5, random: true },
-                        size: { value: 3, random: true },
-                        line_linked: {
-                            enable: true,
-                            distance: 150,
-                            color: "#ffffff",
-                            opacity: 0.4,
-                            width: 1
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#0d47a1"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#0d47a1",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
                         },
-                        move: {
-                            enable: true,
-                            speed: 2,
-                            direction: "none",
-                            random: true,
-                            straight: false,
-                            out_mode: "out",
-                            bounce: false
-                        }
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
                     },
-                    interactivity: {
-                        detect_on: "canvas",
-                        events: {
-                            onhover: { enable: true, mode: "grab" },
-                            onclick: { enable: true, mode: "push" },
-                            resize: true
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "push": {
+                            "particles_nb": 4
                         }
-                    },
-                    retina_detect: true
-                });
-            }
+                    }
+                },
+                "retina_detect": true
+            });
         });
-
-        // Main Application Logic
+        
+        // Main Application Code
         document.addEventListener('DOMContentLoaded', function() {
-            // DOM Elements
-            const mainApp = document.getElementById('mainApp');
-            const navLinks = document.querySelectorAll('.nav-link[data-section]');
-            const contentSections = document.querySelectorAll('.content-section');
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const sidebar = document.getElementById('sidebar');
-            const welcomeNotification = document.getElementById('welcomeNotification');
-            const closeWelcome = document.getElementById('closeWelcome');
-            const toggleAdvancedSearch = document.getElementById('toggleAdvancedSearch');
-            const advancedSearchPanel = document.getElementById('advancedSearchPanel');
+            // Initialize variables
+            let currentPage = 1;
+            const itemsPerPage = 10;
+            let mailData = [];
+            let userData = [];
             
             // Show welcome notification
             setTimeout(() => {
-                welcomeNotification.classList.add('show');
-            }, 500);
+                document.getElementById('welcomeNotification').classList.add('show');
+            }, 1000);
             
-            // Navigation
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all links
-                    navLinks.forEach(navLink => {
-                        navLink.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                    
-                    // Hide all sections
-                    contentSections.forEach(section => {
-                        section.classList.add('d-none');
-                    });
-                    
-                    // Show the selected section
-                    const sectionId = this.getAttribute('data-section') + 'Section';
-                    document.getElementById(sectionId).classList.remove('d-none');
-                    
-                    // Close sidebar on mobile
-                    if (window.innerWidth < 992) {
-                        document.body.classList.remove('sidebar-open');
-                        sidebarOverlay.classList.remove('active');
-                    }
-                });
+            // Close welcome notification
+            document.getElementById('closeWelcome').addEventListener('click', function() {
+                document.getElementById('welcomeNotification').classList.remove('show');
             });
             
             // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', function() {
-                document.body.classList.add('sidebar-open');
-                sidebarOverlay.classList.add('active');
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.body.classList.toggle('sidebar-open');
+                document.getElementById('sidebarOverlay').classList.toggle('active');
             });
             
-            sidebarOverlay.addEventListener('click', function() {
+            document.getElementById('sidebarOverlay').addEventListener('click', function() {
                 document.body.classList.remove('sidebar-open');
                 this.classList.remove('active');
             });
             
-            // Close welcome notification
-            closeWelcome.addEventListener('click', function() {
-                welcomeNotification.classList.remove('show');
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.getAttribute('data-section') + 'Section';
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.classList.add('d-none');
+                    });
+                    document.getElementById(sectionId).classList.remove('d-none');
+                    
+                    // Close mobile menu after selection
+                    document.body.classList.remove('sidebar-open');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                    
+                    // Load data for the section if needed
+                    if (sectionId === 'dataSection') {
+                        loadMailData();
+                    } else if (sectionId === 'usersSection') {
+                        loadUserData();
+                    } else if (sectionId === 'calendarSection') {
+                        generateCalendar();
+                    } else if (sectionId === 'settingsSection') {
+                        updateSettingsInfo();
+                    }
+                });
             });
             
-            // Toggle advanced search
-            toggleAdvancedSearch.addEventListener('click', function() {
-                if (advancedSearchPanel.style.display === 'none' || !advancedSearchPanel.style.display) {
-                    advancedSearchPanel.style.display = 'block';
-                    this.innerHTML = '<i class="fas fa-search-minus me-2"></i>Sembunyikan Pencarian';
+            // Initialize data
+            initializeData();
+            
+            // Load initial data
+            loadMailData();
+            loadUserData();
+            updateDashboard();
+            
+            // Mail form submission
+            document.getElementById('mailForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveMail();
+            });
+            
+            // User form submission
+            document.getElementById('userForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveUser();
+            });
+            
+            // Search functionality
+            document.getElementById('searchButton').addEventListener('click', function() {
+                performSearch();
+            });
+            
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Advanced search toggle
+            document.getElementById('advancedSearchToggle').addEventListener('change', function() {
+                const panel = document.getElementById('advancedSearchPanel');
+                panel.style.display = this.checked ? 'block' : 'none';
+            });
+            
+            // Filter functionality
+            document.getElementById('filterType').addEventListener('change', function() {
+                loadMailData();
+            });
+            
+            document.getElementById('filterCategory').addEventListener('change', function() {
+                loadMailData();
+            });
+            
+            document.getElementById('filterStatus').addEventListener('change', function() {
+                loadMailData();
+            });
+            
+            document.getElementById('sortBy').addEventListener('change', function() {
+                loadMailData();
+            });
+            
+            // Calendar navigation
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                // Implementation for previous month
+                alert('Fitur kalender akan segera hadir!');
+            });
+            
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                // Implementation for next month
+                alert('Fitur kalender akan segera hadir!');
+            });
+            
+            // Template buttons
+            document.querySelectorAll('.use-template-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const templateType = this.getAttribute('data-template');
+                    useTemplate(templateType);
+                });
+            });
+            
+            // Backup, Restore, Reset buttons
+            document.getElementById('backupBtn').addEventListener('click', function() {
+                backupData();
+            });
+            
+            document.getElementById('restoreBtn').addEventListener('click', function() {
+                restoreData();
+            });
+            
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                showPasswordModal('reset');
+            });
+            
+            // Password confirmation
+            document.getElementById('confirmPassword').addEventListener('click', function() {
+                const password = document.getElementById('adminPassword').value;
+                if (password === 'admin123') { // Default password, can be changed
+                    const action = document.getElementById('passwordModal').getAttribute('data-action');
+                    if (action === 'reset') {
+                        resetData();
+                    }
+                    bootstrap.Modal.getInstance(document.getElementById('passwordModal')).hide();
+                    document.getElementById('adminPassword').value = '';
                 } else {
-                    advancedSearchPanel.style.display = 'none';
-                    this.innerHTML = '<i class="fas fa-search-plus me-2"></i>Pencarian Lanjutan';
+                    alert('Password salah!');
                 }
             });
-            
-            // Initialize charts
-            if (typeof Chart !== 'undefined') {
-                // Mail statistics chart
-                const mailCtx = document.getElementById('mailChart').getContext('2d');
-                const mailChart = new Chart(mailCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                        datasets: [
-                            {
-                                label: 'Surat Masuk',
-                                data: [12, 19, 8, 15, 17, 12, 16, 14, 18, 16, 15, 10],
-                                backgroundColor: '#0d47a1'
-                            },
-                            {
-                                label: 'Surat Keluar',
-                                data: [8, 12, 6, 10, 14, 9, 11, 13, 10, 12, 8, 7],
-                                backgroundColor: '#00695c'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top'
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                
-                // Category chart
-                const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-                const categoryChart = new Chart(categoryCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Undangan', 'Laporan', 'Tugas', 'Permohonan', 'Lainnya'],
-                        datasets: [{
-                            data: [30, 25, 20, 15, 10],
-                            backgroundColor: [
-                                '#0d47a1',
-                                '#00695c',
-                                '#ff8f00',
-                                '#9e9d24',
-                                '#78909c'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // Initialize calendar view
-            const viewCalendarBtn = document.getElementById('viewCalendarBtn');
-            if (viewCalendarBtn) {
-                viewCalendarBtn.addEventListener('click', function() {
-                    document.getElementById('calendarView').style.display = 'block';
-                    generateCalendar();
-                });
-            }
-            
-            // Generate calendar function
-            function generateCalendar() {
-                const month = parseInt(document.getElementById('calendarMonth').value);
-                const year = parseInt(document.getElementById('calendarYear').value);
-                const calendarGrid = document.getElementById('calendarGrid');
-                
-                // Clear previous calendar
-                calendarGrid.innerHTML = '';
-                
-                // Get first day of month and number of days
-                const firstDay = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-                
-                // Create day headers
-                const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-                dayNames.forEach(day => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.classList.add('calendar-day-header');
-                    dayHeader.textContent = day;
-                    calendarGrid.appendChild(dayHeader);
-                });
-                
-                // Add empty cells for days before the first day of the month
-                for (let i = 0; i < firstDay; i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.classList.add('calendar-day');
-                    calendarGrid.appendChild(emptyDay);
-                }
-                
-                // Add cells for each day of the month
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dayCell = document.createElement('div');
-                    dayCell.classList.add('calendar-day');
-                    
-                    const dayHeader = document.createElement('div');
-                    dayHeader.classList.add('calendar-day-header');
-                    dayHeader.textContent = day;
-                    dayCell.appendChild(dayHeader);
-                    
-                    // Randomly add events for demonstration
-                    if (Math.random() > 0.7) {
-                        dayCell.classList.add('has-events');
-                        
-                        const eventCount = Math.floor(Math.random() * 2) + 1;
-                        for (let i = 0; i < eventCount; i++) {
-                            const event = document.createElement('div');
-                            event.classList.add('calendar-event');
-                            event.textContent = Math.random() > 0.5 ? 'Surat Masuk' : 'Surat Keluar';
-                            event.style.backgroundColor = Math.random() > 0.5 ? 'rgba(13, 71, 161, 0.2)' : 'rgba(0, 105, 92, 0.2)';
-                            dayCell.appendChild(event);
-                        }
-                    }
-                    
-                    calendarGrid.appendChild(dayCell);
-                }
-            }
-            
-            // Add mail button functionality
-            const addMailBtn = document.getElementById('addMailBtn');
-            if (addMailBtn) {
-                addMailBtn.addEventListener('click', function() {
-                    // Switch to input section
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    document.querySelector('[data-section="input"]').classList.add('active');
-                    
-                    contentSections.forEach(section => section.classList.add('d-none'));
-                    document.getElementById('inputSection').classList.remove('d-none');
-                });
-            }
-            
-            // Form submission
-            const mailForm = document.getElementById('mailForm');
-            if (mailForm) {
-                mailForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Surat berhasil disimpan!');
-                    this.reset();
-                });
-            }
-            
-            // Search form submission
-            const searchForm = document.getElementById('searchForm');
-            if (searchForm) {
-                searchForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const searchResults = document.getElementById('searchResults');
-                    
-                    // Show loading state
-                    searchResults.innerHTML = `
-                        <tr>
-                            <td colspan="7" class="text-center py-4">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <p class="mt-2 text-muted">Sedang mencari...</p>
-                            </td>
-                        </tr>
-                    `;
-                    
-                    // Simulate search delay
-                    setTimeout(() => {
-                        // Mock search results
-                        searchResults.innerHTML = `
-                            <tr>
-                                <td>1</td>
-                                <td><span class="badge bg-primary">Masuk</span></td>
-                                <td>SM/123/XI/2023</td>
-                                <td>15/11/2023</td>
-                                <td>Dinas Pertanian</td>
-                                <td>Undangan Rapat Koordinasi</td>
-                                <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><span class="badge bg-success">Keluar</span></td>
-                                <td>SK/456/XI/2023</td>
-                                <td>14/11/2023</td>
-                                <td>Kecamatan Panarukan</td>
-                                <td>Surat Tugas Monitoring</td>
-                                <td><a href="#" class="drive-link"><i class="fas fa-external-link-alt"></i> Lihat</a></td>
-                            </tr>
-                        `;
-                    }, 1500);
-                });
-            }
-            
-            // Export buttons
-            const exportPdfBtn = document.getElementById('exportPdfBtn');
-            if (exportPdfBtn) {
-                exportPdfBtn.addEventListener('click', function() {
-                    alert('Fitur export PDF akan segera tersedia!');
-                });
-            }
-            
-            const exportExcelBtn = document.getElementById('exportExcelBtn');
-            if (exportExcelBtn) {
-                exportExcelBtn.addEventListener('click', function() {
-                    alert('Fitur export Excel akan segera tersedia!');
-                });
-            }
-            
-            // Theme switcher
-            const themeSwitcher = document.getElementById('themeSwitcher');
-            if (themeSwitcher) {
-                themeSwitcher.addEventListener('click', function() {
-                    alert('Fitur pengganti tema akan segera tersedia!');
-                });
-            }
             
             // Floating action button
-            const floatingActionBtn = document.getElementById('floatingActionBtn');
-            if (floatingActionBtn) {
-                floatingActionBtn.addEventListener('click', function() {
-                    // Switch to input section
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    document.querySelector('[data-section="input"]').classList.add('active');
+            document.getElementById('floatingActionBtn').addEventListener('click', function() {
+                // Switch to input section
+                document.querySelectorAll('.nav-link').forEach(navLink => {
+                    navLink.classList.remove('active');
+                });
+                document.querySelector('[data-section="input"]').classList.add('active');
+                
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.add('d-none');
+                });
+                document.getElementById('inputSection').classList.remove('d-none');
+            });
+            
+            // Initialize date inputs with current date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('mailDate').value = today;
+            document.getElementById('mailActionDate').value = today;
+            
+            // Initialize charts
+            initCharts();
+        });
+        
+        // Initialize application data
+        function initializeData() {
+            // Check if mail data exists in localStorage
+            if (!localStorage.getItem('mailData')) {
+                // Create sample data
+                const sampleData = [
+                    {
+                        id: 1,
+                        type: 'masuk',
+                        number: '001/DPP/VI/2023',
+                        date: '2023-06-15',
+                        actionDate: '2023-06-16',
+                        party: 'Dinas Pertanian Provinsi Jawa Timur',
+                        category: 'penting',
+                        subject: 'Undangan Rapat Koordinasi',
+                        description: 'Rapat koordinasi mengenai program pengembangan peternakan',
+                        link: '',
+                        status: 'pending',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        type: 'keluar',
+                        number: '002/DPP/VI/2023',
+                        date: '2023-06-18',
+                        actionDate: '2023-06-19',
+                        party: 'Dinas Kesehatan Kabupaten Situbondo',
+                        category: 'resmi',
+                        subject: 'Permohonan Data Vaksinasi Hewan Ternak',
+                        description: 'Permohonan data vaksinasi hewan ternak periode Januari-Juni 2023',
+                        link: '',
+                        status: 'processed',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 3,
+                        type: 'masuk',
+                        number: '003/DPP/VI/2023',
+                        date: '2023-06-20',
+                        actionDate: '2023-06-21',
+                        party: 'PT. Sumber Pangan',
+                        category: 'biasa',
+                        subject: 'Permohonan Kerjasama Distribusi Hasil Ternak',
+                        description: 'Permohonan kerjasama dalam distribusi hasil ternak wilayah Situbondo',
+                        link: '',
+                        status: 'completed',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                
+                localStorage.setItem('mailData', JSON.stringify(sampleData));
+            }
+            
+            // Check if user data exists in localStorage
+            if (!localStorage.getItem('userData')) {
+                // Create sample user data
+                const sampleUsers = [
+                    {
+                        id: 1,
+                        name: 'Administrator',
+                        email: 'admin@dpp-situbondo.go.id',
+                        password: 'admin123',
+                        role: 'admin',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        name: 'Budi Santoso',
+                        email: 'budi.santoso@dpp-situbondo.go.id',
+                        password: 'user123',
+                        role: 'user',
+                        status: 'active',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                
+                localStorage.setItem('userData', JSON.stringify(sampleUsers));
+            }
+        }
+        
+        // Load mail data
+        function loadMailData() {
+            mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            
+            // Apply filters
+            const typeFilter = document.getElementById('filterType').value;
+            const categoryFilter = document.getElementById('filterCategory').value;
+            const statusFilter = document.getElementById('filterStatus').value;
+            const sortBy = document.getElementById('sortBy').value;
+            
+            let filteredData = mailData;
+            
+            if (typeFilter) {
+                filteredData = filteredData.filter(mail => mail.type === typeFilter);
+            }
+            
+            if (categoryFilter) {
+                filteredData = filteredData.filter(mail => mail.category === categoryFilter);
+            }
+            
+            if (statusFilter) {
+                filteredData = filteredData.filter(mail => mail.status === statusFilter);
+            }
+            
+            // Apply sorting
+            if (sortBy === 'date-desc') {
+                filteredData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            } else if (sortBy === 'date-asc') {
+                filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
+            } else if (sortBy === 'number') {
+                filteredData.sort((a, b) => a.number.localeCompare(b.number));
+            }
+            
+            // Update table info
+            document.getElementById('tableInfo').textContent = `Menampilkan ${filteredData.length} dari ${filteredData.length} data`;
+            
+            // Generate table rows
+            const tableBody = document.getElementById('mailTableBody');
+            tableBody.innerHTML = '';
+            
+            if (filteredData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data surat</td></tr>';
+                return;
+            }
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const mail = filteredData[i];
+                const row = document.createElement('tr');
+                
+                // Format date for display
+                const mailDate = new Date(mail.date);
+                const formattedDate = mailDate.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                // Determine badge class based on category
+                let badgeClass = 'badge-normal';
+                if (mail.category === 'penting') badgeClass = 'badge-important';
+                if (mail.category === 'rahasia') badgeClass = 'badge-primary';
+                
+                // Determine status badge
+                let statusBadge = '';
+                if (mail.status === 'pending') {
+                    statusBadge = '<span class="badge bg-warning">Menunggu</span>';
+                } else if (mail.status === 'processed') {
+                    statusBadge = '<span class="badge bg-info">Diproses</span>';
+                } else if (mail.status === 'completed') {
+                    statusBadge = '<span class="badge bg-success">Selesai</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td><span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'}">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span></td>
+                    <td>${mail.number}</td>
+                    <td>${formattedDate}</td>
+                    <td>${mail.subject}</td>
+                    <td><span class="badge ${badgeClass}">${mail.category}</span></td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary edit-mail" data-id="${mail.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-outline-danger delete-mail" data-id="${mail.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            }
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.edit-mail').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mailId = parseInt(this.getAttribute('data-id'));
+                    editMail(mailId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-mail').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mailId = parseInt(this.getAttribute('data-id'));
+                    deleteMail(mailId);
+                });
+            });
+            
+            // Generate pagination
+            generatePagination(filteredData.length);
+        }
+        
+        // Generate pagination
+        function generatePagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.classList.add('page-item');
+            if (currentPage === 1) prevLi.classList.add('disabled');
+            
+            prevLi.innerHTML = `
+                <a class="page-link" href="#" aria-label="Previous" ${currentPage === 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            `;
+            
+            prevLi.querySelector('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadMailData();
+                }
+            });
+            
+            paginationElement.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLi = document.createElement('li');
+                pageLi.classList.add('page-item');
+                if (i === currentPage) pageLi.classList.add('active');
+                
+                pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                
+                pageLi.querySelector('a').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentPage = i;
+                    loadMailData();
+                });
+                
+                paginationElement.appendChild(pageLi);
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.classList.add('page-item');
+            if (currentPage === totalPages) nextLi.classList.add('disabled');
+            
+            nextLi.innerHTML = `
+                <a class="page-link" href="#" aria-label="Next" ${currentPage === totalPages ? 'tabindex="-1" aria-disabled="true"' : ''}>
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            `;
+            
+            nextLi.querySelector('a').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    loadMailData();
+                }
+            });
+            
+            paginationElement.appendChild(nextLi);
+        }
+        
+        // Save mail (create or update)
+        function saveMail() {
+            const editId = document.getElementById('editId').value;
+            const mailType = document.getElementById('mailType').value;
+            const mailNumber = document.getElementById('mailNumber').value;
+            const mailDate = document.getElementById('mailDate').value;
+            const mailActionDate = document.getElementById('mailActionDate').value;
+            const mailParty = document.getElementById('mailParty').value;
+            const mailCategory = document.getElementById('mailCategory').value;
+            const mailSubject = document.getElementById('mailSubject').value;
+            const mailDescription = document.getElementById('mailDescription').value;
+            const mailLink = document.getElementById('mailLink').value;
+            
+            // Validate required fields
+            if (!mailType || !mailNumber || !mailDate || !mailActionDate || !mailParty || !mailCategory || !mailSubject) {
+                showToast('Harap isi semua field yang wajib diisi', 'error');
+                return;
+            }
+            
+            // Get existing data
+            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            
+            if (editId) {
+                // Update existing mail
+                const index = mailData.findIndex(mail => mail.id === parseInt(editId));
+                if (index !== -1) {
+                    mailData[index] = {
+                        ...mailData[index],
+                        type: mailType,
+                        number: mailNumber,
+                        date: mailDate,
+                        actionDate: mailActionDate,
+                        party: mailParty,
+                        category: mailCategory,
+                        subject: mailSubject,
+                        description: mailDescription,
+                        link: mailLink,
+                        updatedAt: new Date().toISOString()
+                    };
                     
-                    contentSections.forEach(section => section.classList.add('d-none'));
-                    document.getElementById('inputSection').classList.remove('d-none');
+                    localStorage.setItem('mailData', JSON.stringify(mailData));
+                    showToast('Surat berhasil diperbarui', 'success');
+                }
+            } else {
+                // Create new mail
+                const newMail = {
+                    id: mailData.length > 0 ? Math.max(...mailData.map(mail => mail.id)) + 1 : 1,
+                    type: mailType,
+                    number: mailNumber,
+                    date: mailDate,
+                    actionDate: mailActionDate,
+                    party: mailParty,
+                    category: mailCategory,
+                    subject: mailSubject,
+                    description: mailDescription,
+                    link: mailLink,
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                };
+                
+                mailData.push(newMail);
+                localStorage.setItem('mailData', JSON.stringify(mailData));
+                showToast('Surat berhasil disimpan', 'success');
+            }
+            
+            // Reset form
+            document.getElementById('mailForm').reset();
+            document.getElementById('editId').value = '';
+            
+            // Update dashboard and data table
+            updateDashboard();
+            loadMailData();
+            
+            // Switch to data section
+            document.querySelector('[data-section="data"]').click();
+        }
+        
+        // Edit mail
+        function editMail(id) {
+            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            const mail = mailData.find(mail => mail.id === id);
+            
+            if (mail) {
+                document.getElementById('editId').value = mail.id;
+                document.getElementById('mailType').value = mail.type;
+                document.getElementById('mailNumber').value = mail.number;
+                document.getElementById('mailDate').value = mail.date;
+                document.getElementById('mailActionDate').value = mail.actionDate;
+                document.getElementById('mailParty').value = mail.party;
+                document.getElementById('mailCategory').value = mail.category;
+                document.getElementById('mailSubject').value = mail.subject;
+                document.getElementById('mailDescription').value = mail.description || '';
+                document.getElementById('mailLink').value = mail.link || '';
+                
+                // Switch to input section
+                document.querySelector('[data-section="input"]').click();
+                
+                // Scroll to form
+                document.getElementById('mailForm').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Delete mail
+        function deleteMail(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus surat ini?')) {
+                let mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+                mailData = mailData.filter(mail => mail.id !== id);
+                localStorage.setItem('mailData', JSON.stringify(mailData));
+                
+                showToast('Surat berhasil dihapus', 'success');
+                
+                // Update dashboard and data table
+                updateDashboard();
+                loadMailData();
+            }
+        }
+        
+        // Load user data
+        function loadUserData() {
+            userData = JSON.parse(localStorage.getItem('userData') || '[]');
+            const tableBody = document.getElementById('userTableBody');
+            tableBody.innerHTML = '';
+            
+            if (userData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada data pengguna</td></tr>';
+                return;
+            }
+            
+            userData.forEach((user, index) => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="user-avatar me-2">${user.name.charAt(0)}</div>
+                            ${user.name}
+                        </div>
+                    </td>
+                    <td>${user.email}</td>
+                    <td><span class="badge ${user.role === 'admin' ? 'bg-primary' : 'bg-secondary'}">${user.role}</span></td>
+                    <td><span class="badge bg-success">${user.status}</span></td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary edit-user" data-id="${user.id}"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-outline-danger delete-user" data-id="${user.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.edit-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    editUser(userId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = parseInt(this.getAttribute('data-id'));
+                    deleteUser(userId);
+                });
+            });
+        }
+        
+        // Save user (create or update)
+        function saveUser() {
+            const userName = document.getElementById('userName').value;
+            const userEmail = document.getElementById('userEmail').value;
+            const userPassword = document.getElementById('userPassword').value;
+            const userRole = document.getElementById('userRole').value;
+            
+            // Validate required fields
+            if (!userName || !userEmail || !userPassword || !userRole) {
+                showToast('Harap isi semua field yang wajib diisi', 'error');
+                return;
+            }
+            
+            // Get existing data
+            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+            
+            // Check if email already exists
+            const existingUser = userData.find(user => user.email === userEmail);
+            if (existingUser) {
+                showToast('Email sudah terdaftar', 'error');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: userData.length > 0 ? Math.max(...userData.map(user => user.id)) + 1 : 1,
+                name: userName,
+                email: userEmail,
+                password: userPassword,
+                role: userRole,
+                status: 'active',
+                createdAt: new Date().toISOString()
+            };
+            
+            userData.push(newUser);
+            localStorage.setItem('userData', JSON.stringify(userData));
+            showToast('Pengguna berhasil ditambahkan', 'success');
+            
+            // Reset form
+            document.getElementById('userForm').reset();
+            
+            // Reload user data
+            loadUserData();
+        }
+        
+        // Edit user
+        function editUser(id) {
+            // Implementation for editing user
+            alert('Fitur edit pengguna akan segera hadir!');
+        }
+        
+        // Delete user
+        function deleteUser(id) {
+            if (id === 1) {
+                showToast('Tidak dapat menghapus administrator utama', 'error');
+                return;
+            }
+            
+            if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+                let userData = JSON.parse(localStorage.getItem('userData') || '[]');
+                userData = userData.filter(user => user.id !== id);
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                showToast('Pengguna berhasil dihapus', 'success');
+                loadUserData();
+            }
+        }
+        
+        // Perform search
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const typeFilter = document.getElementById('searchType').value;
+            const categoryFilter = document.getElementById('searchCategory').value;
+            const dateFrom = document.getElementById('searchDateFrom').value;
+            const dateTo = document.getElementById('searchDateTo').value;
+            
+            if (!query && !typeFilter && !categoryFilter && !dateFrom && !dateTo) {
+                showToast('Masukkan kata kunci pencarian atau gunakan filter', 'info');
+                return;
+            }
+            
+            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            let results = mailData;
+            
+            // Apply text search
+            if (query) {
+                results = results.filter(mail => 
+                    mail.number.toLowerCase().includes(query) ||
+                    mail.subject.toLowerCase().includes(query) ||
+                    mail.party.toLowerCase().includes(query) ||
+                    mail.description.toLowerCase().includes(query)
+                );
+            }
+            
+            // Apply type filter
+            if (typeFilter) {
+                results = results.filter(mail => mail.type === typeFilter);
+            }
+            
+            // Apply category filter
+            if (categoryFilter) {
+                results = results.filter(mail => mail.category === categoryFilter);
+            }
+            
+            // Apply date range filter
+            if (dateFrom) {
+                results = results.filter(mail => mail.date >= dateFrom);
+            }
+            
+            if (dateTo) {
+                results = results.filter(mail => mail.date <= dateTo);
+            }
+            
+            // Display results
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = '';
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<tr><td colspan="7" class="text-center">Tidak ada hasil pencarian</td></tr>';
+            } else {
+                results.forEach((mail, index) => {
+                    const mailDate = new Date(mail.date);
+                    const formattedDate = mailDate.toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td><span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'}">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span></td>
+                        <td>${mail.number}</td>
+                        <td>${formattedDate}</td>
+                        <td>${mail.subject}</td>
+                        <td><span class="badge ${mail.category === 'penting' ? 'badge-important' : 'badge-normal'}">${mail.category}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary view-mail" data-id="${mail.id}"><i class="fas fa-eye"></i></button>
+                        </td>
+                    `;
+                    
+                    resultsContainer.appendChild(row);
+                });
+                
+                // Add event listeners to view buttons
+                document.querySelectorAll('.view-mail').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const mailId = parseInt(this.getAttribute('data-id'));
+                        viewMail(mailId);
+                    });
                 });
             }
-        });
+            
+            // Show results card
+            document.getElementById('searchResultsCard').classList.remove('d-none');
+        }
+        
+        // View mail details
+        function viewMail(id) {
+            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            const mail = mailData.find(mail => mail.id === id);
+            
+            if (mail) {
+                // Format dates for display
+                const mailDate = new Date(mail.date);
+                const actionDate = new Date(mail.actionDate);
+                
+                const formattedMailDate = mailDate.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                const formattedActionDate = actionDate.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                // Create modal content
+                const modalContent = `
+                    <div class="modal fade" id="mailDetailModal" tabindex="-1" aria-labelledby="mailDetailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="mailDetailModalLabel">Detail Surat</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <strong>Jenis Surat:</strong>
+                                            <span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'} ms-2">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Nomor Surat:</strong> ${mail.number}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <strong>Tanggal Surat:</strong> ${formattedMailDate}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Tanggal ${mail.type === 'masuk' ? 'Diterima' : 'Dikirim'}:</strong> ${formattedActionDate}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <strong>${mail.type === 'masuk' ? 'Pengirim' : 'Penerima'}:</strong> ${mail.party}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Kategori:</strong> <span class="badge ${mail.category === 'penting' ? 'badge-important' : 'badge-normal'}">${mail.category}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <strong>Perihal:</strong>
+                                        <p>${mail.subject}</p>
+                                    </div>
+                                    
+                                    ${mail.description ? `
+                                    <div class="mb-3">
+                                        <strong>Keterangan:</strong>
+                                        <p>${mail.description}</p>
+                                    </div>
+                                    ` : ''}
+                                    
+                                    ${mail.link ? `
+                                    <div class="mb-3">
+                                        <strong>Tautan Dokumen:</strong>
+                                        <p><a href="${mail.link}" target="_blank" class="drive-link"><i class="fas fa-external-link-alt"></i>${mail.link}</a></p>
+                                    </div>
+                                    ` : ''}
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <strong>Status:</strong> 
+                                            ${mail.status === 'pending' ? '<span class="badge bg-warning">Menunggu</span>' : ''}
+                                            ${mail.status === 'processed' ? '<span class="badge bg-info">Diproses</span>' : ''}
+                                            ${mail.status === 'completed' ? '<span class="badge bg-success">Selesai</span>' : ''}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Dibuat pada:</strong> ${new Date(mail.createdAt).toLocaleDateString('id-ID')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add modal to document
+                document.body.insertAdjacentHTML('beforeend', modalContent);
+                
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('mailDetailModal'));
+                modal.show();
+                
+                // Remove modal from DOM after hiding
+                document.getElementById('mailDetailModal').addEventListener('hidden.bs.modal', function() {
+                    this.remove();
+                });
+            }
+        }
+        
+        // Generate calendar
+        function generateCalendar() {
+            // Implementation for calendar generation
+            document.getElementById('calendarView').innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>Fitur kalender akan segera hadir dalam pembaruan berikutnya.
+                </div>
+            `;
+        }
+        
+        // Use template
+        function useTemplate(templateType) {
+            const templateLinks = {
+                'tugas': 'https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing',
+                'pernyataan': 'https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link',
+                'kuasa': 'https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link',
+                'undangan': 'https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link',
+                'keterangan': 'https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link',
+                'pengantar': 'https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link'
+            };
+            
+            window.open(templateLinks[templateType], '_blank');
+            showToast(`Membuka template ${templateType}`, 'info');
+        }
+        
+        // Backup data
+        function backupData() {
+            const mailData = localStorage.getItem('mailData');
+            const userData = localStorage.getItem('userData');
+            
+            const backupData = {
+                mailData: mailData ? JSON.parse(mailData) : [],
+                userData: userData ? JSON.parse(userData) : [],
+                backupDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(backupData);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `backup-surat-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showToast('Backup data berhasil', 'success');
+        }
+        
+        // Restore data
+        function restoreData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    try {
+                        const backupData = JSON.parse(event.target.result);
+                        
+                        if (backupData.mailData && backupData.userData) {
+                            localStorage.setItem('mailData', JSON.stringify(backupData.mailData));
+                            localStorage.setItem('userData', JSON.stringify(backupData.userData));
+                            
+                            showToast('Data berhasil dipulihkan', 'success');
+                            
+                            // Reload data
+                            loadMailData();
+                            loadUserData();
+                            updateDashboard();
+                        } else {
+                            showToast('File backup tidak valid', 'error');
+                        }
+                    } catch (error) {
+                        showToast('Gagal memulihkan data: ' + error.message, 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        // Reset data
+        function resetData() {
+            if (confirm('Apakah Anda yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan.')) {
+                localStorage.removeItem('mailData');
+                localStorage.removeItem('userData');
+                
+                // Reinitialize with sample data
+                initializeData();
+                
+                showToast('Semua data telah direset', 'success');
+                
+                // Reload data
+                loadMailData();
+                loadUserData();
+                updateDashboard();
+            }
+        }
+        
+        // Show password modal
+        function showPasswordModal(action) {
+            document.getElementById('passwordModal').setAttribute('data-action', action);
+            const modal = new bootstrap.Modal(document.getElementById('passwordModal'));
+            modal.show();
+        }
+        
+        // Update dashboard
+        function updateDashboard() {
+            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            
+            // Count incoming and outgoing mails
+            const incomingMails = mailData.filter(mail => mail.type === 'masuk').length;
+            const outgoingMails = mailData.filter(mail => mail.type === 'keluar').length;
+            
+            // Count by status
+            const pendingMails = mailData.filter(mail => mail.status === 'pending').length;
+            const processedMails = mailData.filter(mail => mail.status === 'processed').length;
+            const completedMails = mailData.filter(mail => mail.status === 'completed').length;
+            
+            // Update dashboard numbers
+            document.getElementById('totalIncoming').textContent = incomingMails;
+            document.getElementById('totalOutgoing').textContent = outgoingMails;
+            document.getElementById('totalPending').textContent = pendingMails;
+            document.getElementById('totalProcessed').textContent = processedMails + completedMails;
+            
+            // Update recent activities
+            const recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = '';
+            
+            // Get recent mails (last 5)
+            const recentMails = [...mailData]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 5);
+            
+            if (recentMails.length === 0) {
+                recentActivities.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td></tr>';
+            } else {
+                recentMails.forEach(mail => {
+                    const mailDate = new Date(mail.date);
+                    const formattedDate = mailDate.toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formattedDate}</td>
+                        <td><span class="badge ${mail.type === 'masuk' ? 'badge-incoming' : 'badge-outgoing'}">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span></td>
+                        <td>${mail.number}</td>
+                        <td>${mail.subject}</td>
+                        <td>
+                            ${mail.status === 'pending' ? '<span class="badge bg-warning">Menunggu</span>' : ''}
+                            ${mail.status === 'processed' ? '<span class="badge bg-info">Diproses</span>' : ''}
+                            ${mail.status === 'completed' ? '<span class="badge bg-success">Selesai</span>' : ''}
+                        </td>
+                    `;
+                    
+                    recentActivities.appendChild(row);
+                });
+            }
+            
+            // Update charts
+            updateCharts();
+        }
+        
+        // Initialize charts
+        function initCharts() {
+            // Mail trend chart
+            const mailCtx = document.getElementById('mailChart').getContext('2d');
+            window.mailChart = new Chart(mailCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [
+                        {
+                            label: 'Surat Masuk',
+                            data: [12, 19, 8, 15, 17, 12, 0, 0, 0, 0, 0, 0],
+                            borderColor: '#0d47a1',
+                            backgroundColor: 'rgba(13, 71, 161, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Surat Keluar',
+                            data: [8, 12, 6, 10, 14, 9, 0, 0, 0, 0, 0, 0],
+                            borderColor: '#00695c',
+                            backgroundColor: 'rgba(0, 105, 92, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Category chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            window.categoryChart = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Resmi', 'Penting', 'Biasa', 'Rahasia'],
+                    datasets: [{
+                        data: [10, 15, 20, 5],
+                        backgroundColor: [
+                            '#0d47a1',
+                            '#ff8f00',
+                            '#00695c',
+                            '#d32f2f'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update charts with real data
+        function updateCharts() {
+            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            
+            // Count mails by month (for the current year)
+            const currentYear = new Date().getFullYear();
+            const monthlyCounts = Array(12).fill(0).map(() => ({ incoming: 0, outgoing: 0 }));
+            
+            mailData.forEach(mail => {
+                const mailDate = new Date(mail.date);
+                if (mailDate.getFullYear() === currentYear) {
+                    const month = mailDate.getMonth();
+                    if (mail.type === 'masuk') {
+                        monthlyCounts[month].incoming++;
+                    } else {
+                        monthlyCounts[month].outgoing++;
+                    }
+                }
+            });
+            
+            // Update mail trend chart
+            window.mailChart.data.datasets[0].data = monthlyCounts.map(count => count.incoming);
+            window.mailChart.data.datasets[1].data = monthlyCounts.map(count => count.outgoing);
+            window.mailChart.update();
+            
+            // Count mails by category
+            const categoryCounts = {
+                'resmi': 0,
+                'penting': 0,
+                'biasa': 0,
+                'rahasia': 0
+            };
+            
+            mailData.forEach(mail => {
+                categoryCounts[mail.category]++;
+            });
+            
+            // Update category chart
+            window.categoryChart.data.datasets[0].data = [
+                categoryCounts['resmi'],
+                categoryCounts['penting'],
+                categoryCounts['biasa'],
+                categoryCounts['rahasia']
+            ];
+            window.categoryChart.update();
+        }
+        
+        // Update settings information
+        function updateSettingsInfo() {
+            const mailData = JSON.parse(localStorage.getItem('mailData') || '[]');
+            const userData = JSON.parse(localStorage.getItem('userData') || '[]');
+            
+            document.getElementById('totalMailsSetting').textContent = mailData.length;
+            document.getElementById('totalUsersSetting').textContent = userData.length;
+            
+            // Calculate storage size (approximate)
+            const mailDataSize = JSON.stringify(mailData).length;
+            const userDataSize = JSON.stringify(userData).length;
+            const totalSize = mailDataSize + userDataSize;
+            
+            document.getElementById('storageSize').textContent = `${Math.round(totalSize / 1024)} KB`;
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('successToast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            // Set message and style based on type
+            toastMessage.textContent = message;
+            
+            if (type === 'error') {
+                toast.classList.remove('bg-success');
+                toast.classList.add('bg-danger');
+            } else if (type === 'info') {
+                toast.classList.remove('bg-success');
+                toast.classList.add('bg-info');
+            } else {
+                toast.classList.remove('bg-danger', 'bg-info');
+                toast.classList.add('bg-success');
+            }
+            
+            // Show toast
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Tautan berhasil disalin', 'success');
+            }).catch(err => {
+                showToast('Gagal menyalin tautan', 'error');
+            });
+        }
     </script>
 </body>
 </html>
