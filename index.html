@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lentera Karya Situbondo - Portal Utama</title>
+    <title>Lentera Karya Situbondo - Sistem Manajemen Surat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Styles from the first index.html (landing page) */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,7 +25,6 @@
             overflow-x: hidden;
         }
         
-        /* Particle Background */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -36,7 +34,6 @@
             z-index: 0;
         }
         
-        /* Header & Navigation */
         header {
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -109,7 +106,6 @@
             background: rgba(52, 152, 219, 0.1);
         }
         
-        /* Main Content */
         .main-content {
             flex: 1;
             display: flex;
@@ -191,7 +187,6 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
-        /* Features Section */
         .features {
             display: flex;
             flex-wrap: wrap;
@@ -242,7 +237,6 @@
             line-height: 1.6;
         }
         
-        /* Footer */
         footer {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px 5%;
@@ -288,7 +282,6 @@
             margin-top: 20px;
         }
         
-        /* Login Modal */
         .modal {
             display: none;
             position: fixed;
@@ -343,7 +336,6 @@
             transform: rotate(90deg);
         }
         
-        /* Responsive Design */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -396,7 +388,7 @@
             }
         }
 
-        /* Dashboard Styles (from the second index.html) */
+        /* Dashboard Styles */
         :root {
             --primary-color: #0d47a1;
             --secondary-color: #00695c;
@@ -420,7 +412,7 @@
             box-shadow: var(--shadow-lg);
             border-radius: var(--border-radius);
             overflow: hidden;
-            display: none; /* Initially hidden */
+            display: none;
         }
         
         .app-header {
@@ -600,21 +592,6 @@
         
         .badge-warning {
             background: var(--gradient-accent);
-        }
-        
-        .template-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .template-item:hover {
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
         }
         
         .notification {
@@ -1145,7 +1122,7 @@
         }
         
         .login-error {
-            background: linear-gradient(to right, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.2));
+            background: linear-gradient(to right, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.2);
             color: #2c3e50;
             border: 1px solid rgba(192, 57, 43, 0.3);
         }
@@ -1157,206 +1134,66 @@
             border-radius: 15px;
             border: 1px solid rgba(52, 152, 219, 0.2);
             text-align: center;
-            backdrop-filter: blur(5px);
         }
         
         .password-info h3 {
-            margin-bottom: 18px;
             color: #2c3e50;
+            margin-bottom: 15px;
             font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
             font-weight: 600;
         }
         
         .password-info p {
-            font-size: 15px;
             color: #34495e;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            font-weight: 400;
-        }
-        
-        .password-hint {
-            margin-top: 18px;
-            font-size: 14px;
-            font-style: italic;
-            background: rgba(52, 152, 219, 0.1);
-            padding: 12px;
-            border-radius: 10px;
-            color: #3498db;
-            border-left: 3px solid #3498db;
-            font-weight: 500;
-        }
-        
-        .login-developer-info {
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
-            border-radius: 15px;
-            text-align: center;
-            border-top: 1px solid rgba(52, 152, 219, 0.2);
-        }
-        
-        .login-developer-info h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 17px;
-            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 600;
-        }
-        
-        .login-contact-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .login-contact-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #3498db;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s;
-            padding: 10px 16px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(52, 152, 219, 0.2);
-            font-weight: 500;
-        }
-        
-        .login-contact-link:hover {
-            background: rgba(52, 152, 219, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(52, 152, 219, 0.2);
-            color: #2980b9;
-        }
-        
-        .login-footer {
-            text-align: center;
-            padding: 22px;
-            font-size: 14px;
-            color: #7f8c8d;
-            border-top: 1px solid rgba(52, 152, 219, 0.2);
-            background: rgba(255, 255, 255, 0.7);
-            letter-spacing: 0.5px;
-            font-weight: 500;
-        }
-        
-        .attempts-counter {
-            text-align: right;
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 8px;
-            font-weight: 500;
-        }
-        
-        .countdown-timer {
-            margin-top: 15px;
-            padding: 12px;
-            background: linear-gradient(to right, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
-            border-radius: 10px;
-            text-align: center;
-            display: none;
-            border: 1px solid rgba(192, 57, 43, 0.2);
-            font-weight: 500;
-            color: #c0392b;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 0;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        .shake {
-            animation: shake 0.5s;
-        }
-        
-        @media (max-width: 768px) {
+        @media (max-width: 576px) {
             .login-container {
-                border-radius: 15px;
-                max-width: 90%;
-            }
-            
-            .login-content {
-                padding: 25px;
+                margin: 10px;
+                width: calc(100% - 20px);
             }
             
             .login-header {
                 padding: 25px 20px;
             }
             
-            .login-contact-links {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .login-contact-link {
-                width: 100%;
-                justify-content: center;
+            .login-logo {
+                width: 70px;
+                height: 70px;
             }
             
             .login-header h1 {
                 font-size: 24px;
             }
             
-            .welcome-message h2 {
-                font-size: 20px;
-            }
-        }
-        
-        @media (max-width: 500px) {
-            .login-container {
-                border-radius: 12px;
-                max-width: 95%;
-            }
-            
             .login-content {
-                padding: 20px;
-            }
-            
-            .login-header {
-                padding: 20px 15px;
-            }
-            
-            .login-header h1 {
-                font-size: 22px;
+                padding: 25px;
             }
             
             .welcome-message {
                 padding: 15px;
             }
             
-            .password-info {
-                padding: 18px;
+            .welcome-message h2 {
+                font-size: 20px;
             }
             
-            .login-developer-info {
-                padding: 15px;
+            .form-group input {
+                padding: 14px;
+                font-size: 15px;
             }
             
-            .login-contact-link {
-                padding: 8px 12px;
-                font-size: 13px;
+            .login-btn {
+                padding: 14px;
+                font-size: 15px;
             }
         }
     </style>
@@ -1364,173 +1201,130 @@
 <body>
     <div id="particles-js"></div>
     
-    <!-- Landing Page -->
-    <div id="landing-page">
-        <header>
-            <div class="logo-container">
-                <div class="logo">
-                    <img src="https://raw.githubusercontent.com/LKS-88/anekamarket/refs/heads/main/Logo-Anekamarketku.png" alt="Lentera Karya Situbondo">
-                </div>
-                <div class="brand">Lentera <span>Karya</span></div>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-envelope-open-text" style="color: white; font-size: 24px;"></i>
             </div>
-            
-            <nav>
-                <ul>
-                    <li><a href="#home">Beranda</a></li>
-                    <li><a href="#features">Fitur</a></li>
-                    <li><a href="#about">Tentang</a></li>
-                    <li><a href="#" id="login-link">Login</a></li>
-                </ul>
-            </nav>
-        </header>
-        
-        <div class="main-content">
-            <section class="hero" id="home">
-                <h1>Sistem Manajemen <span>Surat Digital</span></h1>
-                <p>Platform terintegrasi untuk pengelolaan surat masuk dan keluar dengan keamanan tingkat tinggi dan efisiensi maksimal bagi Lentera Karya Situbondo.</p>
-                
-                <div class="cta-buttons">
-                    <a href="#" class="btn btn-primary" id="login-btn-main">
-                        <i class="fas fa-sign-in-alt"></i> Login Sistem
-                    </a>
-                    <a href="#features" class="btn btn-secondary">
-                        <i class="fas fa-info-circle"></i> Pelajari Lebih Lanjut
-                    </a>
-                </div>
-            </section>
-            
-            <section class="features" id="features">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3>Manajemen Surat</h3>
-                    <p>Kelola surat masuk dan keluar dengan sistem yang terintegrasi dan mudah digunakan.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Keamanan Premium</h3>
-                    <p>Dilengkapi dengan sistem keamanan berlapis untuk melindungi data penting Anda.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Laporan Real-time</h3>
-                    <p>Pantau aktivitas surat dengan dashboard dan laporan yang selalu diperbarui.</p>
-                </div>
-            </section>
+            <div class="brand">Lentera <span>Karya</span> Situbondo</div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i> Tentang</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Kontak</a></li>
+                <li><a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="main-content">
+        <div class="hero">
+            <h1>Sistem Manajemen <span>Surat Digital</span></h1>
+            <p>Kelola surat masuk dan keluar dengan efisien dan profesional. Nikmati fitur validasi, pencarian cerdas, backup data, dan integrasi Google Drive untuk penyimpanan yang aman.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="start-btn"><i class="fas fa-play-circle"></i> Mulai Sekarang</a>
+                <a href="#" class="btn btn-secondary"><i class="fas fa-book"></i> Panduan Pengguna</a>
+            </div>
         </div>
         
-        <footer>
-            <div class="footer-content">
-                <div class="footer-links">
-                    <a href="https://www.anekamarket.my.id" target="_blank">
-                        <i class="fas fa-globe"></i> Website
-                    </a>
-                    <a href="https://wa.me/6285647709114" target="_blank">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
-                    </a>
-                    <a href="mailto:admin@anekamarket.my.id">
-                        <i class="fas fa-envelope"></i> Email
-                    </a>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-envelope"></i>
                 </div>
-                <div class="copyright">
-                    &copy; 2025 Lentera Karya Situbondo. Hak Cipta Dilindungi.
-                </div>
+                <h3>Surat Masuk & Keluar</h3>
+                <p>Kelola surat masuk dan keluar dengan sistem yang terintegrasi. Input data lengkap dengan status dan prioritas surat.</p>
             </div>
-        </footer>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Validasi Surat</h3>
+                <p>Fitur validasi dengan generate kode untuk memastikan keaslian surat. Dilengkapi dengan nama petugas validasi.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Backup & Restore</h3>
+                <p>Lakukan backup dan restore data dengan mudah. Fitur reset data juga tersedia dengan perlindungan password.</p>
+            </div>
+        </div>
     </div>
     
-    <!-- Login Modal -->
-    <div class="modal" id="login-modal">
-        <div class="close-modal" id="close-login-modal">
-            <i class="fas fa-times"></i>
+    <div class="welcome-modal" id="welcome-modal">
+        <div class="welcome-content">
+            <button class="close-welcome" id="close-welcome">&times;</button>
+            <h2 class="text-center mb-4">Selamat Datang di Sistem Manajemen Surat</h2>
+            <p>Silakan login menggunakan kredensial default untuk mulai menggunakan aplikasi:</p>
+            <div class="username-display">
+                <i class="fas fa-user"></i> Username: admin
+            </div>
+            <div class="username-display mt-3">
+                <i class="fas fa-lock"></i> Password: LenteraKarya.1999
+            </div>
+            <div class="alert alert-info mt-4">
+                <i class="fas fa-info-circle"></i> Disarankan untuk mengubah password default setelah login pertama kali.
+            </div>
+            <button class="btn btn-primary w-100 mt-4" id="understand-btn">Saya Mengerti</button>
         </div>
+    </div>
+    
+    <div class="modal" id="login-modal">
         <div class="login-container">
             <div class="login-header">
                 <div class="login-logo">
-                    <img src="https://raw.githubusercontent.com/LKS-88/anekamarket/refs/heads/main/Logo-Anekamarketku.png" alt="Lentera Karya Situbondo">
+                    <i class="fas fa-envelope-open-text" style="color: white; font-size: 40px;"></i>
                 </div>
-                <h1>Lentera Karya Situbondo</h1>
-                <p>Sistem Keamanan Premium</p>
+                <h1>Login Sistem</h1>
+                <p>Manajemen Surat Digital Lentera Karya</p>
             </div>
             
             <div class="login-content">
                 <div class="welcome-message">
-                    <h2>Selamat Datang!</h2>
-                    <p>Kami mengucapkan terima kasih atas kepercayaan Anda menggunakan aplikasi Lentera Karya Situbondo. Sistem ini dirancang untuk memberikan pengalaman terbaik dengan keamanan tingkat tinggi yang melindungi data dan informasi penting Anda.</p>
+                    <h2>Selamat Datang Kembali</h2>
+                    <p>Silakan masukkan username dan password untuk mengakses dashboard manajemen surat.</p>
                 </div>
                 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <div class="username-display" id="username-display">
-                        <i class="fas fa-user-circle"></i> Lentera Karya Situbondo
+                    <div class="username-display">
+                        <i class="fas fa-user"></i> admin
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-with-icon">
-                        <i class="fas fa-key"></i>
-                        <input type="password" id="password" placeholder="Masukkan password yang valid">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Masukkan password">
                         <span class="toggle-password" id="toggle-password">
                             <i class="fas fa-eye"></i>
                         </span>
                     </div>
-                    <div class="attempts-counter">
-                        <i class="fas fa-shield-alt"></i>
-                        Percobaan: <span id="attempts-count">0</span>/5
-                    </div>
                 </div>
                 
-                <div id="countdown-timer" class="countdown-timer">
-                    <i class="fas fa-clock"></i> Tombol login dibekukan selama: <span id="countdown">05:00</span>
-                </div>
-                
-                <button id="login-btn" class="login-btn">
-                    <i class="fas fa-lock"></i> Akses Sistem
+                <button class="login-btn" id="login-button">
+                    <i class="fas fa-sign-in-alt"></i> Login
                 </button>
                 
-                <div id="notification" class="login-notification"></div>
+                <div class="login-notification login-error" id="login-error">
+                    <i class="fas fa-exclamation-circle"></i> Password yang Anda masukkan salah!
+                </div>
                 
                 <div class="password-info">
-                    <h3>
-                        <i class="fas fa-info-circle"></i>
-                        Informasi Password
-                    </h3>
-                    <p>Password terdiri dari 9 karakter dengan format khusus yang telah ditentukan. Pastikan Anda memasukkan password dengan format yang benar untuk mengakses sistem.</p>
+                    <h3>Password Default</h3>
+                    <p>Gunakan password default: <strong>LenteraKarya.1999</strong></p>
+                    <p class="mt-2">Anda dapat mengubahnya setelah login.</p>
                 </div>
-                
-                <div class="login-developer-info">
-                    <h3>Hak Cipta &copy; 2025 Lentera Karya Situbondo</h3>
-                    <p>Untuk bantuan dan informasi lebih lanjut:</p>
-                    <div class="login-contact-links">
-                        <a href="https://www.anekamarket.my.id" target="_blank" class="login-contact-link">
-                            <i class="fas fa-globe"></i> www.anekamarket.my.id
-                        </a>
-                        <a href="https://wa.me/6285647709114" target="_blank" class="login-contact-link">
-                            <i class="fab fa-whatsapp"></i> +62 856-4770-9114
-                        </a>
-                        <a href="mailto:admin@anekamarket.my.id" class="login-contact-link">
-                            <i class="fas fa-envelope"></i> admin@anekamarket.my.id
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="login-footer">
-                &copy; 2025 Lentera Karya Situbondo. Hak Cipta Dilindungi.
             </div>
         </div>
     </div>
     
-    <!-- Dashboard (initially hidden) -->
-    <div class="app-container" id="dashboard">
+    <div class="app-container" id="app-container">
         <div class="app-header">
             <h1 class="app-title">Sistem Manajemen Surat</h1>
             <p class="app-subtitle">Lentera Karya Situbondo</p>
@@ -1538,133 +1332,180 @@
         
         <div class="container-fluid">
             <div class="row">
-                <!-- Sidebar Navigation -->
                 <div class="col-md-3 col-lg-2 bg-light p-3 border-end">
-                    <div class="d-flex flex-column">
-                        <ul class="nav nav-pills flex-column mb-auto">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link active">
-                                    <i class="fas fa-home me-2"></i> Dashboard
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-envelope me-2"></i> Surat Masuk
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-paper-plane me-2"></i> Surat Keluar
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-file-alt me-2"></i> Template Surat
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-chart-bar me-2"></i> Laporan
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-cog me-2"></i> Pengaturan
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="nav-link" id="logout-btn">
-                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+                        <a class="nav-link active" id="v-pills-dashboard-tab" data-bs-toggle="pill" href="#v-pills-dashboard" role="tab">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                        <a class="nav-link" id="v-pills-inbox-tab" data-bs-toggle="pill" href="#v-pills-inbox" role="tab">
+                            <i class="fas fa-inbox me-2"></i> Surat Masuk
+                        </a>
+                        <a class="nav-link" id="v-pills-outbox-tab" data-bs-toggle="pill" href="#v-pills-outbox" role="tab">
+                            <i class="fas fa-paper-plane me-2"></i> Surat Keluar
+                        </a>
+                        <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab">
+                            <i class="fas fa-cog me-2"></i> Pengaturan
+                        </a>
+                        <a class="nav-link" id="v-pills-help-tab" data-bs-toggle="pill" href="#v-pills-help" role="tab">
+                            <i class="fas fa-question-circle me-2"></i> Bantuan
+                        </a>
+                        <a class="nav-link text-danger" href="#" id="logout-btn">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h5 class="text-center mb-3">Statistik</h5>
+                        <div class="stats-box">
+                            <i class="fas fa-envelope text-primary mb-2"></i>
+                            <div class="stats-number" id="total-letters">0</div>
+                            <div class="stats-label">Total Surat</div>
+                        </div>
+                        <div class="stats-box">
+                            <i class="fas fa-inbox text-success mb-2"></i>
+                            <div class="stats-number" id="incoming-letters">0</div>
+                            <div class="stats-label">Surat Masuk</div>
+                        </div>
+                        <div class="stats-box">
+                            <i class="fas fa-paper-plane text-info mb-2"></i>
+                            <div class="stats-number" id="outgoing-letters">0</div>
+                            <div class="stats-label">Surat Keluar</div>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Main Content -->
                 <div class="col-md-9 col-lg-10 p-4">
-                    <h2 class="section-title">Dashboard Utama</h2>
-                    
-                    <!-- Stats Overview -->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-envelope-open text-primary fs-1"></i>
-                                <div class="stats-number">24</div>
-                                <div class="stats-label">Surat Masuk Hari Ini</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-paper-plane text-success fs-1"></i>
-                                <div class="stats-number">18</div>
-                                <div class="stats-label">Surat Keluar Hari Ini</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-clock text-warning fs-1"></i>
-                                <div class="stats-number">7</div>
-                                <div class="stats-label">Menunggu Tindakan</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <i class="fas fa-check-circle text-info fs-1"></i>
-                                <div class="stats-number">89%</div>
-                                <div class="stats-label">Efisiensi Sistem</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Recent Activity -->
-                    <div class="row mt-4">
-                        <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-history me-2"></i> Aktivitas Terbaru
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel">
+                            <h3 class="section-title">Dashboard</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">Aktivitas Terbaru</div>
+                                        <div class="card-body">
+                                            <ul class="list-group list-group-flush" id="recent-activity">
+                                                <li class="list-group-item">Belum ada aktivitas</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">Status Surat</div>
+                                        <div class="card-body">
+                                            <canvas id="letter-status-chart" height="250"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="v-pills-inbox" role="tabpanel">
+                            <h3 class="section-title">Surat Masuk</h3>
+                            <div class="card mb-4">
+                                <div class="card-header bg-primary text-white">Form Input Surat Masuk</div>
                                 <div class="card-body">
+                                    <form id="incoming-form">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-number" class="form-label">Nomor Surat</label>
+                                                <input type="text" class="form-control" id="incoming-number" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-sender" class="form-label">Nama Pengirim</label>
+                                                <input type="text" class="form-control" id="incoming-sender" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-destination" class="form-label">Tujuan</label>
+                                                <input type="text" class="form-control" id="incoming-destination" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-subject" class="form-label">Perihal</label>
+                                                <input type="text" class="form-control" id="incoming-subject" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-status" class="form-label">Status Surat</label>
+                                                <select class="form-select" id="incoming-status">
+                                                    <option value="proses">Proses</option>
+                                                    <option value="validated">Sudah Divalidasi</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-priority" class="form-label">Jenis Surat</label>
+                                                <select class="form-select" id="incoming-priority">
+                                                    <option value="biasa">Biasa</option>
+                                                    <option value="penting">Penting</option>
+                                                    <option value="rahasia">Rahasia</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-date" class="form-label">Tanggal Diterima</label>
+                                                <input type="date" class="form-control" id="incoming-date" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-drive" class="form-label">Link Google Drive</label>
+                                                <input type="url" class="form-control" id="incoming-drive" placeholder="https://drive.google.com/...">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-validator" class="form-label">Nama Petugas Validasi</label>
+                                                <input type="text" class="form-control" id="incoming-validator">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="incoming-validation-code" class="form-label">Kode Validasi</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="incoming-validation-code" readonly>
+                                                    <button class="btn btn-outline-secondary" type="button" id="generate-incoming-code">Generate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Simpan Surat Masuk</button>
+                                        <button type="button" class="btn btn-secondary" id="reset-incoming-form">Reset Form</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">Daftar Surat Masuk</div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Cari surat masuk..." id="search-incoming">
+                                                <button class="btn btn-outline-secondary" type="button" id="search-incoming-btn">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-end">
+                                            <button class="btn btn-success me-2" id="backup-incoming">
+                                                <i class="fas fa-download"></i> Backup
+                                            </button>
+                                            <button class="btn btn-warning me-2" id="restore-incoming">
+                                                <i class="fas fa-upload"></i> Restore
+                                            </button>
+                                            <button class="btn btn-undo" id="undo-incoming">
+                                                <i class="fas fa-undo"></i> Undo
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="table-responsive">
-                                        <table class="data-table">
+                                        <table class="table table-striped table-hover data-table">
                                             <thead>
                                                 <tr>
-                                                    <th>Waktu</th>
-                                                    <th>Aktivitas</th>
-                                                    <th>Pengguna</th>
+                                                    <th>No</th>
+                                                    <th>Nomor Surat</th>
+                                                    <th>Pengirim</th>
+                                                    <th>Perihal</th>
                                                     <th>Status</th>
+                                                    <th>Jenis</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="incoming-table-body">
                                                 <tr>
-                                                    <td>10:25</td>
-                                                    <td>Surat masuk dari Dinas Pendidikan</td>
-                                                    <td>Admin</td>
-                                                    <td><span class="badge badge-primary">Baru</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>09:48</td>
-                                                    <td>Surat keluar ke Pemda Situbondo</td>
-                                                    <td>Budi</td>
-                                                    <td><span class="badge badge-success">Terkirim</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>09:15</td>
-                                                    <td>Surat masuk dari PT. Sejahtera</td>
-                                                    <td>Admin</td>
-                                                    <td><span class="badge badge-warning">Proses</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>08:55</td>
-                                                    <td>Pembuatan template surat undangan</td>
-                                                    <td>Sari</td>
-                                                    <td><span class="badge badge-success">Selesai</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>08:30</td>
-                                                    <td>Surat keluar ke Dinas Kesehatan</td>
-                                                    <td>Budi</td>
-                                                    <td><span class="badge badge-primary">Draft</span></td>
+                                                    <td colspan="8" class="text-center">Tidak ada data surat masuk</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1673,66 +1514,200 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-4">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-tasks me-2"></i> Tugas Hari Ini
-                                </div>
+                        <div class="tab-pane fade" id="v-pills-outbox" role="tabpanel">
+                            <h3 class="section-title">Surat Keluar</h3>
+                            <div class="card mb-4">
+                                <div class="card-header bg-success text-white">Form Input Surat Keluar</div>
                                 <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6 class="mb-0">Progress Penyelesaian</h6>
-                                        <span class="badge badge-primary">75%</span>
-                                    </div>
-                                    <div class="progress mb-4" style="height: 10px;">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <form id="outgoing-form">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-number" class="form-label">Nomor Surat</label>
+                                                <input type="text" class="form-control" id="outgoing-number" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-sender" class="form-label">Nama Pengirim</label>
+                                                <input type="text" class="form-control" id="outgoing-sender" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-destination" class="form-label">Tujuan</label>
+                                                <input type="text" class="form-control" id="outgoing-destination" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-subject" class="form-label">Perihal</label>
+                                                <input type="text" class="form-control" id="outgoing-subject" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-status" class="form-label">Status Surat</label>
+                                                <select class="form-select" id="outgoing-status">
+                                                    <option value="proses">Proses</option>
+                                                    <option value="validated">Sudah Divalidasi</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-priority" class="form-label">Jenis Surat</label>
+                                                <select class="form-select" id="outgoing-priority">
+                                                    <option value="biasa">Biasa</option>
+                                                    <option value="penting">Penting</option>
+                                                    <option value="rahasia">Rahasia</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-date" class="form-label">Tanggal Dikirim</label>
+                                                <input type="date" class="form-control" id="outgoing-date" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-drive" class="form-label">Link Google Drive</label>
+                                                <input type="url" class="form-control" id="outgoing-drive" placeholder="https://drive.google.com/...">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-validator" class="form-label">Nama Petugas Validasi</label>
+                                                <input type="text" class="form-control" id="outgoing-validator">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="outgoing-validation-code" class="form-label">Kode Validasi</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="outgoing-validation-code" readonly>
+                                                    <button class="btn btn-outline-secondary" type="button" id="generate-outgoing-code">Generate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Simpan Surat Keluar</button>
+                                        <button type="button" class="btn btn-secondary" id="reset-outgoing-form">Reset Form</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header bg-success text-white">Daftar Surat Keluar</div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Cari surat keluar..." id="search-outgoing">
+                                                <button class="btn btn-outline-secondary" type="button" id="search-outgoing-btn">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-end">
+                                            <button class="btn btn-success me-2" id="backup-outgoing">
+                                                <i class="fas fa-download"></i> Backup
+                                            </button>
+                                            <button class="btn btn-warning me-2" id="restore-outgoing">
+                                                <i class="fas fa-upload"></i> Restore
+                                            </button>
+                                            <button class="btn btn-undo" id="undo-outgoing">
+                                                <i class="fas fa-undo"></i> Undo
+                                            </button>
+                                        </div>
                                     </div>
                                     
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task1" checked>
-                                            <label class="form-check-label" for="task1">Verifikasi surat masuk</label>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Nomor Surat</th>
+                                                    <th>Pengirim</th>
+                                                    <th>Perihal</th>
+                                                    <th>Status</th>
+                                                    <th>Jenis</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="outgoing-table-body">
+                                                <tr>
+                                                    <td colspan="8" class="text-center">Tidak ada data surat keluar</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel">
+                            <h3 class="section-title">Pengaturan Sistem</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">Ubah Password</div>
+                                        <div class="card-body">
+                                            <form id="password-form">
+                                                <div class="mb-3">
+                                                    <label for="current-password" class="form-label">Password Saat Ini</label>
+                                                    <input type="password" class="form-control" id="current-password" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="new-password" class="form-label">Password Baru</label>
+                                                    <input type="password" class="form-control" id="new-password" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="confirm-password" class="form-label">Konfirmasi Password Baru</label>
+                                                    <input type="password" class="form-control" id="confirm-password" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Ubah Password</button>
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task2" checked>
-                                            <label class="form-check-label" for="task2">Distribusi surat internal</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">Backup & Restore Data</div>
+                                        <div class="card-body">
+                                            <div class="d-grid gap-2">
+                                                <button class="btn btn-success mb-3" id="backup-all">
+                                                    <i class="fas fa-download"></i> Backup Semua Data
+                                                </button>
+                                                <button class="btn btn-warning mb-3" id="restore-all">
+                                                    <i class="fas fa-upload"></i> Restore Data
+                                                </button>
+                                                <button class="btn btn-danger" id="reset-all" data-bs-toggle="modal" data-bs-target="#resetModal">
+                                                    <i class="fas fa-trash"></i> Reset Semua Data
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task3">
-                                            <label class="form-check-label" for="task3">Arsip surat keluar</label>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="task4">
-                                            <label class="form-check-label" for="task4">Buat laporan bulanan</label>
+                                    
+                                    <div class="card">
+                                        <div class="card-header">Informasi Sistem</div>
+                                        <div class="card-body">
+                                            <div class="mb-2"><strong>Versi:</strong> 2.1.0</div>
+                                            <div class="mb-2"><strong>Tanggal Update:</strong> 20 November 2023</div>
+                                            <div class="mb-2"><strong>Developer:</strong> Tim IT Lentera Karya</div>
+                                            <div class="mb-2"><strong>Status:</strong> <span class="badge bg-success">Aktif</span></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <h3 class="section-title">Aksi Cepat</h3>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-plus me-2"></i> Surat Baru
-                                </button>
-                                <button class="btn btn-success">
-                                    <i class="fas fa-download me-2"></i> Ekspor Laporan
-                                </button>
-                                <button class="btn btn-drive">
-                                    <i class="fab fa-google-drive me-2"></i> Simpan ke Drive
-                                </button>
-                                <button class="btn btn-undo">
-                                    <i class="fas fa-undo me-2"></i> Batalkan Terakhir
-                                </button>
+                        
+                        <div class="tab-pane fade" id="v-pills-help" role="tabpanel">
+                            <h3 class="section-title">Panduan Penggunaan</h3>
+                            <div class="card">
+                                <div class="card-header">Bantuan dan Dukungan</div>
+                                <div class="card-body">
+                                    <h5>1. Cara Menambahkan Surat</h5>
+                                    <p>Untuk menambahkan surat masuk atau keluar, pilih menu yang sesuai, isi form yang disediakan, lalu klik tombol "Simpan".</p>
+                                    
+                                    <h5>2. Validasi Surat</h5>
+                                    <p>Gunakan tombol "Generate" untuk membuat kode validasi unik. Pastikan untuk mengisi nama petugas validasi.</p>
+                                    
+                                    <h5>3. Pencarian Surat</h5>
+                                    <p>Gunakan fitur pencarian di atas tabel untuk mencari surat berdasarkan nomor, pengirim, perihal, atau lainnya.</p>
+                                    
+                                    <h5>4. Backup dan Restore</h5>
+                                    <p>Selalu lakukan backup data secara berkala. Fitur restore dapat digunakan untuk mengembalikan data dari backup.</p>
+                                    
+                                    <h5>5. Mengubah Password</h5>
+                                    <p>Ubah password default untuk keamanan yang lebih baik melalui menu Pengaturan.</p>
+                                    
+                                    <div class="alert alert-info mt-4">
+                                        <i class="fas fa-info-circle"></i> Untuk bantuan lebih lanjut, hubungi tim IT di <strong>it-support@lenterakarya.situbondo.id</strong> atau telepon <strong>(0338) 671234</strong>.
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1740,47 +1715,113 @@
             </div>
         </div>
         
-        <div class="footer">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Lentera Karya Situbondo</h5>
-                    <p>Sistem Manajemen Surat Digital Terintegrasi</p>
+        <div class="footer text-center">
+            <p>&copy; 2023 Lentera Karya Situbondo. All rights reserved.</p>
+            <p class="developer-info">Dikembangkan dengan <i class="fas fa-heart text-danger"></i> oleh Tim IT Lentera Karya</p>
+        </div>
+    </div>
+    
+    <!-- Reset Confirmation Modal -->
+    <div class="modal fade" id="resetModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Reset Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <div class="developer-info">
-                        <p>Untuk bantuan teknis hubungi: <a href="mailto:admin@anekamarket.my.id">admin@anekamarket.my.id</a></p>
-                        <p>© 2025 Lentera Karya Situbondo. All rights reserved.</p>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan.</p>
+                    <div class="mb-3">
+                        <label for="reset-password" class="form-label">Masukkan Password untuk Konfirmasi</label>
+                        <input type="password" class="form-control" id="reset-password">
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirm-reset">Reset Data</button>
                 </div>
             </div>
         </div>
-        
-        <div class="floating-action-btn">
-            <i class="fas fa-plus"></i>
-        </div>
-        
-        <div class="notification" id="app-notification">
-            <i class="fas fa-check-circle me-2 text-success"></i>
-            <span id="notification-text">Operasi berhasil dilakukan</span>
+    </div>
+    
+    <!-- View Letter Modal -->
+    <div class="modal fade" id="viewLetterModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Surat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="letter-detail-content">
+                    <!-- Detail surat akan dimuat di sini -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
         </div>
     </div>
+    
+    <!-- Password Modal for Delete -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Penghapusan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Masukkan password untuk menghapus data:</p>
+                    <input type="password" class="form-control" id="delete-password">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="floating-action-btn" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle me-2"></i>
+        <span id="notification-text"></span>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
+                <a href="#"><i class="fas fa-file-contract"></i> Syarat dan Ketentuan</a>
+                <a href="#"><i class="fas fa-envelope"></i> Kontak</a>
+                <a href="#"><i class="fas fa-info-circle"></i> Tentang Kami</a>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Lentera Karya Situbondo. All rights reserved. | Version 2.1.0
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Inisialisasi particles.js
         document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi partikel background
             particlesJS('particles-js', {
                 particles: {
                     number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: ["#3498db", "#2ecc71", "#f39c12"] },
+                    color: { value: "#ffffff" },
                     shape: { type: "circle" },
                     opacity: { value: 0.5, random: true },
                     size: { value: 3, random: true },
                     line_linked: {
                         enable: true,
                         distance: 150,
-                        color: "#3498db",
+                        color: "#ffffff",
                         opacity: 0.4,
                         width: 1
                     },
@@ -1797,7 +1838,7 @@
                 interactivity: {
                     detect_on: "canvas",
                     events: {
-                        onhover: { enable: true, mode: "grab" },
+                        onhover: { enable: true, mode: "repulse" },
                         onclick: { enable: true, mode: "push" },
                         resize: true
                     }
@@ -1805,261 +1846,1090 @@
                 retina_detect: true
             });
             
-            // Elements
-            const loginModal = document.getElementById('login-modal');
-            const closeLoginModal = document.getElementById('close-login-modal');
-            const loginLink = document.getElementById('login-link');
-            const loginBtnMain = document.getElementById('login-btn-main');
-            const landingPage = document.getElementById('landing-page');
-            const dashboard = document.getElementById('dashboard');
-            const logoutBtn = document.getElementById('logout-btn');
-            
-            // Login form elements
-            const passwordInput = document.getElementById('password');
-            const loginBtn = document.getElementById('login-btn');
-            const notification = document.getElementById('notification');
-            const attemptsCounter = document.getElementById('attempts-count');
-            const togglePassword = document.getElementById('toggle-password');
-            const countdownTimer = document.getElementById('countdown-timer');
-            const countdownDisplay = document.getElementById('countdown');
-            
-            // Open login modal
-            loginLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginModal.style.display = 'flex';
-            });
-            
-            loginBtnMain.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginModal.style.display = 'flex';
-            });
-            
-            // Close login modal
-            closeLoginModal.addEventListener('click', function() {
-                loginModal.style.display = 'none';
-            });
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', function(e) {
-                if (e.target === loginModal) {
-                    loginModal.style.display = 'none';
-                }
-            });
-            
-            // Logout functionality
-            logoutBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                localStorage.removeItem('isLoggedIn');
-                dashboard.style.display = 'none';
-                landingPage.style.display = 'block';
-                showAppNotification('Anda telah logout dari sistem', 'info');
-            });
-            
-            // Check if user is already logged in
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                landingPage.style.display = 'none';
-                dashboard.style.display = 'block';
-            }
-            
-            // Inisialisasi jumlah percobaan login
-            let loginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
-            attemptsCounter.textContent = loginAttempts;
-            
-            // Waktu pembekuan tombol (dalam milidetik)
-            const LOCK_DURATION = 5 * 60 * 1000; // 5 menit
-            
-            // Batas maksimal percobaan login
-            const MAX_ATTEMPTS = 5;
-            
-            // Cek apakah tombol login sedang dibekukan
-            const lockUntil = localStorage.getItem('loginLockUntil');
-            if (lockUntil && new Date().getTime() < parseInt(lockUntil)) {
-                disableLoginForm();
-                const timeLeft = parseInt(lockUntil) - new Date().getTime();
-                startCountdown(timeLeft);
-            } else if (loginAttempts >= MAX_ATTEMPTS) {
-                disableLoginForm();
-                showNotification('Anda telah melebihi batas percobaan login. Silakan coba lagi nanti.', 'error');
-            }
-            
-            // Fungsi untuk memvalidasi password
-            function isValidPassword(password) {
-                // Cek panjang password
-                if (password.length !== 9) {
-                    return false;
-                }
-                
-                // Cek apakah karakter pertama adalah huruf kapital A-Z
-                const firstChar = password.charAt(0);
-                if (!/^[A-Z]$/.test(firstChar)) {
-                    return false;
-                }
-                
-                // Cek apakah karakter kedua adalah angka 0
-                if (password.charAt(1) !== '0') {
-                    return false;
-                }
-                
-                // Cek apakah 7 karakter berikutnya adalah angka
-                const numberPart = password.substring(2);
-                if (!/^\d{7}$/.test(numberPart)) {
-                    return false;
-                }
-                
-                return true;
-            }
-            
-            // Fungsi untuk menonaktifkan form login
-            function disableLoginForm() {
-                passwordInput.disabled = true;
-                loginBtn.disabled = true;
-                loginBtn.style.opacity = '0.7';
-                loginBtn.style.cursor = 'not-allowed';
-                loginBtn.innerHTML = '<i class="fas fa-ban"></i> Login Diblokir';
-            }
-            
-            // Fungsi untuk mengaktifkan form login
-            function enableLoginForm() {
-                passwordInput.disabled = false;
-                loginBtn.disabled = false;
-                loginBtn.style.opacity = '1';
-                loginBtn.style.cursor = 'pointer';
-                loginBtn.innerHTML = '<i class="fas fa-lock"></i> Akses Sistem';
-                countdownTimer.style.display = 'none';
-                
-                // Reset counter percobaan
-                loginAttempts = 0;
-                localStorage.setItem('loginAttempts', loginAttempts);
-                attemptsCounter.textContent = loginAttempts;
-                
-                // Hapus waktu pembekuan
-                localStorage.removeItem('loginLockUntil');
-            }
-            
-            // Fungsi untuk memulai countdown
-            function startCountdown(duration) {
-                let timer = duration;
-                const interval = 1000; // 1 detik
-                
-                countdownTimer.style.display = 'block';
-                
-                const countdownInterval = setInterval(function() {
-                    const minutes = Math.floor(timer / 60000);
-                    const seconds = Math.floor((timer % 60000) / 1000);
-                    
-                    countdownDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timer <= 0) {
-                        clearInterval(countdownInterval);
-                        enableLoginForm();
-                    }
-                    
-                    timer -= interval;
-                }, interval);
-            }
-            
-            // Event listener untuk tombol login
-            loginBtn.addEventListener('click', function() {
-                const password = passwordInput.value.trim();
-                
-                if (!password) {
-                    showNotification('Silakan masukkan password', 'error');
-                    passwordInput.classList.add('shake');
-                    setTimeout(() => passwordInput.classList.remove('shake'), 500);
-                    return;
-                }
-                
-                if (isValidPassword(password)) {
-                    showNotification('Akses diberikan! Mengarahkan ke dashboard...', 'success');
-                    
-                    // Reset counter percobaan
-                    localStorage.setItem('loginAttempts', '0');
-                    
-                    // Simpan status login di localStorage
-                    localStorage.setItem('isLoggedIn', 'true');
-                    localStorage.setItem('loginTime', new Date().getTime());
-                    
-                    // Redirect setelah 2 detik
-                    setTimeout(function() {
-                        loginModal.style.display = 'none';
-                        landingPage.style.display = 'none';
-                        dashboard.style.display = 'block';
-                        showAppNotification('Selamat datang di Sistem Manajemen Surat', 'success');
-                    }, 2000);
-                } else {
-                    // Tambah counter percobaan
-                    loginAttempts++;
-                    localStorage.setItem('loginAttempts', loginAttempts);
-                    attemptsCounter.textContent = loginAttempts;
-                    
-                    showNotification('Password tidak valid. Silakan coba lagi.', 'error');
-                    passwordInput.classList.add('shake');
-                    setTimeout(() => passwordInput.classList.remove('shake'), 500);
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                    
-                    // Cek jika sudah melebihi batas percobaan
-                    if (loginAttempts >= MAX_ATTEMPTS) {
-                        // Set waktu pembekuan
-                        const lockUntilTime = new Date().getTime() + LOCK_DURATION;
-                        localStorage.setItem('loginLockUntil', lockUntilTime);
-                        
-                        disableLoginForm();
-                        startCountdown(LOCK_DURATION);
-                        showNotification('Anda telah melebihi batas percobaan login. Silakan coba lagi setelah 5 menit.', 'error');
-                    }
-                }
-            });
-            
-            // Event listener untuk toggle password visibility
-            togglePassword.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                
-                // Toggle icon
-                togglePassword.innerHTML = type === 'password' ? 
-                    '<i class="fas fa-eye"></i>' : 
-                    '<i class="fas fa-eye-slash"></i>';
-            });
-            
-            // Event listener untuk tekan Enter di field password
-            passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    loginBtn.click();
-                }
-            });
-            
-            // Fungsi untuk menampilkan notifikasi
-            function showNotification(message, type) {
-                notification.textContent = message;
-                notification.className = 'login-notification ' + 'login-' + type;
-                notification.style.display = 'block';
-                
-                // Sembunyikan notifikasi setelah 5 detik
-                setTimeout(function() {
-                    notification.style.display = 'none';
-                }, 5000);
-            }
-            
-            // Fungsi untuk menampilkan notifikasi di dashboard
-            function showAppNotification(message, type) {
-                const notificationEl = document.getElementById('app-notification');
-                const notificationText = document.getElementById('notification-text');
-                
-                notificationText.textContent = message;
-                notificationEl.className = 'notification ' + type + ' show';
-                
-                // Sembunyikan notifikasi setelah 5 detik
-                setTimeout(function() {
-                    notificationEl.classList.remove('show');
-                }, 5000);
-            }
-            
-            // Fokus ke input password saat modal dibuka
-            loginModal.addEventListener('shown', function() {
-                passwordInput.focus();
-            });
+            // Tampilkan modal selamat datang
+            document.getElementById('welcome-modal').style.display = 'flex';
         });
+        
+        // Variabel global untuk aplikasi
+        let currentPassword = "LenteraKarya.1999";
+        let incomingLetters = [];
+        let outgoingLetters = [];
+        let lastAction = null;
+        
+        // DOM Elements
+        const startBtn = document.getElementById('start-btn');
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        const closeWelcome = document.getElementById('close-welcome');
+        const understandBtn = document.getElementById('understand-btn');
+        const welcomeModal = document.getElementById('welcome-modal');
+        const appContainer = document.getElementById('app-container');
+        const loginButton = document.getElementById('login-button');
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+        const loginError = document.getElementById('login-error');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Event Listeners
+        startBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.style.display = 'flex';
+        });
+        
+        loginBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.style.display = 'flex';
+        });
+        
+        closeWelcome.addEventListener('click', function() {
+            welcomeModal.style.display = 'none';
+        });
+        
+        understandBtn.addEventListener('click', function() {
+            welcomeModal.style.display = 'none';
+        });
+        
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        });
+        
+        // Login functionality
+        loginButton.addEventListener('click', function() {
+            const password = passwordInput.value;
+            
+            if (password === currentPassword) {
+                // Login successful
+                loginModal.style.display = 'none';
+                appContainer.style.display = 'block';
+                showNotification('Login berhasil! Selamat datang di sistem manajemen surat.', 'success');
+                
+                // Load data from localStorage if available
+                loadData();
+                updateStats();
+            } else {
+                // Login failed
+                loginError.style.display = 'block';
+                setTimeout(() => {
+                    loginError.style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // Logout functionality
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            appContainer.style.display = 'none';
+            showNotification('Anda telah logout dari sistem.', 'info');
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (e.target === welcomeModal) {
+                welcomeModal.style.display = 'none';
+            }
+        });
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            notification.className = 'notification show ' + type;
+            
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+        
+        // Fungsi untuk memuat data dari localStorage
+        function loadData() {
+            const savedIncoming = localStorage.getItem('incomingLetters');
+            const savedOutgoing = localStorage.getItem('outgoingLetters');
+            const savedPassword = localStorage.getItem('appPassword');
+            
+            if (savedIncoming) {
+                incomingLetters = JSON.parse(savedIncoming);
+                renderIncomingTable();
+            }
+            
+            if (savedOutgoing) {
+                outgoingLetters = JSON.parse(savedOutgoing);
+                renderOutgoingTable();
+            }
+            
+            if (savedPassword) {
+                currentPassword = savedPassword;
+            }
+        }
+        
+        // Fungsi untuk menyimpan data ke localStorage
+        function saveData() {
+            localStorage.setItem('incomingLetters', JSON.stringify(incomingLetters));
+            localStorage.setItem('outgoingLetters', JSON.stringify(outgoingLetters));
+            localStorage.setItem('appPassword', currentPassword);
+        }
+        
+        // Fungsi untuk mengupdate statistik
+        function updateStats() {
+            document.getElementById('total-letters').textContent = incomingLetters.length + outgoingLetters.length;
+            document.getElementById('incoming-letters').textContent = incomingLetters.length;
+            document.getElementById('outgoing-letters').textContent = outgoingLetters.length;
+        }
+        
+        // Fungsi untuk merender tabel surat masuk
+        function renderIncomingTable() {
+            const tbody = document.getElementById('incoming-table-body');
+            tbody.innerHTML = '';
+            
+            if (incomingLetters.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data surat masuk</td></tr>';
+                return;
+            }
+            
+            incomingLetters.forEach((letter, index) => {
+                const row = document.createElement('tr');
+                
+                // Determine badge class based on status
+                let statusBadge = '';
+                if (letter.status === 'proses') {
+                    statusBadge = '<span class="badge bg-warning">Proses</span>';
+                } else {
+                    statusBadge = '<span class="badge bg-success">Validasi</span>';
+                }
+                
+                // Determine badge class based on priority
+                let priorityBadge = '';
+                if (letter.priority === 'biasa') {
+                    priorityBadge = '<span class="badge bg-info">Biasa</span>';
+                } else if (letter.priority === 'penting') {
+                    priorityBadge = '<span class="badge bg-warning">Penting</span>';
+                } else {
+                    priorityBadge = '<span class="badge bg-danger">Rahasia</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${letter.number}</td>
+                    <td>${letter.sender}</td>
+                    <td>${letter.subject}</td>
+                    <td>${statusBadge}</td>
+                    <td>${priorityBadge}</td>
+                    <td>${letter.date}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-info view-incoming" data-id="${letter.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning edit-incoming" data-id="${letter.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-incoming" data-id="${letter.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.view-incoming').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewIncomingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.edit-incoming').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editIncomingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-incoming').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    confirmDeleteIncoming(id);
+                });
+            });
+        }
+        
+        // Fungsi untuk merender tabel surat keluar
+        function renderOutgoingTable() {
+            const tbody = document.getElementById('outgoing-table-body');
+            tbody.innerHTML = '';
+            
+            if (outgoingLetters.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data surat keluar</td></tr>';
+                return;
+            }
+            
+            outgoingLetters.forEach((letter, index) => {
+                const row = document.createElement('tr');
+                
+                // Determine badge class based on status
+                let statusBadge = '';
+                if (letter.status === 'proses') {
+                    statusBadge = '<span class="badge bg-warning">Proses</span>';
+                } else {
+                    statusBadge = '<span class="badge bg-success">Validasi</span>';
+                }
+                
+                // Determine badge class based on priority
+                let priorityBadge = '';
+                if (letter.priority === 'biasa') {
+                    priorityBadge = '<span class="badge bg-info">Biasa</span>';
+                } else if (letter.priority === 'penting') {
+                    priorityBadge = '<span class="badge bg-warning">Penting</span>';
+                } else {
+                    priorityBadge = '<span class="badge bg-danger">Rahasia</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${letter.number}</td>
+                    <td>${letter.sender}</td>
+                    <td>${letter.subject}</td>
+                    <td>${statusBadge}</td>
+                    <td>${priorityBadge}</td>
+                    <td>${letter.date}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-info view-outgoing" data-id="${letter.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning edit-outgoing" data-id="${letter.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-outgoing" data-id="${letter.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.view-outgoing').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewOutgoingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.edit-outgoing').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editOutgoingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-outgoing').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    confirmDeleteOutgoing(id);
+                });
+            });
+        }
+        
+        // Fungsi untuk menghasilkan kode validasi
+        function generateValidationCode() {
+            return Math.random().toString(36).substring(2, 10).toUpperCase();
+        }
+        
+        // Event listener untuk generate kode surat masuk
+        document.getElementById('generate-incoming-code').addEventListener('click', function() {
+            document.getElementById('incoming-validation-code').value = generateValidationCode();
+        });
+        
+        // Event listener untuk generate kode surat keluar
+        document.getElementById('generate-outgoing-code').addEventListener('click', function() {
+            document.getElementById('outgoing-validation-code').value = generateValidationCode();
+        });
+        
+        // Event listener untuk form surat masuk
+        document.getElementById('incoming-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newLetter = {
+                id: Date.now().toString(),
+                number: document.getElementById('incoming-number').value,
+                sender: document.getElementById('incoming-sender').value,
+                destination: document.getElementById('incoming-destination').value,
+                subject: document.getElementById('incoming-subject').value,
+                status: document.getElementById('incoming-status').value,
+                priority: document.getElementById('incoming-priority').value,
+                date: document.getElementById('incoming-date').value,
+                driveLink: document.getElementById('incoming-drive').value,
+                validator: document.getElementById('incoming-validator').value,
+                validationCode: document.getElementById('incoming-validation-code').value,
+                type: 'incoming',
+                timestamp: new Date().toISOString()
+            };
+            
+            // Simpan aksi terakhir untuk undo
+            lastAction = {
+                type: 'add',
+                data: newLetter,
+                category: 'incoming'
+            };
+            
+            incomingLetters.push(newLetter);
+            saveData();
+            renderIncomingTable();
+            updateStats();
+            
+            // Reset form
+            this.reset();
+            document.getElementById('incoming-validation-code').value = '';
+            
+            showNotification('Surat masuk berhasil ditambahkan!', 'success');
+        });
+        
+        // Event listener untuk form surat keluar
+        document.getElementById('outgoing-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newLetter = {
+                id: Date.now().toString(),
+                number: document.getElementById('outgoing-number').value,
+                sender: document.getElementById('outgoing-sender').value,
+                destination: document.getElementById('outgoing-destination').value,
+                subject: document.getElementById('outgoing-subject').value,
+                status: document.getElementById('outgoing-status').value,
+                priority: document.getElementById('outgoing-priority').value,
+                date: document.getElementById('outgoing-date').value,
+                driveLink: document.getElementById('outgoing-drive').value,
+                validator: document.getElementById('outgoing-validator').value,
+                validationCode: document.getElementById('outgoing-validation-code').value,
+                type: 'outgoing',
+                timestamp: new Date().toISOString()
+            };
+            
+            // Simpan aksi terakhir untuk undo
+            lastAction = {
+                type: 'add',
+                data: newLetter,
+                category: 'outgoing'
+            };
+            
+            outgoingLetters.push(newLetter);
+            saveData();
+            renderOutgoingTable();
+            updateStats();
+            
+            // Reset form
+            this.reset();
+            document.getElementById('outgoing-validation-code').value = '';
+            
+            showNotification('Surat keluar berhasil ditambahkan!', 'success');
+        });
+        
+        // Fungsi untuk melihat detail surat masuk
+        function viewIncomingLetter(id) {
+            const letter = incomingLetters.find(l => l.id === id);
+            if (!letter) return;
+            
+            const modalContent = document.getElementById('letter-detail-content');
+            
+            // Determine badge class based on status
+            let statusBadge = '';
+            if (letter.status === 'proses') {
+                statusBadge = '<span class="badge bg-warning">Proses</span>';
+            } else {
+                statusBadge = '<span class="badge bg-success">Validasi</span>';
+            }
+            
+            // Determine badge class based on priority
+            let priorityBadge = '';
+            if (letter.priority === 'biasa') {
+                priorityBadge = '<span class="badge bg-info">Biasa</span>';
+            } else if (letter.priority === 'penting') {
+                priorityBadge = '<span class="badge bg-warning">Penting</span>';
+            } else {
+                priorityBadge = '<span class="badge bg-danger">Rahasia</span>';
+            }
+            
+            modalContent.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Nomor Surat:</strong> ${letter.number}</p>
+                        <p><strong>Pengirim:</strong> ${letter.sender}</p>
+                        <p><strong>Tujuan:</strong> ${letter.destination}</p>
+                        <p><strong>Perihal:</strong> ${letter.subject}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Status:</strong> ${statusBadge}</p>
+                        <p><strong>Jenis Surat:</strong> ${priorityBadge}</p>
+                        <p><strong>Tanggal Diterima:</strong> ${letter.date}</p>
+                        <p><strong>Petugas Validasi:</strong> ${letter.validator || '-'}</p>
+                        <p><strong>Kode Validasi:</strong> ${letter.validationCode || '-'}</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p><strong>Link Google Drive:</strong></p>
+                    ${letter.driveLink ? 
+                        `<a href="${letter.driveLink}" target="_blank" class="btn btn-drive">
+                            <i class="fab fa-google-drive"></i> Buka di Google Drive
+                        </a>` : 
+                        '<p>Tidak ada link yang disertakan</p>'
+                    }
+                </div>
+            `;
+            
+            // Show the modal
+            const viewModal = new bootstrap.Modal(document.getElementById('viewLetterModal'));
+            viewModal.show();
+        }
+        
+        // Fungsi untuk melihat detail surat keluar
+        function viewOutgoingLetter(id) {
+            const letter = outgoingLetters.find(l => l.id === id);
+            if (!letter) return;
+            
+            const modalContent = document.getElementById('letter-detail-content');
+            
+            // Determine badge class based on status
+            let statusBadge = '';
+            if (letter.status === 'proses') {
+                statusBadge = '<span class="badge bg-warning">Proses</span>';
+            } else {
+                statusBadge = '<span class="badge bg-success">Validasi</span>';
+            }
+            
+            // Determine badge class based on priority
+            let priorityBadge = '';
+            if (letter.priority === 'biasa') {
+                priorityBadge = '<span class="badge bg-info">Biasa</span>';
+            } else if (letter.priority === 'penting') {
+                priorityBadge = '<span class="badge bg-warning">Penting</span>';
+            } else {
+                priorityBadge = '<span class="badge bg-danger">Rahasia</span>';
+            }
+            
+            modalContent.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Nomor Surat:</strong> ${letter.number}</p>
+                        <p><strong>Pengirim:</strong> ${letter.sender}</p>
+                        <p><strong>Tujuan:</strong> ${letter.destination}</p>
+                        <p><strong>Perihal:</strong> ${letter.subject}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Status:</strong> ${statusBadge}</p>
+                        <p><strong>Jenis Surat:</strong> ${priorityBadge}</p>
+                        <p><strong>Tanggal Dikirim:</strong> ${letter.date}</p>
+                        <p><strong>Petugas Validasi:</strong> ${letter.validator || '-'}</p>
+                        <p><strong>Kode Validasi:</strong> ${letter.validationCode || '-'}</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p><strong>Link Google Drive:</strong></p>
+                    ${letter.driveLink ? 
+                        `<a href="${letter.driveLink}" target="_blank" class="btn btn-drive">
+                            <i class="fab fa-google-drive"></i> Buka di Google Drive
+                        </a>` : 
+                        '<p>Tidak ada link yang disertakan</p>'
+                    }
+                </div>
+            `;
+            
+            // Show the modal
+            const viewModal = new bootstrap.Modal(document.getElementById('viewLetterModal'));
+            viewModal.show();
+        }
+        
+        // Fungsi untuk mengedit surat masuk
+        function editIncomingLetter(id) {
+            const letter = incomingLetters.find(l => l.id === id);
+            if (!letter) return;
+            
+            // Isi form dengan data surat
+            document.getElementById('incoming-number').value = letter.number;
+            document.getElementById('incoming-sender').value = letter.sender;
+            document.getElementById('incoming-destination').value = letter.destination;
+            document.getElementById('incoming-subject').value = letter.subject;
+            document.getElementById('incoming-status').value = letter.status;
+            document.getElementById('incoming-priority').value = letter.priority;
+            document.getElementById('incoming-date').value = letter.date;
+            document.getElementById('incoming-drive').value = letter.driveLink;
+            document.getElementById('incoming-validator').value = letter.validator;
+            document.getElementById('incoming-validation-code').value = letter.validationCode;
+            
+            // Hapus surat dari daftar
+            incomingLetters = incomingLetters.filter(l => l.id !== id);
+            saveData();
+            renderIncomingTable();
+            updateStats();
+            
+            showNotification('Surat masuk siap untuk diedit. Silakan perbarui data dan simpan.', 'info');
+        }
+        
+        // Fungsi untuk mengedit surat keluar
+        function editOutgoingLetter(id) {
+            const letter = outgoingLetters.find(l => l.id === id);
+            if (!letter) return;
+            
+            // Isi form dengan data surat
+            document.getElementById('outgoing-number').value = letter.number;
+            document.getElementById('outgoing-sender').value = letter.sender;
+            document.getElementById('outgoing-destination').value = letter.destination;
+            document.getElementById('outgoing-subject').value = letter.subject;
+            document.getElementById('outgoing-status').value = letter.status;
+            document.getElementById('outgoing-priority').value = letter.priority;
+            document.getElementById('outgoing-date').value = letter.date;
+            document.getElementById('outgoing-drive').value = letter.driveLink;
+            document.getElementById('outgoing-validator').value = letter.validator;
+            document.getElementById('outgoing-validation-code').value = letter.validationCode;
+            
+            // Hapus surat dari daftar
+            outgoingLetters = outgoingLetters.filter(l => l.id !== id);
+            saveData();
+            renderOutgoingTable();
+            updateStats();
+            
+            showNotification('Surat keluar siap untuk diedit. Silakan perbarui data dan simpan.', 'info');
+        }
+        
+        // Fungsi untuk konfirmasi hapus surat masuk
+        function confirmDeleteIncoming(id) {
+            const letter = incomingLetters.find(l => l.id === id);
+            if (!letter) return;
+            
+            // Simpan ID surat yang akan dihapus
+            document.getElementById('confirm-delete').setAttribute('data-id', id);
+            document.getElementById('confirm-delete').setAttribute('data-type', 'incoming');
+            
+            // Tampilkan modal konfirmasi
+            const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+            passwordModal.show();
+        }
+        
+        // Fungsi untuk konfirmasi hapus surat keluar
+        function confirmDeleteOutgoing(id) {
+            const letter = outgoingLetters.find(l => l.id === id);
+            if (!letter) return;
+            
+            // Simpan ID surat yang akan dihapus
+            document.getElementById('confirm-delete').setAttribute('data-id', id);
+            document.getElementById('confirm-delete').setAttribute('data-type', 'outgoing');
+            
+            // Tampilkan modal konfirmasi
+            const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+            passwordModal.show();
+        }
+        
+        // Event listener untuk konfirmasi hapus
+        document.getElementById('confirm-delete').addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const type = this.getAttribute('data-type');
+            const password = document.getElementById('delete-password').value;
+            
+            if (password !== currentPassword) {
+                showNotification('Password salah! Penghapusan dibatalkan.', 'error');
+                return;
+            }
+            
+            if (type === 'incoming') {
+                const letter = incomingLetters.find(l => l.id === id);
+                if (!letter) return;
+                
+                // Simpan aksi terakhir untuk undo
+                lastAction = {
+                    type: 'delete',
+                    data: letter,
+                    category: 'incoming'
+                };
+                
+                incomingLetters = incomingLetters.filter(l => l.id !== id);
+                saveData();
+                renderIncomingTable();
+                updateStats();
+                
+                showNotification('Surat masuk berhasil dihapus!', 'success');
+            } else {
+                const letter = outgoingLetters.find(l => l.id === id);
+                if (!letter) return;
+                
+                // Simpan aksi terakhir untuk undo
+                lastAction = {
+                    type: 'delete',
+                    data: letter,
+                    category: 'outgoing'
+                };
+                
+                outgoingLetters = outgoingLetters.filter(l => l.id !== id);
+                saveData();
+                renderOutgoingTable();
+                updateStats();
+                
+                showNotification('Surat keluar berhasil dihapus!', 'success');
+            }
+            
+            // Tutup modal
+            const passwordModal = bootstrap.Modal.getInstance(document.getElementById('passwordModal'));
+            passwordModal.hide();
+            
+            // Reset password field
+            document.getElementById('delete-password').value = '';
+        });
+        
+        // Event listener untuk form ubah password
+        document.getElementById('password-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentPass = document.getElementById('current-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+            
+            if (currentPass !== currentPassword) {
+                showNotification('Password saat ini salah!', 'error');
+                return;
+            }
+            
+            if (newPass !== confirmPass) {
+                showNotification('Konfirmasi password tidak cocok!', 'error');
+                return;
+            }
+            
+            currentPassword = newPass;
+            saveData();
+            
+            // Reset form
+            this.reset();
+            
+            showNotification('Password berhasil diubah!', 'success');
+        });
+        
+        // Event listener untuk backup data
+        document.getElementById('backup-all').addEventListener('click', function() {
+            const data = {
+                incoming: incomingLetters,
+                outgoing: outgoingLetters,
+                password: currentPassword,
+                backupDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `backup-surat-${new Date().toISOString().slice(0,10)}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Backup data berhasil didownload!', 'success');
+        });
+        
+        // Event listener untuk restore data
+        document.getElementById('restore-all').addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (data.incoming) incomingLetters = data.incoming;
+                        if (data.outgoing) outgoingLetters = data.outgoing;
+                        if (data.password) currentPassword = data.password;
+                        
+                        saveData();
+                        renderIncomingTable();
+                        renderOutgoingTable();
+                        updateStats();
+                        
+                        showNotification('Data berhasil direstore!', 'success');
+                    } catch (error) {
+                        showNotification('Gagal memproses file backup!', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        });
+        
+        // Event listener untuk reset data
+        document.getElementById('confirm-reset').addEventListener('click', function() {
+            const password = document.getElementById('reset-password').value;
+            
+            if (password !== currentPassword) {
+                showNotification('Password salah! Reset data dibatalkan.', 'error');
+                return;
+            }
+            
+            // Simpan aksi terakhir untuk undo
+            lastAction = {
+                type: 'reset',
+                data: {
+                    incoming: [...incomingLetters],
+                    outgoing: [...outgoingLetters]
+                }
+            };
+            
+            incomingLetters = [];
+            outgoingLetters = [];
+            saveData();
+            renderIncomingTable();
+            renderOutgoingTable();
+            updateStats();
+            
+            // Tutup modal
+            const resetModal = bootstrap.Modal.getInstance(document.getElementById('resetModal'));
+            resetModal.hide();
+            
+            // Reset password field
+            document.getElementById('reset-password').value = '';
+            
+            showNotification('Semua data berhasil direset!', 'success');
+        });
+        
+        // Event listener untuk undo
+        document.getElementById('undo-incoming').addEventListener('click', undoLastAction);
+        document.getElementById('undo-outgoing').addEventListener('click', undoLastAction);
+        
+        // Fungsi untuk membatalkan aksi terakhir
+        function undoLastAction() {
+            if (!lastAction) {
+                showNotification('Tidak ada aksi yang dapat dibatalkan.', 'info');
+                return;
+            }
+            
+            if (lastAction.type === 'add') {
+                if (lastAction.category === 'incoming') {
+                    incomingLetters = incomingLetters.filter(l => l.id !== lastAction.data.id);
+                } else {
+                    outgoingLetters = outgoingLetters.filter(l => l.id !== lastAction.data.id);
+                }
+                
+                showNotification('Penambahan data berhasil dibatalkan.', 'success');
+            } else if (lastAction.type === 'delete') {
+                if (lastAction.category === 'incoming') {
+                    incomingLetters.push(lastAction.data);
+                } else {
+                    outgoingLetters.push(lastAction.data);
+                }
+                
+                showNotification('Penghapusan data berhasil dibatalkan.', 'success');
+            } else if (lastAction.type === 'reset') {
+                incomingLetters = lastAction.data.incoming;
+                outgoingLetters = lastAction.data.outgoing;
+                
+                showNotification('Reset data berhasil dibatalkan.', 'success');
+            }
+            
+            saveData();
+            renderIncomingTable();
+            renderOutgoingTable();
+            updateStats();
+            
+            // Reset lastAction
+            lastAction = null;
+        }
+        
+        // Event listener untuk pencarian
+        document.getElementById('search-incoming-btn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('search-incoming').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderIncomingTable();
+                return;
+            }
+            
+            const filtered = incomingLetters.filter(letter => 
+                letter.number.toLowerCase().includes(searchTerm) ||
+                letter.sender.toLowerCase().includes(searchTerm) ||
+                letter.destination.toLowerCase().includes(searchTerm) ||
+                letter.subject.toLowerCase().includes(searchTerm) ||
+                letter.date.includes(searchTerm)
+            );
+            
+            renderFilteredIncomingTable(filtered);
+        });
+        
+        document.getElementById('search-outgoing-btn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('search-outgoing').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderOutgoingTable();
+                return;
+            }
+            
+            const filtered = outgoingLetters.filter(letter => 
+                letter.number.toLowerCase().includes(searchTerm) ||
+                letter.sender.toLowerCase().includes(searchTerm) ||
+                letter.destination.toLowerCase().includes(searchTerm) ||
+                letter.subject.toLowerCase().includes(searchTerm) ||
+                letter.date.includes(searchTerm)
+            );
+            
+            renderFilteredOutgoingTable(filtered);
+        });
+        
+        // Fungsi untuk merender tabel surat masuk yang telah difilter
+        function renderFilteredIncomingTable(filteredLetters) {
+            const tbody = document.getElementById('incoming-table-body');
+            tbody.innerHTML = '';
+            
+            if (filteredLetters.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data yang sesuai dengan pencarian</td></tr>';
+                return;
+            }
+            
+            filteredLetters.forEach((letter, index) => {
+                const row = document.createElement('tr');
+                
+                // Determine badge class based on status
+                let statusBadge = '';
+                if (letter.status === 'proses') {
+                    statusBadge = '<span class="badge bg-warning">Proses</span>';
+                } else {
+                    statusBadge = '<span class="badge bg-success">Validasi</span>';
+                }
+                
+                // Determine badge class based on priority
+                let priorityBadge = '';
+                if (letter.priority === 'biasa') {
+                    priorityBadge = '<span class="badge bg-info">Biasa</span>';
+                } else if (letter.priority === 'penting') {
+                    priorityBadge = '<span class="badge bg-warning">Penting</span>';
+                } else {
+                    priorityBadge = '<span class="badge bg-danger">Rahasia</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${letter.number}</td>
+                    <td>${letter.sender}</td>
+                    <td>${letter.subject}</td>
+                    <td>${statusBadge}</td>
+                    <td>${priorityBadge}</td>
+                    <td>${letter.date}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-info view-incoming" data-id="${letter.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning edit-incoming" data-id="${letter.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-incoming" data-id="${letter.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.view-incoming').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewIncomingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.edit-incoming').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editIncomingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-incoming').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    confirmDeleteIncoming(id);
+                });
+            });
+        }
+        
+        // Fungsi untuk merender tabel surat keluar yang telah difilter
+        function renderFilteredOutgoingTable(filteredLetters) {
+            const tbody = document.getElementById('outgoing-table-body');
+            tbody.innerHTML = '';
+            
+            if (filteredLetters.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data yang sesuai dengan pencarian</td></tr>';
+                return;
+            }
+            
+            filteredLetters.forEach((letter, index) => {
+                const row = document.createElement('tr');
+                
+                // Determine badge class based on status
+                let statusBadge = '';
+                if (letter.status === 'proses') {
+                    statusBadge = '<span class="badge bg-warning">Proses</span>';
+                } else {
+                    statusBadge = '<span class="badge bg-success">Validasi</span>';
+                }
+                
+                // Determine badge class based on priority
+                let priorityBadge = '';
+                if (letter.priority === 'biasa') {
+                    priorityBadge = '<span class="badge bg-info">Biasa</span>';
+                } else if (letter.priority === 'penting') {
+                    priorityBadge = '<span class="badge bg-warning">Penting</span>';
+                } else {
+                    priorityBadge = '<span class="badge bg-danger">Rahasia</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${letter.number}</td>
+                    <td>${letter.sender}</td>
+                    <td>${letter.subject}</td>
+                    <td>${statusBadge}</td>
+                    <td>${priorityBadge}</td>
+                    <td>${letter.date}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-info view-outgoing" data-id="${letter.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-warning edit-outgoing" data-id="${letter.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-outgoing" data-id="${letter.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.view-outgoing').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewOutgoingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.edit-outgoing').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editOutgoingLetter(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-outgoing').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    confirmDeleteOutgoing(id);
+                });
+            });
+        }
+        
+        // Back to top button
+        document.getElementById('back-to-top').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Initialize Chart.js
+        function initCharts() {
+            const ctx = document.getElementById('letter-status-chart').getContext('2d');
+            
+            // Count letters by status
+            const incomingProcess = incomingLetters.filter(l => l.status === 'proses').length;
+            const incomingValidated = incomingLetters.filter(l => l.status === 'validated').length;
+            const outgoingProcess = outgoingLetters.filter(l => l.status === 'proses').length;
+            const outgoingValidated = outgoingLetters.filter(l => l.status === 'validated').length;
+            
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Surat Masuk Proses', 'Surat Masuk Validasi', 'Surat Keluar Proses', 'Surat Keluar Validasi'],
+                    datasets: [{
+                        data: [incomingProcess, incomingValidated, outgoingProcess, outgoingValidated],
+                        backgroundColor: [
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 159, 64, 0.7)',
+                            'rgba(54, 162, 235, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update recent activity
+        function updateRecentActivity() {
+            const activityList = document.getElementById('recent-activity');
+            activityList.innerHTML = '';
+            
+            // Combine and sort letters by timestamp
+            const allLetters = [...incomingLetters, ...outgoingLetters]
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 5);
+            
+            if (allLetters.length === 0) {
+                activityList.innerHTML = '<li class="list-group-item">Belum ada aktivitas</li>';
+                return;
+            }
+            
+            allLetters.forEach(letter => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                
+                const icon = letter.type === 'incoming' ? 
+                    '<i class="fas fa-inbox text-primary me-2"></i>' : 
+                    '<i class="fas fa-paper-plane text-success me-2"></i>';
+                
+                const date = new Date(letter.timestamp).toLocaleString('id-ID');
+                
+                li.innerHTML = `
+                    ${icon} 
+                    <strong>${letter.number}</strong> - ${letter.subject}
+                    <br>
+                    <small class="text-muted">${date}</small>
+                `;
+                
+                activityList.appendChild(li);
+            });
+        }
+        
+        // Periodically update charts and activity
+        setInterval(() => {
+            initCharts();
+            updateRecentActivity();
+        }, 5000);
     </script>
 </body>
 </html>
