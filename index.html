@@ -27,11 +27,12 @@
         body {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23f8f9fa" width="100" height="100"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23e9ecef" stroke-width="0.5"/></svg>');
+            padding: 20px 0;
         }
         
         .login-container {
@@ -145,6 +146,7 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             width: 100%;
+            height: 95vh;
         }
         
         .app-header {
@@ -164,6 +166,27 @@
         .app-subtitle {
             font-size: 1rem;
             opacity: 0.9;
+        }
+        
+        .app-content {
+            display: flex;
+            height: calc(100% - 76px);
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #dee2e6;
+            overflow-y: auto;
+            height: 100%;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
         }
         
         .nav-pills .nav-link {
@@ -484,9 +507,24 @@
             .action-buttons {
                 flex-direction: column;
             }
+            
+            .sidebar {
+                width: 200px;
+            }
         }
         
         @media (max-width: 768px) {
+            .app-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #dee2e6;
+            }
+            
             .app-title {
                 font-size: 1.3rem;
             }
@@ -568,9 +606,9 @@
             <p class="app-subtitle">Dinas Peternakan dan Perikanan Kabupaten Situbondo</p>
         </div>
         
-        <div class="row g-0">
+        <div class="app-content">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 p-4 bg-light">
+            <div class="sidebar">
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
                         <a href="#" class="nav-link active" data-section="dashboard">
@@ -601,7 +639,7 @@
             </div>
             
             <!-- Main Content -->
-            <div class="col-md-9 col-lg-10 p-5">
+            <div class="main-content">
                 <!-- Dashboard Section -->
                 <div class="content-section" id="dashboardSection">
                     <h2 class="section-title">Dashboard</h2>
@@ -920,7 +958,7 @@
                                             <i class="fas fa-upload me-1"></i>Restore Data
                                         </button>
                                         <button class="btn btn-danger" id="resetDataBtn">
-                                            <i class="fas fa-trash me-1"></i>Reset Data
+                                            <i class="fas fa-trash-alt me-1"></i>Reset Data
                                         </button>
                                     </div>
                                 </div>
@@ -930,26 +968,66 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-key me-2"></i>Ganti Password Keamanan
+                                    <i class="fas fa-user-cog me-2"></i>Pengaturan Akun
                                 </div>
                                 <div class="card-body">
-                                    <form id="securityPasswordForm">
-                                        <div class="mb-3">
-                                            <label class="form-label">Password Keamanan Saat Ini</label>
-                                            <input type="password" class="form-control" id="currentSecurityPassword" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Password Keamanan Baru</label>
-                                            <input type="password" class="form-control" id="newSecurityPassword" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Konfirmasi Password Baru</label>
-                                            <input type="password" class="form-control" id="confirmSecurityPassword" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fas fa-save me-1"></i>Simpan Perubahan
-                                        </button>
-                                    </form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Nama Pengguna</label>
+                                        <input type="text" class="form-control" value="Lentera Karya Situbondo" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Password Baru</label>
+                                        <input type="password" class="form-control" placeholder="Masukkan password baru">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Konfirmasi Password Baru</label>
+                                        <input type="password" class="form-control" placeholder="Konfirmasi password baru">
+                                    </div>
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-save me-1"></i>Simpan Perubahan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <i class="fas fa-info-circle me-2"></i>Informasi Sistem
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <th width="40%">Versi Sistem</th>
+                                            <td>v2.1.0</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tanggal Rilis</th>
+                                            <td>15 Oktober 2023</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pembaruan Terakhir</th>
+                                            <td>20 Oktober 2023</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <th width="40%">Total Data</th>
+                                            <td><span id="totalData">0</span> Surat</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Ukuran Data</th>
+                                            <td><span id="dataSize">0 KB</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td><span class="badge bg-success">Aktif</span></td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -960,7 +1038,7 @@
     </div>
     
     <!-- Floating Action Button -->
-    <div class="floating-action-btn d-none" id="fab">
+    <div class="floating-action-btn d-none" id="fabBtn">
         <i class="fas fa-plus"></i>
     </div>
     
@@ -970,760 +1048,525 @@
         <span id="notificationText"></span>
     </div>
     
-    <!-- Password Modal for Security Actions -->
-    <div class="modal fade" id="securityModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="securityModalTitle">Konfirmasi Keamanan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="securityModalMessage">Masukkan password keamanan untuk melanjutkan:</p>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" id="securityPasswordInput" placeholder="Password keamanan">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="securityModalConfirm">Konfirmasi</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script>
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize variables
-            let loginAttempts = 0;
-            let isLoginLocked = false;
-            let securityPassword = "Anekamarket.1999";
-            let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
-            let previousFormData = null;
+        // Data storage
+        let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+        let loginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
+        let isLocked = localStorage.getItem('isLocked') === 'true';
+        let lockUntil = parseInt(localStorage.getItem('lockUntil')) || 0;
+        
+        // DOM Elements
+        const loginContainer = document.getElementById('loginContainer');
+        const appContainer = document.getElementById('appContainer');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const loginBtn = document.getElementById('loginBtn');
+        const attemptsCount = document.getElementById('attemptsCount');
+        const countdown = document.getElementById('countdown');
+        const countdownTimer = document.getElementById('countdownTimer');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mailForm = document.getElementById('mailForm');
+        const mailTableBody = document.getElementById('mailTableBody');
+        const fabBtn = document.getElementById('fabBtn');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        
+        // Initialize the application
+        function initApp() {
+            // Check if user is already logged in
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                showApp();
+                return;
+            }
             
-            // DOM Elements
-            const loginContainer = document.getElementById('loginContainer');
-            const appContainer = document.getElementById('appContainer');
-            const passwordInput = document.getElementById('password');
-            const togglePasswordBtn = document.getElementById('togglePassword');
-            const loginBtn = document.getElementById('loginBtn');
-            const attemptsCount = document.getElementById('attemptsCount');
-            const countdown = document.getElementById('countdown');
-            const countdownTimer = document.getElementById('countdownTimer');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const navLinks = document.querySelectorAll('.nav-link[data-section]');
-            const contentSections = document.querySelectorAll('.content-section');
-            const mailForm = document.getElementById('mailForm');
-            const mailTypeSelect = document.getElementById('mailType');
+            // Check if login is locked
+            if (isLocked) {
+                const now = Date.now();
+                if (now < lockUntil) {
+                    startLockCountdown(lockUntil - now);
+                    loginBtn.disabled = true;
+                } else {
+                    // Lock expired
+                    isLocked = false;
+                    loginAttempts = 0;
+                    localStorage.setItem('isLocked', 'false');
+                    localStorage.setItem('loginAttempts', '0');
+                    localStorage.removeItem('lockUntil');
+                }
+            }
+            
+            attemptsCount.textContent = loginAttempts;
+            
+            // Set today's date as default for date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('mailDate').value = today;
+            document.getElementById('mailActionDate').value = today;
+            
+            // Update dashboard stats
+            updateDashboardStats();
+            
+            // Load mail data into table
+            renderMailTable();
+        }
+        
+        // Toggle password visibility
+        togglePasswordBtn.addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordBtn.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        });
+        
+        // Handle login
+        loginBtn.addEventListener('click', function() {
+            if (isLocked) {
+                showNotification('Login dibekukan. Silakan coba lagi nanti.', 'error');
+                return;
+            }
+            
+            const password = passwordInput.value.trim();
+            
+            // Simple validation - in a real app, this would be more secure
+            if (password === 'S01244561') {
+                // Successful login
+                localStorage.setItem('isLoggedIn', 'true');
+                loginAttempts = 0;
+                localStorage.setItem('loginAttempts', '0');
+                showApp();
+            } else {
+                // Failed login
+                loginAttempts++;
+                localStorage.setItem('loginAttempts', loginAttempts.toString());
+                attemptsCount.textContent = loginAttempts;
+                
+                if (loginAttempts >= 5) {
+                    // Lock the login for 5 minutes
+                    isLocked = true;
+                    const lockTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+                    lockUntil = Date.now() + lockTime;
+                    localStorage.setItem('isLocked', 'true');
+                    localStorage.setItem('lockUntil', lockUntil.toString());
+                    
+                    loginBtn.disabled = true;
+                    startLockCountdown(lockTime);
+                    showNotification('Terlalu banyak percobaan login. Silakan coba lagi setelah 5 menit.', 'error');
+                } else {
+                    showNotification('Password salah. Silakan coba lagi.', 'error');
+                }
+            }
+        });
+        
+        // Start lock countdown
+        function startLockCountdown(duration) {
+            countdown.classList.remove('d-none');
+            
+            let timer = duration;
+            const interval = setInterval(function() {
+                const minutes = Math.floor(timer / 60000);
+                const seconds = Math.floor((timer % 60000) / 1000);
+                
+                countdownTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    countdown.classList.add('d-none');
+                    loginBtn.disabled = false;
+                    isLocked = false;
+                    loginAttempts = 0;
+                    localStorage.setItem('isLocked', 'false');
+                    localStorage.setItem('loginAttempts', '0');
+                    localStorage.removeItem('lockUntil');
+                }
+                
+                timer -= 1000;
+            }, 1000);
+        }
+        
+        // Show the main application
+        function showApp() {
+            loginContainer.style.display = 'none';
+            appContainer.style.display = 'block';
+            fabBtn.classList.remove('d-none');
+            
+            // Update dashboard stats
+            updateDashboardStats();
+            
+            // Load mail data into table
+            renderMailTable();
+        }
+        
+        // Handle logout
+        logoutBtn.addEventListener('click', function() {
+            localStorage.setItem('isLoggedIn', 'false');
+            appContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            fabBtn.classList.add('d-none');
+            passwordInput.value = '';
+        });
+        
+        // Handle form submission
+        mailForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const mailId = document.getElementById('editId').value || Date.now().toString();
+            const mailType = document.getElementById('mailType').value;
+            const mailNumber = document.getElementById('mailNumber').value;
+            const mailSender = document.getElementById('mailSender').value;
+            const mailReceiver = document.getElementById('mailReceiver').value;
+            const mailDate = document.getElementById('mailDate').value;
+            const mailActionDate = document.getElementById('mailActionDate').value;
+            const mailStatus = document.getElementById('mailStatus').value;
+            const mailValidator = document.getElementById('mailValidator').value;
+            const mailSubject = document.getElementById('mailSubject').value;
+            const mailDescription = document.getElementById('mailDescription').value;
+            const mailLink = document.getElementById('mailLink').value;
+            const validationCode = document.getElementById('validationCode').value;
+            
+            // Create mail object
+            const mail = {
+                id: mailId,
+                type: mailType,
+                number: mailNumber,
+                sender: mailSender,
+                receiver: mailReceiver,
+                date: mailDate,
+                actionDate: mailActionDate,
+                status: mailStatus,
+                validator: mailValidator,
+                subject: mailSubject,
+                description: mailDescription,
+                link: mailLink,
+                validationCode: validationCode,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Check if we're editing an existing mail
+            const existingIndex = mailData.findIndex(item => item.id === mailId);
+            if (existingIndex !== -1) {
+                mailData[existingIndex] = mail;
+                showNotification('Surat berhasil diperbarui.', 'success');
+            } else {
+                mailData.push(mail);
+                showNotification('Surat berhasil disimpan.', 'success');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('mailData', JSON.stringify(mailData));
+            
+            // Reset form
+            mailForm.reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('mailDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('mailActionDate').value = new Date().toISOString().split('T')[0];
+            
+            // Update dashboard and table
+            updateDashboardStats();
+            renderMailTable();
+        });
+        
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            const totalIncoming = mailData.filter(mail => mail.type === 'masuk').length;
+            const totalOutgoing = mailData.filter(mail => mail.type === 'keluar').length;
+            const totalPending = mailData.filter(mail => mail.status === 'pending').length;
+            const totalProcessed = mailData.length - totalPending;
+            
+            document.getElementById('totalIncoming').textContent = totalIncoming;
+            document.getElementById('totalOutgoing').textContent = totalOutgoing;
+            document.getElementById('totalPending').textContent = totalPending;
+            document.getElementById('totalProcessed').textContent = totalProcessed;
+            document.getElementById('totalData').textContent = mailData.length;
+            document.getElementById('dataSize').textContent = Math.round(JSON.stringify(mailData).length / 1024) + ' KB';
+            
+            // Update recent activities
+            const recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = '';
+            
+            if (mailData.length === 0) {
+                recentActivities.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td></tr>';
+                return;
+            }
+            
+            // Sort by date (newest first) and take the first 5
+            const sortedData = [...mailData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
+            
+            sortedData.forEach(mail => {
+                const row = document.createElement('tr');
+                
+                // Format date
+                const date = new Date(mail.date).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                // Status badge
+                let statusBadge = '';
+                switch(mail.status) {
+                    case 'biasa':
+                        statusBadge = '<span class="badge bg-secondary">Biasa</span>';
+                        break;
+                    case 'penting':
+                        statusBadge = '<span class="badge bg-warning">Penting</span>';
+                        break;
+                    case 'rahasia':
+                        statusBadge = '<span class="badge bg-danger">Rahasia</span>';
+                        break;
+                    default:
+                        statusBadge = '<span class="badge bg-secondary">Biasa</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${date}</td>
+                    <td>${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</td>
+                    <td>${mail.number}</td>
+                    <td>${mail.subject}</td>
+                    <td>${statusBadge}</td>
+                `;
+                
+                recentActivities.appendChild(row);
+            });
+        }
+        
+        // Render mail table
+        function renderMailTable() {
+            mailTableBody.innerHTML = '';
+            
+            if (mailData.length === 0) {
+                mailTableBody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center py-4">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Tidak ada data surat. Silakan tambahkan data baru.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Sort by date (newest first)
+            const sortedData = [...mailData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            sortedData.forEach((mail, index) => {
+                const row = document.createElement('tr');
+                
+                // Format date
+                const date = new Date(mail.date).toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                // Status badge
+                let statusBadge = '';
+                switch(mail.status) {
+                    case 'biasa':
+                        statusBadge = '<span class="badge bg-secondary">Biasa</span>';
+                        break;
+                    case 'penting':
+                        statusBadge = '<span class="badge bg-warning">Penting</span>';
+                        break;
+                    case 'rahasia':
+                        statusBadge = '<span class="badge bg-danger">Rahasia</span>';
+                        break;
+                    default:
+                        statusBadge = '<span class="badge bg-secondary">Biasa</span>';
+                }
+                
+                // Link button
+                const linkButton = mail.link ? 
+                    `<a href="${mail.link}" target="_blank" class="btn btn-sm btn-drive" title="Buka di Google Drive">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>` : 
+                    '<span class="text-muted">Tidak ada</span>';
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</td>
+                    <td>${mail.number}</td>
+                    <td>${date}</td>
+                    <td>${mail.type === 'masuk' ? mail.sender : mail.receiver}</td>
+                    <td>${mail.subject}</td>
+                    <td>${statusBadge}</td>
+                    <td>${linkButton}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary edit-btn" data-id="${mail.id}" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${mail.id}" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                mailTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editMail(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    deleteMail(id);
+                });
+            });
+        }
+        
+        // Edit mail
+        function editMail(id) {
+            const mail = mailData.find(item => item.id === id);
+            if (!mail) return;
+            
+            // Scroll to form
+            document.getElementById('inputSection').scrollIntoView({ behavior: 'smooth' });
+            
+            // Fill form with mail data
+            document.getElementById('editId').value = mail.id;
+            document.getElementById('mailType').value = mail.type;
+            document.getElementById('mailNumber').value = mail.number;
+            document.getElementById('mailSender').value = mail.sender;
+            document.getElementById('mailReceiver').value = mail.receiver;
+            document.getElementById('mailDate').value = mail.date;
+            document.getElementById('mailActionDate').value = mail.actionDate;
+            document.getElementById('mailStatus').value = mail.status;
+            document.getElementById('mailValidator').value = mail.validator;
+            document.getElementById('mailSubject').value = mail.subject;
+            document.getElementById('mailDescription').value = mail.description;
+            document.getElementById('mailLink').value = mail.link;
+            document.getElementById('validationCode').value = mail.validationCode;
+            
+            showNotification('Sedang mengedit surat.', 'info');
+        }
+        
+        // Delete mail
+        function deleteMail(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus surat ini?')) {
+                mailData = mailData.filter(item => item.id !== id);
+                localStorage.setItem('mailData', JSON.stringify(mailData));
+                
+                updateDashboardStats();
+                renderMailTable();
+                
+                showNotification('Surat berhasil dihapus.', 'success');
+            }
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            notification.className = 'notification ' + type;
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Generate validation code
+        document.getElementById('generateCodeBtn').addEventListener('click', function() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            document.getElementById('validationCode').value = code;
+        });
+        
+        // Test Google Drive link
+        document.getElementById('testLinkBtn').addEventListener('click', function() {
+            const link = document.getElementById('mailLink').value;
+            if (link) {
+                window.open(link, '_blank');
+            } else {
+                showNotification('Masukkan tautan Google Drive terlebih dahulu.', 'error');
+            }
+        });
+        
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.add('d-none');
+                });
+                
+                // Show the selected section
+                const sectionId = this.getAttribute('data-section') + 'Section';
+                document.getElementById(sectionId).classList.remove('d-none');
+                
+                // If input section is selected, reset the form
+                if (sectionId === 'inputSection') {
+                    mailForm.reset();
+                    document.getElementById('editId').value = '';
+                    document.getElementById('mailDate').value = new Date().toISOString().split('T')[0];
+                    document.getElementById('mailActionDate').value = new Date().toISOString().split('T')[0];
+                }
+            });
+        });
+        
+        // FAB button to add new mail
+        fabBtn.addEventListener('click', function() {
+            // Show input section
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.querySelector('[data-section="input"]').classList.add('active');
+            
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('d-none');
+            });
+            document.getElementById('inputSection').classList.remove('d-none');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Reset form
+            mailForm.reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('mailDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('mailActionDate').value = new Date().toISOString().split('T')[0];
+        });
+        
+        // Change labels based on mail type
+        document.getElementById('mailType').addEventListener('change', function() {
+            const type = this.value;
             const senderLabel = document.getElementById('senderLabel');
             const receiverLabel = document.getElementById('receiverLabel');
             const actionDateLabel = document.getElementById('actionDateLabel');
-            const generateCodeBtn = document.getElementById('generateCodeBtn');
-            const validationCodeInput = document.getElementById('validationCode');
-            const testLinkBtn = document.getElementById('testLinkBtn');
-            const mailLinkInput = document.getElementById('mailLink');
-            const resetBtn = document.getElementById('resetBtn');
-            const undoBtn = document.getElementById('undoBtn');
-            const filterTypeSelect = document.getElementById('filterType');
-            const searchInput = document.getElementById('searchInput');
-            const searchBtn = document.getElementById('searchBtn');
-            const exportExcelBtn = document.getElementById('exportExcelBtn');
-            const exportPdfBtn = document.getElementById('exportPdfBtn');
-            const backupBtn = document.getElementById('backupBtn');
-            const restoreBtn = document.getElementById('restoreBtn');
-            const resetDataBtn = document.getElementById('resetDataBtn');
-            const securityPasswordForm = document.getElementById('securityPasswordForm');
-            const fab = document.getElementById('fab');
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            const securityModal = new bootstrap.Modal(document.getElementById('securityModal'));
-            const securityModalTitle = document.getElementById('securityModalTitle');
-            const securityModalMessage = document.getElementById('securityModalMessage');
-            const securityPasswordInput = document.getElementById('securityPasswordInput');
-            const securityModalConfirm = document.getElementById('securityModalConfirm');
             
-            // Event Listeners
-            togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
-            loginBtn.addEventListener('click', handleLogin);
-            logoutBtn.addEventListener('click', handleLogout);
-            navLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
-            mailTypeSelect.addEventListener('change', updateFormLabels);
-            generateCodeBtn.addEventListener('click', generateValidationCode);
-            testLinkBtn.addEventListener('click', testDriveLink);
-            mailForm.addEventListener('submit', handleFormSubmit);
-            resetBtn.addEventListener('click', resetForm);
-            undoBtn.addEventListener('click', undoForm);
-            filterTypeSelect.addEventListener('change', filterTable);
-            searchBtn.addEventListener('click', searchTable);
-            exportExcelBtn.addEventListener('click', exportToExcel);
-            exportPdfBtn.addEventListener('click', exportToPDF);
-            backupBtn.addEventListener('click', backupData);
-            restoreBtn.addEventListener('click', restoreData);
-            resetDataBtn.addEventListener('click', resetData);
-            securityPasswordForm.addEventListener('submit', changeSecurityPassword);
-            fab.addEventListener('click', scrollToTop);
-            
-            // Initialize the app
-            initApp();
-            
-            // Functions
-            function initApp() {
-                updateDashboardStats();
-                renderMailTable();
-                updateFormLabels();
-                
-                // Set today's date as default for mailActionDate
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('mailActionDate').value = today;
-                
-                // Check if user was previously logged in
-                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-                if (isLoggedIn) {
-                    loginContainer.classList.add('d-none');
-                    appContainer.style.display = 'block';
-                    fab.classList.remove('d-none');
-                }
-            }
-            
-            function togglePasswordVisibility() {
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    togglePasswordBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
-                } else {
-                    passwordInput.type = 'password';
-                    togglePasswordBtn.innerHTML = '<i class="fas fa-eye"></i>';
-                }
-            }
-            
-            function handleLogin() {
-                if (isLoginLocked) {
-                    showNotification('Login masih terkunci. Silakan tunggu.', 'error');
-                    return;
-                }
-                
-                const password = passwordInput.value.trim();
-                
-                // Check password format (capital letter followed by numbers)
-                const passwordPattern = /^[A-Z]\d{8,}$/;
-                
-                if (!passwordPattern.test(password)) {
-                    showNotification('Format password salah. Harus diawali huruf kapital diikuti angka (minimal 8 digit).', 'error');
-                    loginAttempts++;
-                    attemptsCount.textContent = loginAttempts;
-                    
-                    if (loginAttempts >= 5) {
-                        lockLogin();
-                    }
-                    return;
-                }
-                
-                // Successful login
-                loginContainer.classList.add('d-none');
-                appContainer.style.display = 'block';
-                fab.classList.remove('d-none');
-                localStorage.setItem('isLoggedIn', 'true');
-                showNotification('Login berhasil! Selamat datang di Sistem Manajemen Surat.', 'success');
-            }
-            
-            function lockLogin() {
-                isLoginLocked = true;
-                loginBtn.disabled = true;
-                countdown.classList.remove('d-none');
-                
-                let timeLeft = 300; // 5 minutes in seconds
-                const countdownInterval = setInterval(() => {
-                    timeLeft--;
-                    
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    
-                    countdownTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(countdownInterval);
-                        isLoginLocked = false;
-                        loginBtn.disabled = false;
-                        countdown.classList.add('d-none');
-                        loginAttempts = 0;
-                        attemptsCount.textContent = loginAttempts;
-                        countdownTimer.textContent = '05:00';
-                    }
-                }, 1000);
-            }
-            
-            function handleLogout() {
-                loginContainer.classList.remove('d-none');
-                appContainer.style.display = 'none';
-                fab.classList.add('d-none');
-                localStorage.setItem('isLoggedIn', 'false');
-                passwordInput.value = '';
-                showNotification('Anda telah logout dari sistem.', 'info');
-            }
-            
-            function handleNavLinkClick(e) {
-                e.preventDefault();
-                
-                const targetSection = this.getAttribute('data-section');
-                
-                // Update active nav link
-                navLinks.forEach(link => link.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Show target section
-                contentSections.forEach(section => section.classList.add('d-none'));
-                document.getElementById(`${targetSection}Section`).classList.remove('d-none');
-                
-                // If going to dashboard, update stats
-                if (targetSection === 'dashboard') {
-                    updateDashboardStats();
-                }
-            }
-            
-            function updateFormLabels() {
-                const mailType = mailTypeSelect.value;
-                
-                if (mailType === 'masuk') {
-                    senderLabel.textContent = 'Nama Pengirim *';
-                    receiverLabel.textContent = 'Tujuan *';
-                    actionDateLabel.textContent = 'Tanggal Diterima *';
-                } else if (mailType === 'keluar') {
-                    senderLabel.textContent = 'Dikirim Oleh *';
-                    receiverLabel.textContent = 'Tujuan *';
-                    actionDateLabel.textContent = 'Tanggal Dikirim *';
-                }
-            }
-            
-            function generateValidationCode() {
-                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-                let code = '';
-                
-                for (let i = 0; i < 8; i++) {
-                    code += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                
-                validationCodeInput.value = code;
-                showNotification('Kode validasi berhasil digenerate.', 'success');
-            }
-            
-            function testDriveLink() {
-                const link = mailLinkInput.value.trim();
-                
-                if (!link) {
-                    showNotification('Tautan Google Drive kosong.', 'error');
-                    return;
-                }
-                
-                // Check if it's a valid Google Drive URL
-                if (!link.includes('drive.google.com')) {
-                    showNotification('Tautan harus berupa URL Google Drive yang valid.', 'error');
-                    return;
-                }
-                
-                // Open the link in a new tab
-                window.open(link, '_blank');
-                showNotification('Membuka tautan Google Drive di tab baru.', 'info');
-            }
-            
-            function handleFormSubmit(e) {
-                e.preventDefault();
-                
-                // Store current form data for undo functionality
-                previousFormData = {
-                    mailType: document.getElementById('mailType').value,
-                    mailNumber: document.getElementById('mailNumber').value,
-                    mailSender: document.getElementById('mailSender').value,
-                    mailReceiver: document.getElementById('mailReceiver').value,
-                    mailDate: document.getElementById('mailDate').value,
-                    mailActionDate: document.getElementById('mailActionDate').value,
-                    mailStatus: document.getElementById('mailStatus').value,
-                    mailValidator: document.getElementById('mailValidator').value,
-                    mailSubject: document.getElementById('mailSubject').value,
-                    mailDescription: document.getElementById('mailDescription').value,
-                    mailLink: document.getElementById('mailLink').value,
-                    validationCode: document.getElementById('validationCode').value
-                };
-                
-                // Enable undo button
-                undoBtn.disabled = false;
-                
-                // Get form values
-                const mailRecord = {
-                    id: document.getElementById('editId').value || Date.now().toString(),
-                    type: document.getElementById('mailType').value,
-                    number: document.getElementById('mailNumber').value,
-                    sender: document.getElementById('mailSender').value,
-                    receiver: document.getElementById('mailReceiver').value,
-                    date: document.getElementById('mailDate').value,
-                    actionDate: document.getElementById('mailActionDate').value,
-                    status: document.getElementById('mailStatus').value,
-                    validator: document.getElementById('mailValidator').value,
-                    subject: document.getElementById('mailSubject').value,
-                    description: document.getElementById('mailDescription').value,
-                    link: document.getElementById('mailLink').value,
-                    validationCode: document.getElementById('validationCode').value,
-                    timestamp: new Date().toISOString()
-                };
-                
-                // Check if we're editing an existing record
-                const editId = document.getElementById('editId').value;
-                if (editId) {
-                    // Update existing record
-                    const index = mailData.findIndex(item => item.id === editId);
-                    if (index !== -1) {
-                        mailData[index] = mailRecord;
-                        showNotification('Data surat berhasil diperbarui.', 'success');
-                    }
-                } else {
-                    // Add new record
-                    mailData.push(mailRecord);
-                    showNotification('Surat baru berhasil ditambahkan.', 'success');
-                }
-                
-                // Save to localStorage
-                localStorage.setItem('mailData', JSON.stringify(mailData));
-                
-                // Reset form and update table
-                resetForm();
-                renderMailTable();
-                updateDashboardStats();
-            }
-            
-            function resetForm() {
-                mailForm.reset();
-                document.getElementById('editId').value = '';
-                document.getElementById('mailActionDate').value = new Date().toISOString().split('T')[0];
-                undoBtn.disabled = true;
-                showNotification('Form telah direset.', 'info');
-            }
-            
-            function undoForm() {
-                if (!previousFormData) {
-                    showNotification('Tidak ada data sebelumnya untuk dikembalikan.', 'error');
-                    return;
-                }
-                
-                // Restore previous form data
-                document.getElementById('mailType').value = previousFormData.mailType;
-                document.getElementById('mailNumber').value = previousFormData.mailNumber;
-                document.getElementById('mailSender').value = previousFormData.mailSender;
-                document.getElementById('mailReceiver').value = previousFormData.mailReceiver;
-                document.getElementById('mailDate').value = previousFormData.mailDate;
-                document.getElementById('mailActionDate').value = previousFormData.mailActionDate;
-                document.getElementById('mailStatus').value = previousFormData.mailStatus;
-                document.getElementById('mailValidator').value = previousFormData.mailValidator;
-                document.getElementById('mailSubject').value = previousFormData.mailSubject;
-                document.getElementById('mailDescription').value = previousFormData.mailDescription;
-                document.getElementById('mailLink').value = previousFormData.mailLink;
-                document.getElementById('validationCode').value = previousFormData.validationCode;
-                
-                updateFormLabels();
-                undoBtn.disabled = true;
-                showNotification('Nilai sebelumnya telah dikembalikan.', 'success');
-            }
-            
-            function renderMailTable() {
-                const tableBody = document.getElementById('mailTableBody');
-                tableBody.innerHTML = '';
-                
-                if (mailData.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="9" class="text-center">Tidak ada data surat</td></tr>';
-                    return;
-                }
-                
-                mailData.forEach((mail, index) => {
-                    const row = document.createElement('tr');
-                    
-                    // Format date for display
-                    const formattedDate = new Date(mail.date).toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    
-                    // Determine badge class based on status
-                    let statusBadgeClass = 'badge-secondary';
-                    if (mail.status === 'biasa') statusBadgeClass = 'badge-primary';
-                    if (mail.status === 'penting') statusBadgeClass = 'badge-warning';
-                    if (mail.status === 'rahasia') statusBadgeClass = 'badge-danger';
-                    
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar'}</td>
-                        <td>${mail.number}</td>
-                        <td>${formattedDate}</td>
-                        <td>${mail.type === 'masuk' ? mail.sender : mail.receiver}</td>
-                        <td>${mail.subject}</td>
-                        <td><span class="badge ${statusBadgeClass}">${mail.status}</span></td>
-                        <td>
-                            ${mail.link ? `<a href="${mail.link}" target="_blank" class="btn btn-drive btn-sm"><i class="fas fa-external-link-alt"></i></a>` : '-'}
-                        </td>
-                        <td class="action-buttons">
-                            <button class="btn btn-info btn-sm view-btn" data-id="${mail.id}"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-warning btn-sm edit-btn" data-id="${mail.id}"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger btn-sm delete-btn" data-id="${mail.id}"><i class="fas fa-trash"></i></button>
-                        </td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                });
-                
-                // Add event listeners to action buttons
-                document.querySelectorAll('.view-btn').forEach(btn => {
-                    btn.addEventListener('click', () => viewMail(btn.getAttribute('data-id')));
-                });
-                
-                document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', () => editMail(btn.getAttribute('data-id')));
-                });
-                
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', () => deleteMail(btn.getAttribute('data-id')));
-                });
-            }
-            
-            function viewMail(id) {
-                const mail = mailData.find(item => item.id === id);
-                if (!mail) return;
-                
-                // Show mail details in a modal or alert
-                alert(`
-                    Detail Surat:
-                    Jenis: ${mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar'}
-                    Nomor: ${mail.number}
-                    ${mail.type === 'masuk' ? 'Pengirim' : 'Dikirim Oleh'}: ${mail.sender}
-                    Tujuan: ${mail.receiver}
-                    Tanggal: ${new Date(mail.date).toLocaleDateString('id-ID')}
-                    ${mail.type === 'masuk' ? 'Tanggal Diterima' : 'Tanggal Dikirim'}: ${new Date(mail.actionDate).toLocaleDateString('id-ID')}
-                    Status: ${mail.status}
-                    Validator: ${mail.validator}
-                    Perihal: ${mail.subject}
-                    Keterangan: ${mail.description || '-'}
-                    Tautan: ${mail.link || '-'}
-                    Kode Validasi: ${mail.validationCode || '-'}
-                `);
-            }
-            
-            function editMail(id) {
-                const mail = mailData.find(item => item.id === id);
-                if (!mail) return;
-                
-                // Fill the form with mail data
-                document.getElementById('editId').value = mail.id;
-                document.getElementById('mailType').value = mail.type;
-                document.getElementById('mailNumber').value = mail.number;
-                document.getElementById('mailSender').value = mail.sender;
-                document.getElementById('mailReceiver').value = mail.receiver;
-                document.getElementById('mailDate').value = mail.date;
-                document.getElementById('mailActionDate').value = mail.actionDate;
-                document.getElementById('mailStatus').value = mail.status;
-                document.getElementById('mailValidator').value = mail.validator;
-                document.getElementById('mailSubject').value = mail.subject;
-                document.getElementById('mailDescription').value = mail.description || '';
-                document.getElementById('mailLink').value = mail.link || '';
-                document.getElementById('validationCode').value = mail.validationCode || '';
-                
-                updateFormLabels();
-                
-                // Scroll to form
-                document.getElementById('inputSection').scrollIntoView({ behavior: 'smooth' });
-                
-                showNotification('Form telah diisi dengan data surat yang dipilih.', 'info');
-            }
-            
-            function deleteMail(id) {
-                // Show security modal
-                securityModalTitle.textContent = 'Hapus Surat';
-                securityModalMessage.textContent = 'Masukkan password keamanan untuk menghapus surat:';
-                securityPasswordInput.value = '';
-                
-                securityModalConfirm.onclick = function() {
-                    if (securityPasswordInput.value === securityPassword) {
-                        // Delete the mail
-                        mailData = mailData.filter(item => item.id !== id);
-                        localStorage.setItem('mailData', JSON.stringify(mailData));
-                        
-                        renderMailTable();
-                        updateDashboardStats();
-                        
-                        securityModal.hide();
-                        showNotification('Surat berhasil dihapus.', 'success');
-                    } else {
-                        showNotification('Password keamanan salah.', 'error');
-                    }
-                };
-                
-                securityModal.show();
-            }
-            
-            function filterTable() {
-                const filterValue = filterTypeSelect.value;
-                const searchValue = searchInput.value.toLowerCase();
-                
-                const rows = document.querySelectorAll('#mailTableBody tr');
-                
-                rows.forEach(row => {
-                    const type = row.cells[1].textContent.toLowerCase();
-                    const shouldShow = 
-                        (filterValue === '' || type.includes(filterValue)) &&
-                        (searchValue === '' || 
-                         row.cells[2].textContent.toLowerCase().includes(searchValue) ||
-                         row.cells[4].textContent.toLowerCase().includes(searchValue) ||
-                         row.cells[5].textContent.toLowerCase().includes(searchValue));
-                    
-                    row.style.display = shouldShow ? '' : 'none';
-                });
-            }
-            
-            function searchTable() {
-                filterTable();
-            }
-            
-            function exportToExcel() {
-                // This would typically use a library like SheetJS in a real application
-                // For simplicity, we'll just show a notification
-                showNotification('Fitur export ke Excel akan membuka data dalam format spreadsheet.', 'info');
-                
-                // In a real implementation, we would generate an Excel file here
-                // For now, we'll create a simple CSV download
-                let csvContent = "data:text/csv;charset=utf-8,";
-                
-                // Add headers
-                csvContent += "No,Jenis,Nomor,Tanggal,Pengirim/Tujuan,Perihal,Status,Tautan\n";
-                
-                // Add data
-                mailData.forEach((mail, index) => {
-                    const row = [
-                        index + 1,
-                        mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar',
-                        mail.number,
-                        new Date(mail.date).toLocaleDateString('id-ID'),
-                        mail.type === 'masuk' ? mail.sender : mail.receiver,
-                        mail.subject,
-                        mail.status,
-                        mail.link || ''
-                    ];
-                    
-                    csvContent += row.map(field => `"${field}"`).join(",") + "\n";
-                });
-                
-                // Create download link
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", "data_surat.csv");
-                document.body.appendChild(link);
-                
-                link.click();
-                document.body.removeChild(link);
-            }
-            
-            function exportToPDF() {
-                // This would typically use a library like jsPDF in a real application
-                // For simplicity, we'll just show a notification
-                showNotification('Fitur export ke PDF akan mencetak data dalam format dokumen.', 'info');
-                
-                // In a real implementation, we would generate a PDF here
-                // For now, we'll just open the print dialog
-                window.print();
-            }
-            
-            function backupData() {
-                const dataStr = JSON.stringify(mailData);
-                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-                
-                const exportFileDefaultName = 'backup_surat.json';
-                
-                const linkElement = document.createElement('a');
-                linkElement.setAttribute('href', dataUri);
-                linkElement.setAttribute('download', exportFileDefaultName);
-                linkElement.click();
-                
-                showNotification('Backup data berhasil didownload.', 'success');
-            }
-            
-            function restoreData() {
-                // Show security modal
-                securityModalTitle.textContent = 'Restore Data';
-                securityModalMessage.textContent = 'Masukkan password keamanan untuk restore data:';
-                securityPasswordInput.value = '';
-                
-                securityModalConfirm.onclick = function() {
-                    if (securityPasswordInput.value === securityPassword) {
-                        // Create file input for restore
-                        const fileInput = document.createElement('input');
-                        fileInput.type = 'file';
-                        fileInput.accept = '.json';
-                        
-                        fileInput.onchange = function(e) {
-                            const file = e.target.files[0];
-                            if (!file) return;
-                            
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                try {
-                                    const data = JSON.parse(e.target.result);
-                                    mailData = data;
-                                    localStorage.setItem('mailData', JSON.stringify(mailData));
-                                    
-                                    renderMailTable();
-                                    updateDashboardStats();
-                                    
-                                    showNotification('Data berhasil direstore.', 'success');
-                                } catch (error) {
-                                    showNotification('Gagal memparse file backup.', 'error');
-                                }
-                            };
-                            
-                            reader.readAsText(file);
-                        };
-                        
-                        fileInput.click();
-                        securityModal.hide();
-                    } else {
-                        showNotification('Password keamanan salah.', 'error');
-                    }
-                };
-                
-                securityModal.show();
-            }
-            
-            function resetData() {
-                // Show security modal
-                securityModalTitle.textContent = 'Reset Data';
-                securityModalMessage.textContent = 'Masukkan password keamanan untuk reset semua data:';
-                securityPasswordInput.value = '';
-                
-                securityModalConfirm.onclick = function() {
-                    if (securityPasswordInput.value === securityPassword) {
-                        // Reset data
-                        if (confirm('Apakah Anda yakin ingin menghapus semua data? Tindakan ini tidak dapat dibatalkan.')) {
-                            mailData = [];
-                            localStorage.setItem('mailData', JSON.stringify(mailData));
-                            
-                            renderMailTable();
-                            updateDashboardStats();
-                            
-                            showNotification('Semua data berhasil direset.', 'success');
-                        }
-                        securityModal.hide();
-                    } else {
-                        showNotification('Password keamanan salah.', 'error');
-                    }
-                };
-                
-                securityModal.show();
-            }
-            
-            function changeSecurityPassword(e) {
-                e.preventDefault();
-                
-                const currentPassword = document.getElementById('currentSecurityPassword').value;
-                const newPassword = document.getElementById('newSecurityPassword').value;
-                const confirmPassword = document.getElementById('confirmSecurityPassword').value;
-                
-                if (currentPassword !== securityPassword) {
-                    showNotification('Password keamanan saat ini salah.', 'error');
-                    return;
-                }
-                
-                if (newPassword !== confirmPassword) {
-                    showNotification('Password baru dan konfirmasi password tidak cocok.', 'error');
-                    return;
-                }
-                
-                securityPassword = newPassword;
-                showNotification('Password keamanan berhasil diubah.', 'success');
-                
-                // Reset form
-                securityPasswordForm.reset();
-            }
-            
-            function updateDashboardStats() {
-                const totalIncoming = mailData.filter(mail => mail.type === 'masuk').length;
-                const totalOutgoing = mailData.filter(mail => mail.type === 'keluar').length;
-                const totalPending = mailData.filter(mail => mail.status === 'biasa').length;
-                const totalProcessed = mailData.filter(mail => mail.status !== 'biasa').length;
-                
-                document.getElementById('totalIncoming').textContent = totalIncoming;
-                document.getElementById('totalOutgoing').textContent = totalOutgoing;
-                document.getElementById('totalPending').textContent = totalPending;
-                document.getElementById('totalProcessed').textContent = totalProcessed;
-                
-                // Update recent activities
-                const recentActivities = document.getElementById('recentActivities');
-                recentActivities.innerHTML = '';
-                
-                if (mailData.length === 0) {
-                    recentActivities.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td></tr>';
-                    return;
-                }
-                
-                // Sort by timestamp descending and take top 5
-                const sortedData = [...mailData].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0, 5);
-                
-                sortedData.forEach(mail => {
-                    const row = document.createElement('tr');
-                    
-                    // Format date for display
-                    const formattedDate = new Date(mail.date).toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric'
-                    });
-                    
-                    // Determine badge class based on status
-                    let statusBadgeClass = 'badge-secondary';
-                    if (mail.status === 'biasa') statusBadgeClass = 'badge-primary';
-                    if (mail.status === 'penting') statusBadgeClass = 'badge-warning';
-                    if (mail.status === 'rahasia') statusBadgeClass = 'badge-danger';
-                    
-                    row.innerHTML = `
-                        <td>${formattedDate}</td>
-                        <td>${mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar'}</td>
-                        <td>${mail.number}</td>
-                        <td>${mail.subject}</td>
-                        <td><span class="badge ${statusBadgeClass}">${mail.status}</span></td>
-                    `;
-                    
-                    recentActivities.appendChild(row);
-                });
-            }
-            
-            function scrollToTop() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            
-            function showNotification(message, type) {
-                notificationText.textContent = message;
-                notification.className = 'notification';
-                
-                switch (type) {
-                    case 'success':
-                        notification.classList.add('success');
-                        notification.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + notification.innerHTML;
-                        break;
-                    case 'error':
-                        notification.classList.add('error');
-                        notification.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>' + notification.innerHTML;
-                        break;
-                    case 'info':
-                        notification.classList.add('info');
-                        notification.innerHTML = '<i class="fas fa-info-circle me-2"></i>' + notification.innerHTML;
-                        break;
-                }
-                
-                notification.classList.add('show');
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
+            if (type === 'masuk') {
+                senderLabel.textContent = 'Nama Pengirim *';
+                receiverLabel.textContent = 'Tujuan *';
+                actionDateLabel.textContent = 'Tanggal Diterima *';
+            } else if (type === 'keluar') {
+                senderLabel.textContent = 'Nama Pengirim *';
+                receiverLabel.textContent = 'Tujuan *';
+                actionDateLabel.textContent = 'Tanggal Dikirim *';
             }
         });
+        
+        // Initialize the app
+        initApp();
     </script>
 </body>
 </html>
