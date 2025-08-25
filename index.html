@@ -3,10 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEM MANAJEMEN SURAT - Dinas Peternakan dan Perikanan Situbondo</title>
+    <title>Lentera Karya Situbondo - Portal Utama</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Styles from the first index.html (landing page) */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .logo img {
+            width: 70%;
+            height: auto;
+        }
+        
+        .brand {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+        
+        .brand span {
+            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 10px;
+        }
+        
+        nav a:hover {
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 5%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 50px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-weight: 800;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #2c3e50;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Features Section */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 40px 0;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 28px;
+        }
+        
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .feature-card p {
+            color: #34495e;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 5%;
+            text-align: center;
+            margin-top: auto;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: #3498db;
+        }
+        
+        .copyright {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            animation: modalFadeIn 0.5s;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+            transition: all 0.3s;
+        }
+        
+        .close-modal:hover {
+            background: rgba(0, 0, 0, 0.5);
+            transform: rotate(90deg);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-card {
+                max-width: 100%;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+        }
+
+        /* Dashboard Styles (from the second index.html) */
         :root {
             --primary-color: #0d47a1;
             --secondary-color: #00695c;
@@ -16,117 +406,11 @@
             --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
             --gradient-secondary: linear-gradient(135deg, var(--secondary-color), #004d40);
             --gradient-accent: linear-gradient(135deg, var(--accent-color), #e65100);
-            --gradient-login: linear-gradient(135deg, #4CAF50, #FF9800, #2196F3);
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
             --shadow-lg: 0 8px 28px rgba(0,0,0,0.15);
             --border-radius: 12px;
             --transition: all 0.3s ease;
-        }
-        
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNGNUY1RjUiIGZpbGwtb3BhY2l0eT0iMC40Ij48cGF0aCBkPSJNNDUgMTVoMTV2MTVINDRWMTVoMXptLTE1IDE1SDE1VjE1aDE1djE1em0xNSAxNUg0NXYxNWgxNVY0NXptLTE1IDBIMTV2MTVoMTV2LTE1eiIvPjwvZz48L2c+PC9zdmc+');
-        }
-        
-        .login-container {
-            max-width: 450px;
-            width: 90%;
-            margin: 20px auto;
-            background: white;
-            box-shadow: var(--shadow-lg);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            animation: fadeIn 0.8s ease;
-        }
-        
-        .login-header {
-            background: var(--gradient-login);
-            color: white;
-            padding: 25px 15px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .shield-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: white;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        .login-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-        
-        .login-subtitle {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .login-body {
-            padding: 25px;
-        }
-        
-        .form-control {
-            border-radius: 8px;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            transition: var(--transition);
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
-        }
-        
-        .btn-login {
-            background: var(--gradient-login);
-            border: none;
-            padding: 12px 20px;
-            font-weight: 600;
-            border-radius: 8px;
-            color: white;
-            width: 100%;
-            transition: var(--transition);
-        }
-        
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn-login:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        
-        .attempts-counter {
-            font-size: 0.9rem;
-            color: #666;
-            text-align: right;
-            margin-top: 10px;
-        }
-        
-        .copyright {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        
-        .countdown-timer {
-            color: #e53935;
-            font-weight: 600;
         }
         
         .app-container {
@@ -136,7 +420,7 @@
             box-shadow: var(--shadow-lg);
             border-radius: var(--border-radius);
             overflow: hidden;
-            display: none;
+            display: none; /* Initially hidden */
         }
         
         .app-header {
@@ -159,7 +443,7 @@
         }
         
         .nav-pills .nav-link {
-            border-radius: 8px;
+            borderRadius: 8px;
             margin-bottom: 8px;
             padding: 12px 15px;
             font-weight: 500;
@@ -462,7 +746,6 @@
             justify-content: center;
             z-index: 2000;
             transition: opacity 0.5s ease;
-            display: none;
         }
         
         .welcome-content {
@@ -514,7 +797,6 @@
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            display: none;
         }
         
         .password-content {
@@ -524,31 +806,6 @@
             width: 90%;
             padding: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        .shake {
-            animation: shake 0.5s;
-        }
-        
-        .d-none {
-            display: none !important;
         }
         
         @media (max-width: 992px) {
@@ -591,418 +848,678 @@
                 text-align: center;
             }
         }
+
+        /* Login form styles */
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transform: translateZ(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 10;
+            margin: 20px;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+        }
+        
+        .login-header {
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
+            color: white;
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .login-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+        }
+        
+        .login-logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 25px rgba(52, 152, 219, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-logo::before {
+            content: "";
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+        
+        .login-logo img {
+            width: 70%;
+            height: auto;
+            z-index: 1;
+        }
+        
+        .login-header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .login-header p {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        
+        .login-content {
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .welcome-message {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
+            border-radius: 15px;
+            text-align: center;
+            border-left: 4px solid #3498db;
+        }
+        
+        .welcome-message h2 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 22px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .welcome-message p {
+            color: #34495e;
+            line-height: 1.7;
+            font-size: 15px;
+            font-weight: 400;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        .username-display {
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 18px;
+            z-index: 1;
+        }
+        
+        .input-with-icon input {
+            padding-left: 50px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 17px;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2c3e50;
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        .form-group input::placeholder {
+            color: #95a5a6;
+            font-weight: 400;
+        }
+        
+        .form-group input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2), inset 0 1px 5px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #7f8c8d;
+            font-size: 18px;
+            z-index: 1;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.5);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .toggle-password:hover {
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.1);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 17px;
+            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .login-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .login-btn:hover::before {
+            left: 100%;
+        }
+        
+        .login-btn:hover {
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+            transform: translateY(-3px);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-btn:disabled {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 50%, #636e72 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-btn:disabled::before {
+            display: none;
+        }
+        
+        .login-notification {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-notification.success {
+            background: rgba(46, 204, 113, 0.15);
+            color: #27ae60;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .login-notification.error {
+            background: rgba(231, 76, 60, 0.15);
+            color: #c0392b;
+            border-left: 4px solid #c0392b;
+        }
+        
+        .login-notification.info {
+            background: rgba(52, 152, 219, 0.15);
+            color: #2980b9;
+            border-left: 4px solid #2980b9;
+        }
+        
+        .password-info {
+            margin-top: 20px;
+            padding: 16px;
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
+            border-radius: 12px;
+            border-left: 4px solid #f39c12;
+            text-align: center;
+        }
+        
+        .password-info h3 {
+            color: #d35400;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .password-info p {
+            color: #34495e;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .password-info ul {
+            text-align: left;
+            margin-top: 10px;
+            padding-left: 20px;
+            color: #34495e;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .password-info li {
+            margin-bottom: 5px;
+        }
+        
+        .password-info code {
+            background: rgba(243, 156, 18, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: 600;
+            color: #d35400;
+        }
+        
+        @media (max-width: 576px) {
+            .login-container {
+                margin: 10px;
+            }
+            
+            .login-header {
+                padding: 25px 20px;
+            }
+            
+            .login-content {
+                padding: 25px 20px;
+            }
+            
+            .login-logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .login-header h1 {
+                font-size: 24px;
+            }
+            
+            .login-header p {
+                font-size: 14px;
+            }
+            
+            .welcome-message {
+                padding: 15px;
+            }
+            
+            .welcome-message h2 {
+                font-size: 18px;
+            }
+            
+            .welcome-message p {
+                font-size: 14px;
+            }
+            
+            .form-group input {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            .login-btn {
+                padding: 14px;
+                font-size: 15px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Login Form -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-header">
-            <div class="shield-icon">
-                <i class="fas fa-shield-alt"></i>
+    <!-- Landing Page Content -->
+    <div id="particles-js"></div>
+    
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-lightbulb text-white"></i>
             </div>
-            <h1 class="login-title">Akses Sistem</h1>
-            <p class="login-subtitle">Masukkan kredensial untuk melanjutkan</p>
-        </div>
-        <div class="login-body">
-            <form id="loginForm">
-                <div class="mb-4">
-                    <label class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" value="Lentera Karya Situbondo" readonly>
-                    <div class="form-text">Username tidak dapat diubah</div>
-                </div>
-                <div class="mb-4">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Masukkan password" required>
-                    <div class="form-text">Password diawali dengan huruf kapital (A-Z) diikuti angka</div>
-                </div>
-                <div class="mb-3">
-                    <button type="submit" class="btn-login" id="loginBtn">
-                        <i class="fas fa-lock me-1"></i>Masuk ke Sistem
-                    </button>
-                </div>
-                <div class="attempts-counter" id="attemptsCounter">
-                    Percobaan: <span id="attempts">0</span>/5
-                </div>
-            </form>
-            <div class="copyright">
-                &copy; 2025 Lentera Karya Situbondo. Hak Cipta Dilindungi.
-            </div>
-        </div>
-    </div>
-
-    <!-- Welcome Modal -->
-    <div class="welcome-modal" id="welcomeModal">
-        <div class="welcome-content">
-            <button class="close-welcome" id="closeWelcome">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2 class="text-center mb-4" style="color: var(--primary-color);">
-                <i class="fas fa-envelope-open-text me-2"></i>Selamat Datang
-            </h2>
-            <div class="text-center mb-4">
-                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTUiIGZpbGw9IiMwRDQ3QTEiIGZpbGwtb3BhY2l0eT0iMC4xIi8+CjxwYXRoIGQ9Ik0yNi42NjcgNDBMMzMuMzM0IDQ2LjY2N0w1My4zMzQgMjYuNjY3IiBzdHJva2U9IiMwRDQ3QTEiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik00MCA1My4zMzNDNDcuMzYgNTMuMzMzIDUzLjMzMyA0Ny4zNiA1zLjMzMyA0MEM1My4zMzMgMzIuNjQgNDcuMzYgMjYuNjY3IDQwIDI2LjY2N0MzMi42NCAyNi42NjcgMjYuNjY3IDMyLjY0IDI2LjY2NyA0MEMyNi42NjcgNDcuMzYgMzIuNjQgNTMuMzMzIDQwIDUzLjMzM1oiIHN0cm9rZT0iIzBENDdBMSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==" alt="Logo" class="mb-3">
-            </div>
-            <p class="text-center mb-3">Terima kasih telah menggunakan <strong>Sistem Manajemen Surat</strong> Dinas Peternakan dan Perikanan Kabupaten Situbondo.</p>
-            <p class="text-center">Aplikasi ini dirancang untuk membantu pengelolaan surat masuk dan keluar dengan lebih efisien dan terorganisir.</p>
-            <div class="text-center mt-4">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-2 small">Aplikasi siap dalam <span id="countdown">8</span> detik</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Password Modal -->
-    <div class="password-modal" id="passwordModal">
-        <div class="password-content">
-            <h4 class="text-center mb-4"><i class="fas fa-lock me-2"></i>Konfirmasi Password</h4>
-            <div class="mb-3">
-                <label class="form-label">Masukkan Password</label>
-                <input type="password" class="form-control" id="confirmActionPassword" required>
-                <input type="hidden" id="confirmActionType" value="">
-                <input type="hidden" id="confirmActionId" value="">
-            </div>
-            <div class="d-flex justify-content-end gap-2">
-                <button type="button" class="btn btn-secondary" id="cancelPasswordBtn">Batal</button>
-                <button type="button" class="btn btn-primary" id="submitPasswordBtn">Konfirmasi</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Application -->
-    <div class="app-container" id="appContainer">
-        <div class="app-header">
-            <h1 class="app-title">SISTEM MANAJEMEN SURAT</h1>
-            <p class="app-subtitle">Dinas Peternakan dan Perikanan Kabupaten Situbondo</p>
+            <div class="brand">Lentera <span>Karya</span></div>
         </div>
         
-        <div class="row g-0">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 p-4 bg-light">
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active" data-section="dashboard">
-                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="input">
-                            <i class="fas fa-plus-circle me-2"></i> Input Surat
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="templates">
-                            <i class="fas fa-file-alt me-2"></i> Template
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="settings">
-                            <i class="fas fa-cog me-2"></i> Pengaturan
-                        </a>
-                    </li>
-                    <li class="nav-item mt-4">
-                        <a href="#" class="nav-link text-danger" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt me-2"></i> Keluar
-                        </a>
-                    </li>
-                </ul>
+        <nav>
+            <ul>
+                <li><a href="#home"><i class="fas fa-home"></i> Beranda</a></li>
+                <li><a href="#about"><i class="fas fa-info-circle"></i> Tentang</a></li>
+                <li><a href="#services"><i class="fas fa-cogs"></i> Layanan</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="main-content">
+        <div class="hero">
+            <h1>Selamat Datang di <span>Lentera Karya</span></h1>
+            <p>Platform inovatif untuk meningkatkan produktivitas dan kolaborasi tim Anda. Didesain khusus untuk memenuhi kebutuhan bisnis modern dengan fitur-fitur canggih dan antarmuka yang intuitif.</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Masuk ke Portal
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-book"></i> Dokumentasi
+                </a>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Keamanan Terjamin</h3>
+                <p>Sistem kami dilengkapi dengan enkripsi tingkat tinggi dan autentikasi multi-faktor untuk melindungi data Anda.</p>
             </div>
             
-            <!-- Main Content -->
-            <div class="col-md-9 col-lg-10 p-5">
-                <!-- Dashboard Section -->
-                <div class="content-section" id="dashboardSection">
-                    <h2 class="section-title">Dashboard</h2>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Performa Tinggi</h3>
+                <p>Dibangun dengan teknologi terbaru untuk memastikan kecepatan dan keandalan dalam setiap operasi.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Kolaborasi Tim</h3>
+                <p>Fitur kolaborasi canggih memungkinkan tim Anda bekerja bersama secara efisien dari mana saja.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#privacy"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
+                <a href="#terms"><i class="fas fa-file-contract"></i> Syarat & Ketentuan</a>
+                <a href="#support"><i class="fas fa-headset"></i> Dukungan</a>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Lentera Karya Situbondo. Hak Cipta Dilindungi.
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="close-modal" id="closeLoginModal">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-lightbulb text-white"></i>
+                </div>
+                <h1>Portal Login</h1>
+                <p>Masuk ke akun Anda untuk melanjutkan</p>
+            </div>
+            
+            <div class="login-content">
+                <div class="welcome-message">
+                    <h2>Selamat Datang Kembali!</h2>
+                    <p>Silakan masukkan kredensial Anda untuk mengakses dashboard Lentera Karya</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">Nama Pengguna</label>
+                    <div class="username-display">
+                        <i class="fas fa-user"></i>
+                        <span id="usernameDisplay">admin</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Kata Sandi</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="password" placeholder="Masukkan kata sandi Anda">
+                        <span class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+                
+                <button class="login-btn" id="submitLogin">
+                    <i class="fas fa-sign-in-alt"></i> Masuk
+                </button>
+                
+                <div class="login-notification error" id="loginError">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="errorMessage">Kata sandi salah. Silakan coba lagi.</span>
+                </div>
+                
+                <div class="login-notification success" id="loginSuccess">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Login berhasil! Mengarahkan ke dashboard...</span>
+                </div>
+                
+                <div class="password-info">
+                    <h3>Informasi Kata Sandi</h3>
+                    <p>Kata sandi harus mengikuti format berikut:</p>
+                    <ul>
+                        <li>Panjang 9 karakter</li>
+                        <li>Karakter pertama harus huruf kapital (A-Z)</li>
+                        <li>Karakter kedua harus angka 0</li>
+                        <li>7 karakter berikutnya harus angka (0-9)</li>
+                    </ul>
+                    <p>Contoh: <code>A01234567</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dashboard Content (initially hidden) -->
+    <div class="app-container" id="appContainer">
+        <div class="app-header">
+            <h1 class="app-title">Lentera Karya - Portal Utama</h1>
+            <p class="app-subtitle">Sistem Manajemen dan Monitoring Produksi</p>
+        </div>
+        
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <div class="col-md-3 col-lg-2 bg-light p-3 border-end">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-users me-2"></i> Manajemen Karyawan
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-cogs me-2"></i> Proses Produksi
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-chart-line me-2"></i> Laporan & Analitik
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-cog me-2"></i> Pengaturan
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action text-danger" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt me-2"></i> Keluar
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10 p-4">
+                    <h2 class="section-title">Dashboard Utama</h2>
                     
-                    <div class="row">
+                    <!-- Stats Overview -->
+                    <div class="row mb-4">
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-envelope-open text-primary mb-2" style="font-size: 2rem;"></i>
-                                <div class="stats-number" id="totalIncoming">0</div>
-                                <div class="stats-label">Total Surat Masuk</div>
+                                <div class="stats-icon text-primary">
+                                    <i class="fas fa-users fa-2x"></i>
+                                </div>
+                                <div class="stats-number">142</div>
+                                <div class="stats-label">Total Karyawan</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-paper-plane text-success mb-2" style="font-size: 2rem;"></i>
-                                <div class="stats-number" id="totalOutgoing">0</div>
-                                <div class="stats-label">Total Surat Keluar</div>
+                                <div class="stats-icon text-success">
+                                    <i class="fas fa-cogs fa-2x"></i>
+                                </div>
+                                <div class="stats-number">87%</div>
+                                <div class="stats-label">Kapasitas Produksi</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-clock text-warning mb-2" style="font-size: 2rem;"></i>
-                                <div class="stats-number" id="totalPending">0</div>
-                                <div class="stats-label">Menunggu Tindakan</div>
+                                <div class="stats-icon text-info">
+                                    <i class="fas fa-boxes fa-2x"></i>
+                                </div>
+                                <div class="stats-number">5,248</div>
+                                <div class="stats-label">Unit Terproduksi</div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="stats-box">
-                                <i class="fas fa-check-circle text-info mb-2" style="font-size: 2rem;"></i>
-                                <div class="stats-number" id="totalProcessed">0</div>
-                                <div class="stats-label">Telah Diproses</div>
+                                <div class="stats-icon text-warning">
+                                    <i class="fas fa-chart-line fa-2x"></i>
+                                </div>
+                                <div class="stats-number">12.5%</div>
+                                <div class="stats-label">Peningkatan</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="row mt-4">
-                        <div class="col-12">
+                    <!-- Recent Activity -->
+                    <div class="row">
+                        <div class="col-md-8">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-history me-2"></i>Aktivitas Terbaru
+                                    <i class="fas fa-history me-2"></i> Aktivitas Terbaru
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-hover">
+                                        <table class="data-table">
                                             <thead>
                                                 <tr>
-                                                    <th>Tanggal</th>
-                                                    <th>Jenis</th>
-                                                    <th>Nomor</th>
-                                                    <th>Perihal</th>
+                                                    <th>Waktu</th>
+                                                    <th>Aktivitas</th>
+                                                    <th>Pengguna</th>
                                                     <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="recentActivities">
-                                                <tr>
-                                                    <td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Input Surat Section -->
-                <div class="content-section d-none" id="inputSection">
-                    <h2 class="section-title">Input Surat Baru</h2>
-                    
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div>
-                                <i class="fas fa-edit me-2"></i>Form Input Surat
-                            </div>
-                            <div>
-                                <button type="button" class="btn btn-undo me-2" id="undoBtn" title="Kembalikan nilai sebelumnya" disabled>
-                                    <i class="fas fa-undo me-1"></i>Undo
-                                </button>
-                                <button type="button" class="btn btn-secondary" id="resetBtn">
-                                    <i class="fas fa-times me-1"></i>Reset
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <form id="mailForm">
-                                <input type="hidden" id="editId" value="">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Jenis Surat</label>
-                                        <select class="form-select" id="mailType" required>
-                                            <option value="">Pilih Jenis Surat</option>
-                                            <option value="masuk">Surat Masuk</option>
-                                            <option value="keluar">Surat Keluar</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Nomor Surat</label>
-                                        <input type="text" class="form-control" id="mailNumber" placeholder="Nomor surat" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Tanggal Surat</label>
-                                        <input type="date" class="form-control" id="mailDate" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Tanggal Diterima/Dikirim</label>
-                                        <input type="date" class="form-control" id="mailActionDate" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Pengirim/Penerima</label>
-                                        <input type="text" class="form-control" id="mailParty" placeholder="Nama pengirim/penerima" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kategori</label>
-                                        <select class="form-select" id="mailCategory" required>
-                                            <option value="">Pilih Kategori</option>
-                                            <option value="resmi">Resmi</option>
-                                            <option value="penting">Penting</option>
-                                            <option value="biasa">Biasa</option>
-                                            <option value="rahasia">Rahasia</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Perihal</label>
-                                    <textarea class="form-control" id="mailSubject" rows="2" placeholder="Perihal surat" required></textarea>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Keterangan</label>
-                                    <textarea class="form-control" id="mailDescription" rows="3" placeholder="Keterangan tambahan"></textarea>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Tautan Dokumen (Google Drive)</label>
-                                    <div class="input-group">
-                                        <input type="url" class="form-control" id="mailLink" placeholder="https://drive.google.com/...">
-                                        <button class="btn btn-outline-secondary" type="button" id="testLinkBtn" title="Test tautan">
-                                            <i class="fas fa-external-link-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label class="form-label">Nomor Validasi Surat</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="validationNumber" placeholder="Nomor validasi surat" readonly>
-                                        <button class="btn btn-outline-primary" type="button" id="generateValidationBtn">
-                                            <i class="fas fa-sync-alt me-1"></i>Generate
-                                        </button>
-                                    </div>
-                                    <div class="form-text">Nomor validasi digunakan untuk memverifikasi keaslian surat</div>
-                                </div>
-                                
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-save me-1"></i>Simpan Surat
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <!-- Data Surat Table -->
-                    <h2 class="section-title mt-5">Data Surat</h2>
-                    
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div>
-                                <i class="fas fa-table me-2"></i>Daftar Surat
-                            </div>
-                            <div class="d-flex">
-                                <select class="form-select form-select-sm me-2" id="filterType" style="width: auto;">
-                                    <option value="">Semua Jenis</option>
-                                    <option value="masuk">Surat Masuk</option>
-                                    <option value="keluar">Surat Keluar</option>
-                                </select>
-                                <input type="text" class="form-control form-control-sm me-2" placeholder="Cari..." id="searchInput" style="width: auto;">
-                                <button class="btn btn-sm btn-primary" id="searchBtn">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Jenis</th>
-                                            <th>Nomor</th>
-                                            <th>Tanggal</th>
-                                            <th>Perihal</th>
-                                            <th>Kategori</th>
-                                            <th>Status</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="mailTableBody">
-                                        <!-- Data akan diisi oleh JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Templates Section -->
-                <div class="content-section d-none" id="templatesSection">
-                    <h2 class="section-title">Template Surat</h2>
-                    
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="template-item">
-                                <h5><i class="fas fa-file-contract me-2 text-primary"></i>Surat Resmi</h5>
-                                <p class="small">Template untuk surat resmi instansi</p>
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-outline-primary">Gunakan</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="template-item">
-                                <h5><i class="fas fa-envelope me-2 text-success"></i>Surat Undangan</h5>
-                                <p class="small">Template untuk surat undangan resmi</p>
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-outline-primary">Gunakan</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="template-item">
-                                <h5><i class="fas fa-stamp me-2 text-warning"></i>Surat Tugas</h5>
-                                <p class="small">Template untuk surat penugasan</p>
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn btn-sm btn-outline-primary">Gunakan</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-history me-2"></i>Template Terbaru
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nama Template</th>
-                                                    <th>Jenis</th>
-                                                    <th>Tanggal Dibuat</th>
-                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Template Surat Resmi</td>
-                                                    <td><span class="badge bg-primary">Resmi</span></td>
-                                                    <td>15/08/2025</td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-primary me-1">Gunakan</button>
-                                                        <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                    </td>
+                                                    <td>10:45 AM</td>
+                                                    <td>Pembaruan data produksi</td>
+                                                    <td>Budi Santoso</td>
+                                                    <td><span class="badge badge-success">Selesai</span></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Template Surat Undangan</td>
-                                                    <td><span class="badge bg-success">Undangan</span></td>
-                                                    <td>10/08/2025</td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-primary me-1">Gunakan</button>
-                                                        <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                    </td>
+                                                    <td>10:30 AM</td>
+                                                    <td>Penambahan stok bahan</td>
+                                                    <td>Siti Rahayu</td>
+                                                    <td><span class="badge badge-success">Selesai</span></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Template Surat Tugas</td>
-                                                    <td><span class="badge bg-warning text-dark">Tugas</span></td>
-                                                    <td>05/08/2025</td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-primary me-1">Gunakan</button>
-                                                        <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                    </td>
+                                                    <td>09:15 AM</td>
+                                                    <td>Maintenance sistem</td>
+                                                    <td>Admin</td>
+                                                    <td><span class="badge badge-primary">Berjalan</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>08:50 AM</td>
+                                                    <td>Pengiriman produk</td>
+                                                    <td>Joko Prasetyo</td>
+                                                    <td><span class="badge badge-warning">Pending</span></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1010,127 +1527,43 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Settings Section -->
-                <div class="content-section d-none" id="settingsSection">
-                    <h2 class="section-title">Pengaturan Sistem</h2>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-user-cog me-2"></i>Pengaturan Pengguna
-                                </div>
-                                <div class="card-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label class="form-label">Nama Pengguna</label>
-                                            <input type="text" class="form-control" value="Lentera Karya Situbondo" readonly>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Password</label>
-                                            <input type="password" class="form-control" value="password123" readonly>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Peran</label>
-                                            <input type="text" class="form-control" value="Administrator" readonly>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Status</label>
-                                            <input type="text" class="form-control" value="Aktif" readonly>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                         
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-sliders-h me-2"></i>Pengaturan Aplikasi
+                                    <i class="fas fa-tasks me-2"></i> Tugas Hari Ini
                                 </div>
                                 <div class="card-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label class="form-label">Notifikasi Email</label>
-                                            <select class="form-select">
-                                                <option selected>Aktif</option>
-                                                <option>Nonaktif</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Format Tanggal</label>
-                                            <select class="form-select">
-                                                <option selected>DD/MM/YYYY</option>
-                                                <option>MM/DD/YYYY</option>
-                                                <option>YYYY-MM-DD</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Zona Waktu</label>
-                                            <select class="form-select">
-                                                <option selected>WIB (UTC+7)</option>
-                                                <option>WITA (UTC+8)</option>
-                                                <option>WIT (UTC+9)</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Bahasa</label>
-                                            <select class="form-select">
-                                                <option selected>Indonesia</option>
-                                                <option>English</option>
-                                            </select>
-                                        </div>
-                                        <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn btn-primary">
-                                                <i class="fas fa-save me-1"></i>Simpan Pengaturan
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <i class="fas fa-info-circle me-2"></i>Informasi Sistem
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Nama Aplikasi</label>
-                                                <p>Sistem Manajemen Surat</p>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Versi</label>
-                                                <p>2.1.0</p>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Tanggal Rilis</label>
-                                                <p>15 Agustus 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Pengembang</label>
-                                                <p>Lentera Karya Situbondo</p>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Lisensi</label>
-                                                <p>MIT License</p>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Kontak</label>
-                                                <p>support@lenterakarya.situbondo.id</p>
-                                            </div>
-                                        </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="mb-0">Daftar Tugas</h5>
+                                        <span class="badge bg-primary">4</span>
                                     </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <input class="form-check-input me-2" type="checkbox">
+                                                <span>Periksa kualitas produk</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <input class="form-check-input me-2" type="checkbox">
+                                                <span>Update laporan produksi</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <input class="form-check-input me-2" type="checkbox">
+                                                <span>Koordinasi dengan tim</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <input class="form-check-input me-2" type="checkbox">
+                                                <span>Pemeliharaan mesin</span>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -1139,670 +1572,169 @@
             </div>
         </div>
         
-        <div class="footer">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>SISTEM MANAJEMEN SURAT</h5>
-                    <p>Dinas Peternakan dan Perikanan Kabupaten Situbondo</p>
-                    <p>Jl. Raya Situbondo No. 123, Situbondo, Jawa Timur</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p>Email: <a href="mailto:info@disnakkan.situbondokab.go.id">info@disnakkan.situbondokab.go.id</a></p>
-                    <p>Telepon: (0338) 671234</p>
-                    <p>Fax: (0338) 671235</p>
-                </div>
-            </div>
-            <div class="developer-info text-center">
-                &copy; 2025 Dikembangkan oleh <a href="#">Lentera Karya Situbondo</a>. Hak Cipta Dilindungi.
+        <div class="footer text-center">
+            <p class="mb-2">© 2023 Lentera Karya Situbondo - Sistem Manajemen Produksi</p>
+            <div class="developer-info">
+                <p>Dikembangkan oleh <a href="#">Tim Pengembang Lentera Karya</a> | <a href="#">Kebijakan Privasi</a> | <a href="#">Syarat & Ketentuan</a></p>
             </div>
         </div>
     </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle me-2 text-success"></i>
-        <span id="notificationText">Operasi berhasil dilakukan</span>
-    </div>
-
-    <!-- Floating Action Button -->
-    <div class="floating-action-btn" id="fabBtn">
-        <i class="fas fa-plus"></i>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Data contoh untuk aplikasi
-        let mailData = [
-            {
-                id: 1,
-                type: 'masuk',
-                number: '001/DPP/2025',
-                date: '2025-08-15',
-                actionDate: '2025-08-16',
-                party: 'Dinas Pertanian Provinsi Jawa Timur',
-                category: 'penting',
-                subject: 'Undangan Rapat Koordinasi',
-                description: 'Rapat koordinasi mengenai program peningkatan produksi peternakan',
-                link: 'https://drive.google.com/file/d/12345/view',
-                validationNumber: 'VAL0012025',
-                status: 'diproses'
-            },
-            {
-                id: 2,
-                type: 'keluar',
-                number: '002/DPP/2025',
-                date: '2025-08-14',
-                actionDate: '2025-08-14',
-                party: 'PT Sumber Pangan',
-                category: 'resmi',
-                subject: 'Permohonan Data Produksi',
-                description: 'Permohonan data produksi peternakan tahun 2024',
-                link: 'https://drive.google.com/file/d/67890/view',
-                validationNumber: 'VAL0022025',
-                status: 'selesai'
-            },
-            {
-                id: 3,
-                type: 'masuk',
-                number: '003/DPP/2025',
-                date: '2025-08-10',
-                actionDate: '2025-08-11',
-                party: 'Balai Penyuluhan Pertanian',
-                category: 'biasa',
-                subject: 'Laporan Bulanan',
-                description: 'Laporan bulanan kegiatan penyuluhan pertanian',
-                link: 'https://drive.google.com/file/d/54321/view',
-                validationNumber: 'VAL0032025',
-                status: 'menunggu'
-            }
-        ];
-
-        // State aplikasi
-        let loginAttempts = 0;
-        let isLoggedIn = false;
-        let currentSection = 'dashboard';
-        let previousFormData = {};
-
-        // DOM Elements
-        const loginContainer = document.getElementById('loginContainer');
-        const appContainer = document.getElementById('appContainer');
-        const loginForm = document.getElementById('loginForm');
-        const passwordInput = document.getElementById('password');
-        const loginBtn = document.getElementById('loginBtn');
-        const attemptsCounter = document.getElementById('attemptsCounter');
-        const attemptsSpan = document.getElementById('attempts');
-        const welcomeModal = document.getElementById('welcomeModal');
-        const closeWelcomeBtn = document.getElementById('closeWelcome');
-        const countdownSpan = document.getElementById('countdown');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const contentSections = document.querySelectorAll('.content-section');
-        const navLinks = document.querySelectorAll('.nav-link[data-section]');
-        const fabBtn = document.getElementById('fabBtn');
-        const mailForm = document.getElementById('mailForm');
-        const resetBtn = document.getElementById('resetBtn');
-        const undoBtn = document.getElementById('undoBtn');
-        const generateValidationBtn = document.getElementById('generateValidationBtn');
-        const validationNumberInput = document.getElementById('validationNumber');
-        const testLinkBtn = document.getElementById('testLinkBtn');
-        const mailLinkInput = document.getElementById('mailLink');
-        const mailTableBody = document.getElementById('mailTableBody');
-        const filterTypeSelect = document.getElementById('filterType');
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
-        const notification = document.getElementById('notification');
-        const notificationText = document.getElementById('notificationText');
-        const totalIncomingSpan = document.getElementById('totalIncoming');
-        const totalOutgoingSpan = document.getElementById('totalOutgoing');
-        const totalPendingSpan = document.getElementById('totalPending');
-        const totalProcessedSpan = document.getElementById('totalProcessed');
-        const recentActivitiesTbody = document.getElementById('recentActivities');
-
-        // Fungsi untuk menampilkan notifikasi
-        function showNotification(message, type = 'success') {
-            notification.className = 'notification show ' + type;
-            notificationText.textContent = message;
-            
-            // Update ikon berdasarkan jenis notifikasi
-            const icon = notification.querySelector('i');
-            icon.className = type === 'success' ? 'fas fa-check-circle me-2 text-success' :
-                            type === 'error' ? 'fas fa-exclamation-circle me-2 text-danger' :
-                            'fas fa-info-circle me-2 text-info';
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Fungsi untuk generate nomor validasi
-        function generateValidationNumber() {
-            const prefix = 'VAL';
-            const randomNum = Math.floor(100 + Math.random() * 900);
-            const year = new Date().getFullYear();
-            return `${prefix}${randomNum}${year}`;
-        }
-
-        // Fungsi untuk memformat tanggal
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('id-ID', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-        }
-
-        // Fungsi untuk render tabel surat
-        function renderMailTable(data = mailData) {
-            mailTableBody.innerHTML = '';
-            
-            if (data.length === 0) {
-                mailTableBody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada data surat</td></tr>';
-                return;
-            }
-            
-            data.forEach((mail, index) => {
-                const row = document.createElement('tr');
-                
-                // Tentukan kelas status
-                let statusClass = '';
-                let statusText = '';
-                
-                if (mail.status === 'menunggu') {
-                    statusClass = 'warning';
-                    statusText = 'Menunggu';
-                } else if (mail.status === 'diproses') {
-                    statusClass = 'primary';
-                    statusText = 'Diproses';
-                } else if (mail.status === 'selesai') {
-                    statusClass = 'success';
-                    statusText = 'Selesai';
-                }
-                
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</td>
-                    <td>${mail.number}</td>
-                    <td>${formatDate(mail.date)}</td>
-                    <td>${mail.subject}</td>
-                    <td><span class="badge bg-${mail.category === 'penting' ? 'danger' : mail.category === 'resmi' ? 'primary' : mail.category === 'rahasia' ? 'dark' : 'secondary'}">${mail.category}</span></td>
-                    <td><span class="badge bg-${statusClass}">${statusText}</span></td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-sm btn-outline-primary view-btn" data-id="${mail.id}" title="Lihat Detail">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-success edit-btn" data-id="${mail.id}" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${mail.id}" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                mailTableBody.appendChild(row);
-            });
-            
-            // Tambahkan event listener untuk tombol aksi
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    viewMail(id);
-                });
-            });
-            
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    editMail(id);
-                });
-            });
-            
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    deleteMail(id);
-                });
-            });
-        }
-
-        // Fungsi untuk melihat detail surat
-        function viewMail(id) {
-            const mail = mailData.find(m => m.id == id);
-            if (mail) {
-                alert(`Detail Surat:\nNomor: ${mail.number}\nPerihal: ${mail.subject}\nTanggal: ${formatDate(mail.date)}\nStatus: ${mail.status}`);
-            }
-        }
-
-        // Fungsi untuk mengedit surat
-        function editMail(id) {
-            const mail = mailData.find(m => m.id == id);
-            if (mail) {
-                // Simpan data sebelumnya untuk undo
-                previousFormData = {...mail};
-                
-                // Isi form dengan data surat
-                document.getElementById('editId').value = mail.id;
-                document.getElementById('mailType').value = mail.type;
-                document.getElementById('mailNumber').value = mail.number;
-                document.getElementById('mailDate').value = mail.date;
-                document.getElementById('mailActionDate').value = mail.actionDate;
-                document.getElementById('mailParty').value = mail.party;
-                document.getElementById('mailCategory').value = mail.category;
-                document.getElementById('mailSubject').value = mail.subject;
-                document.getElementById('mailDescription').value = mail.description;
-                document.getElementById('mailLink').value = mail.link;
-                document.getElementById('validationNumber').value = mail.validationNumber;
-                
-                // Aktifkan tombol undo
-                undoBtn.disabled = false;
-                
-                // Buka section input jika belum aktif
-                if (currentSection !== 'input') {
-                    switchSection('input');
-                }
-                
-                showNotification('Form telah diisi dengan data surat yang dipilih', 'info');
-            }
-        }
-
-        // Fungsi untuk menghapus surat
-        function deleteMail(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus surat ini?')) {
-                mailData = mailData.filter(m => m.id != id);
-                renderMailTable();
-                updateDashboardStats();
-                showNotification('Surat berhasil dihapus');
-            }
-        }
-
-        // Fungsi untuk memperbarui statistik dashboard
-        function updateDashboardStats() {
-            const incoming = mailData.filter(m => m.type === 'masuk').length;
-            const outgoing = mailData.filter(m => m.type === 'keluar').length;
-            const pending = mailData.filter(m => m.status === 'menunggu').length;
-            const processed = mailData.filter(m => m.status === 'selesai' || m.status === 'diproses').length;
-            
-            totalIncomingSpan.textContent = incoming;
-            totalOutgoingSpan.textContent = outgoing;
-            totalPendingSpan.textContent = pending;
-            totalProcessedSpan.textContent = processed;
-            
-            // Update aktivitas terbaru
-            updateRecentActivities();
-        }
-
-        // Fungsi untuk memperbarui aktivitas terbaru
-        function updateRecentActivities() {
-            recentActivitiesTbody.innerHTML = '';
-            
-            // Ambil 5 data terbaru
-            const recentMails = [...mailData]
-                .sort((a, b) => new Date(b.actionDate) - new Date(a.actionDate))
-                .slice(0, 5);
-            
-            if (recentMails.length === 0) {
-                recentActivitiesTbody.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td></tr>';
-                return;
-            }
-            
-            recentMails.forEach(mail => {
-                const row = document.createElement('tr');
-                
-                // Tentukan ikon berdasarkan jenis surat
-                const icon = mail.type === 'masuk' ? 'fa-envelope' : 'fa-paper-plane';
-                const iconColor = mail.type === 'masuk' ? 'text-primary' : 'text-success';
-                
-                row.innerHTML = `
-                    <td>${formatDate(mail.actionDate)}</td>
-                    <td><i class="fas ${icon} ${iconColor} me-1"></i> ${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</td>
-                    <td>${mail.number}</td>
-                    <td>${mail.subject}</td>
-                    <td><span class="badge bg-${mail.status === 'menunggu' ? 'warning' : mail.status === 'diproses' ? 'primary' : 'success'}">${mail.status === 'menunggu' ? 'Menunggu' : mail.status === 'diproses' ? 'Diproses' : 'Selesai'}</span></td>
-                `;
-                
-                recentActivitiesTbody.appendChild(row);
-            });
-        }
-
-        // Fungsi untuk beralih antar section
-        function switchSection(sectionName) {
-            // Sembunyikan semua section
-            contentSections.forEach(section => {
-                section.style.display = 'none';
-            });
-            
-            // Tampilkan section yang dipilih
-            document.getElementById(`${sectionName}Section`).style.display = 'block';
-            
-            // Update navigasi
-            navLinks.forEach(link => {
-                if (link.getAttribute('data-section') === sectionName) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-            
-            // Update state
-            currentSection = sectionName;
-            
-            // Jika pindah ke dashboard, perbarui statistik
-            if (sectionName === 'dashboard') {
-                updateDashboardStats();
-            }
-            
-            // Jika pindah ke input, reset form jika tidak dalam mode edit
-            if (sectionName === 'input' && !document.getElementById('editId').value) {
-                mailForm.reset();
-                validationNumberInput.value = generateValidationNumber();
-            }
-        }
-
-        // Event listener untuk login
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const password = passwordInput.value.trim();
-            
-            // Validasi password
-            if (!password) {
-                showNotification('Password harus diisi', 'error');
-                passwordInput.focus();
-                return;
-            }
-            
-            // Validasi format password
-            if (!/^[A-Z][A-Za-z0-9]*$/.test(password)) {
-                showNotification('Password harus diawali huruf kapital dan hanya boleh berisi huruf dan angka', 'error');
-                passwordInput.focus();
-                return;
-            }
-            
-            // Simulasi proses login
-            loginBtn.disabled = true;
-            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Memproses...';
-            
-            setTimeout(() => {
-                // Reset state login
-                loginBtn.disabled = false;
-                loginBtn.innerHTML = '<i class="fas fa-lock me-1"></i>Masuk ke Sistem';
-                
-                // Jika password benar
-                if (password === 'Admin123') {
-                    isLoggedIn = true;
-                    loginAttempts = 0;
-                    attemptsCounter.style.display = 'none';
-                    
-                    // Sembunyikan form login, tampilkan aplikasi
-                    loginContainer.style.display = 'none';
-                    appContainer.style.display = 'block';
-                    
-                    // Tampilkan modal welcome
-                    welcomeModal.style.display = 'flex';
-                    
-                    // Mulai countdown
-                    let countdown = 8;
-                    const countdownInterval = setInterval(() => {
-                        countdown--;
-                        countdownSpan.textContent = countdown;
-                        
-                        if (countdown <= 0) {
-                            clearInterval(countdownInterval);
-                            welcomeModal.style.display = 'none';
-                            
-                            // Inisialisasi aplikasi
-                            validationNumberInput.value = generateValidationNumber();
-                            renderMailTable();
-                            updateDashboardStats();
-                            
-                            showNotification('Login berhasil! Selamat datang di Sistem Manajemen Surat.');
-                        }
-                    }, 1000);
-                } else {
-                    // Jika password salah
-                    loginAttempts++;
-                    attemptsSpan.textContent = loginAttempts;
-                    
-                    if (loginAttempts >= 5) {
-                        loginBtn.disabled = true;
-                        attemptsCounter.innerHTML = 'Terlalu banyak percobaan. Coba lagi dalam <span class="countdown-timer">30</span> detik.';
-                        
-                        let countdown = 30;
-                        const countdownInterval = setInterval(() => {
-                            countdown--;
-                            document.querySelector('.countdown-timer').textContent = countdown;
-                            
-                            if (countdown <= 0) {
-                                clearInterval(countdownInterval);
-                                loginBtn.disabled = false;
-                                attemptsCounter.innerHTML = 'Percobaan: <span id="attempts">0</span>/5';
-                                loginAttempts = 0;
-                                attemptsSpan.textContent = '0';
-                            }
-                        }, 1000);
-                    } else {
-                        showNotification('Password salah. Silakan coba lagi.', 'error');
-                        passwordInput.value = '';
-                        passwordInput.focus();
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffffff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ffffff",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
                     }
-                }
-            }, 1500);
-        });
-
-        // Event listener untuk logout
-        logoutBtn.addEventListener('click', function() {
-            if (confirm('Apakah Anda yakin ingin keluar dari aplikasi?')) {
-                isLoggedIn = false;
-                appContainer.style.display = 'none';
-                loginContainer.style.display = 'block';
-                passwordInput.value = '';
-                showNotification('Anda telah logout dari sistem');
-            }
-        });
-
-        // Event listener untuk navigasi
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                const section = this.getAttribute('data-section');
-                switchSection(section);
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
             });
-        });
-
-        // Event listener untuk FAB
-        fabBtn.addEventListener('click', function() {
-            switchSection('input');
-        });
-
-        // Event listener untuk generate nomor validasi
-        generateValidationBtn.addEventListener('click', function() {
-            validationNumberInput.value = generateValidationNumber();
-            showNotification('Nomor validasi telah digenerate');
-        });
-
-        // Event listener untuk test tautan
-        testLinkBtn.addEventListener('click', function() {
-            const link = mailLinkInput.value.trim();
-            if (!link) {
-                showNotification('Tautan tidak boleh kosong', 'error');
-                return;
-            }
             
-            if (!link.startsWith('http://') && !link.startsWith('https://')) {
-                showNotification('Format tautan tidak valid. Harus diawali dengan http:// atau https://', 'error');
-                return;
-            }
+            // Show login modal when login button is clicked
+            document.getElementById('loginBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('loginModal').style.display = 'flex';
+            });
             
-            // Buka tautan di tab baru
-            window.open(link, '_blank');
-            showNotification('Tautan dibuka di tab baru');
-        });
-
-        // Event listener untuk reset form
-        resetBtn.addEventListener('click', function() {
-            if (confirm('Apakah Anda yakin ingin mengosongkan form?')) {
-                mailForm.reset();
-                document.getElementById('editId').value = '';
-                validationNumberInput.value = generateValidationNumber();
-                undoBtn.disabled = true;
-                showNotification('Form telah direset');
-            }
-        });
-
-        // Event listener untuk undo
-        undoBtn.addEventListener('click', function() {
-            if (Object.keys(previousFormData).length > 0) {
-                document.getElementById('editId').value = previousFormData.id;
-                document.getElementById('mailType').value = previousFormData.type;
-                document.getElementById('mailNumber').value = previousFormData.number;
-                document.getElementById('mailDate').value = previousFormData.date;
-                document.getElementById('mailActionDate').value = previousFormData.actionDate;
-                document.getElementById('mailParty').value = previousFormData.party;
-                document.getElementById('mailCategory').value = previousFormData.category;
-                document.getElementById('mailSubject').value = previousFormData.subject;
-                document.getElementById('mailDescription').value = previousFormData.description;
-                document.getElementById('mailLink').value = previousFormData.link;
-                document.getElementById('validationNumber').value = previousFormData.validationNumber;
+            // Close login modal
+            document.getElementById('closeLoginModal').addEventListener('click', function() {
+                document.getElementById('loginModal').style.display = 'none';
+            });
+            
+            // Toggle password visibility
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const eyeIcon = this.querySelector('i');
                 
-                showNotification('Perubahan dibatalkan, nilai sebelumnya telah dikembalikan', 'info');
-            }
-        });
-
-        // Event listener untuk submit form surat
-        mailForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const editId = document.getElementById('editId').value;
-            const mailType = document.getElementById('mailType').value;
-            const mailNumber = document.getElementById('mailNumber').value;
-            const mailDate = document.getElementById('mailDate').value;
-            const mailActionDate = document.getElementById('mailActionDate').value;
-            const mailParty = document.getElementById('mailParty').value;
-            const mailCategory = document.getElementById('mailCategory').value;
-            const mailSubject = document.getElementById('mailSubject').value;
-            const mailDescription = document.getElementById('mailDescription').value;
-            const mailLink = document.getElementById('mailLink').value;
-            const validationNumber = document.getElementById('validationNumber').value;
-            
-            // Validasi form
-            if (!mailType || !mailNumber || !mailDate || !mailActionDate || !mailParty || !mailCategory || !mailSubject) {
-                showNotification('Semua field wajib diisi kecuali keterangan dan tautan', 'error');
-                return;
-            }
-            
-            // Jika dalam mode edit
-            if (editId) {
-                const index = mailData.findIndex(m => m.id == editId);
-                if (index !== -1) {
-                    mailData[index] = {
-                        ...mailData[index],
-                        type: mailType,
-                        number: mailNumber,
-                        date: mailDate,
-                        actionDate: mailActionDate,
-                        party: mailParty,
-                        category: mailCategory,
-                        subject: mailSubject,
-                        description: mailDescription,
-                        link: mailLink,
-                        validationNumber: validationNumber
-                    };
-                    
-                    showNotification('Surat berhasil diperbarui');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
                 }
-            } else {
-                // Jika mode tambah data baru
-                const newMail = {
-                    id: mailData.length > 0 ? Math.max(...mailData.map(m => m.id)) + 1 : 1,
-                    type: mailType,
-                    number: mailNumber,
-                    date: mailDate,
-                    actionDate: mailActionDate,
-                    party: mailParty,
-                    category: mailCategory,
-                    subject: mailSubject,
-                    description: mailDescription,
-                    link: mailLink,
-                    validationNumber: validationNumber,
-                    status: 'menunggu'
-                };
+            });
+            
+            // Handle login form submission
+            document.getElementById('submitLogin').addEventListener('click', function() {
+                const password = document.getElementById('password').value;
+                const loginError = document.getElementById('loginError');
+                const loginSuccess = document.getElementById('loginSuccess');
                 
-                mailData.push(newMail);
-                showNotification('Surat berhasil ditambahkan');
+                // Hide notifications
+                loginError.style.display = 'none';
+                loginSuccess.style.display = 'none';
+                
+                // Validate password
+                if (isValidPassword(password)) {
+                    // Show success message
+                    loginSuccess.style.display = 'block';
+                    
+                    // Simulate loading
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+                    
+                    // Redirect to dashboard after 2 seconds
+                    setTimeout(() => {
+                        document.getElementById('loginModal').style.display = 'none';
+                        document.getElementById('appContainer').style.display = 'block';
+                        document.querySelector('header').style.display = 'none';
+                        document.querySelector('.main-content').style.display = 'none';
+                        document.querySelector('footer').style.display = 'none';
+                        document.getElementById('particles-js').style.display = 'none';
+                        
+                        // Reset login form
+                        this.disabled = false;
+                        this.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk';
+                        document.getElementById('password').value = '';
+                    }, 2000);
+                } else {
+                    // Show error message
+                    loginError.style.display = 'block';
+                    document.getElementById('errorMessage').textContent = 'Kata sandi tidak valid. Silakan periksa format dan coba lagi.';
+                }
+            });
+            
+            // Handle logout
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('appContainer').style.display = 'none';
+                document.querySelector('header').style.display = 'flex';
+                document.querySelector('.main-content').style.display = 'flex';
+                document.querySelector('footer').style.display = 'block';
+                document.getElementById('particles-js').style.display = 'block';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === document.getElementById('loginModal')) {
+                    document.getElementById('loginModal').style.display = 'none';
+                }
+            });
+            
+            // Password validation function - FIXED VERSION
+            function isValidPassword(password) {
+                // Check if password is exactly 9 characters long
+                if (password.length !== 9) {
+                    return false;
+                }
+                
+                // Check if first character is an uppercase letter (A-Z)
+                const firstChar = password.charAt(0);
+                if (!/^[A-Z]$/.test(firstChar)) {
+                    return false;
+                }
+                
+                // Check if second character is '0'
+                const secondChar = password.charAt(1);
+                if (secondChar !== '0') {
+                    return false;
+                }
+                
+                // Check if the next 7 characters are digits (0-9)
+                const remainingChars = password.substring(2);
+                if (!/^\d{7}$/.test(remainingChars)) {
+                    return false;
+                }
+                
+                return true;
             }
             
-            // Reset form
-            mailForm.reset();
-            document.getElementById('editId').value = '';
-            validationNumberInput.value = generateValidationNumber();
-            undoBtn.disabled = true;
-            
-            // Perbarui tabel dan statistik
-            renderMailTable();
-            updateDashboardStats();
+            // Add default password for testing
+            document.getElementById('password').value = 'A01234567';
         });
-
-        // Event listener untuk filter dan pencarian
-        filterTypeSelect.addEventListener('change', filterAndSearch);
-        searchBtn.addEventListener('click', filterAndSearch);
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                filterAndSearch();
-            }
-        });
-
-        function filterAndSearch() {
-            const type = filterTypeSelect.value;
-            const searchTerm = searchInput.value.toLowerCase();
-            
-            let filteredData = mailData;
-            
-            // Filter berdasarkan jenis
-            if (type) {
-                filteredData = filteredData.filter(mail => mail.type === type);
-            }
-            
-            // Filter berdasarkan pencarian
-            if (searchTerm) {
-                filteredData = filteredData.filter(mail => 
-                    mail.number.toLowerCase().includes(searchTerm) ||
-                    mail.subject.toLowerCase().includes(searchTerm) ||
-                    mail.party.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            renderMailTable(filteredData);
-        }
-
-        // Event listener untuk close welcome modal
-        closeWelcomeBtn.addEventListener('click', function() {
-            welcomeModal.style.display = 'none';
-            
-            // Inisialisasi aplikasi
-            validationNumberInput.value = generateValidationNumber();
-            renderMailTable();
-            updateDashboardStats();
-            
-            showNotification('Selamat datang di Sistem Manajemen Surat');
-        });
-
-        // Inisialisasi date input dengan tanggal hari ini
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('mailDate').value = today;
-        document.getElementById('mailActionDate').value = today;
-
-        // Inisialisasi aplikasi
-        if (isLoggedIn) {
-            loginContainer.style.display = 'none';
-            appContainer.style.display = 'block';
-            validationNumberInput.value = generateValidationNumber();
-            renderMailTable();
-            updateDashboardStats();
-        } else {
-            loginContainer.style.display = 'block';
-            appContainer.style.display = 'none';
-        }
     </script>
 </body>
 </html>
