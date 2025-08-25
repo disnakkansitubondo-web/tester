@@ -3,400 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lentera Karya Situbondo - Portal Utama</title>
+    <title>SISTEM MANAJEMEN SURAT - Dinas Peternakan dan Perikanan Situbondo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Styles from the first index.html (landing page) */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        /* Particle Background */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-        
-        /* Header & Navigation */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .logo {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
-        }
-        
-        .logo img {
-            width: 70%;
-            height: auto;
-        }
-        
-        .brand {
-            color: #2c3e50;
-            font-weight: 700;
-            font-size: 22px;
-            letter-spacing: 0.5px;
-        }
-        
-        .brand span {
-            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-        
-        nav a {
-            text-decoration: none;
-            color: #2c3e50;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s;
-            padding: 8px 15px;
-            border-radius: 10px;
-        }
-        
-        nav a:hover {
-            color: #3498db;
-            background: rgba(52, 152, 219, 0.1);
-        }
-        
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 5%;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero {
-            text-align: center;
-            max-width: 800px;
-            margin-bottom: 50px;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            color: white;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            font-weight: 800;
-        }
-        
-        .hero h1 span {
-            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.9);
-            color: #2c3e50;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Features Section */
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 40px 0;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 350px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            color: white;
-            font-size: 28px;
-        }
-        
-        .feature-card h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
-        
-        .feature-card p {
-            color: #34495e;
-            line-height: 1.6;
-        }
-        
-        /* Footer */
-        footer {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px 5%;
-            text-align: center;
-            margin-top: auto;
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin: 20px 0;
-        }
-        
-        .footer-links a {
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .footer-links a:hover {
-            color: #3498db;
-        }
-        
-        .copyright {
-            color: #7f8c8d;
-            font-size: 14px;
-            margin-top: 20px;
-        }
-        
-        /* Login Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            animation: modalFadeIn 0.5s;
-        }
-        
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.3);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 101;
-            transition: all 0.3s;
-        }
-        
-        .close-modal:hover {
-            background: rgba(0, 0, 0, 0.5);
-            transform: rotate(90deg);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            
-            nav ul {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .feature-card {
-                max-width: 100%;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 500px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .feature-card {
-                padding: 20px;
-            }
-            
-            .footer-links {
-                flex-direction: column;
-                gap: 15px;
-                align-items: center;
-            }
-        }
-
-        /* Dashboard Styles (from the second index.html) */
         :root {
             --primary-color: #0d47a1;
             --secondary-color: #00695c;
@@ -406,6 +16,7 @@
             --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
             --gradient-secondary: linear-gradient(135deg, var(--secondary-color), #004d40);
             --gradient-accent: linear-gradient(135deg, var(--accent-color), #e65100);
+            --gradient-login: linear-gradient(135deg, #4CAF50, #FF9800, #2196F3);
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
             --shadow-lg: 0 8px 28px rgba(0,0,0,0.15);
@@ -413,14 +24,127 @@
             --transition: all 0.3s ease;
         }
         
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23f8f9fa" width="100" height="100"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23e9ecef" stroke-width="0.5"/></svg>');
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            margin: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .login-header {
+            background: var(--gradient-login);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .shield-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .login-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .login-body {
+            padding: 25px;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+        }
+        
+        .input-group-text {
+            background: white;
+            border-radius: 8px 0 0 8px;
+        }
+        
+        .login-btn {
+            background: var(--gradient-login);
+            border: none;
+            padding: 12px 20px;
+            font-weight: 600;
+            border-radius: 8px;
+            width: 100%;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .attempts-counter {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+        
+        .countdown {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
         .app-container {
+            display: none;
             max-width: 1800px;
             margin: 20px auto;
             background: white;
             box-shadow: var(--shadow-lg);
             border-radius: var(--border-radius);
             overflow: hidden;
-            display: none; /* Initially hidden */
+            width: 100%;
         }
         
         .app-header {
@@ -443,7 +167,7 @@
         }
         
         .nav-pills .nav-link {
-            borderRadius: 8px;
+            border-radius: 8px;
             margin-bottom: 8px;
             padding: 12px 15px;
             font-weight: 500;
@@ -524,14 +248,14 @@
             color: white;
         }
         
-        .form-control, .form-select {
+        .form-select {
             border-radius: 8px;
             padding: 12px 15px;
             border: 1px solid #ddd;
             transition: var(--transition);
         }
         
-        .form-control:focus, .form-select:focus {
+        .form-select:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
         }
@@ -702,112 +426,6 @@
             font-size: 0.875rem;
         }
         
-        .footer {
-            background: var(--gradient-primary);
-            color: white;
-            padding: 25px 15px;
-        }
-        
-        .footer a {
-            color: #fff;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .footer a:hover {
-            color: #ffd54f;
-            text-decoration: underline;
-        }
-        
-        .developer-info {
-            font-size: 0.85rem;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .validation-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 0.7rem;
-            padding: 3px 8px;
-        }
-        
-        .welcome-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            transition: opacity 0.5s ease;
-        }
-        
-        .welcome-content {
-            background: white;
-            border-radius: 15px;
-            max-width: 600px;
-            width: 90%;
-            padding: 30px;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: modalAppear 0.5s ease;
-        }
-        
-        @keyframes modalAppear {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .close-welcome {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-            transition: var(--transition);
-        }
-        
-        .close-welcome:hover {
-            color: var(--primary-color);
-        }
-        
-        .password-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        
-        .password-content {
-            background: white;
-            border-radius: 12px;
-            max-width: 400px;
-            width: 90%;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        }
-        
         @media (max-width: 992px) {
             .app-title {
                 font-size: 1.4rem;
@@ -844,682 +462,160 @@
                 font-size: 0.75rem;
             }
             
-            .footer {
-                text-align: center;
-            }
-        }
-
-        /* Login form styles */
-        .login-container {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transform: translateZ(0);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            z-index: 10;
-            margin: 20px;
-        }
-        
-        .login-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-        }
-        
-        .login-header {
-            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
-            color: white;
-            padding: 35px 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .login-header::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
-        }
-        
-        .login-logo {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 25px rgba(52, 152, 219, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .login-logo::before {
-            content: "";
-            position: absolute;
-            width: 60%;
-            height: 60%;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-        }
-        
-        .login-logo img {
-            width: 70%;
-            height: auto;
-            z-index: 1;
-        }
-        
-        .login-header h1 {
-            font-size: 28px;
-            margin-bottom: 8px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .login-header p {
-            font-size: 16px;
-            opacity: 0.9;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-        
-        .login-content {
-            padding: 35px;
-            background: rgba(255, 255, 255, 0.9);
-        }
-        
-        .welcome-message {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
-            border-radius: 15px;
-            text-align: center;
-            border-left: 4px solid #3498db;
-        }
-        
-        .welcome-message h2 {
-            color: #2c3e50;
-            margin-bottom: 12px;
-            font-size: 22px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #3498db, #2ecc71, #f39c12);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .welcome-message p {
-            color: #34495e;
-            line-height: 1.7;
-            font-size: 15px;
-            font-weight: 400;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 12px;
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-        }
-        
-        .username-display {
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(52, 152, 219, 0.2);
-            font-weight: 600;
-            color: #2c3e50;
-            text-align: center;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-            letter-spacing: 0.5px;
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 16px;
-        }
-        
-        .input-with-icon {
-            position: relative;
-        }
-        
-        .input-with-icon i {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7f8c8d;
-            font-size: 18px;
-            z-index: 1;
-        }
-        
-        .input-with-icon input {
-            padding-left: 50px;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 17px;
-            border: 1px solid rgba(52, 152, 219, 0.3);
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.9);
-            color: #2c3e50;
-            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-        
-        .form-group input::placeholder {
-            color: #95a5a6;
-            font-weight: 400;
-        }
-        
-        .form-group input:focus {
-            border-color: #3498db;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2), inset 0 1px 5px rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 1);
-        }
-        
-        .toggle-password {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #7f8c8d;
-            font-size: 18px;
-            z-index: 1;
-            transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.5);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .toggle-password:hover {
-            color: #3498db;
-            background: rgba(52, 152, 219, 0.1);
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 17px;
-            background: linear-gradient(135deg, #3498db 0%, #2ecc71 50%, #f39c12 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .login-btn::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-        
-        .login-btn:hover::before {
-            left: 100%;
-        }
-        
-        .login-btn:hover {
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
-            transform: translateY(-3px);
-        }
-        
-        .login-btn:active {
-            transform: translateY(0);
-        }
-        
-        .login-btn:disabled {
-            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 50%, #636e72 100%);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .login-btn:disabled::before {
-            display: none;
-        }
-        
-        .login-notification {
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            display: none;
-            animation: fadeIn 0.5s;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .login-notification.success {
-            background: rgba(46, 204, 113, 0.15);
-            color: #27ae60;
-            border-left: 4px solid #27ae60;
-        }
-        
-        .login-notification.error {
-            background: rgba(231, 76, 60, 0.15);
-            color: #c0392b;
-            border-left: 4px solid #c0392b;
-        }
-        
-        .login-notification.info {
-            background: rgba(52, 152, 219, 0.15);
-            color: #2980b9;
-            border-left: 4px solid #2980b9;
-        }
-        
-        .password-info {
-            margin-top: 20px;
-            padding: 16px;
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1), rgba(243, 156, 18, 0.1));
-            border-radius: 12px;
-            border-left: 4px solid #f39c12;
-            text-align: center;
-        }
-        
-        .password-info h3 {
-            color: #d35400;
-            margin-bottom: 10px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .password-info p {
-            color: #34495e;
-            line-height: 1.6;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .password-info ul {
-            text-align: left;
-            margin-top: 10px;
-            padding-left: 20px;
-            color: #34495e;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        
-        .password-info li {
-            margin-bottom: 5px;
-        }
-        
-        .password-info code {
-            background: rgba(243, 156, 18, 0.2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-weight: 600;
-            color: #d35400;
-        }
-        
-        @media (max-width: 576px) {
-            .login-container {
-                margin: 10px;
-            }
-            
-            .login-header {
-                padding: 25px 20px;
-            }
-            
-            .login-content {
-                padding: 25px 20px;
-            }
-            
-            .login-logo {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .login-header h1 {
-                font-size: 24px;
-            }
-            
-            .login-header p {
-                font-size: 14px;
-            }
-            
-            .welcome-message {
-                padding: 15px;
-            }
-            
-            .welcome-message h2 {
-                font-size: 18px;
-            }
-            
-            .welcome-message p {
-                font-size: 14px;
-            }
-            
-            .form-group input {
-                padding: 14px;
-                font-size: 15px;
-            }
-            
-            .login-btn {
-                padding: 14px;
-                font-size: 15px;
+            .login-title {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Landing Page Content -->
-    <div id="particles-js"></div>
-    
-    <header>
-        <div class="logo-container">
-            <div class="logo">
-                <i class="fas fa-lightbulb text-white"></i>
-            </div>
-            <div class="brand">Lentera <span>Karya</span></div>
-        </div>
-        
-        <nav>
-            <ul>
-                <li><a href="#home"><i class="fas fa-home"></i> Beranda</a></li>
-                <li><a href="#about"><i class="fas fa-info-circle"></i> Tentang</a></li>
-                <li><a href="#services"><i class="fas fa-cogs"></i> Layanan</a></li>
-                <li><a href="#contact"><i class="fas fa-envelope"></i> Kontak</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <div class="main-content">
-        <div class="hero">
-            <h1>Selamat Datang di <span>Lentera Karya</span></h1>
-            <p>Platform inovatif untuk meningkatkan produktivitas dan kolaborasi tim Anda. Didesain khusus untuk memenuhi kebutuhan bisnis modern dengan fitur-fitur canggih dan antarmuka yang intuitif.</p>
-            
-            <div class="cta-buttons">
-                <a href="#" class="btn btn-primary" id="loginBtn">
-                    <i class="fas fa-sign-in-alt"></i> Masuk ke Portal
-                </a>
-                <a href="#" class="btn btn-secondary">
-                    <i class="fas fa-book"></i> Dokumentasi
-                </a>
-            </div>
-        </div>
-        
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <h3>Keamanan Terjamin</h3>
-                <p>Sistem kami dilengkapi dengan enkripsi tingkat tinggi dan autentikasi multi-faktor untuk melindungi data Anda.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3>Performa Tinggi</h3>
-                <p>Dibangun dengan teknologi terbaru untuk memastikan kecepatan dan keandalan dalam setiap operasi.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3>Kolaborasi Tim</h3>
-                <p>Fitur kolaborasi canggih memungkinkan tim Anda bekerja bersama secara efisien dari mana saja.</p>
-            </div>
-        </div>
-    </div>
-    
-    <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#privacy"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a>
-                <a href="#terms"><i class="fas fa-file-contract"></i> Syarat & Ketentuan</a>
-                <a href="#support"><i class="fas fa-headset"></i> Dukungan</a>
-            </div>
-            <div class="copyright">
-                &copy; 2023 Lentera Karya Situbondo. Hak Cipta Dilindungi.
-            </div>
-        </div>
-    </footer>
-    
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="close-modal" id="closeLoginModal">
-            <i class="fas fa-times"></i>
-        </div>
-        <div class="login-container">
+    <!-- Login Form -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-card">
             <div class="login-header">
-                <div class="login-logo">
-                    <i class="fas fa-lightbulb text-white"></i>
-                </div>
-                <h1>Portal Login</h1>
-                <p>Masuk ke akun Anda untuk melanjutkan</p>
+                <i class="fas fa-shield-alt shield-icon"></i>
+                <h1 class="login-title">SISTEM MANAJEMEN SURAT</h1>
+                <p class="login-subtitle">Dinas Peternakan dan Perikanan Kabupaten Situbondo</p>
             </div>
-            
-            <div class="login-content">
-                <div class="welcome-message">
-                    <h2>Selamat Datang Kembali!</h2>
-                    <p>Silakan masukkan kredensial Anda untuk mengakses dashboard Lentera Karya</p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="username">Nama Pengguna</label>
-                    <div class="username-display">
-                        <i class="fas fa-user"></i>
-                        <span id="usernameDisplay">admin</span>
+            <div class="login-body">
+                <div class="mb-4">
+                    <label class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="username" value="Lentera Karya Situbondo" readonly>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="password">Kata Sandi</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-key"></i>
-                        <input type="password" id="password" placeholder="Masukkan kata sandi Anda">
-                        <span class="toggle-password" id="togglePassword">
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" placeholder="Masukkan password" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                             <i class="fas fa-eye"></i>
-                        </span>
+                        </button>
                     </div>
+                    <div class="form-text">Format: Huruf kapital diikuti angka (contoh: S01634851)</div>
                 </div>
                 
-                <button class="login-btn" id="submitLogin">
-                    <i class="fas fa-sign-in-alt"></i> Masuk
-                </button>
-                
-                <div class="login-notification error" id="loginError">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span id="errorMessage">Kata sandi salah. Silakan coba lagi.</span>
+                <div class="mb-3">
+                    <button class="login-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
                 </div>
                 
-                <div class="login-notification success" id="loginSuccess">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Login berhasil! Mengarahkan ke dashboard...</span>
+                <div class="attempts-counter">
+                    Percobaan login: <span id="attemptsCount">0</span>/5
                 </div>
                 
-                <div class="password-info">
-                    <h3>Informasi Kata Sandi</h3>
-                    <p>Kata sandi harus mengikuti format berikut:</p>
-                    <ul>
-                        <li>Panjang 9 karakter</li>
-                        <li>Karakter pertama harus huruf kapital (A-Z)</li>
-                        <li>Karakter kedua harus angka 0</li>
-                        <li>7 karakter berikutnya harus angka (0-9)</li>
-                    </ul>
-                    <p>Contoh: <code>A01234567</code></p>
+                <div class="countdown d-none" id="countdown">
+                    Login dibekukan selama: <span id="countdownTimer">05:00</span>
                 </div>
             </div>
         </div>
+        
+        <div class="copyright">
+            &copy; 2023 Lentera Karya Situbondo. All rights reserved.
+        </div>
     </div>
     
-    <!-- Dashboard Content (initially hidden) -->
+    <!-- Main Application -->
     <div class="app-container" id="appContainer">
         <div class="app-header">
-            <h1 class="app-title">Lentera Karya - Portal Utama</h1>
-            <p class="app-subtitle">Sistem Manajemen dan Monitoring Produksi</p>
+            <h1 class="app-title">SISTEM MANAJEMEN SURAT</h1>
+            <p class="app-subtitle">Dinas Peternakan dan Perikanan Kabupaten Situbondo</p>
         </div>
         
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Sidebar Navigation -->
-                <div class="col-md-3 col-lg-2 bg-light p-3 border-end">
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action active">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 p-4 bg-light">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="dashboard">
                             <i class="fas fa-tachometer-alt me-2"></i> Dashboard
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <i class="fas fa-users me-2"></i> Manajemen Karyawan
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="input">
+                            <i class="fas fa-plus-circle me-2"></i> Input Surat
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <i class="fas fa-cogs me-2"></i> Proses Produksi
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="templates">
+                            <i class="fas fa-file-alt me-2"></i> Template
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            <i class="fas fa-chart-line me-2"></i> Laporan & Analitik
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="settings">
                             <i class="fas fa-cog me-2"></i> Pengaturan
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action text-danger" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt me-2"></i> Keluar
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a href="#" class="nav-link text-danger" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
                         </a>
-                    </div>
-                </div>
-                
-                <!-- Main Content -->
-                <div class="col-md-9 col-lg-10 p-4">
-                    <h2 class="section-title">Dashboard Utama</h2>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-5">
+                <!-- Dashboard Section -->
+                <div class="content-section" id="dashboardSection">
+                    <h2 class="section-title">Dashboard</h2>
                     
-                    <!-- Stats Overview -->
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <div class="stats-icon text-primary">
-                                    <i class="fas fa-users fa-2x"></i>
-                                </div>
-                                <div class="stats-number">142</div>
-                                <div class="stats-label">Total Karyawan</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <div class="stats-icon text-success">
-                                    <i class="fas fa-cogs fa-2x"></i>
-                                </div>
-                                <div class="stats-number">87%</div>
-                                <div class="stats-label">Kapasitas Produksi</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <div class="stats-icon text-info">
-                                    <i class="fas fa-boxes fa-2x"></i>
-                                </div>
-                                <div class="stats-number">5,248</div>
-                                <div class="stats-label">Unit Terproduksi</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="stats-box">
-                                <div class="stats-icon text-warning">
-                                    <i class="fas fa-chart-line fa-2x"></i>
-                                </div>
-                                <div class="stats-number">12.5%</div>
-                                <div class="stats-label">Peningkatan</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Recent Activity -->
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-3">
+                            <div class="stats-box">
+                                <i class="fas fa-envelope-open text-primary mb-2" style="font-size: 2rem;"></i>
+                                <div class="stats-number" id="totalIncoming">0</div>
+                                <div class="stats-label">Total Surat Masuk</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-box">
+                                <i class="fas fa-paper-plane text-success mb-2" style="font-size: 2rem;"></i>
+                                <div class="stats-number" id="totalOutgoing">0</div>
+                                <div class="stats-label">Total Surat Keluar</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-box">
+                                <i class="fas fa-clock text-warning mb-2" style="font-size: 2rem;"></i>
+                                <div class="stats-number" id="totalPending">0</div>
+                                <div class="stats-label">Menunggu Tindakan</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-box">
+                                <i class="fas fa-check-circle text-info mb-2" style="font-size: 2rem;"></i>
+                                <div class="stats-number" id="totalProcessed">0</div>
+                                <div class="stats-label">Telah Diproses</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-history me-2"></i> Aktivitas Terbaru
+                                    <i class="fas fa-history me-2"></i>Aktivitas Terbaru
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="data-table">
+                                        <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Waktu</th>
-                                                    <th>Aktivitas</th>
-                                                    <th>Pengguna</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Jenis</th>
+                                                    <th>Nomor</th>
+                                                    <th>Perihal</th>
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="recentActivities">
                                                 <tr>
-                                                    <td>10:45 AM</td>
-                                                    <td>Pembaruan data produksi</td>
-                                                    <td>Budi Santoso</td>
-                                                    <td><span class="badge badge-success">Selesai</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10:30 AM</td>
-                                                    <td>Penambahan stok bahan</td>
-                                                    <td>Siti Rahayu</td>
-                                                    <td><span class="badge badge-success">Selesai</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>09:15 AM</td>
-                                                    <td>Maintenance sistem</td>
-                                                    <td>Admin</td>
-                                                    <td><span class="badge badge-primary">Berjalan</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>08:50 AM</td>
-                                                    <td>Pengiriman produk</td>
-                                                    <td>Joko Prasetyo</td>
-                                                    <td><span class="badge badge-warning">Pending</span></td>
+                                                    <td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1527,43 +623,260 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-4">
+                    </div>
+                </div>
+                
+                <!-- Input Surat Section -->
+                <div class="content-section d-none" id="inputSection">
+                    <h2 class="section-title">Input Surat Baru</h2>
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-edit me-2"></i>Form Input Surat
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-undo me-2" id="undoBtn" title="Kembalikan nilai sebelumnya" disabled>
+                                    <i class="fas fa-undo me-1"></i>Undo
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="resetBtn">
+                                    <i class="fas fa-times me-1"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="mailForm">
+                                <input type="hidden" id="editId" value="">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Jenis Surat</label>
+                                        <select class="form-select" id="mailType" required>
+                                            <option value="">Pilih Jenis Surat</option>
+                                            <option value="masuk">Surat Masuk</option>
+                                            <option value="keluar">Surat Keluar</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Nomor Surat</label>
+                                        <input type="text" class="form-control" id="mailNumber" placeholder="Nomor surat" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Tanggal Surat</label>
+                                        <input type="date" class="form-control" id="mailDate" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Tanggal Diterima/Dikirim</label>
+                                        <input type="date" class="form-control" id="mailActionDate" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Pengirim/Penerima</label>
+                                        <input type="text" class="form-control" id="mailParty" placeholder="Nama pengirim/penerima" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kategori</label>
+                                        <select class="form-select" id="mailCategory" required>
+                                            <option value="">Pilih Kategori</option>
+                                            <option value="resmi">Resmi</option>
+                                            <option value="penting">Penting</option>
+                                            <option value="biasa">Biasa</option>
+                                            <option value="rahasia">Rahasia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Perihal</label>
+                                    <textarea class="form-control" id="mailSubject" rows="2" placeholder="Perihal surat" required></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Keterangan</label>
+                                    <textarea class="form-control" id="mailDescription" rows="3" placeholder="Keterangan tambahan"></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Tautan Dokumen (Google Drive)</label>
+                                    <div class="input-group">
+                                        <input type="url" class="form-control" id="mailLink" placeholder="https://drive.google.com/...">
+                                        <button class="btn btn-outline-secondary" type="button" id="testLinkBtn" title="Test tautan">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save me-1"></i>Simpan Surat
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Surat Table -->
+                    <h2 class="section-title mt-5">Data Surat</h2>
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-table me-2"></i>Daftar Surat
+                            </div>
+                            <div class="d-flex">
+                                <select class="form-select form-select-sm me-2" id="filterType" style="width: auto;">
+                                    <option value="">Semua Jenis</option>
+                                    <option value="masuk">Surat Masuk</option>
+                                    <option value="keluar">Surat Keluar</option>
+                                </select>
+                                <input type="text" class="form-control form-control-sm me-2" placeholder="Cari..." id="searchInput" style="width: auto;">
+                                <button class="btn btn-sm btn-primary" id="searchBtn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Jenis</th>
+                                            <th>Nomor</th>
+                                            <th>Tanggal</th>
+                                            <th>Perihal</th>
+                                            <th>Kategori</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="mailTableBody">
+                                        <!-- Data akan diisi oleh JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Templates Section -->
+                <div class="content-section d-none" id="templatesSection">
+                    <h2 class="section-title">Template Surat</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1zbeoFudDP4wQeZJFaq6EjTsFBJT648Lf4zcvAIcNOtE/edit?usp=sharing', '_blank')">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-contract mb-3" style="font-size: 3rem; color: #0d47a1;"></i>
+                                    <h5>Surat Tugas</h5>
+                                    <p class="text-muted">Template untuk membuat surat tugas</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1yoIUpyY0_3kgQ6HOvCCUWmo3tKamaRV8zLUuwffvyCA/edit?usp=drive_link', '_blank')">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-signature mb-3" style="font-size: 3rem; color: #00695c;"></i>
+                                    <h5>Surat Pernyataan</h5>
+                                    <p class="text-muted">Template untuk membuat surat pernyataan</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1uzV4AbeLf-cHoadwtYebbP6S3VihB_nSGXCXsM0PaTI/edit?usp=drive_link', '_blank')">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-contract mb-3" style="font-size: 3rem; color: #ff8f00;"></i>
+                                    <h5>Surat Kuasa</h5>
+                                    <p class="text-muted">Template untuk membuat surat kuasa</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1Xo-0wk5mmwcA18E-1xB9HqbKrBl0Y_x6m9JJrwojFAA/edit?usp=drive_link', '_blank')">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-invoice mb-3" style="font-size: 3rem; color: #9c27b0;"></i>
+                                    <h5>Surat Undangan</h5>
+                                    <p class="text-muted">Template untuk membuat surat undangan</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link', '_blank')">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-alt mb-3" style="font-size: 3rem; color: #2e7d32;"></i>
+                                    <h5>Surat Keterangan</h5>
+                                    <p class="text-muted">Template untuk membuat surat keterangan</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card template-item" onclick="window.open('https://docs.google.com/document/d/1a_Un6_Mfi2XLD1Yc95WnJqwMg6rirrV9ncfT3yAy-jo/edit?usp=drive_link', '_blank')">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-file-export mb-3" style="font-size: 3rem; color: #d32f2f;"></i>
+                                    <h5>Surat Pengantar</h5>
+                                    <p class="text-muted">Template untuk membuat surat pengantar</p>
+                                    <button class="btn btn-primary mt-2">Gunakan Template</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Section -->
+                <div class="content-section d-none" id="settingsSection">
+                    <h2 class="section-title">Pengaturan Sistem</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
-                                    <i class="fas fa-tasks me-2"></i> Tugas Hari Ini
+                                    <i class="fas fa-database me-2"></i>Backup & Restore Data
                                 </div>
                                 <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="mb-0">Daftar Tugas</h5>
-                                        <span class="badge bg-primary">4</span>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success mb-2" id="backupBtn">
+                                            <i class="fas fa-download me-1"></i>Backup Data
+                                        </button>
+                                        <button class="btn btn-warning mb-2" id="restoreBtn">
+                                            <i class="fas fa-upload me-1"></i>Restore Data
+                                        </button>
+                                        <button class="btn btn-danger" id="resetDataBtn">
+                                            <i class="fas fa-trash me-1"></i>Reset Data
+                                        </button>
                                     </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-2" type="checkbox">
-                                                <span>Periksa kualitas produk</span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-2" type="checkbox">
-                                                <span>Update laporan produksi</span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-2" type="checkbox">
-                                                <span>Koordinasi dengan tim</span>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-2" type="checkbox">
-                                                <span>Pemeliharaan mesin</span>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-key me-2"></i>Ganti Password
+                                </div>
+                                <div class="card-body">
+                                    <form id="passwordForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Password Saat Ini</label>
+                                            <input type="password" class="form-control" id="currentPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Password Baru</label>
+                                            <input type="password" class="form-control" id="newPassword" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Konfirmasi Password Baru</label>
+                                            <input type="password" class="form-control" id="confirmPassword" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Simpan Password</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -1572,169 +885,594 @@
             </div>
         </div>
         
-        <div class="footer text-center">
-            <p class="mb-2">© 2023 Lentera Karya Situbondo - Sistem Manajemen Produksi</p>
-            <div class="developer-info">
-                <p>Dikembangkan oleh <a href="#">Tim Pengembang Lentera Karya</a> | <a href="#">Kebijakan Privasi</a> | <a href="#">Syarat & Ketentuan</a></p>
-            </div>
+        <div class="text-center p-4 bg-light">
+            &copy; 2023 Dinas Peternakan dan Perikanan Kabupaten Situbondo. All rights reserved.
         </div>
     </div>
-
+    
+    <!-- Floating Action Button -->
+    <div class="floating-action-btn d-none" id="floatingActionBtn">
+        <i class="fas fa-plus"></i>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification success d-none" id="successNotification">
+        <i class="fas fa-check-circle me-2 text-success"></i>
+        <span id="notificationMessage">Operasi berhasil dilakukan</span>
+    </div>
+    
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Initialize particles.js
+        // Variabel global untuk menyimpan state sebelumnya
+        let previousFormState = {};
+        
+        // Daftar password yang valid
+        const validPasswords = [
+            "S01634851", "V02468642", "X03579753", "I04445555", 
+            "Z05252525", "L06644228", "E07722277", "H08877665", 
+            "J09753123", "A01234567", "B02345678", "C03456789",
+            "D04567890", "F05678901", "G06789012", "K07890123",
+            "M08901234", "N09012345", "O00123456", "P01234567",
+            "Q02345678", "R03456789", "T04567890", "U05678901",
+            "W06789012", "Y07890123"
+        ];
+        
+        // Main Application Code
         document.addEventListener('DOMContentLoaded', function() {
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: "#ffffff" },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.5, random: true },
-                    size: { value: 3, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#ffffff",
-                        opacity: 0.4,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 2,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "grab" },
-                        onclick: { enable: true, mode: "push" },
-                        resize: true
-                    }
-                },
-                retina_detect: true
-            });
-            
-            // Show login modal when login button is clicked
-            document.getElementById('loginBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('loginModal').style.display = 'flex';
-            });
-            
-            // Close login modal
-            document.getElementById('closeLoginModal').addEventListener('click', function() {
-                document.getElementById('loginModal').style.display = 'none';
-            });
-            
-            // Toggle password visibility
-            document.getElementById('togglePassword').addEventListener('click', function() {
-                const passwordInput = document.getElementById('password');
-                const eyeIcon = this.querySelector('i');
-                
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    eyeIcon.classList.remove('fa-eye');
-                    eyeIcon.classList.add('fa-eye-slash');
-                } else {
-                    passwordInput.type = 'password';
-                    eyeIcon.classList.remove('fa-eye-slash');
-                    eyeIcon.classList.add('fa-eye');
-                }
-            });
-            
-            // Handle login form submission
-            document.getElementById('submitLogin').addEventListener('click', function() {
-                const password = document.getElementById('password').value;
-                const loginError = document.getElementById('loginError');
-                const loginSuccess = document.getElementById('loginSuccess');
-                
-                // Hide notifications
-                loginError.style.display = 'none';
-                loginSuccess.style.display = 'none';
-                
-                // Validate password
-                if (isValidPassword(password)) {
-                    // Show success message
-                    loginSuccess.style.display = 'block';
-                    
-                    // Simulate loading
-                    this.disabled = true;
-                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
-                    
-                    // Redirect to dashboard after 2 seconds
-                    setTimeout(() => {
-                        document.getElementById('loginModal').style.display = 'none';
-                        document.getElementById('appContainer').style.display = 'block';
-                        document.querySelector('header').style.display = 'none';
-                        document.querySelector('.main-content').style.display = 'none';
-                        document.querySelector('footer').style.display = 'none';
-                        document.getElementById('particles-js').style.display = 'none';
-                        
-                        // Reset login form
-                        this.disabled = false;
-                        this.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk';
-                        document.getElementById('password').value = '';
-                    }, 2000);
-                } else {
-                    // Show error message
-                    loginError.style.display = 'block';
-                    document.getElementById('errorMessage').textContent = 'Kata sandi tidak valid. Silakan periksa format dan coba lagi.';
-                }
-            });
-            
-            // Handle logout
-            document.getElementById('logoutBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('appContainer').style.display = 'none';
-                document.querySelector('header').style.display = 'flex';
-                document.querySelector('.main-content').style.display = 'flex';
-                document.querySelector('footer').style.display = 'block';
-                document.getElementById('particles-js').style.display = 'block';
-            });
-            
-            // Close modal when clicking outside
-            window.addEventListener('click', function(e) {
-                if (e.target === document.getElementById('loginModal')) {
-                    document.getElementById('loginModal').style.display = 'none';
-                }
-            });
-            
-            // Password validation function - FIXED VERSION
-            function isValidPassword(password) {
-                // Check if password is exactly 9 characters long
-                if (password.length !== 9) {
-                    return false;
-                }
-                
-                // Check if first character is an uppercase letter (A-Z)
-                const firstChar = password.charAt(0);
-                if (!/^[A-Z]$/.test(firstChar)) {
-                    return false;
-                }
-                
-                // Check if second character is '0'
-                const secondChar = password.charAt(1);
-                if (secondChar !== '0') {
-                    return false;
-                }
-                
-                // Check if the next 7 characters are digits (0-9)
-                const remainingChars = password.substring(2);
-                if (!/^\d{7}$/.test(remainingChars)) {
-                    return false;
-                }
-                
-                return true;
+            // Check if user is already logged in
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                showApp();
+            } else {
+                showLogin();
             }
             
-            // Add default password for testing
-            document.getElementById('password').value = 'A01234567';
+            // Initialize login functionality
+            initLogin();
+            
+            // Initialize the application if logged in
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                initApp();
+            }
         });
+        
+        // Login Functions
+        function initLogin() {
+            const loginBtn = document.getElementById('loginBtn');
+            const passwordInput = document.getElementById('password');
+            const togglePasswordBtn = document.getElementById('togglePassword');
+            const attemptsCountElement = document.getElementById('attemptsCount');
+            const countdownElement = document.getElementById('countdown');
+            
+            // Get login attempts from localStorage or set to 0
+            let loginAttempts = parseInt(localStorage.getItem('loginAttempts') || '0');
+            attemptsCountElement.textContent = loginAttempts;
+            
+            // Check if login is blocked
+            const blockUntil = localStorage.getItem('loginBlockUntil');
+            if (blockUntil && new Date().getTime() < parseInt(blockUntil)) {
+                blockLogin();
+            }
+            
+            // Toggle password visibility
+            togglePasswordBtn.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    togglePasswordBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    togglePasswordBtn.innerHTML = '<i class="fas fa-eye"></i>';
+                }
+            });
+            
+            // Handle login
+            loginBtn.addEventListener('click', function() {
+                const password = passwordInput.value.trim();
+                
+                // Validate password format
+                if (!/^[A-Z]0\d{7}$/.test(password)) {
+                    showNotification('Format password salah. Harus diawali huruf kapital, diikuti angka 0, dan 7 digit angka.', 'error');
+                    return;
+                }
+                
+                // Check if password is valid
+                if (validPasswords.includes(password)) {
+                    // Successful login
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('loginAttempts', '0');
+                    showNotification('Login berhasil!', 'success');
+                    setTimeout(showApp, 1000);
+                } else {
+                    // Failed login
+                    loginAttempts++;
+                    localStorage.setItem('loginAttempts', loginAttempts.toString());
+                    attemptsCountElement.textContent = loginAttempts;
+                    
+                    if (loginAttempts >= 5) {
+                        // Block login for 5 minutes
+                        const blockUntil = new Date().getTime() + 5 * 60 * 1000;
+                        localStorage.setItem('loginBlockUntil', blockUntil.toString());
+                        blockLogin();
+                        showNotification('Login dibekukan selama 5 menit karena 5x percobaan gagal.', 'error');
+                    } else {
+                        showNotification(`Password salah! Percobaan ${loginAttempts} dari 5.`, 'error');
+                    }
+                }
+            });
+            
+            // Auto login if Enter key is pressed in password field
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loginBtn.click();
+                }
+            });
+        }
+        
+        function blockLogin() {
+            const loginBtn = document.getElementById('loginBtn');
+            const countdownElement = document.getElementById('countdown');
+            const countdownTimer = document.getElementById('countdownTimer');
+            
+            loginBtn.disabled = true;
+            countdownElement.classList.remove('d-none');
+            
+            const blockUntil = parseInt(localStorage.getItem('loginBlockUntil'));
+            const interval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = blockUntil - now;
+                
+                if (distance <= 0) {
+                    clearInterval(interval);
+                    localStorage.removeItem('loginBlockUntil');
+                    loginBtn.disabled = false;
+                    countdownElement.classList.add('d-none');
+                    return;
+                }
+                
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                countdownTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        
+        function showLogin() {
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('appContainer').style.display = 'none';
+        }
+        
+        function showApp() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+            initApp();
+        }
+        
+        // Application Functions
+        function initApp() {
+            // Initialize navigation
+            initNavigation();
+            
+            // Initialize form functionality
+            initForm();
+            
+            // Initialize dashboard
+            updateDashboard();
+            
+            // Initialize logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('isLoggedIn');
+                showLogin();
+                showNotification('Anda telah logout.', 'info');
+            });
+            
+            // Initialize floating action button
+            document.getElementById('floatingActionBtn').addEventListener('click', function() {
+                showSection('input');
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector('[data-section="input"]').classList.add('active');
+            });
+        }
+        
+        function initNavigation() {
+            // Handle navigation clicks
+            document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show the corresponding section
+                    const section = this.getAttribute('data-section');
+                    showSection(section);
+                });
+            });
+            
+            // Show dashboard by default
+            showSection('dashboard');
+        }
+        
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(sec => {
+                sec.classList.add('d-none');
+            });
+            
+            // Show the selected section
+            document.getElementById(section + 'Section').classList.remove('d-none');
+            
+            // Show/hide floating action button
+            if (section === 'input') {
+                document.getElementById('floatingActionBtn').classList.remove('d-none');
+            } else {
+                document.getElementById('floatingActionBtn').classList.add('d-none');
+            }
+        }
+        
+        function initForm() {
+            const mailForm = document.getElementById('mailForm');
+            const resetBtn = document.getElementById('resetBtn');
+            const undoBtn = document.getElementById('undoBtn');
+            const testLinkBtn = document.getElementById('testLinkBtn');
+            
+            // Store initial form state
+            storeFormState();
+            
+            // Handle form submission
+            mailForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const mailData = {
+                    id: document.getElementById('editId').value || Date.now().toString(),
+                    type: document.getElementById('mailType').value,
+                    number: document.getElementById('mailNumber').value,
+                    date: document.getElementById('mailDate').value,
+                    actionDate: document.getElementById('mailActionDate').value,
+                    party: document.getElementById('mailParty').value,
+                    category: document.getElementById('mailCategory').value,
+                    subject: document.getElementById('mailSubject').value,
+                    description: document.getElementById('mailDescription').value,
+                    link: document.getElementById('mailLink').value,
+                    status: 'pending',
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                saveMailData(mailData);
+                
+                // Reset form
+                mailForm.reset();
+                document.getElementById('editId').value = '';
+                
+                // Update dashboard and table
+                updateDashboard();
+                renderMailTable();
+                
+                // Show success message
+                showNotification('Data surat berhasil disimpan!', 'success');
+                
+                // Store new form state
+                storeFormState();
+                updateUndoButton();
+            });
+            
+            // Handle reset button
+            resetBtn.addEventListener('click', function() {
+                mailForm.reset();
+                document.getElementById('editId').value = '';
+                storeFormState();
+                updateUndoButton();
+            });
+            
+            // Handle undo button
+            undoBtn.addEventListener('click', function() {
+                restoreFormState();
+                updateUndoButton();
+            });
+            
+            // Handle test link button
+            testLinkBtn.addEventListener('click', function() {
+                const link = document.getElementById('mailLink').value;
+                if (link) {
+                    window.open(link, '_blank');
+                } else {
+                    showNotification('Tautan kosong. Silakan masukkan tautan terlebih dahulu.', 'error');
+                }
+            });
+            
+            // Initialize mail table
+            renderMailTable();
+            
+            // Initialize search and filter
+            document.getElementById('searchBtn').addEventListener('click', function() {
+                renderMailTable();
+            });
+            
+            document.getElementById('filterType').addEventListener('change', function() {
+                renderMailTable();
+            });
+            
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    renderMailTable();
+                }
+            });
+        }
+        
+        function storeFormState() {
+            previousFormState = {
+                type: document.getElementById('mailType').value,
+                number: document.getElementById('mailNumber').value,
+                date: document.getElementById('mailDate').value,
+                actionDate: document.getElementById('mailActionDate').value,
+                party: document.getElementById('mailParty').value,
+                category: document.getElementById('mailCategory').value,
+                subject: document.getElementById('mailSubject').value,
+                description: document.getElementById('mailDescription').value,
+                link: document.getElementById('mailLink').value
+            };
+        }
+        
+        function restoreFormState() {
+            document.getElementById('mailType').value = previousFormState.type;
+            document.getElementById('mailNumber').value = previousFormState.number;
+            document.getElementById('mailDate').value = previousFormState.date;
+            document.getElementById('mailActionDate').value = previousFormState.actionDate;
+            document.getElementById('mailParty').value = previousFormState.party;
+            document.getElementById('mailCategory').value = previousFormState.category;
+            document.getElementById('mailSubject').value = previousFormState.subject;
+            document.getElementById('mailDescription').value = previousFormState.description;
+            document.getElementById('mailLink').value = previousFormState.link;
+        }
+        
+        function updateUndoButton() {
+            const undoBtn = document.getElementById('undoBtn');
+            const hasPreviousState = Object.values(previousFormState).some(val => val !== '');
+            undoBtn.disabled = !hasPreviousState;
+        }
+        
+        function saveMailData(mailData) {
+            let mails = JSON.parse(localStorage.getItem('mailData') || '[]');
+            
+            // Check if we're editing an existing mail
+            const existingIndex = mails.findIndex(mail => mail.id === mailData.id);
+            if (existingIndex !== -1) {
+                mails[existingIndex] = mailData;
+            } else {
+                mails.push(mailData);
+            }
+            
+            localStorage.setItem('mailData', JSON.stringify(mails));
+        }
+        
+        function getMailData() {
+            return JSON.parse(localStorage.getItem('mailData') || '[]');
+        }
+        
+        function renderMailTable() {
+            const tableBody = document.getElementById('mailTableBody');
+            const mails = getMailData();
+            
+            // Apply filters
+            const filterType = document.getElementById('filterType').value;
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filteredMails = mails;
+            
+            if (filterType) {
+                filteredMails = filteredMails.filter(mail => mail.type === filterType);
+            }
+            
+            if (searchText) {
+                filteredMails = filteredMails.filter(mail => 
+                    mail.number.toLowerCase().includes(searchText) ||
+                    mail.subject.toLowerCase().includes(searchText) ||
+                    mail.party.toLowerCase().includes(searchText)
+                );
+            }
+            
+            // Sort by date (newest first)
+            filteredMails.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            // Render table
+            if (filteredMails.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center">Tidak ada data surat</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            filteredMails.forEach((mail, index) => {
+                const row = document.createElement('tr');
+                
+                // Format date for display
+                const mailDate = new Date(mail.date).toLocaleDateString('id-ID');
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><span class="badge ${mail.type === 'masuk' ? 'badge-primary' : 'badge-success'}">${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</span></td>
+                    <td>${mail.number}</td>
+                    <td>${mailDate}</td>
+                    <td>${mail.subject}</td>
+                    <td><span class="badge ${getCategoryBadgeClass(mail.category)}">${getCategoryLabel(mail.category)}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary" onclick="editMail('${mail.id}')" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-success" onclick="viewMail('${mail.id}')" title="Lihat">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteMail('${mail.id}')" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function getCategoryBadgeClass(category) {
+            switch(category) {
+                case 'resmi': return 'badge-primary';
+                case 'penting': return 'badge-warning';
+                case 'biasa': return 'badge-secondary';
+                case 'rahasia': return 'badge-danger';
+                default: return 'badge-secondary';
+            }
+        }
+        
+        function getCategoryLabel(category) {
+            switch(category) {
+                case 'resmi': return 'Resmi';
+                case 'penting': return 'Penting';
+                case 'biasa': return 'Biasa';
+                case 'rahasia': return 'Rahasia';
+                default: return category;
+            }
+        }
+        
+        function editMail(id) {
+            const mails = getMailData();
+            const mail = mails.find(m => m.id === id);
+            
+            if (mail) {
+                document.getElementById('editId').value = mail.id;
+                document.getElementById('mailType').value = mail.type;
+                document.getElementById('mailNumber').value = mail.number;
+                document.getElementById('mailDate').value = mail.date;
+                document.getElementById('mailActionDate').value = mail.actionDate;
+                document.getElementById('mailParty').value = mail.party;
+                document.getElementById('mailCategory').value = mail.category;
+                document.getElementById('mailSubject').value = mail.subject;
+                document.getElementById('mailDescription').value = mail.description;
+                document.getElementById('mailLink').value = mail.link;
+                
+                // Scroll to form
+                showSection('input');
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector('[data-section="input"]').classList.add('active');
+                
+                // Store form state for undo
+                storeFormState();
+                updateUndoButton();
+            }
+        }
+        
+        function viewMail(id) {
+            const mails = getMailData();
+            const mail = mails.find(m => m.id === id);
+            
+            if (mail) {
+                // In a real application, you might open a modal or new page to view the mail details
+                alert(`Detail Surat:\n\nJenis: ${mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar'}\nNomor: ${mail.number}\nTanggal: ${new Date(mail.date).toLocaleDateString('id-ID')}\nPerihal: ${mail.subject}\nKategori: ${getCategoryLabel(mail.category)}\nPenerima/Pengirim: ${mail.party}\nKeterangan: ${mail.description}\nTautan: ${mail.link || 'Tidak ada'}`);
+            }
+        }
+        
+        function deleteMail(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus data surat ini?')) {
+                let mails = getMailData();
+                mails = mails.filter(mail => mail.id !== id);
+                localStorage.setItem('mailData', JSON.stringify(mails));
+                
+                // Update UI
+                renderMailTable();
+                updateDashboard();
+                
+                showNotification('Data surat berhasil dihapus!', 'success');
+            }
+        }
+        
+        function updateDashboard() {
+            const mails = getMailData();
+            
+            // Count by type
+            const incomingCount = mails.filter(mail => mail.type === 'masuk').length;
+            const outgoingCount = mails.filter(mail => mail.type === 'keluar').length;
+            
+            // Count by status
+            const pendingCount = mails.filter(mail => mail.status === 'pending').length;
+            const processedCount = mails.length - pendingCount;
+            
+            // Update dashboard numbers
+            document.getElementById('totalIncoming').textContent = incomingCount;
+            document.getElementById('totalOutgoing').textContent = outgoingCount;
+            document.getElementById('totalPending').textContent = pendingCount;
+            document.getElementById('totalProcessed').textContent = processedCount;
+            
+            // Update recent activities
+            updateRecentActivities(mails);
+        }
+        
+        function updateRecentActivities(mails) {
+            const activitiesContainer = document.getElementById('recentActivities');
+            
+            // Sort by timestamp (newest first)
+            const sortedMails = [...mails].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            // Get top 5
+            const recentMails = sortedMails.slice(0, 5);
+            
+            if (recentMails.length === 0) {
+                activitiesContainer.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            activitiesContainer.innerHTML = '';
+            recentMails.forEach(mail => {
+                const row = document.createElement('tr');
+                
+                // Format dates for display
+                const mailDate = new Date(mail.date).toLocaleDateString('id-ID');
+                const actionDate = new Date(mail.actionDate).toLocaleDateString('id-ID');
+                
+                row.innerHTML = `
+                    <td>${actionDate}</td>
+                    <td>${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</td>
+                    <td>${mail.number}</td>
+                    <td>${mail.subject}</td>
+                    <td><span class="badge ${mail.status === 'pending' ? 'badge-warning' : 'badge-success'}">${mail.status === 'pending' ? 'Pending' : 'Diproses'}</span></td>
+                `;
+                
+                activitiesContainer.appendChild(row);
+            });
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.getElementById('successNotification');
+            const messageElement = document.getElementById('notificationMessage');
+            
+            // Set message and type
+            messageElement.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            // Auto hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Global functions for template buttons
+        window.editMail = editMail;
+        window.viewMail = viewMail;
+        window.deleteMail = deleteMail;
     </script>
 </body>
 </html>
