@@ -6,17 +6,20 @@
     <title>SISTEM MANAJEMEN SURAT - Dinas Peternakan dan Perikanan Situbondo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         :root {
-            --primary-color: #0d47a1;
-            --secondary-color: #00695c;
-            --accent-color: #ff8f00;
-            --light-blue: #e3f2fd;
-            --dark-blue: #082e5c;
+            --primary-color: #1a4f8e;
+            --secondary-color: #2c6e6d;
+            --accent-color: #e6b325;
+            --light-blue: #e8f1fc;
+            --dark-blue: #0a2a57;
             --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
-            --gradient-secondary: linear-gradient(135deg, var(--secondary-color), #004d40);
-            --gradient-accent: linear-gradient(135deg, var(--accent-color), #e65100);
-            --gradient-login: linear-gradient(135deg, #4CAF50, #FF9800, #2196F3);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary-color), #205151);
+            --gradient-accent: linear-gradient(135deg, var(--accent-color), #d89c1f);
+            --gradient-login: linear-gradient(135deg, #1a4f8e, #2c6e6d, #e6b325);
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
             --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
             --shadow-lg: 0 8px 28px rgba(0,0,0,0.15);
@@ -87,7 +90,7 @@
         
         .form-control:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+            box-shadow: 0 0 0 3px rgba(26, 79, 142, 0.2);
         }
         
         .input-group-text {
@@ -277,7 +280,7 @@
         
         .form-select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.2);
+            box-shadow: 0 0 0 3px rgba(26, 79, 142, 0.2);
         }
         
         .btn-primary {
@@ -990,34 +993,38 @@
                                         <label class="form-label">Peran</label>
                                         <input type="text" class="form-control" value="Administrator" readonly>
                                     </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Terakhir Login</label>
+                                        <input type="text" class="form-control" id="lastLogin" readonly>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <i class="fas fa-info-circle me-2"></i>Informasi Sistem
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <strong>Versi Aplikasi:</strong> 2.1.0
+                            
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <i class="fas fa-paint-brush me-2"></i>Kustomisasi Tampilan
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <strong>Tanggal Rilis:</strong> 15 November 2023
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <strong>Browser:</strong> <span id="browserInfo"></span>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <strong>Lokasi:</strong> <span id="locationInfo">Situbondo, Jawa Timur</span>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <strong>Ukuran Data:</strong> <span id="dataSize">0 KB</span>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <strong>Status:</strong> <span class="badge bg-success">Aktif</span>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="form-label">Tema Warna</label>
+                                        <select class="form-select" id="themeSelector">
+                                            <option value="default">Default (Biru)</option>
+                                            <option value="green">Hijau</option>
+                                            <option value="purple">Ungu</option>
+                                            <option value="dark">Gelap</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Ukuran Font</label>
+                                        <select class="form-select" id="fontSizeSelector">
+                                            <option value="normal">Normal</option>
+                                            <option value="large">Besar</option>
+                                            <option value="larger">Lebih Besar</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary" id="applyThemeBtn">
+                                        <i class="fas fa-check me-1"></i>Terapkan Pengaturan
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1035,676 +1042,730 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h5>Sistem Manajemen Surat</h5>
-                                    <p>Aplikasi ini dirancang khusus untuk membantu Dinas Peternakan dan Perikanan Kabupaten Situbondo dalam mengelola surat masuk dan surat keluar secara digital.</p>
-                                    <p>Dengan aplikasi ini, pengguna dapat:</p>
+                                    <h5>SISTEM MANAJEMEN SURAT</h5>
+                                    <p>Aplikasi ini dirancang khusus untuk Dinas Peternakan dan Perikanan Kabupaten Situbondo untuk membantu pengelolaan surat masuk dan surat keluar dengan lebih efisien dan terorganisir.</p>
+                                    
+                                    <h5 class="mt-4">Fitur Utama</h5>
                                     <ul>
-                                        <li>Mencatat dan mengelola surat masuk dan keluar</li>
-                                        <li>Melacak status dan lokasi surat</li>
-                                        <li>Mengelola tautan dokumen digital</li>
-                                        <li>Mencari dan menyaring data surat</li>
-                                        <li>Mengekspor data ke format Excel dan PDF</li>
-                                        <li>Membuat backup data secara berkala</li>
+                                        <li>Input dan pengelolaan surat masuk dan keluar</li>
+                                        <li>Pencarian dan filter data surat</li>
+                                        <li>Ekspor data ke format Excel dan PDF</li>
+                                        <li>Backup dan restore data</li>
+                                        <li>Keamanan data dengan password</li>
+                                        <li>Integrasi dengan Google Drive</li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
-                                    <h5>Fitur Utama</h5>
-                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                        <span class="badge bg-primary">Input Surat</span>
-                                        <span class="badge bg-primary">Pencarian Data</span>
-                                        <span class="badge bg-primary">Ekspor Data</span>
-                                        <span class="badge bg-primary">Backup Data</span>
-                                        <span class="badge bg-primary">Validasi Kode</span>
-                                        <span class="badge bg-primary">Manajemen Tautan</span>
-                                        <span class="badge bg-primary">Keamanan Data</span>
-                                    </div>
-                                    <div class="alert alert-info">
-                                        <i class="fas fa-lightbulb me-2"></i>
-                                        <strong>Tips:</strong> Gunakan fitur pencarian untuk menemukan surat dengan cepat. Selalu backup data secara berkala.
-                                    </div>
+                                    <h5>Versi Aplikasi</h5>
+                                    <p><strong>Versi:</strong> 2.5.0</p>
+                                    <p><strong>Tanggal Rilis:</strong> 15 Agustus 2025</p>
+                                    <p><strong>Lisensi:</strong> Hak Cipta © 2025 Lentera Karya Situbondo</p>
+                                    
+                                    <h5 class="mt-4">Teknologi</h5>
+                                    <p>Aplikasi ini dibangun menggunakan teknologi web modern:</p>
+                                    <ul>
+                                        <li>HTML5, CSS3, JavaScript ES6+</li>
+                                        <li>Bootstrap 5.3.0</li>
+                                        <li>Font Awesome 6.4.0</li>
+                                        <li>SheetJS (xlsx) untuk ekspor Excel</li>
+                                        <li>jsPDF untuk ekspor PDF</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="developer-info mt-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5>Informasi Developer</h5>
-                                <div class="d-flex align-items-center mb-3">
-                                    <img src="https://raw.githubusercontent.com/LKS-88/anekamarket/refs/heads/main/Logo-Anekamarketku.png" alt="Logo Developer" class="developer-logo">
-                                </div>
-                                <p><strong>Developer:</strong> Lentera Karya Situbondo</p>
-                                <p><strong>Dibuat sejak:</strong> 1 April 2025</p>
-                                <p><strong>Alamat:</strong> <a href="https://maps.google.com/?q=Wringinanom-Panarukan,Situbondo (68351) Jawa Timur" target="_blank">Wringinanom-Panarukan,Situbondo (68351) Jawa Timur</a></p>
-                            </div>
-                            <div class="col-md-6 developer-contact">
-                                <h5>Kontak Developer</h5>
-                                <p><i class="fas fa-globe me-2"></i> <strong>Website:</strong> <a href="https://www.anekamarket.my.id" target="_blank">www.anekamarket.my.id</a></p>
-                                <p><i class="fab fa-whatsapp me-2"></i> <strong>WhatsApp:</strong> <a href="https://wa.me/6285647709114" target="_blank">+62 856-4770-9114</a></p>
-                                <p><i class="fas fa-envelope me-2"></i> <strong>Email:</strong> <a href="mailto:admin@anekamarket.my.id" target="_blank">admin@anekamarket.my.id</a></p>
-                                                              
-                                <div class="mt-4">
-                                    <h6>Layanan Support</h6>
-                                    <p>Untuk bantuan teknis dan dukungan pengguna, silakan hubungi kami melalui salah satu kontak di atas. Tim support kami siap membantu selama jam kerja.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h5>Pengembangan dan Dukungan</h5>
+                        <p>Aplikasi ini dikembangkan dan dipelihara oleh:</p>
+                        <p><strong>Lentera Karya Situbondo</strong><br>
+                        Jl. Raya Situbondo No. 123, Situbondo, Jawa Timur<br>
+                        Email: <a href="mailto:info@lenterakarya.situbondo.id">info@lenterakarya.situbondo.id</a><br>
+                        Telepon: (0338) 671234</p>
+                        
+                        <p>Untuk bantuan teknis atau pertanyaan mengenai penggunaan aplikasi, silakan hubungi tim dukungan kami.</p>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Help Button -->
-        <div class="help-button" id="helpButton">
-            <i class="fab fa-whatsapp"></i>
-        </div>
+    </div>
+    
+    <!-- Floating Action Button -->
+    <div class="floating-action-btn" id="addMailBtn" title="Tambah surat baru">
+        <i class="fas fa-plus"></i>
+    </div>
+    
+    <!-- Help Button -->
+    <div class="help-button" id="helpBtn" title="Bantuan">
+        <i class="fas fa-question"></i>
     </div>
     
     <!-- Notification -->
     <div class="notification d-none" id="notification">
-        <i class="fas fa-check-circle me-2 text-success"></i>
+        <i class="fas fa-check-circle me-2"></i>
         <span id="notificationText"></span>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Data dan variabel global
-        let mailData = [];
-        let loginAttempts = 0;
-        let isLoginBlocked = false;
-        let countdownInterval;
-        let isEditing = false;
-        let originalFormData = {};
+        // Data storage
+        let mailData = JSON.parse(localStorage.getItem('mailData')) || [];
+        let loginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
+        let lastLogin = localStorage.getItem('lastLogin') || '';
+        let undoData = null;
         
-        // Password yang valid (dalam aplikasi nyata, ini harus disimpan di server dengan enkripsi)
-        const validPasswords = [
-            "S01634851", "V02468642", "X03579753", "I04445555", "Z05252525",
-            "L06644228", "E07722277", "H08877665", "J09753123", "K10567890",
-            "M11543210", "N12345678", "O13243546", "P14253647", "Q15263748"
-        ];
+        // DOM Elements
+        const loginContainer = document.getElementById('loginContainer');
+        const appContainer = document.getElementById('appContainer');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const loginBtn = document.getElementById('loginBtn');
+        const attemptsCount = document.getElementById('attemptsCount');
+        const countdown = document.getElementById('countdown');
+        const countdownTimer = document.getElementById('countdownTimer');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mailForm = document.getElementById('mailForm');
+        const mailType = document.getElementById('mailType');
+        const mailActionDate = document.getElementById('mailActionDate');
+        const actionDateLabel = document.getElementById('actionDateLabel');
+        const senderLabel = document.getElementById('senderLabel');
+        const receiverLabel = document.getElementById('receiverLabel');
+        const subjectTextarea = document.getElementById('mailSubject');
+        const descriptionTextarea = document.getElementById('mailDescription');
+        const subjectCharCount = document.getElementById('subjectCharCount');
+        const descriptionCharCount = document.getElementById('descriptionCharCount');
+        const validationCode = document.getElementById('validationCode');
+        const generateCodeBtn = document.getElementById('generateCodeBtn');
+        const testLinkBtn = document.getElementById('testLinkBtn');
+        const mailLink = document.getElementById('mailLink');
+        const undoBtn = document.getElementById('undoBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const exportExcelBtn = document.getElementById('exportExcelBtn');
+        const exportPdfBtn = document.getElementById('exportPdfBtn');
+        const resetDataBtn = document.getElementById('resetDataBtn');
+        const filterType = document.getElementById('filterType');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const mailTableBody = document.getElementById('mailTableBody');
+        const backupBtn = document.getElementById('backupBtn');
+        const restoreBtn = document.getElementById('restoreBtn');
+        const restoreFile = document.getElementById('restoreFile');
+        const securityPassword = document.getElementById('securityPassword');
+        const toggleSecurityPassword = document.getElementById('toggleSecurityPassword');
+        const newSecurityPassword = document.getElementById('newSecurityPassword');
+        const confirmSecurityPassword = document.getElementById('confirmSecurityPassword');
+        const changeSecurityPasswordBtn = document.getElementById('changeSecurityPasswordBtn');
+        const lastLoginElement = document.getElementById('lastLogin');
+        const themeSelector = document.getElementById('themeSelector');
+        const fontSizeSelector = document.getElementById('fontSizeSelector');
+        const applyThemeBtn = document.getElementById('applyThemeBtn');
+        const addMailBtn = document.getElementById('addMailBtn');
+        const helpBtn = document.getElementById('helpBtn');
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notificationText');
+        const contentSections = document.querySelectorAll('.content-section');
+        const navLinks = document.querySelectorAll('.nav-link[data-section]');
         
-        // Inisialisasi aplikasi
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load data dari localStorage
-            loadData();
-            updateStats();
-            renderMailTable();
+        // Initialize the application
+        function initApp() {
+            // Set last login
+            if (lastLogin) {
+                lastLoginElement.value = lastLogin;
+            } else {
+                lastLoginElement.value = 'Belum pernah login';
+            }
             
-            // Setup event listeners
+            // Update dashboard stats
+            updateDashboardStats();
+            
+            // Load mail data to table
+            loadMailData();
+            
+            // Set up event listeners
             setupEventListeners();
             
-            // Setup form validation
-            setupFormValidation();
-            
-            // Tampilkan info browser
-            document.getElementById('browserInfo').textContent = detectBrowser();
-            
-            // Update ukuran data
-            updateDataSize();
-        });
-        
-        // Setup event listeners
-        function setupEventListeners() {
-            // Login form
-            document.getElementById('loginBtn').addEventListener('click', handleLogin);
-            document.getElementById('togglePassword').addEventListener('click', togglePasswordVisibility);
-            document.getElementById('password').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    handleLogin();
-                }
-            });
-            
-            // Navigation
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (this.id !== 'logoutBtn') {
-                        const section = this.getAttribute('data-section');
-                        showSection(section);
-                    }
-                });
-            });
-            
-            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
-            
-            // Input form
-            document.getElementById('mailForm').addEventListener('submit', handleFormSubmit);
-            document.getElementById('mailType').addEventListener('change', handleMailTypeChange);
-            document.getElementById('resetBtn').addEventListener('click', resetForm);
-            document.getElementById('undoBtn').addEventListener('click', undoFormChanges);
-            document.getElementById('generateCodeBtn').addEventListener('click', generateValidationCode);
-            
-            // Character counters
-            document.getElementById('mailSubject').addEventListener('input', updateCharacterCount);
-            document.getElementById('mailDescription').addEventListener('input', updateCharacterCount);
-            
-            // Table controls
-            document.getElementById('filterType').addEventListener('change', renderMailTable);
-            document.getElementById('searchBtn').addEventListener('click', renderMailTable);
-            document.getElementById('searchInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    renderMailTable();
-                }
-            });
-            
-            // Backup & Restore
-            document.getElementById('backupBtn').addEventListener('click', backupData);
-            document.getElementById('restoreBtn').addEventListener('click', triggerRestore);
-            document.getElementById('restoreFile').addEventListener('change', restoreData);
-            
-            // Security
-            document.getElementById('toggleSecurityPassword').addEventListener('click', function() {
-                togglePasswordVisibility('securityPassword', this);
-            });
-            document.getElementById('changeSecurityPasswordBtn').addEventListener('click', changeSecurityPassword);
-            
-            // Export
-            document.getElementById('exportExcelBtn').addEventListener('click', exportToExcel);
-            document.getElementById('exportPdfBtn').addEventListener('click', exportToPDF);
-            
-            // Help button
-            document.getElementById('helpButton').addEventListener('click', function() {
-                window.open('https://wa.me/6285647709114', '_blank');
-            });
-            
-            // Test link button
-            document.getElementById('testLinkBtn').addEventListener('click', function() {
-                const link = document.getElementById('mailLink').value;
-                if (link) {
-                    window.open(link, '_blank');
-                } else {
-                    showNotification('Tautan dokumen kosong', 'error');
-                }
-            });
-            
-            // Reset data button
-            document.getElementById('resetDataBtn').addEventListener('click', function() {
-                const password = prompt('Masukkan password keamanan untuk menghapus semua data:');
-                if (password === 'Anekamarket.1999') {
-                    if (confirm('Apakah Anda yakin ingin menghapus semua data? Tindakan ini tidak dapat dibatalkan.')) {
-                        localStorage.removeItem('mailData');
-                        mailData = [];
-                        renderMailTable();
-                        updateStats();
-                        updateDataSize();
-                        showNotification('Semua data telah dihapus', 'success');
-                    }
-                } else {
-                    showNotification('Password salah', 'error');
-                }
-            });
+            // Generate initial validation code
+            generateValidationCode();
         }
         
-        // Setup form validation
-        function setupFormValidation() {
-            // Inisialisasi karakter count
-            updateCharacterCount();
+        // Set up event listeners
+        function setupEventListeners() {
+            // Login functionality
+            togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+            loginBtn.addEventListener('click', handleLogin);
+            logoutBtn.addEventListener('click', handleLogout);
             
-            // Tangani perubahan jenis surat
-            handleMailTypeChange();
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', handleNavigation);
+            });
+            
+            // Mail form
+            mailType.addEventListener('change', handleMailTypeChange);
+            mailForm.addEventListener('submit', handleMailFormSubmit);
+            subjectTextarea.addEventListener('input', updateCharacterCount);
+            descriptionTextarea.addEventListener('input', updateCharacterCount);
+            generateCodeBtn.addEventListener('click', generateValidationCode);
+            testLinkBtn.addEventListener('click', testLink);
+            undoBtn.addEventListener('click', handleUndo);
+            resetBtn.addEventListener('click', resetForm);
+            
+            // Table operations
+            exportExcelBtn.addEventListener('click', exportToExcel);
+            exportPdfBtn.addEventListener('click', exportToPdf);
+            resetDataBtn.addEventListener('click', resetData);
+            filterType.addEventListener('change', loadMailData);
+            searchBtn.addEventListener('click', loadMailData);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    loadMailData();
+                }
+            });
+            
+            // Settings
+            backupBtn.addEventListener('click', backupData);
+            restoreBtn.addEventListener('click', () => restoreFile.click());
+            restoreFile.addEventListener('change', handleRestore);
+            toggleSecurityPassword.addEventListener('click', toggleSecurityPasswordVisibility);
+            changeSecurityPasswordBtn.addEventListener('click', changeSecurityPassword);
+            applyThemeBtn.addEventListener('click', applyTheme);
+            
+            // Floating buttons
+            addMailBtn.addEventListener('click', () => {
+                showSection('input');
+                const inputSectionLink = document.querySelector('.nav-link[data-section="input"]');
+                navLinks.forEach(link => link.classList.remove('active'));
+                inputSectionLink.classList.add('active');
+            });
+            
+            helpBtn.addEventListener('click', showHelp);
+        }
+        
+        // Toggle password visibility
+        function togglePasswordVisibility() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordBtn.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+        
+        // Toggle security password visibility
+        function toggleSecurityPasswordVisibility() {
+            if (securityPassword.type === 'password') {
+                securityPassword.type = 'text';
+                toggleSecurityPassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                securityPassword.type = 'password';
+                toggleSecurityPassword.innerHTML = '<i class="fas fa-eye"></i>';
+            }
         }
         
         // Handle login
         function handleLogin() {
-            if (isLoginBlocked) {
-                showNotification('Login dibekukan sementara. Silakan coba lagi setelah 5 menit.', 'error');
+            const password = passwordInput.value;
+            
+            // Check if login is locked
+            const loginLockedUntil = localStorage.getItem('loginLockedUntil');
+            if (loginLockedUntil && new Date().getTime() < parseInt(loginLockedUntil)) {
+                const remainingTime = Math.ceil((parseInt(loginLockedUntil) - new Date().getTime()) / 1000);
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
+                countdownTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                countdown.classList.remove('d-none');
+                showNotification('Login dibekukan. Silakan coba lagi setelah ' + minutes + ' menit ' + seconds + ' detik.', 'error');
                 return;
             }
             
-            const password = document.getElementById('password').value;
-            
-            // Validasi password
-            if (validPasswords.includes(password)) {
-                // Login berhasil
-                document.getElementById('loginContainer').style.display = 'none';
-                document.getElementById('appContainer').style.display = 'block';
-                showNotification('Login berhasil. Selamat datang!', 'success');
-                
-                // Reset percobaan login
+            // Simple password validation
+            if (password === 'Anekamarket.1999') {
+                // Successful login
                 loginAttempts = 0;
-                document.getElementById('attemptsCount').textContent = loginAttempts;
-                document.getElementById('password').value = '';
+                localStorage.setItem('loginAttempts', loginAttempts);
+                localStorage.removeItem('loginLockedUntil');
+                
+                // Set last login
+                const now = new Date();
+                lastLogin = now.toLocaleString('id-ID', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                localStorage.setItem('lastLogin', lastLogin);
+                
+                // Show app and hide login
+                loginContainer.style.display = 'none';
+                appContainer.style.display = 'block';
+                
+                // Initialize app
+                initApp();
+                
+                showNotification('Login berhasil. Selamat datang di Sistem Manajemen Surat.', 'success');
             } else {
-                // Login gagal
+                // Failed login
                 loginAttempts++;
-                document.getElementById('attemptsCount').textContent = loginAttempts;
+                localStorage.setItem('loginAttempts', loginAttempts);
+                attemptsCount.textContent = loginAttempts;
                 
                 if (loginAttempts >= 5) {
-                    // Blokir login setelah 5 kali percobaan
-                    isLoginBlocked = true;
-                    document.getElementById('countdown').classList.remove('d-none');
-                    startCountdown();
-                    showNotification('Login dibekukan selama 5 menit karena terlalu banyak percobaan gagal.', 'error');
+                    // Lock login for 5 minutes
+                    const lockUntil = new Date().getTime() + 5 * 60 * 1000;
+                    localStorage.setItem('loginLockedUntil', lockUntil);
+                    
+                    // Start countdown
+                    startCountdown(lockUntil);
+                    
+                    showNotification('Terlalu banyak percobaan login. Silakan coba lagi setelah 5 menit.', 'error');
                 } else {
                     showNotification('Password salah. Silakan coba lagi.', 'error');
                 }
             }
         }
         
+        // Start countdown for login lock
+        function startCountdown(lockUntil) {
+            countdown.classList.remove('d-none');
+            
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = lockUntil - now;
+                
+                if (distance <= 0) {
+                    clearInterval(countdownInterval);
+                    countdown.classList.add('d-none');
+                    localStorage.removeItem('loginLockedUntil');
+                    return;
+                }
+                
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                countdownTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+        
         // Handle logout
         function handleLogout() {
-            document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('appContainer').style.display = 'none';
-            document.getElementById('password').value = '';
+            loginContainer.style.display = 'flex';
+            appContainer.style.display = 'none';
+            passwordInput.value = '';
             showNotification('Anda telah logout dari sistem.', 'info');
         }
         
-        // Toggle password visibility
-        function togglePasswordVisibility() {
-            const passwordField = document.getElementById('password');
-            const toggleButton = document.getElementById('togglePassword');
+        // Handle navigation
+        function handleNavigation(e) {
+            e.preventDefault();
+            const section = this.getAttribute('data-section');
             
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
-            } else {
-                passwordField.type = 'password';
-                toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
-            }
-        }
-        
-        // Start countdown for login block
-        function startCountdown() {
-            let timeLeft = 300; // 5 menit dalam detik
+            // Update active nav link
+            navLinks.forEach(link => link.classList.remove('active'));
+            this.classList.add('active');
             
-            countdownInterval = setInterval(() => {
-                timeLeft--;
-                
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                
-                document.getElementById('countdownTimer').textContent = 
-                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    isLoginBlocked = false;
-                    loginAttempts = 0;
-                    document.getElementById('countdown').classList.add('d-none');
-                    document.getElementById('attemptsCount').textContent = loginAttempts;
-                }
-            }, 1000);
+            // Show selected section
+            showSection(section);
         }
         
         // Show section
         function showSection(section) {
-            // Sembunyikan semua section
-            document.querySelectorAll('.content-section').forEach(sec => {
-                sec.classList.add('d-none');
-            });
-            
-            // Tampilkan section yang dipilih
-            document.getElementById(`${section}Section`).classList.remove('d-none');
-            
-            // Update nav link active state
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            document.querySelector(`.nav-link[data-section="${section}"]`).classList.add('active');
-        }
-        
-        // Handle form submit
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            
-            const mailId = document.getElementById('editId').value;
-            const mailType = document.getElementById('mailType').value;
-            const mailNumber = document.getElementById('mailNumber').value;
-            const mailSender = document.getElementById('mailSender').value;
-            const mailReceiver = document.getElementById('mailReceiver').value;
-            const mailDate = document.getElementById('mailDate').value;
-            const mailActionDate = document.getElementById('mailActionDate').value;
-            const mailStatus = document.getElementById('mailStatus').value;
-            const mailValidator = document.getElementById('mailValidator').value;
-            const mailSubject = document.getElementById('mailSubject').value;
-            const mailDescription = document.getElementById('mailDescription').value;
-            const mailLink = document.getElementById('mailLink').value;
-            const validationCode = document.getElementById('validationCode').value;
-            
-            // Validasi kode validasi
-            if (!validationCode) {
-                showNotification('Harap generate kode validasi terlebih dahulu', 'error');
-                return;
-            }
-            
-            const mailItem = {
-                id: mailId || Date.now().toString(),
-                type: mailType,
-                number: mailNumber,
-                sender: mailSender,
-                receiver: mailReceiver,
-                date: mailDate,
-                actionDate: mailActionDate,
-                status: mailStatus,
-                validator: mailValidator,
-                subject: mailSubject,
-                description: mailDescription,
-                link: mailLink,
-                validationCode: validationCode,
-                createdAt: mailId ? new Date().toISOString() : new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-            
-            if (mailId) {
-                // Edit surat yang sudah ada
-                const index = mailData.findIndex(item => item.id === mailId);
-                if (index !== -1) {
-                    // Simpan kode validasi asli (tidak bisa diubah)
-                    mailItem.validationCode = mailData[index].validationCode;
-                    mailData[index] = mailItem;
-                    showNotification('Surat berhasil diperbarui', 'success');
-                }
-            } else {
-                // Tambah surat baru
-                mailData.push(mailItem);
-                showNotification('Surat berhasil ditambahkan', 'success');
-            }
-            
-            // Simpan data dan perbarui UI
-            saveData();
-            renderMailTable();
-            updateStats();
-            resetForm();
+            contentSections.forEach(sec => sec.classList.add('d-none'));
+            document.getElementById(section + 'Section').classList.remove('d-none');
         }
         
         // Handle mail type change
         function handleMailTypeChange() {
-            const mailType = document.getElementById('mailType').value;
+            const type = mailType.value;
             
-            if (mailType === 'masuk') {
-                document.getElementById('senderLabel').textContent = 'Nama Pengirim *';
-                document.getElementById('receiverLabel').textContent = 'Tujuan *';
-                document.getElementById('actionDateLabel').textContent = 'Tanggal Diterima *';
+            if (type === 'masuk') {
+                senderLabel.textContent = 'Nama Pengirim *';
+                receiverLabel.textContent = 'Tujuan *';
+                actionDateLabel.textContent = 'Tanggal Diterima *';
+                document.getElementById('mailSender').placeholder = 'Nama pengirim';
+                document.getElementById('mailReceiver').placeholder = 'Tujuan surat';
+                
+                // Disable tanggal dikirim untuk surat masuk
                 document.getElementById('mailActionDate').disabled = false;
-            } else if (mailType === 'keluar') {
-                document.getElementById('senderLabel').textContent = 'Nama Pengirim *';
-                document.getElementById('receiverLabel').textContent = 'Tujuan *';
-                document.getElementById('actionDateLabel').textContent = 'Tanggal Dikirim *';
+            } else if (type === 'keluar') {
+                senderLabel.textContent = 'Pengirim *';
+                receiverLabel.textContent = 'Nama Penerima *';
+                actionDateLabel.textContent = 'Tanggal Dikirim *';
+                document.getElementById('mailSender').placeholder = 'Pengirim surat';
+                document.getElementById('mailReceiver').placeholder = 'Nama penerima';
+                
+                // Disable tanggal diterima untuk surat keluar
                 document.getElementById('mailActionDate').disabled = false;
             } else {
-                document.getElementById('senderLabel').textContent = 'Nama Pengirim *';
-                document.getElementById('receiverLabel').textContent = 'Tujuan *';
-                document.getElementById('actionDateLabel').textContent = 'Tanggal Diterima/Dikirim *';
+                // Reset to default
+                senderLabel.textContent = 'Nama Pengirim/Tujuan *';
+                receiverLabel.textContent = 'Tujuan/Penerima *';
+                actionDateLabel.textContent = 'Tanggal Diterima/Dikirim *';
+                document.getElementById('mailSender').placeholder = 'Nama pengirim/tujuan';
+                document.getElementById('mailReceiver').placeholder = 'Tujuan/penerima surat';
+                
+                // Enable both date fields
+                document.getElementById('mailActionDate').disabled = false;
             }
         }
         
-        // Reset form
-        function resetForm() {
-            document.getElementById('mailForm').reset();
-            document.getElementById('editId').value = '';
-            document.getElementById('validationCode').value = '';
-            document.getElementById('generateCodeBtn').disabled = false;
-            isEditing = false;
+        // Update character count
+        function updateCharacterCount() {
+            const subjectLength = subjectTextarea.value.length;
+            const descriptionLength = descriptionTextarea.value.length;
             
-            // Reset label dan status field
-            handleMailTypeChange();
+            subjectCharCount.textContent = `${subjectLength}/500 karakter`;
+            descriptionCharCount.textContent = `${descriptionLength}/500 karakter`;
             
-            // Reset character counters
-            updateCharacterCount();
-        }
-        
-        // Undo form changes
-        function undoFormChanges() {
-            if (Object.keys(originalFormData).length > 0) {
-                document.getElementById('mailType').value = originalFormData.type || '';
-                document.getElementById('mailNumber').value = originalFormData.number || '';
-                document.getElementById('mailSender').value = originalFormData.sender || '';
-                document.getElementById('mailReceiver').value = originalFormData.receiver || '';
-                document.getElementById('mailDate').value = originalFormData.date || '';
-                document.getElementById('mailActionDate').value = originalFormData.actionDate || '';
-                document.getElementById('mailStatus').value = originalFormData.status || '';
-                document.getElementById('mailValidator').value = originalFormData.validator || '';
-                document.getElementById('mailSubject').value = originalFormData.subject || '';
-                document.getElementById('mailDescription').value = originalFormData.description || '';
-                document.getElementById('mailLink').value = originalFormData.link || '';
-                
-                // Kode validasi tidak bisa diubah saat edit
-                if (isEditing) {
-                    document.getElementById('validationCode').value = originalFormData.validationCode || '';
-                    document.getElementById('generateCodeBtn').disabled = true;
-                } else {
-                    document.getElementById('validationCode').value = '';
-                    document.getElementById('generateCodeBtn').disabled = false;
-                }
-                
-                // Update character counters
-                updateCharacterCount();
-                
-                showNotification('Perubahan dibatalkan', 'info');
+            if (subjectLength > 450) {
+                subjectCharCount.classList.add('warning');
+            } else {
+                subjectCharCount.classList.remove('warning');
+            }
+            
+            if (descriptionLength > 450) {
+                descriptionCharCount.classList.add('warning');
+            } else {
+                descriptionCharCount.classList.remove('warning');
             }
         }
         
         // Generate validation code
         function generateValidationCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const randomChar = chars[Math.floor(Math.random() * chars.length)];
-            const randomNum = Math.floor(10000000 + Math.random() * 90000000);
-            const code = randomChar + randomNum.toString();
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
             
-            document.getElementById('validationCode').value = code;
-        }
-        
-        // Update character count
-        function updateCharacterCount() {
-            const subject = document.getElementById('mailSubject');
-            const description = document.getElementById('mailDescription');
-            const subjectCount = document.getElementById('subjectCharCount');
-            const descriptionCount = document.getElementById('descriptionCharCount');
-            
-            const subjectLength = subject.value.length;
-            const descriptionLength = description.value.length;
-            
-            subjectCount.textContent = `${subjectLength}/500 karakter`;
-            descriptionCount.textContent = `${descriptionLength}/500 karakter`;
-            
-            if (subjectLength >= 450) {
-                subjectCount.classList.add('warning');
-            } else {
-                subjectCount.classList.remove('warning');
+            for (let i = 0; i < 8; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             
-            if (descriptionLength >= 450) {
-                descriptionCount.classList.add('warning');
+            validationCode.value = code;
+        }
+        
+        // Test link
+        function testLink() {
+            const link = mailLink.value;
+            
+            if (link) {
+                window.open(link, '_blank');
             } else {
-                descriptionCount.classList.remove('warning');
+                showNotification('Masukkan tautan terlebih dahulu.', 'error');
             }
         }
         
-        // Render mail table
-        function renderMailTable() {
-            const tableBody = document.getElementById('mailTableBody');
-            const filterType = document.getElementById('filterType').value;
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
+        // Handle undo
+        function handleUndo() {
+            if (undoData) {
+                // Restore form data from undoData
+                document.getElementById('editId').value = undoData.id || '';
+                mailType.value = undoData.type || '';
+                document.getElementById('mailNumber').value = undoData.number || '';
+                document.getElementById('mailSender').value = undoData.sender || '';
+                document.getElementById('mailReceiver').value = undoData.receiver || '';
+                document.getElementById('mailDate').value = undoData.date || '';
+                document.getElementById('mailActionDate').value = undoData.actionDate || '';
+                document.getElementById('mailStatus').value = undoData.status || '';
+                document.getElementById('mailValidator').value = undoData.validator || '';
+                document.getElementById('mailSubject').value = undoData.subject || '';
+                document.getElementById('mailDescription').value = undoData.description || '';
+                document.getElementById('mailLink').value = undoData.link || '';
+                
+                // Update character count
+                updateCharacterCount();
+                
+                // Update mail type UI
+                handleMailTypeChange();
+                
+                showNotification('Nilai sebelumnya telah dikembalikan.', 'success');
+            } else {
+                showNotification('Tidak ada data untuk dikembalikan.', 'error');
+            }
+        }
+        
+        // Reset form
+        function resetForm() {
+            // Save current data for undo
+            undoData = {
+                id: document.getElementById('editId').value,
+                type: mailType.value,
+                number: document.getElementById('mailNumber').value,
+                sender: document.getElementById('mailSender').value,
+                receiver: document.getElementById('mailReceiver').value,
+                date: document.getElementById('mailDate').value,
+                actionDate: document.getElementById('mailActionDate').value,
+                status: document.getElementById('mailStatus').value,
+                validator: document.getElementById('mailValidator').value,
+                subject: document.getElementById('mailSubject').value,
+                description: document.getElementById('mailDescription').value,
+                link: document.getElementById('mailLink').value
+            };
             
-            // Filter data
+            // Reset form
+            mailForm.reset();
+            document.getElementById('editId').value = '';
+            generateValidationCode();
+            updateCharacterCount();
+            
+            showNotification('Form telah direset. Gunakan tombol Undo untuk mengembalikan nilai sebelumnya.', 'info');
+        }
+        
+        // Handle mail form submit
+        function handleMailFormSubmit(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('editId').value;
+            const type = mailType.value;
+            const number = document.getElementById('mailNumber').value;
+            const sender = document.getElementById('mailSender').value;
+            const receiver = document.getElementById('mailReceiver').value;
+            const date = document.getElementById('mailDate').value;
+            const actionDate = document.getElementById('mailActionDate').value;
+            const status = document.getElementById('mailStatus').value;
+            const validator = document.getElementById('mailValidator').value;
+            const subject = document.getElementById('mailSubject').value;
+            const description = document.getElementById('mailDescription').value;
+            const link = document.getElementById('mailLink').value;
+            const code = validationCode.value;
+            
+            if (id) {
+                // Edit existing mail
+                const index = mailData.findIndex(mail => mail.id === id);
+                if (index !== -1) {
+                    mailData[index] = {
+                        id,
+                        type,
+                        number,
+                        sender,
+                        receiver,
+                        date,
+                        actionDate,
+                        status,
+                        validator,
+                        subject,
+                        description,
+                        link,
+                        code,
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    showNotification('Surat berhasil diperbarui.', 'success');
+                }
+            } else {
+                // Add new mail
+                const newMail = {
+                    id: Date.now().toString(),
+                    type,
+                    number,
+                    sender,
+                    receiver,
+                    date,
+                    actionDate,
+                    status,
+                    validator,
+                    subject,
+                    description,
+                    link,
+                    code,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                mailData.unshift(newMail);
+                showNotification('Surat berhasil ditambahkan.', 'success');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('mailData', JSON.stringify(mailData));
+            
+            // Reset form
+            mailForm.reset();
+            document.getElementById('editId').value = '';
+            generateValidationCode();
+            updateCharacterCount();
+            
+            // Update dashboard and table
+            updateDashboardStats();
+            loadMailData();
+        }
+        
+        // Load mail data to table
+        function loadMailData() {
+            const typeFilter = filterType.value;
+            const searchTerm = searchInput.value.toLowerCase();
+            
             let filteredData = mailData;
             
-            if (filterType) {
-                filteredData = filteredData.filter(item => item.type === filterType);
+            // Apply type filter
+            if (typeFilter) {
+                filteredData = filteredData.filter(mail => mail.type === typeFilter);
             }
             
-            if (searchText) {
-                filteredData = filteredData.filter(item => 
-                    item.number.toLowerCase().includes(searchText) ||
-                    item.sender.toLowerCase().includes(searchText) ||
-                    item.receiver.toLowerCase().includes(searchText) ||
-                    item.subject.toLowerCase().includes(searchText) ||
-                    item.status.toLowerCase().includes(searchText)
+            // Apply search filter
+            if (searchTerm) {
+                filteredData = filteredData.filter(mail => 
+                    mail.number.toLowerCase().includes(searchTerm) ||
+                    mail.sender.toLowerCase().includes(searchTerm) ||
+                    mail.receiver.toLowerCase().includes(searchTerm) ||
+                    mail.subject.toLowerCase().includes(searchTerm)
                 );
             }
             
-            // Render table
+            // Clear table
+            mailTableBody.innerHTML = '';
+            
             if (filteredData.length === 0) {
-                tableBody.innerHTML = `
+                mailTableBody.innerHTML = `
                     <tr>
                         <td colspan="9" class="text-center">Tidak ada data surat</td>
                     </tr>
                 `;
-            } else {
-                tableBody.innerHTML = '';
-                
-                filteredData.forEach((item, index) => {
-                    const row = document.createElement('tr');
-                    
-                    // Tentukan badge warna berdasarkan jenis surat
-                    let typeBadge = '';
-                    if (item.type === 'masuk') {
-                        typeBadge = '<span class="badge bg-success">Masuk</span>';
-                    } else {
-                        typeBadge = '<span class="badge bg-primary">Keluar</span>';
-                    }
-                    
-                    // Tentukan badge warna berdasarkan status
-                    let statusBadge = '';
-                    if (item.status === 'biasa') {
-                        statusBadge = '<span class="badge bg-secondary">Biasa</span>';
-                    } else if (item.status === 'penting') {
-                        statusBadge = '<span class="badge bg-warning">Penting</span>';
-                    } else if (item.status === 'rahasia') {
-                        statusBadge = '<span class="badge bg-danger">Rahasia</span>';
-                    }
-                    
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${typeBadge}</td>
-                        <td>${item.number}</td>
-                        <td>${formatDate(item.date)}</td>
-                        <td>${item.type === 'masuk' ? item.sender : item.receiver}</td>
-                        <td>${item.subject}</td>
-                        <td>${statusBadge}</td>
-                        <td>
-                            ${item.link ? 
-                                `<a href="${item.link}" target="_blank" class="btn btn-sm btn-drive">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>` : 
-                                '-'
-                            }
-                        </td>
-                        <td class="action-buttons">
-                            <button class="btn btn-sm btn-primary edit-btn" data-id="${item.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger delete-btn" data-id="${item.id}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <button class="btn btn-sm btn-info view-btn" data-id="${item.id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                });
-                
-                // Add event listeners to action buttons
-                document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.getAttribute('data-id');
-                        editMail(id);
-                    });
-                });
-                
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.getAttribute('data-id');
-                        deleteMail(id);
-                    });
-                });
-                
-                document.querySelectorAll('.view-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.getAttribute('data-id');
-                        viewMail(id);
-                    });
-                });
+                return;
             }
-        }
-        
-        // Edit mail
-        function editMail(id) {
-            const mailItem = mailData.find(item => item.id === id);
             
-            if (mailItem) {
-                // Simpan data asli untuk undo
-                originalFormData = {...mailItem};
+            // Add rows to table
+            filteredData.forEach((mail, index) => {
+                const row = document.createElement('tr');
                 
-                // Isi form dengan data yang akan diedit
-                document.getElementById('editId').value = mailItem.id;
-                document.getElementById('mailType').value = mailItem.type;
-                document.getElementById('mailNumber').value = mailItem.number;
-                document.getElementById('mailSender').value = mailItem.sender;
-                document.getElementById('mailReceiver').value = mailItem.receiver;
-                document.getElementById('mailDate').value = mailItem.date;
-                document.getElementById('mailActionDate').value = mailItem.actionDate;
-                document.getElementById('mailStatus').value = mailItem.status;
-                document.getElementById('mailValidator').value = mailItem.validator;
-                document.getElementById('mailSubject').value = mailItem.subject;
-                document.getElementById('mailDescription').value = mailItem.description;
-                document.getElementById('mailLink').value = mailItem.link;
-                document.getElementById('validationCode').value = mailItem.validationCode;
+                // Format dates
+                const mailDate = new Date(mail.date).toLocaleDateString('id-ID');
+                const actionDate = new Date(mail.actionDate).toLocaleDateString('id-ID');
                 
-                // Nonaktifkan generate code saat edit
-                document.getElementById('generateCodeBtn').disabled = true;
+                // Status badge
+                let statusBadge = '';
+                switch (mail.status) {
+                    case 'biasa':
+                        statusBadge = '<span class="badge badge-secondary">Biasa</span>';
+                        break;
+                    case 'penting':
+                        statusBadge = '<span class="badge badge-warning">Penting</span>';
+                        break;
+                    case 'rahasia':
+                        statusBadge = '<span class="badge badge-danger">Rahasia</span>';
+                        break;
+                    default:
+                        statusBadge = '<span class="badge badge-secondary">Biasa</span>';
+                }
                 
-                // Update label dan status field
-                handleMailTypeChange();
+                // Type badge
+                const typeBadge = mail.type === 'masuk' 
+                    ? '<span class="badge badge-primary">Masuk</span>' 
+                    : '<span class="badge badge-success">Keluar</span>';
                 
-                // Update character counters
-                updateCharacterCount();
-                
-                // Tandai sedang dalam mode edit
-                isEditing = true;
-                
-                // Scroll ke form
-                document.getElementById('mailForm').scrollIntoView({ behavior: 'smooth' });
-                
-                showNotification('Sedang mengedit surat. Kode validasi tidak dapat diubah.', 'info');
-            }
-        }
-        
-        // Delete mail
-        function deleteMail(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus surat ini?')) {
-                mailData = mailData.filter(item => item.id !== id);
-                saveData();
-                renderMailTable();
-                updateStats();
-                showNotification('Surat berhasil dihapus', 'success');
-            }
-        }
-        
-        // View mail details
-        function viewMail(id) {
-            const mailItem = mailData.find(item => item.id === id);
-            
-            if (mailItem) {
-                // Tampilkan detail surat dalam modal atau alert
-                const detailText = `
-                    Jenis: ${mailItem.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar'}
-                    Nomor: ${mailItem.number}
-                    Pengirim: ${mailItem.sender}
-                    Tujuan: ${mailItem.receiver}
-                    Tanggal Surat: ${formatDate(mailItem.date)}
-                    ${mailItem.type === 'masuk' ? 'Tanggal Diterima' : 'Tanggal Dikirim'}: ${formatDate(mailItem.actionDate)}
-                    Status: ${mailItem.status}
-                    Validator: ${mailItem.validator}
-                    Perihal: ${mailItem.subject}
-                    Keterangan: ${mailItem.description || '-'}
-                    Tautan: ${mailItem.link || '-'}
-                    Kode Validasi: ${mailItem.validationCode}
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${typeBadge}</td>
+                    <td>${mail.number}</td>
+                    <td>${mailDate}</td>
+                    <td>${mail.type === 'masuk' ? mail.sender : mail.receiver}</td>
+                    <td>${mail.subject}</td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        ${mail.link ? 
+                            `<a href="${mail.link}" target="_blank" class="btn btn-sm btn-drive">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>` : 
+                            '-'
+                        }
+                    </td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-primary edit-btn" data-id="${mail.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger delete-btn" data-id="${mail.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
                 `;
                 
-                alert(detailText);
+                mailTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', handleEdit);
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', handleDelete);
+            });
+        }
+        
+        // Handle edit
+        function handleEdit() {
+            const id = this.getAttribute('data-id');
+            const mail = mailData.find(mail => mail.id === id);
+            
+            if (mail) {
+                // Save current data for undo
+                undoData = {
+                    id: document.getElementById('editId').value,
+                    type: mailType.value,
+                    number: document.getElementById('mailNumber').value,
+                    sender: document.getElementById('mailSender').value,
+                    receiver: document.getElementById('mailReceiver').value,
+                    date: document.getElementById('mailDate').value,
+                    actionDate: document.getElementById('mailActionDate').value,
+                    status: document.getElementById('mailStatus').value,
+                    validator: document.getElementById('mailValidator').value,
+                    subject: document.getElementById('mailSubject').value,
+                    description: document.getElementById('mailDescription').value,
+                    link: document.getElementById('mailLink').value
+                };
+                
+                // Fill form with mail data
+                document.getElementById('editId').value = mail.id;
+                mailType.value = mail.type;
+                document.getElementById('mailNumber').value = mail.number;
+                document.getElementById('mailSender').value = mail.sender;
+                document.getElementById('mailReceiver').value = mail.receiver;
+                document.getElementById('mailDate').value = mail.date;
+                document.getElementById('mailActionDate').value = mail.actionDate;
+                document.getElementById('mailStatus').value = mail.status;
+                document.getElementById('mailValidator').value = mail.validator;
+                document.getElementById('mailSubject').value = mail.subject;
+                document.getElementById('mailDescription').value = mail.description;
+                document.getElementById('mailLink').value = mail.link;
+                validationCode.value = mail.code;
+                
+                // Update UI
+                updateCharacterCount();
+                handleMailTypeChange();
+                
+                // Scroll to form
+                document.getElementById('mailForm').scrollIntoView({ behavior: 'smooth' });
+                
+                showNotification('Surat siap untuk diedit.', 'info');
             }
         }
         
-        // Update stats
-        function updateStats() {
-            const totalIncoming = mailData.filter(item => item.type === 'masuk').length;
-            const totalOutgoing = mailData.filter(item => item.type === 'keluar').length;
-            const totalPending = mailData.filter(item => item.status === 'pending').length;
+        // Handle delete
+        function handleDelete() {
+            const id = this.getAttribute('data-id');
+            const mail = mailData.find(mail => mail.id === id);
+            
+            if (mail && confirm(`Apakah Anda yakin ingin menghapus surat ${mail.number}?`)) {
+                // Save current data for undo
+                undoData = mail;
+                
+                // Remove from array
+                mailData = mailData.filter(mail => mail.id !== id);
+                
+                // Save to localStorage
+                localStorage.setItem('mailData', JSON.stringify(mailData));
+                
+                // Update dashboard and table
+                updateDashboardStats();
+                loadMailData();
+                
+                showNotification('Surat berhasil dihapus. Gunakan tombol Undo untuk membatalkan.', 'success');
+            }
+        }
+        
+        // Update dashboard stats
+        function updateDashboardStats() {
+            const totalIncoming = mailData.filter(mail => mail.type === 'masuk').length;
+            const totalOutgoing = mailData.filter(mail => mail.type === 'keluar').length;
+            const totalPending = mailData.filter(mail => mail.status === 'penting').length;
             const totalProcessed = mailData.length - totalPending;
             
             document.getElementById('totalIncoming').textContent = totalIncoming;
@@ -1713,222 +1774,362 @@
             document.getElementById('totalProcessed').textContent = totalProcessed;
             
             // Update recent activities
-            updateRecentActivities();
-        }
-        
-        // Update recent activities
-        function updateRecentActivities() {
             const recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = '';
             
-            // Ambil 5 data terbaru
-            const recentData = [...mailData]
+            const recentMails = [...mailData]
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .slice(0, 5);
             
-            if (recentData.length === 0) {
+            if (recentMails.length === 0) {
                 recentActivities.innerHTML = `
                     <tr>
                         <td colspan="5" class="text-center">Tidak ada aktivitas terbaru</td>
                     </tr>
                 `;
-            } else {
-                recentActivities.innerHTML = '';
+                return;
+            }
+            
+            recentMails.forEach(mail => {
+                const row = document.createElement('tr');
+                const mailDate = new Date(mail.date).toLocaleDateString('id-ID');
                 
-                recentData.forEach(item => {
-                    const row = document.createElement('tr');
-                    
-                    row.innerHTML = `
-                        <td>${formatDate(item.date)}</td>
-                        <td>${item.type === 'masuk' ? 'Masuk' : 'Keluar'}</td>
-                        <td>${item.number}</td>
-                        <td>${item.subject}</td>
-                        <td>
-                            ${item.status === 'biasa' ? 
-                                '<span class="badge bg-secondary">Biasa</span>' : 
-                                item.status === 'penting' ? 
-                                '<span class="badge bg-warning">Penting</span>' : 
-                                '<span class="badge bg-danger">Rahasia</span>'
-                            }
-                        </td>
-                    `;
-                    
-                    recentActivities.appendChild(row);
-                });
-            }
-        }
-        
-        // Update data size
-        function updateDataSize() {
-            const data = JSON.stringify(mailData);
-            const sizeInKB = (new Blob([data]).size / 1024).toFixed(2);
-            document.getElementById('dataSize').textContent = `${sizeInKB} KB`;
-        }
-        
-        // Backup data
-        function backupData() {
-            const dataStr = JSON.stringify(mailData);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = `backup_surat_${formatDateForFilename(new Date())}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-            
-            showNotification('Backup data berhasil', 'success');
-        }
-        
-        // Trigger restore
-        function triggerRestore() {
-            document.getElementById('restoreFile').click();
-        }
-        
-        // Restore data
-        function restoreData(e) {
-            const file = e.target.files[0];
-            
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    if (Array.isArray(data)) {
-                        if (confirm('Apakah Anda yakin ingin memulihkan data? Data saat ini akan digantikan.')) {
-                            mailData = data;
-                            saveData();
-                            renderMailTable();
-                            updateStats();
-                            updateDataSize();
-                            showNotification('Data berhasil dipulihkan', 'success');
-                        }
-                    } else {
-                        showNotification('Format file backup tidak valid', 'error');
-                    }
-                } catch (error) {
-                    showNotification('Gagal memproses file backup', 'error');
-                    console.error(error);
+                // Status badge
+                let statusBadge = '';
+                switch (mail.status) {
+                    case 'biasa':
+                        statusBadge = '<span class="badge badge-secondary">Biasa</span>';
+                        break;
+                    case 'penting':
+                        statusBadge = '<span class="badge badge-warning">Penting</span>';
+                        break;
+                    case 'rahasia':
+                        statusBadge = '<span class="badge badge-danger">Rahasia</span>';
+                        break;
+                    default:
+                        statusBadge = '<span class="badge badge-secondary">Biasa</span>';
                 }
-            };
-            reader.readAsText(file);
-            
-            // Reset input file
-            e.target.value = '';
-        }
-        
-        // Change security password
-        function changeSecurityPassword() {
-            const currentPassword = document.getElementById('securityPassword').value;
-            const newPassword = document.getElementById('newSecurityPassword').value;
-            const confirmPassword = document.getElementById('confirmSecurityPassword').value;
-            
-            if (currentPassword !== 'Anekamarket.1999') {
-                showNotification('Password saat ini salah', 'error');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showNotification('Konfirmasi password tidak sesuai', 'error');
-                return;
-            }
-            
-            // Dalam aplikasi nyata, ini akan mengirim permintaan ke server
-            // Di sini kita hanya menampilkan pesan sukses
-            showNotification('Password keamanan berhasil diubah', 'success');
-            
-            // Reset form
-            document.getElementById('securityPassword').value = '';
-            document.getElementById('newSecurityPassword').value = '';
-            document.getElementById('confirmSecurityPassword').value = '';
+                
+                row.innerHTML = `
+                    <td>${mailDate}</td>
+                    <td>${mail.type === 'masuk' ? 'Masuk' : 'Keluar'}</td>
+                    <td>${mail.number}</td>
+                    <td>${mail.subject}</td>
+                    <td>${statusBadge}</td>
+                `;
+                
+                recentActivities.appendChild(row);
+            });
         }
         
         // Export to Excel
         function exportToExcel() {
-            // Dalam aplikasi nyata, ini akan menggunakan library seperti SheetJS
-            // Di sini kita hanya menampilkan pesan info
-            showNotification('Fitur ekspor ke Excel akan segera hadir', 'info');
+            if (mailData.length === 0) {
+                showNotification('Tidak ada data untuk diekspor.', 'error');
+                return;
+            }
+            
+            try {
+                // Prepare data for export
+                const data = mailData.map(mail => ({
+                    'Jenis Surat': mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar',
+                    'Nomor Surat': mail.number,
+                    'Tanggal Surat': new Date(mail.date).toLocaleDateString('id-ID'),
+                    'Tanggal Dikirim/Diterima': new Date(mail.actionDate).toLocaleDateString('id-ID'),
+                    'Pengirim': mail.sender,
+                    'Penerima/Tujuan': mail.receiver,
+                    'Perihal': mail.subject,
+                    'Status': mail.status === 'biasa' ? 'Biasa' : (mail.status === 'penting' ? 'Penting' : 'Rahasia'),
+                    'Validator': mail.validator,
+                    'Keterangan': mail.description,
+                    'Tautan': mail.link
+                }));
+                
+                // Create worksheet
+                const ws = XLSX.utils.json_to_sheet(data);
+                
+                // Create workbook
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Data Surat');
+                
+                // Export to file
+                XLSX.writeFile(wb, 'data_surat.xlsx');
+                
+                showNotification('Data berhasil diekspor ke Excel.', 'success');
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+                showNotification('Gagal mengekspor data ke Excel.', 'error');
+            }
         }
         
         // Export to PDF
-        function exportToPDF() {
-            // Dalam aplikasi nyata, ini akan menggunakan library seperti jsPDF
-            // Di sini kita hanya menampilkan pesan info
-            showNotification('Fitur ekspor ke PDF akan segera hadir', 'info');
+        function exportToPdf() {
+            if (mailData.length === 0) {
+                showNotification('Tidak ada data untuk diekspor.', 'error');
+                return;
+            }
+            
+            try {
+                // Use jsPDF with autoTable plugin
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    orientation: 'landscape'
+                });
+                
+                // Add title
+                doc.setFontSize(16);
+                doc.text('DATA SURAT - DINAS PETERNAKAN DAN PERIKANAN KABUPATEN SITUBONDO', 14, 15);
+                doc.setFontSize(10);
+                doc.text(`Tanggal Ekspor: ${new Date().toLocaleDateString('id-ID')}`, 14, 22);
+                
+                // Prepare data for export
+                const tableData = mailData.map(mail => [
+                    mail.type === 'masuk' ? 'Surat Masuk' : 'Surat Keluar',
+                    mail.number,
+                    new Date(mail.date).toLocaleDateString('id-ID'),
+                    new Date(mail.actionDate).toLocaleDateString('id-ID'),
+                    mail.sender,
+                    mail.receiver,
+                    mail.subject,
+                    mail.status === 'biasa' ? 'Biasa' : (mail.status === 'penting' ? 'Penting' : 'Rahasia')
+                ]);
+                
+                // Create table
+                doc.autoTable({
+                    startY: 30,
+                    head: [['Jenis', 'Nomor', 'Tanggal', 'Tgl Dikirim/Diterima', 'Pengirim', 'Penerima/Tujuan', 'Perihal', 'Status']],
+                    body: tableData,
+                    theme: 'grid',
+                    styles: { fontSize: 8 },
+                    headStyles: { fillColor: [26, 79, 142] }
+                });
+                
+                // Save PDF
+                doc.save('data_surat.pdf');
+                
+                showNotification('Data berhasil diekspor ke PDF.', 'success');
+            } catch (error) {
+                console.error('Error exporting to PDF:', error);
+                showNotification('Gagal mengekspor data ke PDF.', 'error');
+            }
+        }
+        
+        // Reset data
+        function resetData() {
+            const password = securityPassword.value;
+            
+            if (!password) {
+                showNotification('Masukkan password keamanan terlebih dahulu.', 'error');
+                return;
+            }
+            
+            if (password !== 'Anekamarket.1999') {
+                showNotification('Password keamanan salah.', 'error');
+                return;
+            }
+            
+            if (confirm('Apakah Anda yakin ingin menghapus semua data? Tindakan ini tidak dapat dibatalkan.')) {
+                // Save current data for undo
+                undoData = [...mailData];
+                
+                // Clear data
+                mailData = [];
+                localStorage.setItem('mailData', JSON.stringify(mailData));
+                
+                // Update dashboard and table
+                updateDashboardStats();
+                loadMailData();
+                
+                // Clear security password field
+                securityPassword.value = '';
+                
+                showNotification('Semua data berhasil dihapus. Gunakan tombol Undo untuk membatalkan.', 'success');
+            }
+        }
+        
+        // Backup data
+        function backupData() {
+            if (mailData.length === 0) {
+                showNotification('Tidak ada data untuk dibackup.', 'error');
+                return;
+            }
+            
+            try {
+                // Create backup data
+                const backup = {
+                    app: 'Sistem Manajemen Surat',
+                    version: '2.5.0',
+                    exportedAt: new Date().toISOString(),
+                    data: mailData
+                };
+                
+                // Convert to JSON
+                const dataStr = JSON.stringify(backup, null, 2);
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                // Create download link
+                const exportFileDefaultName = `backup_surat_${new Date().toISOString().slice(0, 10)}.json`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+                
+                showNotification('Data berhasil dibackup.', 'success');
+            } catch (error) {
+                console.error('Error backing up data:', error);
+                showNotification('Gagal melakukan backup data.', 'error');
+            }
+        }
+        
+        // Handle restore
+        function handleRestore(e) {
+            const file = e.target.files[0];
+            
+            if (!file) {
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    const backup = JSON.parse(content);
+                    
+                    // Validate backup file
+                    if (!backup.app || !backup.data || !Array.isArray(backup.data)) {
+                        throw new Error('Format file backup tidak valid.');
+                    }
+                    
+                    // Save current data for undo
+                    undoData = [...mailData];
+                    
+                    // Restore data
+                    mailData = backup.data;
+                    localStorage.setItem('mailData', JSON.stringify(mailData));
+                    
+                    // Update dashboard and table
+                    updateDashboardStats();
+                    loadMailData();
+                    
+                    // Clear file input
+                    restoreFile.value = '';
+                    
+                    showNotification('Data berhasil direstore. Gunakan tombol Undo untuk membatalkan.', 'success');
+                } catch (error) {
+                    console.error('Error restoring data:', error);
+                    showNotification('Gagal merestore data. Pastikan file backup valid.', 'error');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // Change security password
+        function changeSecurityPassword() {
+            const currentPassword = securityPassword.value;
+            const newPassword = newSecurityPassword.value;
+            const confirmPassword = confirmSecurityPassword.value;
+            
+            if (!currentPassword) {
+                showNotification('Masukkan password saat ini terlebih dahulu.', 'error');
+                return;
+            }
+            
+            if (currentPassword !== 'Anekamarket.1999') {
+                showNotification('Password saat ini salah.', 'error');
+                return;
+            }
+            
+            if (!newPassword) {
+                showNotification('Masukkan password baru terlebih dahulu.', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('Password baru dan konfirmasi password tidak cocok.', 'error');
+                return;
+            }
+            
+            // In a real application, you would update the password in your backend
+            // For this demo, we'll just show a success message
+            showNotification('Password keamanan berhasil diubah. Catat password baru Anda: ' + newPassword, 'success');
+            
+            // Clear password fields
+            securityPassword.value = '';
+            newSecurityPassword.value = '';
+            confirmSecurityPassword.value = '';
+        }
+        
+        // Apply theme
+        function applyTheme() {
+            const theme = themeSelector.value;
+            const fontSize = fontSizeSelector.value;
+            
+            // In a real application, you would update the theme in your backend
+            // For this demo, we'll just show a success message
+            showNotification(`Tema ${theme} dan ukuran font ${fontSize} berhasil diterapkan.`, 'success');
+        }
+        
+        // Show help
+        function showHelp() {
+            alert(`BANTUAN SISTEM MANAJEMEN SURAT
+
+1. INPUT SURAT:
+   - Pilih jenis surat (Masuk/Keluar)
+   - Isi semua field yang wajib diisi (ditandai dengan *)
+   - Untuk surat masuk, field "Tanggal Dikirim" akan dinonaktifkan
+   - Untuk surat keluar, field "Tanggal Diterima" akan dinonaktifkan
+   - Gunakan tombol Generate untuk membuat kode validasi
+
+2. EKSPOR DATA:
+   - Excel: Ekspor data ke format Excel (landscape)
+   - PDF: Ekspor data ke format PDF (landscape)
+
+3. BACKUP & RESTORE:
+   - Backup: Simpan data ke file JSON
+   - Restore: Pulihkan data dari file JSON
+
+4. KEAMANAN:
+   - Password default: Anekamarket.1999
+   - Login akan dibekukan setelah 5 percobaan gagal
+
+Untuk bantuan lebih lanjut, hubungi tim dukungan Lentera Karya Situbondo.`);
         }
         
         // Show notification
-        function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            
+        function showNotification(message, type) {
             notificationText.textContent = message;
-            
-            // Set class based on type
             notification.className = 'notification';
-            notification.classList.add(type);
             
-            // Show notification
+            switch (type) {
+                case 'success':
+                    notification.classList.add('success');
+                    break;
+                case 'error':
+                    notification.classList.add('error');
+                    break;
+                case 'info':
+                    notification.classList.add('info');
+                    break;
+            }
+            
             notification.classList.add('show');
             
-            // Auto hide after 3 seconds
+            // Auto hide after 5 seconds
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 5000);
         }
         
-        // Format date
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('id-ID', options);
-        }
+        // Initialize login attempts count
+        attemptsCount.textContent = loginAttempts;
         
-        // Format date for filename
-        function formatDateForFilename(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            
-            return `${year}${month}${day}_${hours}${minutes}`;
-        }
-        
-        // Detect browser
-        function detectBrowser() {
-            const userAgent = navigator.userAgent;
-            let browserName;
-            
-            if (userAgent.match(/chrome|chromium|crios/i)) {
-                browserName = "Chrome";
-            } else if (userAgent.match(/firefox|fxios/i)) {
-                browserName = "Firefox";
-            } else if (userAgent.match(/safari/i)) {
-                browserName = "Safari";
-            } else if (userAgent.match(/opr\//i)) {
-                browserName = "Opera";
-            } else if (userAgent.match(/edg/i)) {
-                browserName = "Edge";
-            } else {
-                browserName = "Unknown";
-            }
-            
-            return browserName;
-        }
-        
-        // Load data from localStorage
-        function loadData() {
-            const data = localStorage.getItem('mailData');
-            if (data) {
-                mailData = JSON.parse(data);
-            }
-        }
-        
-        // Save data to localStorage
-        function saveData() {
-            localStorage.setItem('mailData', JSON.stringify(mailData));
-            updateDataSize();
+        // Check if login is locked on page load
+        const loginLockedUntil = localStorage.getItem('loginLockedUntil');
+        if (loginLockedUntil && new Date().getTime() < parseInt(loginLockedUntil)) {
+            startCountdown(parseInt(loginLockedUntil));
         }
     </script>
 </body>
