@@ -2093,7 +2093,7 @@
         ];
         
         // DOM Ready
-        document.addEventListener('DOMContentLoaded', function() {
+         document.addEventListener('DOMContentLoaded', function() {
             // Inisialisasi aplikasi
             initializeApp();
             
@@ -2112,13 +2112,13 @@
         });
         
         // Fungsi inisialisasi aplikasi
-        function initializeApp() {
+          function initializeApp() {
             // Isi dropdown tahun (2020-2090)
             fillYearDropdowns();
             
-            // Isi dropdown kecamatan dan desa
+            // Isi dropdown kecamatan dan desa - DIPERBAIKI
             fillKecamatanDropdown();
-            fillDesaDropdown();
+            fillDesaDropdown(); // Memastikan dropdown desa terisi saat inisialisasi
             
             // Set tahun default ke tahun sekarang
             const currentYear = new Date().getFullYear();
@@ -2197,7 +2197,7 @@
         }
         
         // Fungsi untuk mengisi dropdown desa
-        function fillDesaDropdown() {
+         function fillDesaDropdown() {
             const desaSelects = ['desa', 'filterDesa'];
             
             for (const selectId of desaSelects) {
@@ -2595,19 +2595,19 @@
             // Reset dropdown desa
             desaSelect.innerHTML = '<option value="">Pilih Desa</option>';
             
-            // Daftar desa berdasarkan kecamatan (simulasi)
-            let desaList = [];
-            if (kecamatan === 'Kecamatan A') {
-                desaList = ['Desa A1', 'Desa A2', 'Desa A3'];
-            } else if (kecamatan === 'Kecamatan B') {
-                desaList = ['Desa B1', 'Desa B2', 'Desa B3'];
-            } else if (kecamatan === 'Kecamatan C') {
-                desaList = ['Desa C1', 'Desa C2', 'Desa C3'];
-            } else {
-                desaList = ['Desa A', 'Desa B', 'Desa C', 'Desa D', 'Desa E'];
+            // Jika tidak ada kecamatan yang dipilih, tampilkan semua desa
+            if (!kecamatan) {
+                for (const desa of desaList) {
+                    const option = document.createElement('option');
+                    option.value = desa;
+                    option.textContent = desa;
+                    desaSelect.appendChild(option);
+                }
+                return;
             }
             
-            // Isi dropdown desa
+            // Daftar desa berdasarkan kecamatan (dalam aplikasi nyata, ini akan disesuaikan)
+            // Untuk sementara, tampilkan semua desa tanpa filter
             for (const desa of desaList) {
                 const option = document.createElement('option');
                 option.value = desa;
@@ -2616,7 +2616,7 @@
             }
         }
         
-        // Fungsi untuk update dropdown desa filter berdasarkan kecamatan
+        // Fungsi untuk update dropdown desa filter berdasarkan kecamatan - DIPERBAIKI
         function updateFilterDesaDropdown() {
             const kecamatan = document.getElementById('filterKecamatan').value;
             const desaSelect = document.getElementById('filterDesa');
@@ -2624,19 +2624,19 @@
             // Reset dropdown desa
             desaSelect.innerHTML = '<option value="">Semua Desa</option>';
             
-            // Daftar desa berdasarkan kecamatan (simulasi)
-            let desaList = [];
-            if (kecamatan === 'Kecamatan A') {
-                desaList = ['Desa A1', 'Desa A2', 'Desa A3'];
-            } else if (kecamatan === 'Kecamatan B') {
-                desaList = ['Desa B1', 'Desa B2', 'Desa B3'];
-            } else if (kecamatan === 'Kecamatan C') {
-                desaList = ['Desa C1', 'Desa C2', 'Desa C3'];
-            } else {
-                desaList = ['Desa A', 'Desa B', 'Desa C', 'Desa D', 'Desa E'];
+            // Jika tidak ada kecamatan yang dipilih, tampilkan semua desa
+            if (!kecamatan) {
+                for (const desa of desaList) {
+                    const option = document.createElement('option');
+                    option.value = desa;
+                    option.textContent = desa;
+                    desaSelect.appendChild(option);
+                }
+                return;
             }
             
-            // Isi dropdown desa
+            // Daftar desa berdasarkan kecamatan (dalam aplikasi nyata, ini akan disesuaikan)
+            // Untuk sementara, tampilkan semua desa tanpa filter
             for (const desa of desaList) {
                 const option = document.createElement('option');
                 option.value = desa;
