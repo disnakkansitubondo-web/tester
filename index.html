@@ -2755,16 +2755,17 @@
             // Update pagination
             updatePagination(dataToRender.length);
             
-            // Tambahkan event listener untuk nomor WhatsApp
+           // Tambahkan event listener untuk nomor WhatsApp - DIPERBAIKI
             document.querySelectorAll('.whatsapp-number').forEach(element => {
-                element.addEventListener('click', function() {
-                    const phoneNumber = this.getAttribute('data-phone');
-                    if (phoneNumber) {
-                        window.open(`https://wa.me/${phoneNumber}`, '_blank');
-                    }
-                });
+            element.addEventListener('click', function() {
+                const phoneNumber = this.getAttribute('data-phone');
+                if (phoneNumber) {
+                    // Perbaikan format nomor WhatsApp untuk deep link
+                    const cleanPhone = phoneNumber.replace(/\D/g, '');
+                    window.open(`https://wa.me/${cleanPhone}`, '_blank');
+                }
             });
-        }
+        });
         
         // Fungsi untuk update pagination
         function updatePagination(totalItems) {
@@ -3190,57 +3191,198 @@
             showNotification('PDF Siap', 'Laporan PDF telah berhasil diunduh.', 'success');
         }
         
-        // Fungsi untuk print direct
+        // Fungsi untuk print langsung - DIPERBAIKI
         function printDirect() {
-            window.print();
+            const dataToPrint = isFilterActive ? filteredData : appData;
+            
+            if (dataToPrint.length === 0) {
+                showNotification('Tidak ada data untuk dicetak', 'warning');
+                return;
+            }
+            
+            // Buat konten untuk dicetak
+            let printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Cetak Data Bantuan</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { text-align: center; margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                        .print-info { margin-bottom: 20px; text-align: center; }
+                    </style>
+                </head>
+                <body>
+                    <h1>LAPORAN DATA BANTUAN</h1>
+                    <div class="print-info">
+                        <p>Total Data: ${dataToPrint.length}</p>
+                        <p>Dicetak pada: ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>NIK</th>
+                                <th>WhatsApp</th>
+                                <th>Kelompok</th>
+                                <th>Jabatan</th>
+                                <th>Tahun</th>
+                                <th>Kecamatan</th>
+                                <th>Desa</th>
+                                <th>Jenis</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            // Tambahkan data
+            dataToPrint.forEach((data, index) => {
+                printContent += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${data.nama}</td>
+                        <td>${data.nik}</td>
+                        <td>${data.whatsapp ? data.whatsapp.replace('62', '0') : '-'}</td>
+                        <td>${data.namaKelompok || '-'}</td>
+                        <td>${data.jabatan || '-'}</td>
+                        <td>${data.tahunAnggaran}</td>
+                        <td>${data.kecamatan}</td>
+                        <td>${data.desa}</td>
+                        <td>${data.jenisBantuan}</td>
+                        <td>${data.jumlahBantuan} ${data.satuanBantuan}</td>
+                        <td>${formatDate(data.tanggalTerima)}</td>
+                    </tr>
+                `;
+            });
+            
+            printContent += `
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+            
+            // Buka jendela cetak
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            
+            // Tunggu konten dimuat sebelum mencetak
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+            
+            showNotification('Mempersiapkan cetakan...', 'info');
         }
         
         // Fungsi untuk show preview
         function showPreview() {
-            if (appData.length === 0) {
-                showNotification('Tidak ada data', 'Tidak ada data untuk dipratinjau.', 'warning');
+            const dataToPreview = isFilterActive ? filteredData : appData;
+            
+            if (dataToPreview.length === 0) {
+                showNotification('Tidak ada data untuk dipratinjau', 'warning');
                 return;
             }
             
+            const previewBody = document.getElementById('previewBody');
+            previewBody.innerHTML = '';
+            
+            // Tambahkan data ke preview
+            dataToPreview.forEach((data, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${data.nama}</td>
+                    <td>${data.nik}</td>
+                    <td>${data.whatsapp ? data.whatsapp.replace('62', '0') : '-'}</td>
+                    <td>${data.namaKelompok || '-'}</td>
+                    <td>${data.jabatan || '-'}</td>
+                    <td>${data.tahunAnggaran}</td>
+                    <td>${data.kecamatan}</td>
+                    <td>${data.desa}</td>
+                    <td>${data.jenisBantuan}</td>
+                    <td>${data.jumlahBantuan} ${data.satuanBantuan}</td>
+                    <td>${formatDate(data.tanggalTerima)}</td>
+                `;
+                previewBody.appendChild(row);
+            });
+            
+            // Update info preview
+            document.getElementById('previewInfo').textContent = `Total Data: ${dataToPreview.length}`;
+            
+            // Tampilkan modal preview
             const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
             
-            // Isi konten pratinjau
-            const printTahun = document.getElementById('printTahun').value;
-            const printKecamatan = document.getElementById('printKecamatan').value;
-            const printJenis = document.getElementById('printJenis').value;
-            const printFormat = document.getElementById('printFormat').value;
+            showNotification('Pratinjau laporan siap', 'success');
+        }
+        
+        // Fungsi untuk print dari preview - DIPERBAIKI
+        function printFromPreview() {
+            const printContent = document.getElementById('previewModal').innerHTML;
+            const printWindow = window.open('', '_blank');
             
-            // Filter data berdasarkan pengaturan
-            let dataToPrint = appData;
-            if (printTahun) {
-                dataToPrint = dataToPrint.filter(data => data.tahunAnggaran == printTahun);
-            }
-            if (printKecamatan) {
-                dataToPrint = dataToPrint.filter(data => data.kecamatan === printKecamatan);
-            }
-            if (printJenis) {
-                dataToPrint = dataToPrint.filter(data => data.jenisBantuan === printJenis);
-            }
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Cetak Data Bantuan</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { text-align: center; margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                        .print-info { margin-bottom: 20px; text-align: center; }
+                        .modal-header, .modal-footer { display: none; }
+                    </style>
+                </head>
+                <body>
+                    <h1>LAPORAN DATA BANTUAN</h1>
+                    <div class="print-info">
+                        <p>Total Data: ${isFilterActive ? filteredData.length : appData.length}</p>
+                        <p>Dicetak pada: ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>NIK</th>
+                                <th>WhatsApp</th>
+                                <th>Kelompok</th>
+                                <th>Jabatan</th>
+                                <th>Tahun</th>
+                                <th>Kecamatan</th>
+                                <th>Desa</th>
+                                <th>Jenis</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${document.getElementById('previewBody').innerHTML}
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `);
             
-            if (dataToPrint.length === 0) {
-                showNotification('Tidak ada data', 'Tidak ada data yang sesuai dengan filter.', 'warning');
-                return;
-            }
+            printWindow.document.close();
             
-            // Buat konten pratinjau
-            let previewContent = `
-                <div class="print-header">
-                    <h4 class="print-title">LAPORAN DATA BANTUAN</h4>
-                    <p class="print-subtitle">Sistem Bantuan Terpadu (BARJAS)</p>
-                    <p class="print-subtitle">Kabupaten Situbondo</p>
-                    <p class="print-date">${formatDate(new Date().toISOString())}</p>
-                </div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-            `;
+            // Tunggu konten dimuat sebelum mencetak
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+        }
             
             // Tambahkan kolom berdasarkan format
             if (printFormat !== 'hanya-nama') {
