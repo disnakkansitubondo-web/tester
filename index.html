@@ -2070,6 +2070,28 @@
         let blockTimeout;
         let generatedCodes = {}; // Menyimpan kode yang sudah digenerate per NIK
         
+        // Data desa dan kecamatan
+        const kecamatanList = [
+            "Arjasa", "Asembagus", "Banyuglugur", "Banyuputih", "Besuki", 
+            "Bungatan", "Jangkar", "Jatibanteng", "Kapongan", "Kendit", 
+            "Mangaran", "Mlandingan", "Panarukan", "Panji", "Situbondo", 
+            "Suboh", "Sumbermalang"
+        ];
+        
+        const desaList = [
+            "Agel", "Alas Bayur", "Alasmalang", "Alastengah", "Arjasa", "Ardirejo", "Asembagus", 
+            "Awar-awar", "Awang-awang", "Baderan", "Balung", "Bantal", "Battal", "Bayeman", "Besuki", "Bletok", "Blimbing", "Bloro", "Buduan", "Bugeman", "Bungatan", 
+            "Campoan", "Cemara", "Curah Cottok", "Curah Jeru", "Curah Kalak", "Curah Suri", "Curah Tatal", "Dawuhan", "Demung", "Duwet", "Gadingan", "Gebangan", 
+            "Gelung", "Gudang", "Gunung Malang", "Gunung Putri", "Jangkar", "Jatisari", "Jatibanteng", "Jetis", "Juglangan", "Kalianget", "Kalibagor", "Kalimas", 
+            "Kalirejo", "Kalisari", "Kandang", "Kayu Putih", "Kayumas", "Kedungdowo", "Kedunglo", "Kembangsari", "Ketah", "Ketowan", "Kilensari", "Klampokan", 
+            "Klatakan", "Kotakan", "Kumbangsari", "Kukusan", "Lamongan", "Landangan", "Langkap", "Lebeng", "Lubawang", "Mangaran", "Mimbaan", "Mlandingan Kulon", 
+            "Mlandingan Wetan", "Mojodungkol", "Mojosari", "Olean", "Palangan", "Panarukan", "Panji Kidul", "Panji Lor", "Parante", "Pasir Putih", "Patemon", 
+            "Patokan", "Paowan", "Peleyan", "Pesisir", "Pesanggrahan", "Pategalan", "Patemon", "Plalangan", "Pokaan", "Rajekwesi", "Seletreng", "Selobanteng", 
+            "Selomukti", "Selowogo", "Semambung", "Semiring", "Sliwung", "Sopet", "Sumber Pinang", "Sumberanyar", "Sumberargo", "Sumberkolak", "Sumberejo", 
+            "Sumbertengah", "Sumberwaru", "Tamankursi", "Tamansari", "Taman", "Talkandang", "Tanjung Glugur", "Tanjung Kamal", "Tanjung Pecinan", "Tambak Ukir", 
+            "Telempong", "Tenggir", "Tepos", "Tokelan", "Tlogosari", "Trigonco", "Trebungan", "Widoropayung", "Wonokoyo", "Wonorejo", "Wringinanom"
+        ];
+        
         // DOM Ready
         document.addEventListener('DOMContentLoaded', function() {
             // Inisialisasi aplikasi
@@ -2094,7 +2116,8 @@
             // Isi dropdown tahun (2020-2090)
             fillYearDropdowns();
             
-            // Isi dropdown desa
+            // Isi dropdown kecamatan dan desa
+            fillKecamatanDropdown();
             fillDesaDropdown();
             
             // Set tahun default ke tahun sekarang
@@ -2148,13 +2171,34 @@
             }
         }
         
+        // Fungsi untuk mengisi dropdown kecamatan
+        function fillKecamatanDropdown() {
+            const kecamatanSelects = ['kecamatan', 'filterKecamatan', 'printKecamatan', 'exportKecamatan'];
+            
+            for (const selectId of kecamatanSelects) {
+                const select = document.getElementById(selectId);
+                // Kosongkan select terlebih dahulu
+                select.innerHTML = '';
+                
+                // Tambahkan opsi default
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = selectId === 'kecamatan' ? 'Pilih Kecamatan' : 'Semua Kecamatan';
+                select.appendChild(defaultOption);
+                
+                // Tambahkan opsi kecamatan
+                for (const kecamatan of kecamatanList) {
+                    const option = document.createElement('option');
+                    option.value = kecamatan;
+                    option.textContent = kecamatan;
+                    select.appendChild(option);
+                }
+            }
+        }
+        
         // Fungsi untuk mengisi dropdown desa
         function fillDesaDropdown() {
             const desaSelects = ['desa', 'filterDesa'];
-            const desaList = [
-                "Desa A", "Desa B", "Desa C", "Desa D", "Desa E",
-                "Desa F", "Desa G", "Desa H", "Desa I", "Desa J"
-            ];
             
             for (const selectId of desaSelects) {
                 const select = document.getElementById(selectId);
