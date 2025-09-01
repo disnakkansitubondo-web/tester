@@ -1938,1502 +1938,1795 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Inisialisasi variabel global
-        let penerimaBantuan = JSON.parse(localStorage.getItem('penerimaBantuan')) || [];
-        let loginAttempts = 0;
-        let isBlocked = false;
-        let blockTimeout;
-        let currentPage = 1;
-        const itemsPerPage = 10;
-        let filteredData = [];
-        let currentChart = null;
-        let securityCode = localStorage.getItem('securityCode') || '1234';
         
-        // Daftar desa di Situbondo
-        const desaSitubondo = [
-            "Sumberanyar", "Sumberejo", "Mojosari", "Banyuputih", "Sumberwaru", 
-            "Patokan", "Kembang", "Kotakan", "Wringinanom", "Peleyan", 
-            "Curah Tatal", "Ardirejo", "Jangkar", "Kayu Putih", "Klampokan", 
-            "Banyuglugur", "Taman", "Banyu urip", "Kalisari", "Kalianget", 
-            "Besuki", "Blado", "Bloro", "Gelung", "Kalitokol", 
-            "Pesisir", "Sumberejo", "Trepan", "Wonorejo", "Mlandingan", 
-            "Pasir Putih", "Sumberanyar", "Sumberpinang", "Alas Malang", "Bades", 
-            "Batuputih", "Default Desa"
-        ];
-        
-        // Fungsi inisialisasi aplikasi
-        function initApp() {
-            console.log("Initializing BARJAS Application...");
-            
-            // Inisialisasi komponen UI
-            initUIComponents();
-            
-            // Inisialisasi chart
-            initCharts();
-            
-            // Muat data
-            loadData();
-            
-            // Perbarui dashboard
-            updateDashboard();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi aplikasi
+            initializeApp();
             
             // Setup event listeners
             setupEventListeners();
             
-            // Tampilkan login modal jika belum login
-            if (!isAuthenticated()) {
-                $('#loginModal').modal('show');
-            } else {
-                $('#appContent').show();
-            }
+            // Load data dari localStorage
+            loadData();
             
-            console.log("BARJAS Application initialized successfully.");
-        }
+            // Update dashboard
+            updateDashboard();
+            
+            // Tampilkan modal login
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        });
         
-        // Fungsi inisialisasi komponen UI
-        function initUIComponents() {
-            console.log("Initializing UI components...");
+        // Fungsi inisialisasi aplikasi
+        function initializeApp() {
+            // Isi dropdown tahun (2020-2090)
+            fillYearDropdowns();
             
-            // Isi dropdown desa
-            const desaDropdown = document.getElementById('desa');
-            const filterDesaDropdown = document.getElementById('filterDesa');
+            // Isi dropdown kecamatan dan desa
+            fillKecamatanDropdown();
+            fillDesaDropdown();
             
-            // Hapus opsi default terlebih dahulu
-            while (desaDropdown.options.length > 1) {
-                desaDropdown.remove(1);
-            }
-            
-            while (filterDesaDropdown.options.length > 1) {
-                filterDesaDropdown.remove(1);
-            }
-            
-            // Tambahkan desa dari array
-            desaSitubondo.forEach(desa => {
-                const option = document.createElement('option');
-                option.value = desa;
-                option.textContent = desa;
-                desaDropdown.appendChild(option.cloneNode(true));
-                filterDesaDropdown.appendChild(option);
-            });
+            // Set tahun default ke tahun sekarang
+            const currentYear = new Date().getFullYear();
+            document.getElementById('tahunAnggaran').value = currentYear;
+            document.getElementById('defaultTahun').value = currentYear;
             
             // Set tanggal hari ini untuk input tanggal
-            document.getElementById('tanggal_terima').valueAsDate = new Date();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggalTerima').value = today;
             
-            // Generate kode validasi pertama kali
-            generateKodeValidasi();
+            // Inisialisasi chart
+            initializeCharts();
             
-            console.log("UI components initialized.");
+            // Setup browser info
+            setupBrowserInfo();
         }
         
-        // Fungsi untuk inisialisasi chart
-        function initCharts() {
-            console.log("Initializing charts...");
+        // Fungsi untuk mengisi dropdown tahun (2020-2090)
+        function fillYearDropdowns() {
+            const yearSelects = [
+                'tahunAnggaran', 'filterTahun', 'printTahun', 
+                'exportTahun', 'defaultTahun'
+            ];
             
-            // Inisialisasi chart dashboard
-            initDashboardCharts();
-            
-            console.log("Charts initialized.");
-        }
-        
-        // Fungsi untuk inisialisasi chart dashboard
-        function initDashboardCharts() {
-            console.log("Initializing dashboard charts...");
-            
-            // Data untuk chart desa
-            const desaData = getDataByDesa();
-            const desaLabels = desaData.map(item => item.desa);
-            const desaCounts = desaData.map(item => item.count);
-            
-            // Chart untuk data per desa
-            const desaCtx = document.getElementById('desaChart').getContext('2d');
-            if (window.desaChartInstance) {
-                window.desaChartInstance.destroy();
-            }
-            window.desaChartInstance = new Chart(desaCtx, {
-                type: 'bar',
-                data: {
-                    labels: desaLabels,
-                    datasets: [{
-                        label: 'Jumlah Penerima per Desa',
-                        data: desaCounts,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Distribusi Penerima Bantuan per Desa'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
+            for (const selectId of yearSelects) {
+                const select = document.getElementById(selectId);
+                if (!select) continue;
+                
+                // Kosongkan select terlebih dahulu
+                select.innerHTML = '';
+                
+                // Tambahkan opsi default
+                if (selectId !== 'tahunAnggaran') {
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = selectId === 'defaultTahun' ? 'Pilih Tahun' : 'Semua Tahun';
+                    select.appendChild(defaultOption);
                 }
-            });
-            
-            // Data untuk chart jenis bantuan
-            const bantuanData = getDataByJenisBantuan();
-            const bantuanLabels = bantuanData.map(item => item.jenis);
-            const bantuanCounts = bantuanData.map(item => item.count);
-            
-            // Chart untuk jenis bantuan
-            const bantuanCtx = document.getElementById('bantuanChart').getContext('2d');
-            if (window.bantuanChartInstance) {
-                window.bantuanChartInstance.destroy();
-            }
-            window.bantuanChartInstance = new Chart(bantuanCtx, {
-                type: 'pie',
-                data: {
-                    labels: bantuanLabels,
-                    datasets: [{
-                        label: 'Distribusi Jenis Bantuan',
-                        data: bantuanCounts,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 206, 86, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(153, 102, 255, 0.7)',
-                            'rgba(255, 159, 64, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Distribusi Jenis Bantuan'
-                        }
-                    }
+                
+                // Tambahkan opsi tahun dari 2020 hingga 2090
+                for (let year = 2020; year <= 2090; year++) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    select.appendChild(option);
                 }
-            });
-            
-            console.log("Dashboard charts initialized.");
-        }
-        
-        // Fungsi untuk memuat data
-        function loadData() {
-            console.log("Loading data...");
-            
-            // Muat data dari localStorage
-            penerimaBantuan = JSON.parse(localStorage.getItem('penerimaBantuan')) || [];
-            filteredData = [...penerimaBantuan];
-            
-            // Perbarui tampilan data
-            renderDataTable();
-            
-            console.log("Data loaded. Total records:", penerimaBantuan.length);
-        }
-        
-        // Fungsi untuk memperbarui dashboard
-        function updateDashboard() {
-            console.log("Updating dashboard...");
-            
-            // Update statistik box
-            document.getElementById('totalPenerima').textContent = penerimaBantuan.length;
-            
-            // Hitung jumlah desa unik
-            const uniqueDesa = new Set(penerimaBantuan.map(item => item.desa));
-            document.getElementById('totalDesa').textContent = uniqueDesa.size;
-            
-            // Hitung jumlah jenis bantuan unik
-            const uniqueBantuan = new Set(penerimaBantuan.map(item => item.jenis_bantuan));
-            document.getElementById('totalBantuan').textContent = uniqueBantuan.size;
-            
-            // Hitung rata-rata per desa
-            const rataRata = uniqueDesa.size > 0 ? (penerimaBantuan.length / uniqueDesa.size).toFixed(1) : 0;
-            document.getElementById('rataRata').textContent = rataRata;
-            
-            // Update tabel data terbaru
-            updateRecentTable();
-            
-            console.log("Dashboard updated.");
-        }
-        
-        // Fungsi untuk memperbarui tabel data terbaru
-        function updateRecentTable() {
-            const recentTableBody = document.querySelector('#recentTable tbody');
-            recentTableBody.innerHTML = '';
-            
-            // Ambil 5 data terbaru
-            const recentData = [...penerimaBantuan]
-                .sort((a, b) => new Date(b.tanggal_terima) - new Date(a.tanggal_terima))
-                .slice(0, 5);
-            
-            recentData.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${item.nama}</td>
-                    <td>${item.desa}</td>
-                    <td><span class="badge bg-primary">${item.jenis_bantuan}</span></td>
-                    <td>${formatDate(item.tanggal_terima)}</td>
-                    <td>
-                        <button class="btn btn-sm btn-info view-item" data-id="${item.id}">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </td>
-                `;
-                recentTableBody.appendChild(row);
-            });
-            
-            // Tambahkan event listener untuk tombol view
-            document.querySelectorAll('.view-item').forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    viewItem(id);
-                });
-            });
-        }
-        
-        // Fungsi untuk merender tabel data
-        function renderDataTable() {
-            console.log("Rendering data table...");
-            
-            const tableBody = document.querySelector('#dataTable tbody');
-            tableBody.innerHTML = '';
-            
-            // Hitung pagination
-            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
-            const currentData = filteredData.slice(startIndex, endIndex);
-            
-            // Isi tabel dengan data
-            currentData.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${startIndex + index + 1}</td>
-                    <td>${item.nama}</td>
-                    <td>${item.nik}</td>
-                    <td>${item.no_kk}</td>
-                    <td>${item.desa}</td>
-                    <td><span class="badge bg-primary">${item.jenis_bantuan}</span></td>
-                    <td>${formatCurrency(item.jumlah_bantuan)}</td>
-                    <td>${formatDate(item.tanggal_terima)}</td>
-                    <td>
-                        <button class="btn btn-sm btn-info view-item" data-id="${item.id}">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-warning edit-item" data-id="${item.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger delete-item" data-id="${item.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        ${item.link_gdrive ? `<a href="${item.link_gdrive}" target="_blank" class="btn btn-sm btn-view"><i class="fas fa-link"></i></a>` : ''}
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-            
-            // Update info tabel
-            document.getElementById('tableInfo').textContent = 
-                `Menampilkan ${startIndex + 1} sampai ${endIndex} dari ${filteredData.length} data`;
-            
-            // Render pagination
-            renderPagination(totalPages);
-            
-            // Tambahkan event listener untuk tombol aksi
-            document.querySelectorAll('.view-item').forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    viewItem(id);
-                });
-            });
-            
-            document.querySelectorAll('.edit-item').forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    editItem(id);
-                });
-            });
-            
-            document.querySelectorAll('.delete-item').forEach(button => {
-                button.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    deleteItem(id);
-                });
-            });
-            
-            console.log("Data table rendered.");
-        }
-        
-        // Fungsi untuk merender pagination
-        function renderPagination(totalPages) {
-            const paginationElement = document.getElementById('pagination');
-            paginationElement.innerHTML = '';
-            
-            if (totalPages <= 1) return;
-            
-            // Tombol Previous
-            const prevLi = document.createElement('li');
-            prevLi.classList.add('page-item', currentPage === 1 ? 'disabled' : '');
-            prevLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>`;
-            paginationElement.appendChild(prevLi);
-            
-            // Tombol halaman
-            const startPage = Math.max(1, currentPage - 2);
-            const endPage = Math.min(totalPages, startPage + 4);
-            
-            for (let i = startPage; i <= endPage; i++) {
-                const pageLi = document.createElement('li');
-                pageLi.classList.add('page-item', i === currentPage ? 'active' : '');
-                pageLi.innerHTML = `<a class="page-link" href="#" data-page="${i}">${i}</a>`;
-                paginationElement.appendChild(pageLi);
+                
+                // Set nilai default untuk tahun anggaran
+                if (selectId === 'tahunAnggaran') {
+                    select.value = new Date().getFullYear();
+                }
             }
-            
-            // Tombol Next
-            const nextLi = document.createElement('li');
-            nextLi.classList.add('page-item', currentPage === totalPages ? 'disabled' : '');
-            nextLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>`;
-            paginationElement.appendChild(nextLi);
-            
-            // Tambahkan event listener untuk pagination
-            paginationElement.querySelectorAll('.page-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const page = parseInt(this.getAttribute('data-page'));
-                    if (page && page !== currentPage) {
-                        currentPage = page;
-                        renderDataTable();
-                    }
-                });
-            });
         }
         
-        // Fungsi untuk mengatur event listeners
+        // Fungsi untuk mengisi dropdown kecamatan
+        function fillKecamatanDropdown() {
+            const kecamatanSelects = ['kecamatan', 'filterKecamatan', 'printKecamatan', 'exportKecamatan'];
+            
+            for (const selectId of kecamatanSelects) {
+                const select = document.getElementById(selectId);
+                if (!select) continue;
+                
+                // Kosongkan select terlebih dahulu
+                select.innerHTML = '';
+                
+                // Tambahkan opsi default
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = selectId === 'kecamatan' ? 'Pilih Kecamatan' : 'Semua Kecamatan';
+                select.appendChild(defaultOption);
+                
+                // Tambahkan opsi kecamatan
+                for (const kecamatan of kecamatanList) {
+                    const option = document.createElement('option');
+                    option.value = kecamatan;
+                    option.textContent = kecamatan;
+                    select.appendChild(option);
+                }
+            }
+        }
+        
+        // Fungsi untuk mengisi dropdown desa
+        function fillDesaDropdown() {
+            const desaSelects = ['desa', 'filterDesa'];
+            
+            for (const selectId of desaSelects) {
+                const select = document.getElementById(selectId);
+                if (!select) continue;
+                
+                // Kosongkan select terlebih dahulu
+                select.innerHTML = '';
+                
+                // Tambahkan opsi default
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = selectId === 'desa' ? 'Pilih Desa' : 'Semua Desa';
+                select.appendChild(defaultOption);
+                
+                // Tambahkan opsi desa
+                for (const desa of desaList) {
+                    const option = document.createElement('option');
+                    option.value = desa;
+                    option.textContent = desa;
+                    select.appendChild(option);
+                }
+            }
+        }
+        
+        // Fungsi untuk setup event listeners
         function setupEventListeners() {
-            console.log("Setting up event listeners...");
+            // Login form
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.querySelector('.toggle-password').addEventListener('click', togglePasswordVisibility);
             
-            // Event listener untuk form input
-            document.getElementById('inputForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                simpanData();
-            });
+            // Input form
+            document.getElementById('inputForm').addEventListener('submit', handleFormSubmit);
+            document.getElementById('btnBukanKelompok').addEventListener('click', setBukanKelompok);
+            document.getElementById('generateKodeBtn').addEventListener('click', generateKodeValidasi);
             
-            // Event listener untuk generate kode
-            document.getElementById('generateKode').addEventListener('click', generateKodeValidasi);
+            // WhatsApp number formatting
+            const whatsappInput = document.getElementById('whatsapp');
+            if (whatsappInput) {
+                whatsappInput.addEventListener('input', formatWhatsAppNumber);
+            }
             
-            // Event listener untuk jenis bantuan lainnya
-            document.getElementById('jenis_bantuan').addEventListener('change', function() {
-                const lainnyaInput = document.getElementById('jenis_bantuan_lainnya');
-                lainnyaInput.style.display = this.value === 'LAINNYA' ? 'block' : 'none';
-                if (this.value !== 'LAINNYA') {
-                    lainnyaInput.value = '';
-                }
-            });
+            // Data table
+            const searchInput = document.getElementById('searchData');
+            if (searchInput) {
+                searchInput.addEventListener('input', handleSearch);
+            }
             
-            // Event listener untuk filter
-            document.getElementById('btnTerapkanFilter').addEventListener('click', terapkanFilter);
-            document.getElementById('btnResetFilter').addEventListener('click', resetFilter);
-            document.getElementById('btnHapusFilter').addEventListener('click', resetFilter);
+            const clearSearchBtn = document.getElementById('clearSearchBtn');
+            if (clearSearchBtn) {
+                clearSearchBtn.addEventListener('click', clearSearch);
+            }
             
-            // Event listener untuk ekspor data
-            document.getElementById('btnExportExcel').addEventListener('click', exportToExcel);
-            document.getElementById('btnExportPDF').addEventListener('click', exportToPDF);
-            document.getElementById('btnPrint').addEventListener('click', printData);
+            // Filter
+            const applyFilterBtn = document.getElementById('applyFilterBtn');
+            if (applyFilterBtn) {
+                applyFilterBtn.addEventListener('click', applyFilter);
+            }
             
-            // Event listener untuk refresh data
-            document.getElementById('btnRefreshData').addEventListener('click', function() {
-                loadData();
-                showNotification('Data telah diperbarui', 'success');
-            });
+            const resetFilterBtn = document.getElementById('resetFilterBtn');
+            if (resetFilterBtn) {
+                resetFilterBtn.addEventListener('click', resetFilter);
+            }
             
-            // Event listener untuk menu navigasi
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function() {
-                    // Sembunyikan sidebar di mobile setelah memilih menu
-                    if (window.innerWidth < 992) {
-                        document.getElementById('sidebarMenu').classList.remove('mobile-show');
-                        document.getElementById('sidebarOverlay').classList.remove('mobile-show');
-                    }
-                });
-            });
+            // Print & Export
+            const printPdfBtn = document.getElementById('printPdfBtn');
+            if (printPdfBtn) {
+                printPdfBtn.addEventListener('click', printToPdf);
+            }
             
-            // Event listener untuk logout
-            document.getElementById('logoutButton').addEventListener('click', logout);
+            const printDirectBtn = document.getElementById('printDirectBtn');
+            if (printDirectBtn) {
+                printDirectBtn.addEventListener('click', printDirect);
+            }
             
-            // Event listener untuk mobile menu
-            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-                document.getElementById('sidebarMenu').classList.add('mobile-show');
-                document.getElementById('sidebarOverlay').classList.add('mobile-show');
-            });
+            const previewBtn = document.getElementById('previewBtn');
+            if (previewBtn) {
+                previewBtn.addEventListener('click', showPreview);
+            }
             
-            document.getElementById('sidebarOverlay').addEventListener('click', function() {
-                document.getElementById('sidebarMenu').classList.remove('mobile-show');
-                this.classList.remove('mobile-show');
-            });
+            const printFromPreviewBtn = document.getElementById('printFromPreviewBtn');
+            if (printFromPreviewBtn) {
+                printFromPreviewBtn.addEventListener('click', printFromPreview);
+            }
             
-            // Event listener untuk FAB
-            document.getElementById('fabButton').addEventListener('click', function() {
-                // Switch to input tab
-                document.getElementById('v-pills-input-tab').click();
-                
-                // Scroll to form
-                document.getElementById('inputForm').scrollIntoView({ behavior: 'smooth' });
-            });
+            const exportExcelBtn = document.getElementById('exportExcelBtn');
+            if (exportExcelBtn) {
+                exportExcelBtn.addEventListener('click', exportToExcel);
+            }
             
-            // Event listener untuk form login
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                handleLogin();
-            });
+            const exportCsvBtn = document.getElementById('exportCsvBtn');
+            if (exportCsvBtn) {
+                exportCsvBtn.addEventListener('click', exportToCsv);
+            }
             
-            // Event listener untuk toggle password visibility
-            document.querySelector('.toggle-password').addEventListener('click', function() {
-                const passwordInput = document.getElementById('securityCode');
-                const icon = this.querySelector('i');
-                
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                } else {
-                    passwordInput.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                }
-            });
+            const exportJsonBtn = document.getElementById('exportJsonBtn');
+            if (exportJsonBtn) {
+                exportJsonBtn.addEventListener('click', exportToJson);
+            }
             
-            // Event listener untuk chart update
-            document.getElementById('btnUpdateChart').addEventListener('click', updateStatistikChart);
+            const exportPdfBtn = document.getElementById('exportPdfBtn');
+            if (exportPdfBtn) {
+                exportPdfBtn.addEventListener('click', exportToPdf);
+            }
             
-            // Event listener untuk search desa
-            document.getElementById('desa').addEventListener('focus', function() {
-                document.getElementById('desaSearch').style.display = 'block';
-            });
+            // Backup & Restore
+            const backupDataBtn = document.getElementById('backupDataBtn');
+            if (backupDataBtn) {
+                backupDataBtn.addEventListener('click', backupData);
+            }
             
-            document.getElementById('searchDesa').addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const options = document.getElementById('desa').options;
-                
-                for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
-                    if (option.text.toLowerCase().includes(searchTerm)) {
-                        option.style.display = '';
-                    } else {
-                        option.style.display = 'none';
-                    }
-                }
-            });
+            const restoreFileInput = document.getElementById('restoreFileInput');
+            if (restoreFileInput) {
+                restoreFileInput.addEventListener('change', enableRestoreButton);
+            }
             
-            console.log("Event listeners set up successfully.");
+            const restoreDataBtn = document.getElementById('restoreDataBtn');
+            if (restoreDataBtn) {
+                restoreDataBtn.addEventListener('click', restoreData);
+            }
+            
+            const resetConfirmationInput = document.getElementById('resetConfirmationInput');
+            if (resetConfirmationInput) {
+                resetConfirmationInput.addEventListener('input', enableResetButton);
+            }
+            
+            const confirmResetBtn = document.getElementById('confirmResetBtn');
+            if (confirmResetBtn) {
+                confirmResetBtn.addEventListener('click', resetData);
+            }
+            
+            // Settings
+            const settingsForm = document.getElementById('settingsForm');
+            if (settingsForm) {
+                settingsForm.addEventListener('submit', saveSettings);
+            }
+            
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+            
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', toggleMobileMenu);
+            }
+            
+            // FAB button
+            const fabBtn = document.getElementById('fabBtn');
+            if (fabBtn) {
+                fabBtn.addEventListener('click', scrollToTop);
+            }
+            
+            // Kecamatan change event untuk update desa
+            const kecamatanSelect = document.getElementById('kecamatan');
+            if (kecamatanSelect) {
+                kecamatanSelect.addEventListener('change', updateDesaDropdown);
+            }
+            
+            const filterKecamatanSelect = document.getElementById('filterKecamatan');
+            if (filterKecamatanSelect) {
+                filterKecamatanSelect.addEventListener('change', updateFilterDesaDropdown);
+            }
+            
+            // Jenis bantuan change event
+            const jenisBantuanSelect = document.getElementById('jenisBantuan');
+            if (jenisBantuanSelect) {
+                jenisBantuanSelect.addEventListener('change', updateSatuanBantuan);
+            }
         }
         
-        // Fungsi untuk menangani login
-        function handleLogin() {
+        // Fungsi untuk handle login
+        function handleLogin(e) {
+            e.preventDefault();
+            
             if (isBlocked) {
-                showNotification('Anda telah diblokir sementara. Silakan coba lagi nanti.', 'error');
+                showNotification('Anda masih dalam masa pemblokiran. Silakan coba lagi nanti.', 'error');
                 return;
             }
             
-            const inputCode = document.getElementById('securityCode').value;
-            const loginButton = document.getElementById('loginButton');
-            const loginSpinner = document.getElementById('loginSpinner');
-            const loginButtonText = document.querySelector('.login-button-text');
+            const securityCode = document.getElementById('securityCode').value;
             
             // Tampilkan spinner
-            loginButton.disabled = true;
-            loginSpinner.classList.remove('d-none');
-            loginButtonText.textContent = 'Memproses...';
+            document.getElementById('loginSpinner').classList.remove('d-none');
+            document.querySelector('.login-button-text').textContent = 'Memproses...';
+            document.getElementById('loginButton').disabled = true;
             
             // Simulasi proses login
             setTimeout(() => {
-                if (inputCode === securityCode) {
+                if (securityCode === '1234') { // Kode default
                     // Login berhasil
+                    document.getElementById('loginSpinner').classList.add('d-none');
+                    document.querySelector('.login-button-text').textContent = 'Masuk ke Aplikasi';
+                    document.getElementById('loginButton').disabled = false;
+                    
+                    // Sembunyikan modal login
+                    const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    if (loginModal) {
+                        loginModal.hide();
+                    }
+                    
+                    // Tampilkan konten aplikasi
+                    document.getElementById('appContent').style.display = 'block';
+                    
+                    // Reset percobaan login
                     loginAttempts = 0;
-                    localStorage.setItem('isAuthenticated', 'true');
-                    $('#loginModal').modal('hide');
-                    $('#appContent').show();
-                    showNotification('Login berhasil. Selamat datang di BARJAS!', 'success');
+                    updateAttemptsCount();
+                    
+                    showNotification('Login berhasil! Selamat datang di aplikasi BARJAS.', 'success');
                 } else {
                     // Login gagal
+                    document.getElementById('loginSpinner').classList.add('d-none');
+                    document.querySelector('.login-button-text').textContent = 'Masuk ke Aplikasi';
+                    document.getElementById('loginButton').disabled = false;
+                    
                     loginAttempts++;
+                    updateAttemptsCount();
+                    
+                    // Goyangkan form
+                    document.getElementById('loginForm').classList.add('login-shake');
+                    setTimeout(() => {
+                        document.getElementById('loginForm').classList.remove('login-shake');
+                    }, 600);
                     
                     if (loginAttempts >= 3) {
                         // Blokir akses sementara
-                        isBlocked = true;
-                        document.getElementById('blockedMessage').classList.remove('d-none');
-                        document.getElementById('attemptsCount').classList.add('d-none');
-                        
-                        let countdown = 30;
-                        document.getElementById('countdown').textContent = countdown;
-                        
-                        blockTimeout = setInterval(() => {
-                            countdown--;
-                            document.getElementById('countdown').textContent = countdown;
-                            
-                            if (countdown <= 0) {
-                                clearInterval(blockTimeout);
-                                isBlocked = false;
-                                loginAttempts = 0;
-                                document.getElementById('blockedMessage').classList.add('d-none');
-                            }
-                        }, 1000);
-                    } else {
-                        document.getElementById('attemptsCount').textContent = 
-                            `Percobaan login gagal: ${loginAttempts} dari 3. Setelah 3 kali gagal, akses akan diblokir sementara.`;
-                        document.getElementById('attemptsCount').style.display = 'block';
-                        
-                        // Animasi shake untuk form
-                        document.getElementById('loginForm').classList.add('login-shake');
-                        setTimeout(() => {
-                            document.getElementById('loginForm').classList.remove('login-shake');
-                        }, 600);
+                        blockAccess();
                     }
                     
                     showNotification('Kode keamanan salah. Silakan coba lagi.', 'error');
                 }
-                
-                // Sembunyikan spinner
-                loginButton.disabled = false;
-                loginSpinner.classList.add('d-none');
-                loginButtonText.textContent = 'Masuk ke Aplikasi';
             }, 1000);
         }
         
-        // Fungsi untuk mengecek status autentikasi
-        function isAuthenticated() {
-            return localStorage.getItem('isAuthenticated') === 'true';
+        // Fungsi untuk toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('securityCode');
+            const toggleButton = document.querySelector('.toggle-password');
+            
+            if (passwordInput && toggleButton) {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
+                }
+            }
+        }
+        
+        // Fungsi untuk update attempts count
+        function updateAttemptsCount() {
+            const attemptsElement = document.getElementById('attemptsCount');
+            const blockedMessage = document.getElementById('blockedMessage');
+            
+            if (attemptsElement) {
+                if (loginAttempts > 0) {
+                    attemptsElement.textContent = `Percobaan login gagal: ${loginAttempts}/3`;
+                    attemptsElement.style.display = 'block';
+                } else {
+                    attemptsElement.style.display = 'none';
+                }
+            }
+            
+            if (blockedMessage) {
+                if (isBlocked) {
+                    blockedMessage.classList.remove('d-none');
+                } else {
+                    blockedMessage.classList.add('d-none');
+                }
+            }
+        }
+        
+        // Fungsi untuk memblokir akses sementara
+        function blockAccess() {
+            isBlocked = true;
+            updateAttemptsCount();
+            
+            let countdown = 30;
+            const countdownElement = document.getElementById('countdown');
+            if (countdownElement) {
+                countdownElement.textContent = countdown;
+            }
+            
+            blockTimeout = setInterval(() => {
+                countdown--;
+                if (countdownElement) {
+                    countdownElement.textContent = countdown;
+                }
+                
+                if (countdown <= 0) {
+                    clearInterval(blockTimeout);
+                    isBlocked = false;
+                    updateAttemptsCount();
+                }
+            }, 1000);
         }
         
         // Fungsi untuk logout
         function logout() {
-            localStorage.removeItem('isAuthenticated');
-            $('#appContent').hide();
-            $('#loginModal').modal('show');
-            document.getElementById('securityCode').value = '';
-            showNotification('Anda telah logout dari aplikasi', 'info');
-        }
-        
-        // Fungsi untuk menghasilkan kode validasi
-        function generateKodeValidasi() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = '';
-            for (let i = 0; i < 6; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            if (confirm('Apakah Anda yakin ingin keluar dari aplikasi?')) {
+                // Sembunyikan konten aplikasi
+                document.getElementById('appContent').style.display = 'none';
+                
+                // Tampilkan modal login
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+                
+                showNotification('Anda telah logout dari aplikasi.', 'info');
             }
-            document.getElementById('kode_validasi').value = result;
         }
         
-        // Fungsi untuk menyimpan data
-        function simpanData() {
+        // Fungsi untuk handle form submit
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
             // Validasi form
             if (!validateForm()) {
-                showNotification('Harap periksa kembali form input. Terdapat data yang tidak valid.', 'error');
                 return;
             }
             
             // Ambil nilai dari form
-            const jenisBantuan = document.getElementById('jenis_bantuan').value;
-            const jenisBantuanLainnya = document.getElementById('jenis_bantuan_lainnya').value;
-            
-            const data = {
-                id: Date.now().toString(),
+            const formData = {
+                id: Date.now(), // ID unik berdasarkan timestamp
                 nama: document.getElementById('nama').value,
                 nik: document.getElementById('nik').value,
-                no_kk: document.getElementById('no_kk').value,
-                alamat: document.getElementById('alamat').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                namaKelompok: document.getElementById('namaKelompok').value,
+                jabatan: document.getElementById('jabatan').value,
+                tahunAnggaran: document.getElementById('tahunAnggaran').value,
+                kecamatan: document.getElementById('kecamatan').value,
                 desa: document.getElementById('desa').value,
-                jenis_bantuan: jenisBantuan === 'LAINNYA' ? jenisBantuanLainnya : jenisBantuan,
-                jumlah_bantuan: parseInt(document.getElementById('jumlah_bantuan').value),
-                tanggal_terima: document.getElementById('tanggal_terima').value,
+                alamat: document.getElementById('alamat').value,
+                jenisBantuan: document.getElementById('jenisBantuan').value,
+                jumlahBantuan: document.getElementById('jumlahBantuan').value,
+                satuanBantuan: document.getElementById('satuanBantuan').value,
+                tanggalTerima: document.getElementById('tanggalTerima').value,
+                driveLink: document.getElementById('driveLink').value,
+                kodeValidasi: document.getElementById('kodeValidasi').value,
                 keterangan: document.getElementById('keterangan').value,
-                no_telepon: document.getElementById('no_telepon').value ? '+62' + document.getElementById('no_telepon').value : '',
-                link_gdrive: document.getElementById('link_gdrive').value,
-                kode_validasi: document.getElementById('kode_validasi').value,
-                tanggal_input: new Date().toISOString()
+                tanggalInput: new Date().toISOString()
             };
             
-            // Simpan ke array
-            penerimaBantuan.push(data);
-            
-            // Simpan ke localStorage
-            localStorage.setItem('penerimaBantuan', JSON.stringify(penerimaBantuan));
-            
-            // Perbarui tampilan
-            loadData();
-            updateDashboard();
-            initDashboardCharts();
+            // Simpan data
+            appData.push(formData);
+            saveData();
             
             // Reset form
             document.getElementById('inputForm').reset();
-            generateKodeValidasi();
             
-            // Tampilkan notifikasi
-            showNotification('Data penerima bantuan berhasil disimpan', 'success');
+            // Reset jabatan ke default
+            document.getElementById('jabatan').value = 'Individu';
             
-            // Kembali ke tab dashboard
-            document.getElementById('v-pills-dashboard-tab').click();
+            // Set tahun ke default
+            document.getElementById('tahunAnggaran').value = new Date().getFullYear();
+            
+            // Set tanggal hari ini
+            document.getElementById('tanggalTerima').value = new Date().toISOString().split('T')[0];
+            
+            // Reset kode validasi
+            document.getElementById('kodeValidasi').value = '';
+            
+            // Update UI
+            updateDashboard();
+            renderDataTable();
+            
+            showNotification('Data berhasil disimpan!', 'success');
         }
         
         // Fungsi untuk validasi form
         function validateForm() {
             let isValid = true;
             
-            // Validasi nama
-            const nama = document.getElementById('nama');
-            const namaError = document.getElementById('namaError');
-            if (!nama.value.trim()) {
-                nama.classList.add('input-error');
-                namaError.style.display = 'block';
+            // Validasi Nama
+            const nama = document.getElementById('nama').value;
+            if (!nama) {
+                document.getElementById('namaError').textContent = 'Nama harus diisi';
+                document.getElementById('namaError').style.display = 'block';
+                document.getElementById('nama').classList.add('input-error');
                 isValid = false;
             } else {
-                nama.classList.remove('input-error');
-                namaError.style.display = 'none';
+                document.getElementById('namaError').style.display = 'none';
+                document.getElementById('nama').classList.remove('input-error');
             }
             
             // Validasi NIK
-            const nik = document.getElementById('nik');
-            const nikError = document.getElementById('nikError');
-            if (!nik.value.trim()) {
-                nik.classList.add('input-error');
-                nikError.style.display = 'block';
+            const nik = document.getElementById('nik').value;
+            if (!nik) {
+                document.getElementById('nikError').textContent = 'NIK harus diisi';
+                document.getElementById('nikError').style.display = 'block';
+                document.getElementById('nik').classList.add('input-error');
+                isValid = false;
+            } else if (isNikExists(nik)) {
+                document.getElementById('nikError').textContent = 'NIK sudah terdaftar dalam sistem';
+                document.getElementById('nikError').style.display = 'block';
+                document.getElementById('nik').classList.add('input-error');
                 isValid = false;
             } else {
-                nik.classList.remove('input-error');
-                nikError.style.display = 'none';
+                document.getElementById('nikError').style.display = 'none';
+                document.getElementById('nik').classList.remove('input-error');
             }
             
-            // Validasi No. KK
-            const no_kk = document.getElementById('no_kk');
-            const no_kkError = document.getElementById('no_kkError');
-            if (!no_kk.value.trim()) {
-                no_kk.classList.add('input-error');
-                no_kkError.style.display = 'block';
+            // Validasi WhatsApp
+            const whatsapp = document.getElementById('whatsapp').value;
+            if (!whatsapp) {
+                document.getElementById('whatsappError').textContent = 'Nomor WhatsApp harus diisi';
+                document.getElementById('whatsappError').style.display = 'block';
+                document.getElementById('whatsapp').classList.add('input-error');
                 isValid = false;
             } else {
-                no_kk.classList.remove('input-error');
-                no_kkError.style.display = 'none';
+                document.getElementById('whatsappError').style.display = 'none';
+                document.getElementById('whatsapp').classList.remove('input-error');
             }
             
-            // Validasi alamat
-            const alamat = document.getElementById('alamat');
-            const alamatError = document.getElementById('alamatError');
-            if (!alamat.value.trim()) {
-                alamat.classList.add('input-error');
-                alamatError.style.display = 'block';
+            // Validasi Kode Validasi
+            const kodeValidasi = document.getElementById('kodeValidasi').value;
+            if (!kodeValidasi) {
+                showNotification('Harap generate kode validasi terlebih dahulu', 'error');
                 isValid = false;
-            } else {
-                alamat.classList.remove('input-error');
-                alamatError.style.display = 'none';
-            }
-            
-            // Validasi desa
-            const desa = document.getElementById('desa');
-            const desaError = document.getElementById('desaError');
-            if (!desa.value) {
-                desa.classList.add('input-error');
-                desaError.style.display = 'block';
-                isValid = false;
-            } else {
-                desa.classList.remove('input-error');
-                desaError.style.display = 'none';
-            }
-            
-            // Validasi jenis bantuan
-            const jenis_bantuan = document.getElementById('jenis_bantuan');
-            const jenis_bantuanError = document.getElementById('jenis_bantuanError');
-            const jenis_bantuan_lainnya = document.getElementById('jenis_bantuan_lainnya');
-            
-            if (!jenis_bantuan.value) {
-                jenis_bantuan.classList.add('input-error');
-                jenis_bantuanError.style.display = 'block';
-                isValid = false;
-            } else if (jenis_bantuan.value === 'LAINNYA' && !jenis_bantuan_lainnya.value.trim()) {
-                jenis_bantuan.classList.add('input-error');
-                jenis_bantuan_lainnya.classList.add('input-error');
-                jenis_bantuanError.textContent = 'Harap isi jenis bantuan lainnya';
-                jenis_bantuanError.style.display = 'block';
-                isValid = false;
-            } else {
-                jenis_bantuan.classList.remove('input-error');
-                jenis_bantuan_lainnya.classList.remove('input-error');
-                jenis_bantuanError.style.display = 'none';
-            }
-            
-            // Validasi jumlah bantuan
-            const jumlah_bantuan = document.getElementById('jumlah_bantuan');
-            const jumlah_bantuanError = document.getElementById('jumlah_bantuanError');
-            if (!jumlah_bantuan.value || parseInt(jumlah_bantuan.value) <= 0) {
-                jumlah_bantuan.classList.add('input-error');
-                jumlah_bantuanError.style.display = 'block';
-                isValid = false;
-            } else {
-                jumlah_bantuan.classList.remove('input-error');
-                jumlah_bantuanError.style.display = 'none';
-            }
-            
-            // Validasi tanggal terima
-            const tanggal_terima = document.getElementById('tanggal_terima');
-            const tanggal_terimaError = document.getElementById('tanggal_terimaError');
-            if (!tanggal_terima.value) {
-                tanggal_terima.classList.add('input-error');
-                tanggal_terimaError.style.display = 'block';
-                isValid = false;
-            } else {
-                tanggal_terima.classList.remove('input-error');
-                tanggal_terimaError.style.display = 'none';
-            }
-            
-            // Validasi nomor telepon (jika diisi)
-            const no_telepon = document.getElementById('no_telepon');
-            const no_teleponError = document.getElementById('no_teleponError');
-            if (no_telepon.value && !/^[0-9]{9,12}$/.test(no_telepon.value)) {
-                no_telepon.classList.add('input-error');
-                no_teleponError.style.display = 'block';
-                isValid = false;
-            } else {
-                no_telepon.classList.remove('input-error');
-                no_teleponError.style.display = 'none';
-            }
-            
-            // Validasi link Google Drive (jika diisi)
-            const link_gdrive = document.getElementById('link_gdrive');
-            const link_gdriveError = document.getElementById('link_gdriveError');
-            if (link_gdrive.value && !isValidURL(link_gdrive.value)) {
-                link_gdrive.classList.add('input-error');
-                link_gdriveError.style.display = 'block';
-                isValid = false;
-            } else {
-                link_gdrive.classList.remove('input-error');
-                link_gdriveError.style.display = 'none';
             }
             
             return isValid;
         }
         
-        // Fungsi untuk menerapkan filter
-        function terapkanFilter() {
-            const filterDesa = document.getElementById('filterDesa').value;
-            const filterJenis = document.getElementById('filterJenis').value;
-            const filterTglMulai = document.getElementById('filterTglMulai').value;
-            const filterTglAkhir = document.getElementById('filterTglAkhir').value;
+        // Fungsi untuk format nomor WhatsApp
+        function formatWhatsAppNumber(e) {
+            let value = e.target.value.replace(/\D/g, '');
             
-            filteredData = penerimaBantuan.filter(item => {
-                // Filter desa
-                if (filterDesa && item.desa !== filterDesa) return false;
-                
-                // Filter jenis bantuan
-                if (filterJenis) {
-                    if (filterJenis === 'LAINNYA') {
-                        // Untuk filter "Lainnya", cocokkan dengan nilai yang tidak ada dalam daftar standard
-                        const standardJenis = ['BLT', 'PKH', 'BPNT', 'BST', 'BANSOS'];
-                        if (standardJenis.includes(item.jenis_bantuan)) return false;
-                    } else if (item.jenis_bantuan !== filterJenis) {
-                        return false;
-                    }
+            // Jika dimulai dengan 0, ganti dengan 62
+            if (value.startsWith('0')) {
+                value = '62' + value.substring(1);
+            }
+            
+            // Format tampilan: 62-xxx-xxxx-xxxx
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '-' + value.substring(2);
+            }
+            if (value.length > 6) {
+                value = value.substring(0, 6) + '-' + value.substring(6);
+            }
+            if (value.length > 11) {
+                value = value.substring(0, 11) + '-' + value.substring(11);
+            }
+            
+            e.target.value = value;
+        }
+        
+        // Fungsi untuk mengecek apakah NIK sudah ada
+        function isNikExists(nik) {
+            return appData.some(data => data.nik === nik);
+        }
+        
+        // Fungsi untuk set "Bukan Kelompok"
+        function setBukanKelompok() {
+            document.getElementById('namaKelompok').value = 'Bukan Kelompok';
+            document.getElementById('jabatan').value = 'Individu';
+        }
+        
+        // Fungsi untuk generate kode unik
+        function generateKodeValidasi() {
+            const nik = document.getElementById('nik').value;
+            const nama = document.getElementById('nama').value;
+            
+            if (!nik || !nama) {
+                showNotification('Harap isi NIK dan Nama terlebih dahulu', 'error');
+                return;
+            }
+            
+            // Cek apakah sudah ada kode untuk NIK ini
+            if (generatedCodes[nik]) {
+                document.getElementById('kodeValidasi').value = generatedCodes[nik];
+                showNotification('Kode validasi sudah digenerate untuk NIK ini', 'info');
+                return;
+            }
+            
+            // Generate kode unik 5 karakter (huruf kapital dan angka)
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            
+            for (let i = 0; i < 5; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            
+            // Simpan kode untuk NIK ini
+            generatedCodes[nik] = result;
+            
+            // Set nilai kode validasi
+            document.getElementById('kodeValidasi').value = result;
+            
+            showNotification('Kode validasi berhasil digenerate', 'success');
+        }
+        
+        // Fungsi untuk update dropdown desa berdasarkan kecamatan
+        function updateDesaDropdown() {
+            const kecamatan = document.getElementById('kecamatan').value;
+            const desaSelect = document.getElementById('desa');
+            
+            if (!desaSelect) return;
+            
+            // Reset dropdown desa
+            desaSelect.innerHTML = '<option value="">Pilih Desa</option>';
+            
+            // Jika tidak ada kecamatan yang dipilih, tampilkan semua desa
+            if (!kecamatan) {
+                for (const desa of desaList) {
+                    const option = document.createElement('option');
+                    option.value = desa;
+                    option.textContent = desa;
+                    desaSelect.appendChild(option);
                 }
-                
-                // Filter tanggal
-                if (filterTglMulai && filterTglAkhir) {
-                    const tglTerima = new Date(item.tanggal_terima);
-                    const tglMulai = new Date(filterTglMulai);
-                    const tglAkhir = new Date(filterTglAkhir);
-                    
-                    if (tglTerima < tglMulai || tglTerima > tglAkhir) return false;
+                return;
+            }
+            
+            // Daftar desa berdasarkan kecamatan (dalam aplikasi nyata, ini akan disesuaikan)
+            // Untuk sementara, tampilkan semua desa tanpa filter
+            for (const desa of desaList) {
+                const option = document.createElement('option');
+                option.value = desa;
+                option.textContent = desa;
+                desaSelect.appendChild(option);
+            }
+        }
+        
+        // Fungsi untuk update dropdown desa filter berdasarkan kecamatan
+        function updateFilterDesaDropdown() {
+            const kecamatan = document.getElementById('filterKecamatan').value;
+            const desaSelect = document.getElementById('filterDesa');
+            
+            if (!desaSelect) return;
+            
+            // Reset dropdown desa
+            desaSelect.innerHTML = '<option value="">Semua Desa</option>';
+            
+            // Jika tidak ada kecamatan yang dipilih, tampilkan semua desa
+            if (!kecamatan) {
+                for (const desa of desaList) {
+                    const option = document.createElement('option');
+                    option.value = desa;
+                    option.textContent = desa;
+                    desaSelect.appendChild(option);
                 }
+                return;
+            }
+            
+            // Daftar desa berdasarkan kecamatan (dalam aplikasi nyata, ini akan disesuaikan)
+            // Untuk sementara, tampilkan semua desa tanpa filter
+            for (const desa of desaList) {
+                const option = document.createElement('option');
+                option.value = desa;
+                option.textContent = desa;
+                desaSelect.appendChild(option);
+            }
+        }
+        
+        // Fungsi untuk update satuan bantuan berdasarkan jenis bantuan
+        function updateSatuanBantuan() {
+            const jenisBantuan = document.getElementById('jenisBantuan').value;
+            const satuanBantuan = document.getElementById('satuanBantuan');
+            
+            if (!satuanBantuan) return;
+            
+            // Reset dropdown satuan
+            satuanBantuan.innerHTML = '';
+            
+            // Set opsi satuan berdasarkan jenis bantuan
+            if (jenisBantuan === 'Uang') {
+                satuanBantuan.innerHTML = '<option value="Rupiah">Rupiah</option>';
+            } else if (jenisBantuan === 'Barang') {
+                satuanBantuan.innerHTML = `
+                    <option value="Unit">Unit</option>
+                    <option value="Paket">Paket</option>
+                    <option value="Set">Set</option>
+                `;
+            } else if (jenisBantuan === 'Jasa') {
+                satuanBantuan.innerHTML = `
+                    <option value="Jam">Jam</option>
+                    <option value="Hari">Hari</option>
+                    <option value="Paket">Paket</option>
+                `;
+            }
+        }
+        
+        // Fungsi untuk load data dari localStorage
+        function loadData() {
+            const savedData = localStorage.getItem('barjasData');
+            if (savedData) {
+                appData = JSON.parse(savedData);
+            }
+            
+            const savedCodes = localStorage.getItem('barjasGeneratedCodes');
+            if (savedCodes) {
+                generatedCodes = JSON.parse(savedCodes);
+            }
+            
+            renderDataTable();
+        }
+        
+        // Fungsi untuk save data ke localStorage
+        function saveData() {
+            localStorage.setItem('barjasData', JSON.stringify(appData));
+            localStorage.setItem('barjasGeneratedCodes', JSON.stringify(generatedCodes));
+        }
+        
+        // Fungsi untuk render data table
+        function renderDataTable() {
+            const tableBody = document.getElementById('dataTableBody');
+            if (!tableBody) return;
+            
+            tableBody.innerHTML = '';
+            
+            const dataToRender = isFilterActive ? filteredData : appData;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, dataToRender.length);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const data = dataToRender[i];
+                const row = document.createElement('tr');
                 
-                return true;
+                // Format nomor WhatsApp untuk tampilan
+                const whatsappDisplay = data.whatsapp ? data.whatsapp.replace('62', '0') : '-';
+                
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td>${data.nama}</td>
+                    <td>${data.nik}</td>
+                    <td>
+                        <span class="whatsapp-number" data-phone="${data.whatsapp}">
+                            ${whatsappDisplay}
+                        </span>
+                    </td>
+                    <td>${data.namaKelompok}</td>
+                    <td>${data.jabatan}</td>
+                    <td>${data.tahunAnggaran}</td>
+                    <td>${data.kecamatan}</td>
+                    <td>${data.desa}</td>
+                    <td>${data.jenisBantuan}</td>
+                    <td>${data.jumlahBantuan} ${data.satuanBantuan}</td>
+                    <td>${formatDate(data.tanggalTerima)}</td>
+                    <td>
+                        ${data.driveLink ? 
+                            `<a href="${data.driveLink}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-external-link-alt"></i> Link
+                            </a>` : 
+                            '-'
+                        }
+                    </td>
+                    <td>${data.kodeValidasi}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-info view-details" data-id="${data.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning edit-data" data-id="${data.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-data" data-id="${data.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            }
+            
+            // Update pagination
+            updatePagination(dataToRender.length);
+            
+            // Add event listeners to buttons
+            addTableEventListeners();
+        }
+        
+        // Fungsi untuk menambahkan event listeners pada tabel
+        function addTableEventListeners() {
+            // View details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    viewDataDetails(id);
+                });
             });
+            
+            // Edit buttons
+            document.querySelectorAll('.edit-data').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    editData(id);
+                });
+            });
+            
+            // Delete buttons
+            document.querySelectorAll('.delete-data').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    deleteData(id);
+                });
+            });
+            
+            // WhatsApp number click
+            document.querySelectorAll('.whatsapp-number').forEach(element => {
+                element.addEventListener('click', function() {
+                    const phone = this.getAttribute('data-phone');
+                    if (phone) {
+                        window.open(`https://wa.me/${phone}`, '_blank');
+                    }
+                });
+            });
+        }
+        
+        // Fungsi untuk view data details
+        function viewDataDetails(id) {
+            const data = appData.find(item => item.id === id);
+            if (!data) return;
+            
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+            
+            if (modalTitle && modalBody && modalFooter) {
+                modalTitle.textContent = 'Detail Penerima Bantuan';
+                
+                // Format nomor WhatsApp untuk tampilan
+                const whatsappDisplay = data.whatsapp ? data.whatsapp.replace('62', '0') : '-';
+                
+                modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Nama Lengkap:</label>
+                                <p>${data.nama}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">NIK:</label>
+                                <p>${data.nik}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">WhatsApp:</label>
+                                <p>${whatsappDisplay}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Nama Kelompok:</label>
+                                <p>${data.namaKelompok}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Jabatan:</label>
+                                <p>${data.jabatan}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Tahun Anggaran:</label>
+                                <p>${data.tahunAnggaran}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Kecamatan:</label>
+                                <p>${data.kecamatan}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Desa:</label>
+                                <p>${data.desa}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Alamat:</label>
+                                <p>${data.alamat || '-'}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Tanggal Terima:</label>
+                                <p>${formatDate(data.tanggalTerima)}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Jenis Bantuan:</label>
+                                <p>${data.jenisBantuan}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Jumlah Bantuan:</label>
+                                <p>${data.jumlahBantuan} ${data.satuanBantuan}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label class="fw-bold">Link Google Drive:</label>
+                                <p>${data.driveLink ? `<a href="${data.driveLink}" target="_blank">${data.driveLink}</a>` : '-'}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Kode Validasi:</label>
+                                <p>${data.kodeValidasi}</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Keterangan:</label>
+                                <p>${data.keterangan || '-'}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                modalFooter.innerHTML = `
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" onclick="editData(${data.id})">
+                        <i class="fas fa-edit me-1"></i> Edit Data
+                    </button>
+                `;
+                
+                const modal = new bootstrap.Modal(document.getElementById('genericModal'));
+                modal.show();
+            }
+        }
+        
+        // Fungsi untuk edit data
+        function editData(id) {
+            const data = appData.find(item => item.id === id);
+            if (!data) return;
+            
+            // Sembunyikan modal jika sedang terbuka
+            const existingModal = bootstrap.Modal.getInstance(document.getElementById('genericModal'));
+            if (existingModal) {
+                existingModal.hide();
+            }
+            
+            // Isi form dengan data yang akan diedit
+            document.getElementById('nama').value = data.nama;
+            document.getElementById('nik').value = data.nik;
+            document.getElementById('whatsapp').value = data.whatsapp;
+            document.getElementById('namaKelompok').value = data.namaKelompok;
+            document.getElementById('jabatan').value = data.jabatan;
+            document.getElementById('tahunAnggaran').value = data.tahunAnggaran;
+            document.getElementById('kecamatan').value = data.kecamatan;
+            document.getElementById('desa').value = data.desa;
+            document.getElementById('alamat').value = data.alamat || '';
+            document.getElementById('jenisBantuan').value = data.jenisBantuan;
+            document.getElementById('jumlahBantuan').value = data.jumlahBantuan;
+            document.getElementById('satuanBantuan').value = data.satuanBantuan;
+            document.getElementById('tanggalTerima').value = data.tanggalTerima;
+            document.getElementById('driveLink').value = data.driveLink || '';
+            document.getElementById('kodeValidasi').value = data.kodeValidasi;
+            document.getElementById('keterangan').value = data.keterangan || '';
+            
+            // Update satuan bantuan
+            updateSatuanBantuan();
+            
+            // Hapus data lama
+            deleteData(id, false);
+            
+            // Scroll ke form input
+            document.getElementById('inputForm').scrollIntoView({ behavior: 'smooth' });
+            
+            showNotification('Data siap untuk diedit. Silakan lakukan perubahan dan simpan.', 'info');
+        }
+        
+        // Fungsi untuk delete data
+        function deleteData(id, showNotification = true) {
+            if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                const index = appData.findIndex(item => item.id === id);
+                if (index !== -1) {
+                    appData.splice(index, 1);
+                    saveData();
+                    
+                    if (showNotification) {
+                        showNotification('Data berhasil dihapus!', 'success');
+                    }
+                    
+                    // Update UI
+                    updateDashboard();
+                    renderDataTable();
+                }
+            }
+        }
+        
+        // Fungsi untuk update pagination
+        function updatePagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const paginationElement = document.getElementById('pagination');
+            
+            if (!paginationElement) return;
+            
+            paginationElement.innerHTML = '';
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage - 1}">Sebelumnya</a>`;
+            paginationElement.appendChild(prevLi);
+            
+            // Page numbers
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageLi = document.createElement('li');
+                pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                pageLi.innerHTML = `<a class="page-link" href="#" data-page="${i}">${i}</a>`;
+                paginationElement.appendChild(pageLi);
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage + 1}">Selanjutnya</a>`;
+            paginationElement.appendChild(nextLi);
+            
+            // Add event listeners to pagination links
+            paginationElement.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = parseInt(this.getAttribute('data-page'));
+                    if (!isNaN(page)) {
+                        currentPage = page;
+                        renderDataTable();
+                    }
+                });
+            });
+            
+            // Update info pagination
+            const paginationInfo = document.getElementById('paginationInfo');
+            if (paginationInfo) {
+                const startIndex = (currentPage - 1) * itemsPerPage + 1;
+                const endIndex = Math.min(startIndex + itemsPerPage - 1, totalItems);
+                paginationInfo.textContent = `Menampilkan ${startIndex} sampai ${endIndex} dari ${totalItems} data`;
+            }
+        }
+        
+        // Fungsi untuk handle search
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchData').value.toLowerCase();
+            
+            if (searchTerm) {
+                filteredData = appData.filter(item => 
+                    item.nama.toLowerCase().includes(searchTerm) ||
+                    item.nik.toLowerCase().includes(searchTerm) ||
+                    item.namaKelompok.toLowerCase().includes(searchTerm) ||
+                    item.kecamatan.toLowerCase().includes(searchTerm) ||
+                    item.desa.toLowerCase().includes(searchTerm) ||
+                    item.jenisBantuan.toLowerCase().includes(searchTerm)
+                );
+                
+                isFilterActive = true;
+            } else {
+                isFilterActive = false;
+            }
             
             currentPage = 1;
             renderDataTable();
+        }
+        
+        // Fungsi untuk clear search
+        function clearSearch() {
+            document.getElementById('searchData').value = '';
+            isFilterActive = false;
+            currentPage = 1;
+            renderDataTable();
+        }
+        
+        // Fungsi untuk apply filter
+        function applyFilter() {
+            const tahun = document.getElementById('filterTahun').value;
+            const kecamatan = document.getElementById('filterKecamatan').value;
+            const desa = document.getElementById('filterDesa').value;
+            const jenisBantuan = document.getElementById('filterJenisBantuan').value;
             
-            showNotification(`Filter diterapkan. Ditemukan ${filteredData.length} data.`, 'success');
+            filteredData = appData.filter(item => {
+                return (
+                    (!tahun || item.tahunAnggaran == tahun) &&
+                    (!kecamatan || item.kecamatan === kecamatan) &&
+                    (!desa || item.desa === desa) &&
+                    (!jenisBantuan || item.jenisBantuan === jenisBantuan)
+                );
+            });
+            
+            isFilterActive = true;
+            currentPage = 1;
+            renderDataTable();
+            
+            showNotification('Filter berhasil diterapkan', 'success');
         }
         
         // Fungsi untuk reset filter
         function resetFilter() {
+            document.getElementById('filterTahun').value = '';
+            document.getElementById('filterKecamatan').value = '';
             document.getElementById('filterDesa').value = '';
-            document.getElementById('filterJenis').value = '';
-            document.getElementById('filterTglMulai').value = '';
-            document.getElementById('filterTglAkhir').value = '';
+            document.getElementById('filterJenisBantuan').value = '';
             
-            filteredData = [...penerimaBantuan];
+            isFilterActive = false;
             currentPage = 1;
             renderDataTable();
             
-            showNotification('Filter direset ke kondisi semula', 'info');
+            showNotification('Filter direset', 'info');
         }
         
-        // Fungsi untuk mengekspor data ke Excel
-        function exportToExcel() {
-            // Menggunakan library xlsx
-            const dataToExport = filteredData.map(item => ({
-                'Nama': item.nama,
-                'NIK': item.nik,
-                'No. KK': item.no_kk,
-                'Alamat': item.alamat,
-                'Desa': item.desa,
-                'Jenis Bantuan': item.jenis_bantuan,
-                'Jumlah Bantuan': item.jumlah_bantuan,
-                'Tanggal Terima': formatDate(item.tanggal_terima),
-                'Keterangan': item.keterangan,
-                'No. Telepon': item.no_telepon,
-                'Link Google Drive': item.link_gdrive,
-                'Kode Validasi': item.kode_validasi
-            }));
+        // Fungsi untuk update dashboard
+        function updateDashboard() {
+            // Update statistik
+            document.getElementById('totalData').textContent = appData.length;
             
-            const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data Penerima Bantuan');
+            // Hitung data tahun ini
+            const currentYear = new Date().getFullYear();
+            const dataThisYear = appData.filter(item => item.tahunAnggaran == currentYear).length;
+            document.getElementById('dataTahunIni').textContent = dataThisYear;
             
-            // Generate Excel file
-            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-            saveAsExcel(excelBuffer, 'Data_Penerima_Bantuan.xlsx');
+            // Hitung data bulan ini
+            const currentMonth = new Date().getMonth() + 1;
+            const dataThisMonth = appData.filter(item => {
+                const itemDate = new Date(item.tanggalInput);
+                return itemDate.getMonth() + 1 === currentMonth && itemDate.getFullYear() === currentYear;
+            }).length;
+            document.getElementById('dataBulanIni').textContent = dataThisMonth;
             
-            showNotification('Data berhasil diekspor ke Excel', 'success');
+            // Hitung data hari ini
+            const today = new Date().toDateString();
+            const dataToday = appData.filter(item => new Date(item.tanggalInput).toDateString() === today).length;
+            document.getElementById('dataHariIni').textContent = dataToday;
+            
+            // Update charts
+            updateCharts();
         }
         
-        // Fungsi untuk menyimpan file Excel
-        function saveAsExcel(buffer, filename) {
-            const blob = new Blob([buffer], { type: 'application/octet-stream' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);
+        // Fungsi untuk inisialisasi charts
+        function initializeCharts() {
+            // Inisialisasi chart distribusi bantuan
+            const ctxDistribution = document.getElementById('distributionChart');
+            if (ctxDistribution) {
+                window.distributionChart = new Chart(ctxDistribution, {
+                    type: 'pie',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)',
+                                'rgba(255, 159, 64, 0.7)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Distribusi Bantuan per Kecamatan'
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Inisialisasi chart trend bantuan
+            const ctxTrend = document.getElementById('trendChart');
+            if (ctxTrend) {
+                window.trendChart = new Chart(ctxTrend, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Jumlah Bantuan per Tahun',
+                            data: [],
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Trend Bantuan per Tahun'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Inisialisasi chart jenis bantuan
+            const ctxJenis = document.getElementById('jenisBantuanChart');
+            if (ctxJenis) {
+                window.jenisBantuanChart = new Chart(ctxJenis, {
+                    type: 'bar',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Jumlah Bantuan',
+                            data: [],
+                            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Distribusi Jenis Bantuan'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
         
-        // Fungsi untuk mengekspor data ke PDF
-        function exportToPDF() {
+        // Fungsi untuk update charts
+        function updateCharts() {
+            if (appData.length === 0) return;
+            
+            // Update distribution chart (per kecamatan)
+            const kecamatanCount = {};
+            appData.forEach(item => {
+                kecamatanCount[item.kecamatan] = (kecamatanCount[item.kecamatan] || 0) + 1;
+            });
+            
+            if (window.distributionChart) {
+                window.distributionChart.data.labels = Object.keys(kecamatanCount);
+                window.distributionChart.data.datasets[0].data = Object.values(kecamatanCount);
+                window.distributionChart.update();
+            }
+            
+            // Update trend chart (per tahun)
+            const tahunCount = {};
+            appData.forEach(item => {
+                tahunCount[item.tahunAnggaran] = (tahunCount[item.tahunAnggaran] || 0) + 1;
+            });
+            
+            // Urutkan tahun
+            const sortedYears = Object.keys(tahunCount).sort();
+            const trendData = sortedYears.map(year => tahunCount[year]);
+            
+            if (window.trendChart) {
+                window.trendChart.data.labels = sortedYears;
+                window.trendChart.data.datasets[0].data = trendData;
+                window.trendChart.update();
+            }
+            
+            // Update jenis bantuan chart
+            const jenisCount = {};
+            appData.forEach(item => {
+                jenisCount[item.jenisBantuan] = (jenisCount[item.jenisBantuan] || 0) + 1;
+            });
+            
+            if (window.jenisBantuanChart) {
+                window.jenisBantuanChart.data.labels = Object.keys(jenisCount);
+                window.jenisBantuanChart.data.datasets[0].data = Object.values(jenisCount);
+                window.jenisBantuanChart.update();
+            }
+        }
+        
+        // Fungsi untuk print to PDF
+        function printToPdf() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Judul
+            // Add title
             doc.setFontSize(18);
-            doc.text('DATA PENERIMA BANTUAN', 105, 15, { align: 'center' });
+            doc.text('LAPORAN DATA BANTUAN', 105, 15, { align: 'center' });
+            
+            // Add date
             doc.setFontSize(12);
-            doc.text(`Tanggal Ekspor: ${new Date().toLocaleDateString('id-ID')}`, 105, 22, { align: 'center' });
+            doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID')}`, 105, 22, { align: 'center' });
             
-            // Data
-            const columns = [
-                { header: 'No', dataKey: 'no' },
-                { header: 'Nama', dataKey: 'nama' },
-                { header: 'Desa', dataKey: 'desa' },
-                { header: 'Jenis Bantuan', dataKey: 'jenis_bantuan' },
-                { header: 'Jumlah', dataKey: 'jumlah_bantuan' },
-                { header: 'Tanggal', dataKey: 'tanggal_terima' }
-            ];
+            // Get filtered data
+            const dataToPrint = isFilterActive ? filteredData : appData;
             
-            const data = filteredData.map((item, index) => ({
-                no: index + 1,
-                nama: item.nama,
-                desa: item.desa,
-                jenis_bantuan: item.jenis_bantuan,
-                jumlah_bantuan: formatCurrency(item.jumlah_bantuan),
-                tanggal_terima: formatDate(item.tanggal_terima)
-            }));
+            if (dataToPrint.length === 0) {
+                doc.text('Tidak ada data untuk dicetak', 20, 30);
+                doc.save('laporan-bantuan.pdf');
+                return;
+            }
             
-            // Buat tabel
+            // Prepare table data
+            const tableData = dataToPrint.map((item, index) => [
+                index + 1,
+                item.nama,
+                item.nik,
+                item.namaKelompok,
+                item.tahunAnggaran,
+                item.kecamatan,
+                item.desa,
+                `${item.jumlahBantuan} ${item.satuanBantuan}`,
+                formatDate(item.tanggalTerima)
+            ]);
+            
+            // Add table
             doc.autoTable({
-                columns: columns,
-                body: data,
+                head: [['No', 'Nama', 'NIK', 'Kelompok', 'Tahun', 'Kecamatan', 'Desa', 'Jumlah', 'Tanggal']],
+                body: tableData,
                 startY: 30,
-                styles: { fontSize: 9 },
-                headStyles: { fillColor: [13, 71, 161] },
-                alternateRowStyles: { fillColor: [240, 240, 240] }
+                theme: 'grid',
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [41, 128, 185] }
             });
             
-            // Simpan PDF
-            doc.save('Data_Penerima_Bantuan.pdf');
+            // Save PDF
+            doc.save('laporan-bantuan.pdf');
             
-            showNotification('Data berhasil diekspor ke PDF', 'success');
+            showNotification('PDF berhasil diunduh', 'success');
         }
         
-        // Fungsi untuk mencetak data
-        function printData() {
-            // Buat elemen untuk print
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
+        // Fungsi untuk print langsung
+        function printDirect() {
+            const dataToPrint = isFilterActive ? filteredData : appData;
+            
+            if (dataToPrint.length === 0) {
+                showNotification('Tidak ada data untuk dicetak', 'warning');
+                return;
+            }
+            
+            // Create print content
+            const printContent = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Cetak Data Penerima Bantuan</title>
+                    <title>Cetak Laporan Bantuan</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
-                        .print-header { text-align: center; margin-bottom: 20px; }
-                        .print-title { font-size: 18px; font-weight: bold; }
-                        .print-subtitle { font-size: 14px; }
-                        .print-date { text-align: right; font-size: 12px; margin-bottom: 10px; }
-                        table { width: 100%; border-collapse: collapse; font-size: 12px; }
-                        th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
-                        th { background-color: #0d47a1; color: white; }
-                        tr:nth-child(even) { background-color: #f2f2f2; }
-                        @media print {
-                            @page { size: landscape; margin: 0.5cm; }
-                            body { margin: 0; }
-                        }
+                        h1 { text-align: center; margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f2f2f2; }
+                        .print-date { text-align: right; margin-bottom: 20px; }
                     </style>
                 </head>
                 <body>
-                    <div class="print-header">
-                        <div class="print-title">DATA PENERIMA BANTUAN</div>
-                        <div class="print-subtitle">BARJAS - Sistem Bantuan Terpadu</div>
-                    </div>
-                    <div class="print-date">Dicetak pada: ${new Date().toLocaleDateString('id-ID')} ${new Date().toLocaleTimeString('id-ID')}</div>
+                    <h1>LAPORAN DATA BANTUAN</h1>
+                    <div class="print-date">Tanggal Cetak: ${new Date().toLocaleDateString('id-ID')}</div>
                     <table>
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
                                 <th>NIK</th>
-                                <th>No. KK</th>
+                                <th>Kelompok</th>
+                                <th>Tahun</th>
+                                <th>Kecamatan</th>
                                 <th>Desa</th>
-                                <th>Jenis Bantuan</th>
                                 <th>Jumlah</th>
                                 <th>Tanggal</th>
                             </tr>
                         </thead>
                         <tbody>
-            `);
-            
-            // Isi data
-            filteredData.forEach((item, index) => {
-                printWindow.document.write(`
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${item.nama}</td>
-                        <td>${item.nik}</td>
-                        <td>${item.no_kk}</td>
-                        <td>${item.desa}</td>
-                        <td>${item.jenis_bantuan}</td>
-                        <td>${formatCurrency(item.jumlah_bantuan)}</td>
-                        <td>${formatDate(item.tanggal_terima)}</td>
-                    </tr>
-                `);
-            });
-            
-            printWindow.document.write(`
+                            ${dataToPrint.map((item, index) => `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${item.nama}</td>
+                                    <td>${item.nik}</td>
+                                    <td>${item.namaKelompok}</td>
+                                    <td>${item.tahunAnggaran}</td>
+                                    <td>${item.kecamatan}</td>
+                                    <td>${item.desa}</td>
+                                    <td>${item.jumlahBantuan} ${item.satuanBantuan}</td>
+                                    <td>${formatDate(item.tanggalTerima)}</td>
+                                </tr>
+                            `).join('')}
                         </tbody>
                     </table>
                 </body>
                 </html>
-            `);
-            
-            printWindow.document.close();
-            printWindow.focus();
-            
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 250);
-            
-            showNotification('Mempersiapkan cetakan...', 'info');
-        }
-        
-        // Fungsi untuk melihat detail item
-        function viewItem(id) {
-            const item = penerimaBantuan.find(i => i.id === id);
-            if (!item) return;
-            
-            // Tampilkan modal dengan detail item
-            const modalContent = `
-                <div class="modal fade" id="viewModal" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary text-white">
-                                <h5 class="modal-title">Detail Penerima Bantuan</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h6>Data Pribadi</h6>
-                                        <table class="table table-borderless">
-                                            <tr>
-                                                <th width="40%">Nama</th>
-                                                <td>${item.nama}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>NIK</th>
-                                                <td>${item.nik}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>No. KK</th>
-                                                <td>${item.no_kk}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Alamat</th>
-                                                <td>${item.alamat}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Desa</th>
-                                                <td>${item.desa}</td>
-                                            </tr>
-                                            ${item.no_telepon ? `
-                                            <tr>
-                                                <th>No. Telepon/WA</th>
-                                                <td>
-                                                    ${item.no_telepon} 
-                                                    <a href="https://wa.me/${item.no_telepon}" target="_blank" class="btn btn-sm btn-success ms-2">
-                                                        <i class="fab fa-whatsapp"></i> WhatsApp
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            ` : ''}
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h6>Data Bantuan</h6>
-                                        <table class="table table-borderless">
-                                            <tr>
-                                                <th width="40%">Jenis Bantuan</th>
-                                                <td><span class="badge bg-primary">${item.jenis_bantuan}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Jumlah Bantuan</th>
-                                                <td>${formatCurrency(item.jumlah_bantuan)}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Tanggal Terima</th>
-                                                <td>${formatDate(item.tanggal_terima)}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Keterangan</th>
-                                                <td>${item.keterangan || '-'}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Kode Validasi</th>
-                                                <td><code>${item.kode_validasi}</code></td>
-                                            </tr>
-                                            ${item.link_gdrive ? `
-                                            <tr>
-                                                <th>Link Google Drive</th>
-                                                <td>
-                                                    <a href="${item.link_gdrive}" target="_blank" class="btn btn-sm btn-info">
-                                                        <i class="fas fa-external-link-alt"></i> Buka Link
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            ` : ''}
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="button" class="btn btn-primary" onclick="printItem('${item.id}')">
-                                    <i class="fas fa-print"></i> Cetak
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             `;
             
-            // Tambahkan modal ke body jika belum ada
-            if (!document.getElementById('viewModal')) {
-                const modalDiv = document.createElement('div');
-                modalDiv.innerHTML = modalContent;
-                document.body.appendChild(modalDiv);
-            } else {
-                document.getElementById('viewModal').remove();
-                const modalDiv = document.createElement('div');
-                modalDiv.innerHTML = modalContent;
-                document.body.appendChild(modalDiv);
-            }
-            
-            // Tampilkan modal
-            const viewModal = new bootstrap.Modal(document.getElementById('viewModal'));
-            viewModal.show();
-        }
-        
-        // Fungsi untuk mencetak item tertentu
-        function printItem(id) {
-            const item = penerimaBantuan.find(i => i.id === id);
-            if (!item) return;
-            
+            // Open print window
             const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Cetak Data Penerima - ${item.nama}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; }
-                        .header { text-align: center; margin-bottom: 20px; }
-                        .title { font-size: 18px; font-weight: bold; }
-                        .subtitle { font-size: 14px; }
-                        .print-date { text-align: right; font-size: 12px; margin-bottom: 20px; }
-                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                        th { background-color: #f2f2f2; width: 30%; }
-                        .footer { margin-top: 30px; text-align: right; }
-                        .signature { margin-top: 60px; }
-                        @media print {
-                            body { margin: 0; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <div class="title">DATA PENERIMA BANTUAN</div>
-                        <div class="subtitle">BARJAS - Sistem Bantuan Terpadu</div>
-                    </div>
-                    <div class="print-date">Dicetak pada: ${new Date().toLocaleDateString('id-ID')}</div>
-                    
-                    <h4>Data Pribadi</h4>
-                    <table>
-                        <tr>
-                            <th>Nama Lengkap</th>
-                            <td>${item.nama}</td>
-                        </tr>
-                        <tr>
-                            <th>NIK</th>
-                            <td>${item.nik}</td>
-                        </tr>
-                        <tr>
-                            <th>No. Kartu Keluarga</th>
-                            <td>${item.no_kk}</td>
-                        </tr>
-                        <tr>
-                            <th>Alamat</th>
-                            <td>${item.alamat}</td>
-                        </tr>
-                        <tr>
-                            <th>Desa</th>
-                            <td>${item.desa}</td>
-                        </tr>
-                        <tr>
-                            <th>No. Telepon/WhatsApp</th>
-                            <td>${item.no_telepon || '-'}</td>
-                        </tr>
-                    </table>
-                    
-                    <h4>Data Bantuan</h4>
-                    <table>
-                        <tr>
-                            <th>Jenis Bantuan</th>
-                            <td>${item.jenis_bantuan}</td>
-                        </tr>
-                        <tr>
-                            <th>Jumlah Bantuan</th>
-                            <td>${formatCurrency(item.jumlah_bantuan)}</td>
-                        </tr>
-                        <tr>
-                            <th>Tanggal Penerimaan</th>
-                            <td>${formatDate(item.tanggal_terima)}</td>
-                        </tr>
-                        <tr>
-                            <th>Keterangan</th>
-                            <td>${item.keterangan || '-'}</td>
-                        </tr>
-                        <tr>
-                            <th>Kode Validasi</th>
-                            <td><strong>${item.kode_validasi}</strong></td>
-                        </tr>
-                    </table>
-                    
-                    <div class="footer">
-                        <div class="signature">
-                            <div>Situbondo, ${new Date().toLocaleDateString('id-ID')}</div>
-                            <br><br><br>
-                            <div>_________________________</div>
-                            <div>Petugas</div>
-                        </div>
-                    </div>
-                </body>
-                </html>
-            `);
-            
+            printWindow.document.write(printContent);
             printWindow.document.close();
-            printWindow.focus();
-            
-            setTimeout(() => {
-                printWindow.print();
-                // printWindow.close();
-            }, 250);
+            printWindow.print();
         }
         
-        // Fungsi untuk mengedit item
-        function editItem(id) {
-            // Implementasi edit item
-            showNotification('Fitur edit akan segera tersedia', 'info');
-        }
-        
-        // Fungsi untuk menghapus item
-        function deleteItem(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus data ini?')) return;
+        // Fungsi untuk show preview
+        function showPreview() {
+            const dataToPreview = isFilterActive ? filteredData : appData;
             
-            const index = penerimaBantuan.findIndex(item => item.id === id);
-            if (index !== -1) {
-                penerimaBantuan.splice(index, 1);
-                localStorage.setItem('penerimaBantuan', JSON.stringify(penerimaBantuan));
-                loadData();
-                updateDashboard();
-                initDashboardCharts();
-                showNotification('Data berhasil dihapus', 'success');
-            }
-        }
-        
-        // Fungsi untuk memperbarui chart statistik
-        function updateStatistikChart() {
-            const chartType = document.getElementById('chartType').value;
-            const chartBy = document.getElementById('chartBy').value;
-            
-            let labels = [];
-            let data = [];
-            let labelText = '';
-            
-            if (chartBy === 'desa') {
-                const desaData = getDataByDesa();
-                labels = desaData.map(item => item.desa);
-                data = desaData.map(item => item.count);
-                labelText = 'Jumlah Penerima per Desa';
-            } else if (chartBy === 'jenis') {
-                const jenisData = getDataByJenisBantuan();
-                labels = jenisData.map(item => item.jenis);
-                data = jenisData.map(item => item.count);
-                labelText = 'Jumlah Penerima per Jenis Bantuan';
-            } else if (chartBy === 'bulan') {
-                const bulanData = getDataByBulan();
-                labels = bulanData.map(item => item.bulan);
-                data = bulanData.map(item => item.count);
-                labelText = 'Jumlah Penerima per Bulan';
+            if (dataToPreview.length === 0) {
+                showNotification('Tidak ada data untuk dipratinjau', 'warning');
+                return;
             }
             
-            // Hapus chart sebelumnya jika ada
-            const ctx = document.getElementById('statistikChart').getContext('2d');
-            if (currentChart) {
-                currentChart.destroy();
-            }
+            const previewBody = document.getElementById('previewBody');
+            if (!previewBody) return;
             
-            // Buat chart baru
-            currentChart = new Chart(ctx, {
-                type: chartType,
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: labelText,
-                        data: data,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 206, 86, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(153, 102, 255, 0.7)',
-                            'rgba(255, 159, 64, 0.7)',
-                            'rgba(199, 199, 199, 0.7)',
-                            'rgba(83, 102, 255, 0.7)',
-                            'rgba(40, 159, 64, 0.7)',
-                            'rgba(210, 99, 132, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(199, 199, 199, 1)',
-                            'rgba(83, 102, 255, 1)',
-                            'rgba(40, 159, 64, 1)',
-                            'rgba(210, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: `Grafik Data Penerima Bantuan Berdasarkan ${chartBy.toUpperCase()}`
-                        }
-                    }
-                }
-            });
+            previewBody.innerHTML = '';
             
-            // Perbarui tabel statistik
-            updateStatistikTable(chartBy);
-            
-            showNotification('Grafik berhasil diperbarui', 'success');
-        }
-        
-        // Fungsi untuk memperbarui tabel statistik
-        function updateStatistikTable(by) {
-            const tableBody = document.querySelector('#statistikTable tbody');
-            tableBody.innerHTML = '';
-            
-            let data = [];
-            
-            if (by === 'desa') {
-                data = getDataByDesa();
-            } else if (by === 'jenis') {
-                data = getDataByJenisBantuan();
-            } else if (by === 'bulan') {
-                data = getDataByBulan();
-            }
-            
-            // Hitung total
-            const totalPenerima = data.reduce((sum, item) => sum + item.count, 0);
-            const totalBantuan = data.reduce((sum, item) => sum + item.total, 0);
-            
-            data.forEach(item => {
-                const percentage = ((item.count / totalPenerima) * 100).toFixed(1);
+            dataToPreview.forEach((item, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${by === 'bulan' ? item.bulan : item[by]}</td>
-                    <td>${item.count}</td>
-                    <td>${formatCurrency(item.total)}</td>
-                    <td>${formatCurrency(Math.round(item.total / item.count))}</td>
-                    <td>${percentage}%</td>
+                    <td>${index + 1}</td>
+                    <td>${item.nama}</td>
+                    <td>${item.nik}</td>
+                    <td>${item.namaKelompok}</td>
+                    <td>${item.tahunAnggaran}</td>
+                    <td>${item.kecamatan}</td>
+                    <td>${item.desa}</td>
+                    <td>${item.jenisBantuan}</td>
+                    <td>${item.jumlahBantuan} ${item.satuanBantuan}</td>
+                    <td>${formatDate(item.tanggalTerima)}</td>
                 `;
-                tableBody.appendChild(row);
+                previewBody.appendChild(row);
             });
             
-            // Tambahkan baris total
-            const totalRow = document.createElement('tr');
-            totalRow.classList.add('table-primary');
-            totalRow.innerHTML = `
-                <td><strong>TOTAL</strong></td>
-                <td><strong>${totalPenerima}</strong></td>
-                <td><strong>${formatCurrency(totalBantuan)}</strong></td>
-                <td><strong>${formatCurrency(Math.round(totalBantuan / totalPenerima))}</strong></td>
-                <td><strong>100%</strong></td>
-            `;
-            tableBody.appendChild(totalRow);
-        }
-        
-        // Fungsi untuk mendapatkan data berdasarkan desa
-        function getDataByDesa() {
-            const result = {};
-            
-            penerimaBantuan.forEach(item => {
-                if (!result[item.desa]) {
-                    result[item.desa] = {
-                        desa: item.desa,
-                        count: 0,
-                        total: 0
-                    };
-                }
-                result[item.desa].count++;
-                result[item.desa].total += item.jumlah_bantuan;
-            });
-            
-            return Object.values(result).sort((a, b) => b.count - a.count);
-        }
-        
-        // Fungsi untuk mendapatkan data berdasarkan jenis bantuan
-        function getDataByJenisBantuan() {
-            const result = {};
-            
-            penerimaBantuan.forEach(item => {
-                if (!result[item.jenis_bantuan]) {
-                    result[item.jenis_bantuan] = {
-                        jenis: item.jenis_bantuan,
-                        count: 0,
-                        total: 0
-                    };
-                }
-                result[item.jenis_bantuan].count++;
-                result[item.jenis_bantuan].total += item.jumlah_bantuan;
-            });
-            
-            return Object.values(result).sort((a, b) => b.count - a.count);
-        }
-        
-        // Fungsi untuk mendapatkan data berdasarkan bulan
-        function getDataByBulan() {
-            const result = {};
-            const monthNames = [
-                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-            ];
-            
-            penerimaBantuan.forEach(item => {
-                const date = new Date(item.tanggal_terima);
-                const monthYear = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-                
-                if (!result[monthYear]) {
-                    result[monthYear] = {
-                        bulan: monthYear,
-                        count: 0,
-                        total: 0
-                    };
-                }
-                result[monthYear].count++;
-                result[monthYear].total += item.jumlah_bantuan;
-            });
-            
-            return Object.values(result).sort((a, b) => {
-                // Urutkan berdasarkan tanggal
-                const [monthA, yearA] = a.bulan.split(' ');
-                const [monthB, yearB] = b.bulan.split(' ');
-                
-                const dateA = new Date(`${yearA}-${monthNames.indexOf(monthA) + 1}-01`);
-                const dateB = new Date(`${yearB}-${monthNames.indexOf(monthB) + 1}-01`);
-                
-                return dateA - dateB;
-            });
-        }
-        
-        // Fungsi untuk menampilkan notifikasi
-        function showNotification(message, type = 'info') {
-            const toast = document.getElementById('notificationToast');
-            const toastMessage = document.getElementById('toastMessage');
-            
-            // Set warna berdasarkan jenis notifikasi
-            const toastHeader = toast.querySelector('.toast-header');
-            toastHeader.className = 'toast-header';
-            
-            switch (type) {
-                case 'success':
-                    toastHeader.classList.add('bg-success', 'text-white');
-                    break;
-                case 'error':
-                    toastHeader.classList.add('bg-danger', 'text-white');
-                    break;
-                case 'warning':
-                    toastHeader.classList.add('bg-warning');
-                    break;
-                default:
-                    toastHeader.classList.add('bg-primary', 'text-white');
+            // Update preview info
+            const previewInfo = document.getElementById('previewInfo');
+            if (previewInfo) {
+                previewInfo.textContent = `Menampilkan ${dataToPreview.length} data`;
             }
             
-            // Set pesan
-            toastMessage.textContent = message;
-            
-            // Tampilkan notifikasi
-            const bsToast = new bootstrap.Toast(toast);
-            bsToast.show();
+            // Show preview modal
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
         }
         
-        // Fungsi untuk memformat tanggal
+        // Fungsi untuk print dari preview
+        function printFromPreview() {
+            window.print();
+        }
+        
+        // Fungsi untuk export ke Excel
+        function exportToExcel() {
+            const dataToExport = isFilterActive ? filteredData : appData;
+            
+            if (dataToExport.length === 0) {
+                showNotification('Tidak ada data untuk diexport', 'warning');
+                return;
+            }
+            
+            // Prepare data for Excel
+            const excelData = dataToExport.map(item => ({
+                'Nama': item.nama,
+                'NIK': item.nik,
+                'WhatsApp': item.whatsapp,
+                'Nama Kelompok': item.namaKelompok,
+                'Jabatan': item.jabatan,
+                'Tahun Anggaran': item.tahunAnggaran,
+                'Kecamatan': item.kecamatan,
+                'Desa': item.desa,
+                'Alamat': item.alamat || '',
+                'Jenis Bantuan': item.jenisBantuan,
+                'Jumlah Bantuan': item.jumlahBantuan,
+                'Satuan Bantuan': item.satuanBantuan,
+                'Tanggal Terima': formatDate(item.tanggalTerima),
+                'Link Google Drive': item.driveLink || '',
+                'Kode Validasi': item.kodeValidasi,
+                'Keterangan': item.keterangan || ''
+            }));
+            
+            // Create worksheet
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            
+            // Create workbook
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Data Bantuan');
+            
+            // Export to Excel
+            XLSX.writeFile(workbook, 'data-bantuan.xlsx');
+            
+            showNotification('Data berhasil diexport ke Excel', 'success');
+        }
+        
+        // Fungsi untuk export ke CSV
+        function exportToCsv() {
+            const dataToExport = isFilterActive ? filteredData : appData;
+            
+            if (dataToExport.length === 0) {
+                showNotification('Tidak ada data untuk diexport', 'warning');
+                return;
+            }
+            
+            // Prepare headers
+            const headers = [
+                'Nama', 'NIK', 'WhatsApp', 'Nama Kelompok', 'Jabatan', 
+                'Tahun Anggaran', 'Kecamatan', 'Desa', 'Alamat', 
+                'Jenis Bantuan', 'Jumlah Bantuan', 'Satuan Bantuan', 
+                'Tanggal Terima', 'Link Google Drive', 'Kode Validasi', 'Keterangan'
+            ];
+            
+            // Prepare data rows
+            const csvData = dataToExport.map(item => [
+                item.nama,
+                item.nik,
+                item.whatsapp,
+                item.namaKelompok,
+                item.jabatan,
+                item.tahunAnggaran,
+                item.kecamatan,
+                item.desa,
+                item.alamat || '',
+                item.jenisBantuan,
+                item.jumlahBantuan,
+                item.satuanBantuan,
+                formatDate(item.tanggalTerima),
+                item.driveLink || '',
+                item.kodeValidasi,
+                item.keterangan || ''
+            ]);
+            
+            // Combine headers and data
+            const csvContent = [headers, ...csvData]
+                .map(row => row.map(field => `"${field}"`).join(','))
+                .join('\n');
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'data-bantuan.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Data berhasil diexport ke CSV', 'success');
+        }
+        
+        // Fungsi untuk export ke JSON
+        function exportToJson() {
+            const dataToExport = isFilterActive ? filteredData : appData;
+            
+            if (dataToExport.length === 0) {
+                showNotification('Tidak ada data untuk diexport', 'warning');
+                return;
+            }
+            
+            // Create JSON string
+            const jsonString = JSON.stringify(dataToExport, null, 2);
+            
+            // Create download link
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'data-bantuan.json');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Data berhasil diexport ke JSON', 'success');
+        }
+        
+        // Fungsi untuk export ke PDF
+        function exportToPdf() {
+            printToPdf(); // Reuse the printToPdf function
+        }
+        
+        // Fungsi untuk backup data
+        function backupData() {
+            // Create backup object with data and metadata
+            const backup = {
+                appData: appData,
+                generatedCodes: generatedCodes,
+                backupDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            // Create JSON string
+            const jsonString = JSON.stringify(backup, null, 2);
+            
+            // Create download link
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `backup-barjas-${new Date().toISOString().split('T')[0]}.json`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Backup data berhasil dibuat', 'success');
+        }
+        
+        // Fungsi untuk enable restore button
+        function enableRestoreButton() {
+            const fileInput = document.getElementById('restoreFileInput');
+            const restoreButton = document.getElementById('restoreDataBtn');
+            
+            if (fileInput && restoreButton) {
+                restoreButton.disabled = !fileInput.files || fileInput.files.length === 0;
+            }
+        }
+        
+        // Fungsi untuk restore data
+        function restoreData() {
+            const fileInput = document.getElementById('restoreFileInput');
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showNotification('Pilih file backup terlebih dahulu', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const backup = JSON.parse(e.target.result);
+                    
+                    // Validate backup file
+                    if (!backup.appData || !backup.generatedCodes) {
+                        throw new Error('Format file backup tidak valid');
+                    }
+                    
+                    // Confirm restoration
+                    if (confirm('Apakah Anda yakin ingin memulihkan data dari backup? Data saat ini akan digantikan.')) {
+                        appData = backup.appData;
+                        generatedCodes = backup.generatedCodes;
+                        
+                        saveData();
+                        
+                        // Update UI
+                        updateDashboard();
+                        renderDataTable();
+                        
+                        showNotification('Data berhasil dipulihkan dari backup', 'success');
+                        
+                        // Reset file input
+                        fileInput.value = '';
+                        document.getElementById('restoreDataBtn').disabled = true;
+                    }
+                } catch (error) {
+                    console.error('Error restoring backup:', error);
+                    showNotification('Gagal memulihkan data: ' + error.message, 'error');
+                }
+            };
+            
+            reader.onerror = function() {
+                showNotification('Gagal membaca file backup', 'error');
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // Fungsi untuk enable reset button
+        function enableResetButton() {
+            const confirmationInput = document.getElementById('resetConfirmationInput');
+            const resetButton = document.getElementById('confirmResetBtn');
+            
+            if (confirmationInput && resetButton) {
+                resetButton.disabled = confirmationInput.value.toLowerCase() !== 'reset data';
+            }
+        }
+        
+        // Fungsi untuk reset data
+        function resetData() {
+            // Clear all data
+            appData = [];
+            generatedCodes = {};
+            
+            saveData();
+            
+            // Update UI
+            updateDashboard();
+            renderDataTable();
+            
+            // Close modal
+            const resetModal = bootstrap.Modal.getInstance(document.getElementById('confirmResetModal'));
+            if (resetModal) {
+                resetModal.hide();
+            }
+            
+            // Reset confirmation input
+            document.getElementById('resetConfirmationInput').value = '';
+            document.getElementById('confirmResetBtn').disabled = true;
+            
+            showNotification('Semua data berhasil direset', 'success');
+        }
+        
+        // Fungsi untuk save settings
+        function saveSettings(e) {
+            e.preventDefault();
+            
+            // Get settings values
+            const defaultTahun = document.getElementById('defaultTahun').value;
+            const itemsPerPageSetting = document.getElementById('itemsPerPage').value;
+            
+            // Save to localStorage
+            localStorage.setItem('barjasDefaultTahun', defaultTahun);
+            localStorage.setItem('barjasItemsPerPage', itemsPerPageSetting);
+            
+            // Update current items per page
+            itemsPerPage = parseInt(itemsPerPageSetting) || 25;
+            
+            // Update UI
+            renderDataTable();
+            
+            showNotification('Pengaturan berhasil disimpan', 'success');
+        }
+        
+        // Fungsi untuk toggle mobile menu
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar && overlay) {
+                sidebar.classList.toggle('mobile-show');
+                overlay.classList.toggle('show');
+            }
+        }
+        
+        // Fungsi untuk scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Fungsi untuk setup browser info
+        function setupBrowserInfo() {
+            const browserInfo = document.getElementById('browserInfo');
+            if (!browserInfo) return;
+            
+            const userAgent = navigator.userAgent;
+            let browserName = 'Browser tidak dikenali';
+            
+            if (userAgent.includes('Firefox')) {
+                browserName = 'Mozilla Firefox';
+            } else if (userAgent.includes('Chrome')) {
+                browserName = 'Google Chrome';
+            } else if (userAgent.includes('Safari')) {
+                browserName = 'Apple Safari';
+            } else if (userAgent.includes('Edge')) {
+                browserName = 'Microsoft Edge';
+            } else if (userAgent.includes('Opera')) {
+                browserName = 'Opera';
+            } else if (userAgent.includes('Trident')) {
+                browserName = 'Internet Explorer';
+            }
+            
+            browserInfo.textContent = `Browser: ${browserName}`;
+        }
+        
+        // Fungsi untuk format tanggal
         function formatDate(dateString) {
+            if (!dateString) return '-';
+            
             const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            
             return date.toLocaleDateString('id-ID', {
                 day: '2-digit',
                 month: '2-digit',
@@ -3441,54 +3734,49 @@
             });
         }
         
-        // Fungsi untuk memformat mata uang
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(amount);
-        }
-        
-        // Fungsi untuk memvalidasi URL
-        function isValidURL(string) {
-            try {
-                new URL(string);
-                return true;
-            } catch (_) {
-                return false;
-            }
-        }
-        
-        // Inisialisasi aplikasi setelah halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi tooltip Bootstrap
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
+        // Fungsi untuk show notification
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.custom-notification');
+            existingNotifications.forEach(notification => {
+                notification.remove();
             });
             
-            // Inisialisasi aplikasi
-            initApp();
-        });
-        
-        // Fungsi untuk mengatasi masalah responsivitas pada perangkat mobile
-        function handleMobileView() {
-            if (window.innerWidth < 992) {
-                // Mobile view
-                document.getElementById('sidebarMenu').classList.remove('mobile-show');
-            } else {
-                // Desktop view
-                document.getElementById('sidebarMenu').classList.remove('mobile-show');
-                document.getElementById('sidebarOverlay').classList.remove('mobile-show');
-            }
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `custom-notification custom-notification-${type}`;
+            
+            // Set icon based on type
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'warning') icon = 'exclamation-triangle';
+            
+            notification.innerHTML = `
+                <div class="custom-notification-content">
+                    <i class="fas fa-${icon}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
         }
-        
-        // Event listener untuk resize window
-        window.addEventListener('resize', handleMobileView);
-        
-        // Panggil sekali saat pertama kali dimuat
-        handleMobileView();
     </script>
 </body>
 </html>
