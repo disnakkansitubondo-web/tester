@@ -522,6 +522,67 @@
         
         /* Print Styles - IMPROVED FOR LANDSCAPE */
         @media print {
+            .no-print, .nav-pills, .mobile-menu-btn, .sidebar-overlay, 
+            .floating-action-btn, .btn-group, .filter-section, .toast,
+            .modal-footer, .modal-header .btn-close {
+                display: none !important;
+            }
+            
+            /* Tampilkan elemen yang khusus untuk cetak */
+            .print-only {
+                display: block !important;
+            }
+            
+            /* Atur margin dan padding untuk halaman cetak */
+            body {
+                margin: 0;
+                padding: 15px;
+                font-size: 12px;
+                background: white;
+                color: black;
+            }
+            
+            /* Atur tampilan tabel untuk cetak */
+            .data-table {
+                width: 100% !important;
+                font-size: 10px;
+                page-break-inside: avoid;
+            }
+            
+            .data-table th {
+                background: #f0f0f0 !important;
+                color: black !important;
+                padding: 5px;
+            }
+            
+            .data-table td {
+                padding: 4px;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            /* Judul untuk laporan cetak */
+            .print-header {
+                text-align: center;
+                margin-bottom: 15px;
+                display: block !important;
+            }
+            
+            .print-title {
+                font-size: 16px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            
+            .print-subtitle {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+            
+            .print-date {
+                font-size: 11px;
+                text-align: right;
+                margin-bottom: 10px;
+            }
             @page {
                 size: landscape;
                 margin: 0.5cm;
@@ -2421,7 +2482,7 @@
                 id: Date.now(), // ID unik berdasarkan timestamp
                 nama: document.getElementById('nama').value,
                 nik: document.getElementById('nik').value,
-                whatsapp: document.getElementById('whatsapp').value,
+                whatsapp: document.getElementById('whatsapp').getAttribute('data-raw-value') || document.getElementById('whatsapp').value.replace(/\D/g, ''),
                 namaKelompok: document.getElementById('namaKelompok').value,
                 jabatan: document.getElementById('jabatan').value,
                 tahunAnggaran: document.getElementById('tahunAnggaran').value,
@@ -2519,8 +2580,8 @@
             return isValid;
         }
         
-        // Fungsi untuk format nomor WhatsApp
-        function formatWhatsAppNumber(e) {
+            // Fungsi untuk format nomor WhatsApp
+            function formatWhatsAppNumber(e) {
             let value = e.target.value.replace(/\D/g, '');
             
             // Jika dimulai dengan 0, ganti dengan 62
@@ -2528,18 +2589,22 @@
                 value = '62' + value.substring(1);
             }
             
-            // Format tampilan: 62-xxx-xxxx-xxxx
+            // Simpan nilai asli (tanpa tanda hubung) di data attribute
+            e.target.setAttribute('data-raw-value', value);
+            
+            // Format tampilan: 62-xxx-xxxx-xxxx hanya untuk tampilan
+            let displayValue = value;
             if (value.length > 2) {
-                value = value.substring(0, 2) + '-' + value.substring(2);
+                displayValue = value.substring(0, 2) + '-' + value.substring(2);
             }
             if (value.length > 6) {
-                value = value.substring(0, 6) + '-' + value.substring(6);
+                displayValue = value.substring(0, 6) + '-' + value.substring(6);
             }
             if (value.length > 11) {
-                value = value.substring(0, 11) + '-' + value.substring(11);
+                displayValue = value.substring(0, 11) + '-' + value.substring(11);
             }
             
-            e.target.value = value;
+            e.target.value = displayValue;
         }
         
         // Fungsi untuk mengecek apakah NIK sudah ada
@@ -3192,8 +3257,114 @@
         
         // Fungsi untuk print direct
         function printDirect() {
-            window.print();
-        }
+    // Siapkan data untuk dicetak
+    const printTahun = document.getElementById('printTahun').value;
+    const printKecamatan = document.getElementById('printKecamatan').value;
+    const printJenis = document.getElementById('printJenis').value;
+    
+    // Filter data berdasarkan pengaturan
+    let dataToPrint = appData;
+    if (printTahun) {
+        dataToPrint = dataToPrint.filter(data => data.tahunAnggaran == printTahun);
+    }
+    if (printKecamatan) {
+        dataToPrint = dataToPrint.filter(data => data.kecamatan === printKecamatan);
+    }
+    if (printJenis) {
+        dataToPrint = dataToPrint.filter(data => data.jenisBantuan === printJenis);
+    }
+    
+    if (dataToPrint.length === 0) {
+        showNotification('Tidak ada data yang sesuai dengan filter.', 'warning');
+        return;
+    }
+    
+    // Buat elemen iframe untuk mencetak
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.width = '0px';
+    iframe.style.height = '0px';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+    
+    const printDocument = iframe.contentWindow.document;
+    
+    // Tulis konten ke iframe
+    printDocument.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Laporan Data Bantuan</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .print-header { text-align: center; margin-bottom: 20px; }
+                .print-title { font-size: 18px; font-weight: bold; }
+                .print-subtitle { font-size: 14px; }
+                .print-date { text-align: right; font-size: 12px; }
+                table { width: 100%; border-collapse: collapse; font-size: 12px; }
+                th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+                th { background-color: #f0f0f0; }
+            </style>
+        </head>
+        <body>
+            <div class="print-header">
+                <div class="print-title">LAPORAN DATA BANTUAN</div>
+                <div class="print-subtitle">Sistem Bantuan Terpadu (BARJAS)</div>
+                <div class="print-subtitle">Kabupaten Situbondo</div>
+                <div class="print-date">${new Date().toLocaleDateString('id-ID')}</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>NIK</th>
+                        <th>WhatsApp</th>
+                        <th>Kelompok</th>
+                        <th>Jabatan</th>
+                        <th>Tahun</th>
+                        <th>Kecamatan</th>
+                        <th>Desa</th>
+                        <th>Jenis Bantuan</th>
+                        <th>Jumlah</th>
+                        <th>Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${dataToPrint.map((data, index) => `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${data.nama}</td>
+                            <td>${data.nik}</td>
+                            <td>${data.whatsapp ? data.whatsapp.replace('62', '0') : '-'}</td>
+                            <td>${data.namaKelompok || '-'}</td>
+                            <td>${data.jabatan || '-'}</td>
+                            <td>${data.tahunAnggaran}</td>
+                            <td>${data.kecamatan}</td>
+                            <td>${data.desa}</td>
+                            <td>${data.jenisBantuan}</td>
+                            <td>${data.jumlahBantuan} ${data.satuanBantuan}</td>
+                            <td>${formatDate(data.tanggalTerima)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+            <div style="margin-top: 20px; font-size: 12px;">
+                Total Data: ${dataToPrint.length}
+            </div>
+        </body>
+        </html>
+    `);
+    
+    printDocument.close();
+    
+    // Cetak setelah konten dimuat
+    iframe.contentWindow.onload = function() {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        document.body.removeChild(iframe);
+    };
+}
         
         // Fungsi untuk show preview
         function showPreview() {
@@ -3309,8 +3480,54 @@
         
         // Fungsi untuk print dari pratinjau
         function printFromPreview() {
-            window.print();
-        }
+    // Dapatkan konten pratinjau
+    const previewContent = document.getElementById('previewContent').innerHTML;
+    
+    // Buat elemen iframe untuk mencetak
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.width = '0px';
+    iframe.style.height = '0px';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+    
+    const printDocument = iframe.contentWindow.document;
+    
+    // Tulis konten ke iframe
+    printDocument.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Laporan Data Bantuan</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .print-header { text-align: center; margin-bottom: 20px; }
+                .print-title { font-size: 18px; font-weight: bold; }
+                .print-subtitle { font-size: 14px; }
+                .print-date { text-align: right; font-size: 12px; }
+                table { width: 100%; border-collapse: collapse; font-size: 12px; }
+                th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+                th { background-color: #f0f0f0; }
+            </style>
+        </head>
+        <body>
+            ${previewContent}
+        </body>
+        </html>
+    `);
+    
+    printDocument.close();
+    
+    // Cetak setelah konten dimuat
+    iframe.contentWindow.onload = function() {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        document.body.removeChild(iframe);
+    };
+    
+    // Tutup modal pratinjau
+    const previewModal = bootstrap.Modal.getInstance(document.getElementById('previewModal'));
+    previewModal.hide();
         
         // Fungsi untuk export to Excel
         function exportToExcel() {
