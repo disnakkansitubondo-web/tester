@@ -2801,6 +2801,132 @@
                     satuanSelect.value = 'Unit';
             }
         }
+
+        // Fungsi untuk update dropdown desa berdasarkan kecamatan yang dipilih
+        function updateDesaDropdown() {
+            const kecamatan = document.getElementById('kecamatan').value;
+            const desaSelect = document.getElementById('desa');
+            
+            // Reset dropdown desa
+            desaSelect.innerHTML = '<option value="">Pilih Desa</option>';
+            
+            // Filter desa berdasarkan kecamatan (simulasi)
+            const filteredDesa = desaList.filter(desa => {
+                // Ini adalah contoh sederhana, dalam aplikasi nyata perlu mapping yang benar
+                return desa.length % (kecamatanList.indexOf(kecamatan) + 1) === 0;
+            });
+            
+            // Tambahkan opsi desa yang difilter
+            filteredDesa.forEach(desa => {
+                const option = document.createElement('option');
+                option.value = desa;
+                option.textContent = desa;
+                desaSelect.appendChild(option);
+            });
+        }
+        
+        // Fungsi untuk update dropdown desa pada filter berdasarkan kecamatan yang dipilih
+        function updateFilterDesaDropdown() {
+            const kecamatan = document.getElementById('filterKecamatan').value;
+            const desaSelect = document.getElementById('filterDesa');
+            
+            // Reset dropdown desa
+            desaSelect.innerHTML = '<option value="">Semua Desa</option>';
+            
+            if (!kecamatan) return;
+            
+            // Filter desa berdasarkan kecamatan (simulasi)
+            const filteredDesa = desaList.filter(desa => {
+                // Ini adalah contoh sederhana, dalam aplikasi nyata perlu mapping yang benar
+                return desa.length % (kecamatanList.indexOf(kecamatan) + 1) === 0;
+            });
+            
+            // Tambahkan opsi desa yang difilter
+            filteredDesa.forEach(desa => {
+                const option = document.createElement('option');
+                option.value = desa;
+                option.textContent = desa;
+                desaSelect.appendChild(option);
+            });
+        }
+        
+        // Fungsi untuk menerapkan filter
+        function applyFilter() {
+            const tahun = document.getElementById('filterTahun').value;
+            const kecamatan = document.getElementById('filterKecamatan').value;
+            const desa = document.getElementById('filterDesa').value;
+            const jenis = document.getElementById('filterJenis').value;
+            
+            // Filter data
+            filteredData = appData.filter(item => {
+                return (!tahun || item.tahun == tahun) &&
+                       (!kecamatan || item.kecamatan === kecamatan) &&
+                       (!desa || item.desa === desa) &&
+                       (!jenis || item.jenisBantuan === jenis);
+            });
+            
+            // Tampilkan hasil filter
+            displayFilteredData(filteredData);
+            
+            // Update jumlah hasil filter
+            document.getElementById('filterResultCount').textContent = `${filteredData.length} Data`;
+            
+            // Set flag filter aktif
+            isFilterActive = true;
+            
+            showNotification(`Filter diterapkan. Ditemukan ${filteredData.length} data.`, 'success');
+        }
+        
+        // Fungsi untuk reset filter
+        function resetFilter() {
+            document.getElementById('filterTahun').value = '';
+            document.getElementById('filterKecamatan').value = '';
+            document.getElementById('filterDesa').value = '';
+            document.getElementById('filterJenis').value = '';
+            
+            // Reset tampilan tabel
+            displayFilteredData(appData);
+            
+            // Update jumlah hasil filter
+            document.getElementById('filterResultCount').textContent = `${appData.length} Data`;
+            
+            // Set flag filter tidak aktif
+            isFilterActive = false;
+            
+            showNotification('Filter direset ke kondisi semula.', 'info');
+        }
+        
+        // Fungsi untuk menampilkan data hasil filter
+        function displayFilteredData(data) {
+            const tableBody = document.getElementById('filterTableBody');
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="14" class="text-center">Tidak ada data yang sesuai dengan filter</td></tr>';
+                return;
+            }
+            
+            data.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.nama}</td>
+                    <td>${item.nik}</td>
+                    <td>${item.whatsapp}</td>
+                    <td>${item.kelompok || '-'}</td>
+                    <td>${item.jabatan || '-'}</td>
+                    <td>${item.tahun}</td>
+                    <td>${item.kecamatan}</td>
+                    <td>${item.desa}</td>
+                    <td>${item.jenisBantuan}</td>
+                    <td>${item.jumlahBantuan} ${item.satuanBantuan}</td>
+                    <td>${formatDate(item.tanggalTerima)}</td>
+                    <td>${item.driveLink ? `<a href="${item.driveLink}" target="_blank">Lihat Dokumen</a>` : '-'}</td>
+                    <td>${item.kodeValidasi || '-'}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
         
         // Fungsi untuk load data dari localStorage
         function loadData() {
@@ -3716,6 +3842,43 @@
                 toast.querySelector('.toast-header').style.backgroundColor = '#d1ecf1';
                 toast.querySelector('.toast-header').style.color = '#0c5460';
             }
+
+            // Set warna berdasarkan jenis notifikasi
+            const toastHeader = toast.querySelector('.toast-header');
+            toastHeader.classList.remove('text-primary', 'text-success', 'text-danger', 'text-warning');
+            
+            switch(type) {
+                case 'success':
+                    toastHeader.classList.add('text-success');
+                    break;
+                case 'error':
+                    toastHeader.classList.add('text-danger');
+                    break;
+                case 'warning':
+                    toastHeader.classList.add('text-warning');
+                    break;
+                default:
+                    toastHeader.classList.add('text-primary');
+            }
+            
+            // Tampilkan toast
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+        }
+        
+        // Fungsi untuk memformat tanggal
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
             
             // Show toast
             const bsToast = new bootstrap.Toast(toast);
