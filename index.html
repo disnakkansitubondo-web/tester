@@ -3196,7 +3196,76 @@
         
         // Fungsi untuk print direct
         function printDirect() {
-            window.print();
+            if (appData.length === 0) {
+                showNotification('Tidak ada data', 'Tidak ada data untuk dicetak.', 'warning');
+                return;
+            }
+            
+            const printTahun = document.getElementById('printTahun').value;
+            const printKecamatan = document.getElementById('printKecamatan').value;
+            const printJenis = document.getElementById('printJenis').value;
+            
+            // Filter data berdasarkan pengaturan
+            let dataToPrint = appData;
+            if (printTahun) {
+                dataToPrint = dataToPrint.filter(data => data.tahunAnggaran == printTahun);
+            }
+            if (printKecamatan) {
+                dataToPrint = dataToPrint.filter(data => data.kecamatan === printKecamatan);
+            }
+            if (printJenis) {
+                dataToPrint = dataToPrint.filter(data => data.jenisBantuan === printJenis);
+            }
+            
+            if (dataToPrint.length === 0) {
+                showNotification('Tidak ada data', 'Tidak ada data yang sesuai dengan filter.', 'warning');
+                return;
+            }
+            
+            // Simpan data ke localStorage untuk dicetak
+            localStorage.setItem('printData', JSON.stringify(dataToPrint));
+            localStorage.setItem('printType', 'direct');
+            
+            // Buka halaman cetak
+            window.open('cetak.html', '_blank');
+        }
+        
+        // Fungsi untuk show preview
+        function showPreview() {
+            if (appData.length === 0) {
+                showNotification('Tidak ada data', 'Tidak ada data untuk dipratinjau.', 'warning');
+                return;
+            }
+            
+            const printTahun = document.getElementById('printTahun').value;
+            const printKecamatan = document.getElementById('printKecamatan').value;
+            const printJenis = document.getElementById('printJenis').value;
+            const printFormat = document.getElementById('printFormat').value;
+            
+            // Filter data berdasarkan pengaturan
+            let dataToPrint = appData;
+            if (printTahun) {
+                dataToPrint = dataToPrint.filter(data => data.tahunAnggaran == printTahun);
+            }
+            if (printKecamatan) {
+                dataToPrint = dataToPrint.filter(data => data.kecamatan === printKecamatan);
+            }
+            if (printJenis) {
+                dataToPrint = dataToPrint.filter(data => data.jenisBantuan === printJenis);
+            }
+            
+            if (dataToPrint.length === 0) {
+                showNotification('Tidak ada data', 'Tidak ada data yang sesuai dengan filter.', 'warning');
+                return;
+            }
+            
+            // Simpan data ke localStorage untuk pratinjau
+            localStorage.setItem('printData', JSON.stringify(dataToPrint));
+            localStorage.setItem('printType', 'preview');
+            localStorage.setItem('printFormat', printFormat);
+            
+            // Buka halaman pratinjau
+            window.open('pratinjau.html', '_blank');
         }
         
         // Fungsi untuk show preview
