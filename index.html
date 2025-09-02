@@ -2757,28 +2757,48 @@
         }
         
         // Fungsi untuk update satuan bantuan berdasarkan jenis bantuan
-        function updateSatuanBantuan() {
+         function updateSatuanBantuan() {
             const jenisBantuan = document.getElementById('jenisBantuan').value;
-            const satuanBantuan = document.getElementById('satuanBantuan');
+            const satuanSelect = document.getElementById('satuanBantuan');
             
-            // Reset dropdown satuan
-            satuanBantuan.innerHTML = '';
+            // Reset ke opsi default
+            satuanSelect.innerHTML = `
+                <option value="Rupiah">Rupiah</option>
+                <option value="Unit">Unit</option>
+                <option value="Paket">Paket</option>
+                <option value="Kardus">Kardus</option>
+                <option value="Ekor">Ekor</option>
+                <option value="Roll">Roll</option>
+                <option value="Kilo">Kilo</option>
+                <option value="Meter">Meter</option>
+            `;
             
-            // Set opsi satuan berdasarkan jenis bantuan
-            if (jenisBantuan === 'Uang') {
-                satuanBantuan.innerHTML = '<option value="Rupiah">Rupiah</option>';
-            } else if (jenisBantuan === 'Barang') {
-                satuanBantuan.innerHTML = `
-                    <option value="Unit">Unit</option>
-                    <option value="Paket">Paket</option>
-                    <option value="Set">Set</option>
-                `;
-            } else if (jenisBantuan === 'Jasa') {
-                satuanBantuan.innerHTML = `
-                    <option value="Jam">Jam</option>
-                    <option value="Hari">Hari</option>
-                    <option value="Paket">Paket</option>
-                `;
+            // Sesuaikan satuan berdasarkan jenis bantuan
+            switch(jenisBantuan) {
+                case 'Uang':
+                    satuanSelect.value = 'Rupiah';
+                    break;
+                case 'Bibit Udang':
+                case 'Bibit Ikan':
+                    satuanSelect.value = 'Ekor';
+                    break;
+                case 'Waring':
+                case 'Jaring Gillnet':
+                case 'Jaring Trammel Net':
+                    satuanSelect.value = 'Roll';
+                    break;
+                case 'Pakan Ikan':
+                    satuanSelect.value = 'Kilo';
+                    break;
+                case 'Geomembran':
+                    satuanSelect.value = 'Meter';
+                    break;
+                case 'Vaksin Ternak':
+                case 'Obat Ternak':
+                    satuanSelect.value = 'Kardus';
+                    break;
+                default:
+                    satuanSelect.value = 'Unit';
             }
         }
         
