@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratinjau Laporan - BARJAS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0.5cm;
+            }
+            
+            body {
+                font-size: 10px;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .table-print {
+                font-size: 10px;
+                width: 100% !important;
+            }
+            
+            .table-print th, .table-print td {
+                padding: 4px 2px;
+            }
+        }
+        
+        .header-print {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .footer-print {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+        
+        .format-selector {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-3">
+        <div class="row mb-3 no-print">
+            <div class="col-6">
+                <div class="format-selector">
+                    <label for="formatSelector" class="form-label">Format Laporan:</label>
+                    <select class="form-select form-select-sm" id="formatSelector">
+                        <option value="detail">Detail Lengkap</option>
+                        <option value="ringkas">Ringkas</option>
+                        <option value="hanya-nama">Hanya Nama & Jumlah</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-6 text-end">
+                <button class="btn btn-primary btn-sm" onclick="window.print()">
+                    <i class="fas fa-print me-1"></i> Cetak
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="window.close()">
+                    <i class="fas fa-times me-1"></i> Tutup
+                </button>
+            </div>
+        </div>
+        
+        <div class="header-print">
+            <h4>LAPORAN DATA BANTUAN</h4>
+            <h5>Sistem Bantuan Terpadu (BARJAS)</h5>
+            <p>Kabupaten Situbondo</p>
+            <p>Dicetak pada: <span id="printDate"></span></p>
+        </div>
+        
+        <div id="previewContent">
+            <!-- Konten pratinjau akan diisi oleh JavaScript -->
+        </div>
+        
+        <div class="footer-print">
+            <p>BARJAS - Sistem Bantuan Terpadu © 2025</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set tanggal cetak
+            document.getElementById('printDate').textContent = new Date().toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Ambil data dari localStorage
+            const printData = JSON.parse(localStorage.getItem('printData') || '[]');
+            const printFormat = localStorage.getItem('printFormat') || 'detail';
+            
+            // Set format selector
+            document.getElementById('formatSelector').value = printFormat;
+            
+            // Render data berdasarkan format
+            renderPreview(printData, printFormat);
+            
+            // Event listener untuk perubahan format
+            document.getElementById('formatSelector').addEventListener('change', function() {
+                renderPreview(printData, this.value);
+            });
+        });
+        
+        function renderPreview(data, format) {
+            const previewContent = document.getElementById('previewContent');
+            
+            if (data.length === 0) {
+                previewContent.innerHTML = `
+                    <div class="alert alert-warning text-center">
+                        Tidak ada data untuk ditampilkan
+                    </div>
+                `;
+                return;
+            }
+            
+            let tableContent = '';
+            
+            if (format === 'detail') {
+                tableContent = `
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-print">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>NIK</th>
+                                    <th>WhatsApp</th>
+                                    <th>Kelompok</th>
+                                    <th>Jabatan</th>
+                                    <th>Tahun</th>
+                                    <th>Kecamatan</th>
+                                    <th>Desa</th>
+                                    <th>Jenis Bantuan</th>
+                                    <th>Jumlah</th>
+                                    <th>Tanggal</th>
+                                    <th>Kode Validasi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.map((item, index) => `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${item.nama}</td>
+                                        <td>${item.nik}</td>
+                                        <td>${item.whatsapp ? item.whatsapp.replace('62', '0') : '-'}</td>
+                                        <td>${item.namaKelompok || '-'}</td>
+                                        <td>${item.jabatan || '-'}</td>
+                                        <td>${item.tahunAnggaran}</td>
+                                        <td>${item.kecamatan}</td>
+                                        <td>${item.desa}</td>
+                                        <td>${item.jenisBantuan}</td>
+                                        <td>${item.jumlahBantuan} ${item.satuanBantuan}</td>
+                                        <td>${formatDate(item.tanggalTerima)}</td>
+                                        <td>${item.kodeValidasi}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (format === 'ringkas') {
+                tableContent = `
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-print">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>NIK</th>
+                                    <th>WhatsApp</th>
+                                    <th>Desa</th>
+                                    <th>Jenis Bantuan</th>
+                                    <th>Jumlah</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.map((item, index) => `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${item.nama}</td>
+                                        <td>${item.nik}</td>
+                                        <td>${item.whatsapp ? item.whatsapp.replace('62', '0') : '-'}</td>
+                                        <td>${item.desa}</td>
+                                        <td>${item.jenisBantuan}</td>
+                                        <td>${item.jumlahBantuan} ${item.satuanBantuan}</td>
+                                        <td>${formatDate(item.tanggalTerima)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (format === 'hanya-nama') {
+                tableContent = `
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-print">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Jumlah Bantuan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.map((item, index) => `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${item.nama}</td>
+                                        <td>${item.jumlahBantuan} ${item.satuanBantuan}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            previewContent.innerHTML = tableContent;
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+    </script>
+</body>
+</html>
