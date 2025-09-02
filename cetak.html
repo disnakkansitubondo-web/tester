@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cetak Laporan - BARJAS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0.5cm;
+            }
+            
+            body {
+                font-size: 10px;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .table-print {
+                font-size: 10px;
+                width: 100% !important;
+            }
+            
+            .table-print th, .table-print td {
+                padding: 4px 2px;
+            }
+        }
+        
+        .header-print {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .footer-print {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-3">
+        <div class="row mb-3 no-print">
+            <div class="col-12 text-end">
+                <button class="btn btn-primary btn-sm" onclick="window.print()">
+                    <i class="fas fa-print me-1"></i> Cetak
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="window.close()">
+                    <i class="fas fa-times me-1"></i> Tutup
+                </button>
+            </div>
+        </div>
+        
+        <div class="header-print">
+            <h4>LAPORAN DATA BANTUAN</h4>
+            <h5>Sistem Bantuan Terpadu (BARJAS)</h5>
+            <p>Kabupaten Situbondo</p>
+            <p>Dicetak pada: <span id="printDate"></span></p>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-print">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>NIK</th>
+                        <th>WhatsApp</th>
+                        <th>Kelompok</th>
+                        <th>Jabatan</th>
+                        <th>Tahun</th>
+                        <th>Kecamatan</th>
+                        <th>Desa</th>
+                        <th>Jenis Bantuan</th>
+                        <th>Jumlah</th>
+                        <th>Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody id="printTableBody">
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer-print">
+            <p>BARJAS - Sistem Bantuan Terpadu © 2025</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set tanggal cetak
+            document.getElementById('printDate').textContent = new Date().toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Ambil data dari localStorage
+            const printData = JSON.parse(localStorage.getItem('printData') || '[]');
+            const printType = localStorage.getItem('printType');
+            
+            if (printData.length === 0) {
+                document.getElementById('printTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="12" class="text-center">Tidak ada data untuk dicetak</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            // Render data ke tabel
+            const tableBody = document.getElementById('printTableBody');
+            tableBody.innerHTML = '';
+            
+            printData.forEach((data, index) => {
+                const whatsappDisplay = data.whatsapp ? data.whatsapp.replace('62', '0') : '-';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${data.nama}</td>
+                    <td>${data.nik}</td>
+                    <td>${whatsappDisplay}</td>
+                    <td>${data.namaKelompok || '-'}</td>
+                    <td>${data.jabatan || '-'}</td>
+                    <td>${data.tahunAnggaran}</td>
+                    <td>${data.kecamatan}</td>
+                    <td>${data.desa}</td>
+                    <td>${data.jenisBantuan}</td>
+                    <td>${data.jumlahBantuan} ${data.satuanBantuan}</td>
+                    <td>${formatDate(data.tanggalTerima)}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Jika tipe direct, langsung cetak
+            if (printType === 'direct') {
+                setTimeout(() => {
+                    window.print();
+                }, 500);
+            }
+        });
+        
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+    </script>
+</body>
+</html>
