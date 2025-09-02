@@ -2786,13 +2786,21 @@
                 element.addEventListener('click', function() {
                     const phone = this.getAttribute('data-phone');
                     if (phone) {
-                        // Format nomor untuk WhatsApp (hapus semua karakter non-digit)
-                        const formattedPhone = phone.replace(/\D/g, '');
-                        window.open(`https://wa.me/${formattedPhone}`, '_blank');
+                        // Format nomor untuk WhatsApp (hapus semua karakter non-digit dan awalan 62)
+                        let formattedPhone = phone.replace(/\D/g, '');
+                        
+                        // Jika diawali dengan 62, ganti dengan 0
+                        if (formattedPhone.startsWith('62')) {
+                            formattedPhone = '0' + formattedPhone.substring(2);
+                        }
+                        
+                        // Hapus semua tanda minus
+                        formattedPhone = formattedPhone.replace(/-/g, '');
+                        
+                        window.open(`https://api.whatsapp.com/send?phone=${formattedPhone}`, '_blank');
                     }
                 });
             });
-        }
         
         // Fungsi untuk view details
         function viewDetails(id) {
@@ -3272,54 +3280,141 @@
             showNotification('PDF berhasil diunduh', 'success');
         }
         
-        // Fungsi untuk print langsung
-        function printDirect() {
-            const dataToPrint = getFilteredDataForPrint();
-            
-            // Buat konten untuk dicetak
-            let printContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Laporan Data Bantuan</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { text-align: center; color: #0d47a1; }
-                        .header { text-align: center; margin-bottom: 20px; }
-                        .filter-info { margin-bottom: 15px; font-size: 14px; }
-                        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                        th { background-color: #0d47a1; color: white; }
-                        tr:nth-child(even) { background-color: #f2f2f2; }
-                        .footer { margin-top: 20px; font-size: 12px; text-align: center; }
-                        @media print {
-                            body { margin: 0; }
-                            .no-print { display: none; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <h1>LAPORAN DATA BANTUAN</h1>
-                        <h3>BARJAS - Sistem Bantuan Terpadu</h3>
-                        <h4>Kabupaten Situbondo</h4>
-                    </div>
+       // Fungsi untuk print langsung
+            function printDirect() {
+                const dataToPrint = getFilteredDataForPrint();
+                
+                // Buat konten untuk dicetak
+                let printContent = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Laporan Data Bantuan</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+                            h1 { text-align: center; color: #0d47a1; margin-bottom: 10px; }
+                            .header { text-align: center; margin-bottom: 20px; }
+                            .filter-info { margin-bottom: 15px; font-size: 14px; background: #f9f9f9; padding: 10px; border-radius: 5px; }
+                            table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+                            th, td { border: 1px solid #ddd; padding: 6px; text-align: left; }
+                            th { background-color: #0d47a1; color: white; }
+                            tr:nth-child(even) { background-color: #f2f2f2; }
+                            .footer { margin-top: 20px; font-size: 12px; text-align: center; }
+                            @media print {
+                                body { margin: 0; padding: 15px; }
+                                .no-print { display: none; }
+                                table { font-size: 10px; }
+                                th, td { padding: 4px; }
+                            }
+                            @page { size: landscape; margin: 0.5cm; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h1>LAPORAN DATA BANTUAN</h1>
+                            <h3>BARJAS - Sistem Bantuan Terpadu</h3>
+                            <h4>Kabupaten Situbondo</h4>
+                        </div>
+                        
+                        <div class="filter-info">
+                `;
+                
+                // Filter info
+                const tahun = document.getElementById('printTahun').value;
+                const kecamatan = document.getElementById('printKecamatan').value;
+                const jenis = document.getElementById('printJenis').value;
+                
+                let filterInfo = '<strong>Semua Data</strong>';
+                if (tahun || kecamatan || jenis) {
+                    filterInfo = '<strong>Data Difilter:</strong> ';
+                    if (tahun) filterInfo += `Tahun ${tahun}, `;
+                    if (kecamatan) filterInfo += `Kecamatan ${kecamatan}, `;
+                    if (jenis) filterInfo += `Jenis ${jenis}, `;
+                    filterInfo = filterInfo.slice(0, -2); // Hapus koma terakhir
+                }
+                
+                printContent += `
+                            ${filterInfo}
+                            <br>
+                            <strong>Tanggal Cetak:</strong> ${new Date().toLocaleDateString('id-ID')}
+                            <br>
+                            <strong>Jumlah Data:</strong> ${dataToPrint.length} record
+                        </div>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>NIK</th>
+                                    <th>WhatsApp</th>
+                                    <th>Kelompok</th>
+                                    <th>Jabatan</th>
+                                    <th>Tahun</th>
+                                    <th>Kecamatan</th>
+                                    <th>Desa</th>
+                                    <th>Jenis</th>
+                                    <th>Jumlah</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                // Isi tabel
+                dataToPrint.forEach((item, index) => {
+                    // Format nomor WhatsApp untuk tampilan
+                    const whatsappDisplay = item.whatsapp ? item.whatsapp.replace('62', '0') : '-';
                     
-                    <div class="filter-info">
-            `;
-            
-            // Filter info
-            const tahun = document.getElementById('printTahun').value;
-            const kecamatan = document.getElementById('printKecamatan').value;
-            const jenisBantuan = document.getElementById('printJenisBantuan').value;
-            
-            let filterInfo = '<strong>Semua Data</strong>';
-            if (tahun || kecamatan || jenisBantuan) {
-                filterInfo = '<strong>Data Difilter:</strong> ';
-                if (tahun) filterInfo += `Tahun ${tahun}, `;
-                if (kecamatan) filterInfo += `Kecamatan ${kecamatan}, `;
-                if (jenisBantuan) filterInfo += `Jenis ${jenisBantuan}, `;
-                filterInfo = filterInfo.slice(0, -2); // Hapus koma terakhir
+                    printContent += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.nama || '-'}</td>
+                            <td>${item.nik || '-'}</td>
+                            <td>${whatsappDisplay}</td>
+                            <td>${item.namaKelompok || '-'}</td>
+                            <td>${item.jabatan || '-'}</td>
+                            <td>${item.tahunAnggaran || '-'}</td>
+                            <td>${item.kecamatan || '-'}</td>
+                            <td>${item.desa || '-'}</td>
+                            <td>${item.jenisBantuan || '-'}</td>
+                            <td>${item.jumlahBantuan || '0'} ${item.satuanBantuan || ''}</td>
+                            <td>${formatDate(item.tanggalTerima)}</td>
+                        </tr>
+                    `;
+                });
+                
+                printContent += `
+                            </tbody>
+                        </table>
+                        
+                        <div class="footer">
+                            <p>Dicetak dari Aplikasi BARJAS pada ${new Date().toLocaleString('id-ID')}</p>
+                        </div>
+                        
+                        <div class="no-print" style="margin-top: 20px; text-align: center;">
+                            <button onclick="window.print()" style="padding: 10px 20px; background: #0d47a1; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                Cetak Dokumen
+                            </button>
+                            <button onclick="window.close()" style="padding: 10px 20px; background: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px;">
+                                Tutup
+                            </button>
+                        </div>
+                    </body>
+                    </html>
+                `;
+                
+                // Buka jendela baru untuk mencetak
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(printContent);
+                printWindow.document.close();
+                
+                // Fokus ke jendela cetak
+                setTimeout(() => {
+                    printWindow.focus();
+                }, 500);
+                
+                showNotification('Mempersiapkan dokumen untuk dicetak...', 'info');
             }
             
             printContent += `
@@ -3397,45 +3492,143 @@
         }
         
         // Fungsi untuk show preview
-        function showPreview() {
-            const dataToPrint = getFilteredDataForPrint();
-            
-            // Isi tabel preview
-            const previewBody = document.getElementById('previewBody');
-            previewBody.innerHTML = '';
-            
+function showPreview() {
+    const dataToPrint = getFilteredDataForPrint();
+    
+    // Isi konten preview
+    let previewHTML = `
+        <div class="print-header">
+            <h3 class="print-title">LAPORAN DATA BANTUAN</h3>
+            <p class="print-subtitle">BARJAS - Sistem Bantuan Terpadu | Kabupaten Situbondo</p>
+    `;
+    
+    // Filter info
+    const tahun = document.getElementById('printTahun').value;
+    const kecamatan = document.getElementById('printKecamatan').value;
+    const jenis = document.getElementById('printJenis').value;
+    
+    let filterInfo = 'Semua Data';
+    if (tahun || kecamatan || jenis) {
+        filterInfo = 'Data Difilter: ';
+        if (tahun) filterInfo += `Tahun ${tahun}, `;
+        if (kecamatan) filterInfo += `Kecamatan ${kecamatan}, `;
+        if (jenis) filterInfo += `Jenis ${jenis}, `;
+        filterInfo = filterInfo.slice(0, -2); // Hapus koma terakhir
+    }
+    
+    previewHTML += `
+            <p class="print-subtitle">${filterInfo}</p>
+            <p class="print-date">Tanggal: ${new Date().toLocaleDateString('id-ID')} | Jumlah Data: ${dataToPrint.length}</p>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered data-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>NIK</th>
+                        <th>WhatsApp</th>
+                        <th>Kelompok</th>
+                        <th>Jabatan</th>
+                        <th>Tahun</th>
+                        <th>Kecamatan</th>
+                        <th>Desa</th>
+                        <th>Jenis</th>
+                        <th>Jumlah</th>
+                        <th>Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+            // Isi tabel
             dataToPrint.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${item.nama}</td>
-                    <td>${item.nik}</td>
-                    <td>${item.whatsapp}</td>
-                    <td>${item.namaKelompok}</td>
-                    <td>${item.jabatan}</td>
-                    <td>${item.tahunAnggaran}</td>
-                    <td>${item.kecamatan}</td>
-                    <td>${item.desa}</td>
-                    <td>${item.jenisBantuan}</td>
-                    <td>${item.jumlahBantuan} ${item.satuanBantuan}</td>
-                    <td>${formatDate(item.tanggalTerima)}</td>
+                // Format nomor WhatsApp untuk tampilan
+                const whatsappDisplay = item.whatsapp ? item.whatsapp.replace('62', '0') : '-';
+                
+                previewHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.nama || '-'}</td>
+                        <td>${item.nik || '-'}</td>
+                        <td>${whatsappDisplay}</td>
+                        <td>${item.namaKelompok || '-'}</td>
+                        <td>${item.jabatan || '-'}</td>
+                        <td>${item.tahunAnggaran || '-'}</td>
+                        <td>${item.kecamatan || '-'}</td>
+                        <td>${item.desa || '-'}</td>
+                        <td>${item.jenisBantuan || '-'}</td>
+                        <td>${item.jumlahBantuan || '0'} ${item.satuanBantuan || ''}</td>
+                        <td>${formatDate(item.tanggalTerima)}</td>
+                    </tr>
                 `;
-                previewBody.appendChild(row);
             });
             
-            // Update info filter
-            const tahun = document.getElementById('printTahun').value;
-            const kecamatan = document.getElementById('printKecamatan').value;
-            const jenisBantuan = document.getElementById('printJenisBantuan').value;
+            previewHTML += `
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-3 text-center">
+                    <p><small>Dicetak dari Aplikasi BARJAS pada ${new Date().toLocaleString('id-ID')}</small></p>
+                </div>
+            `;
             
-            let filterInfo = 'Semua Data';
-            if (tahun || kecamatan || jenisBantuan) {
-                filterInfo = 'Data Difilter: ';
-                if (tahun) filterInfo += `Tahun ${tahun}, `;
-                if (kecamatan) filterInfo += `Kecamatan ${kecamatan}, `;
-                if (jenisBantuan) filterInfo += `Jenis ${jenisBantuan}, `;
-                filterInfo = filterInfo.slice(0, -2); // Hapus koma terakhir
-            }
+            // Set konten preview
+            document.getElementById('previewContent').innerHTML = previewHTML;
+            
+            // Tampilkan modal
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
+            
+            showNotification('Pratinjau laporan berhasil dibuat', 'info');
+        }
+
+// Fungsi untuk print dari preview
+function printFromPreview() {
+    // Sembunyikan modal terlebih dahulu
+    const previewModal = bootstrap.Modal.getInstance(document.getElementById('previewModal'));
+    previewModal.hide();
+    
+    // Tunggu sebentar sampai modal benar-benar tersembunyi
+    setTimeout(() => {
+        // Buat jendela cetak
+        const printContent = document.getElementById('previewContent').innerHTML;
+        
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Cetak Laporan BARJAS</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+                    @page { size: landscape; margin: 0.5cm; }
+                    .print-title { font-size: 18px; font-weight: bold; text-align: center; }
+                    .print-subtitle { font-size: 14px; text-align: center; margin-bottom: 5px; }
+                    .print-date { font-size: 12px; text-align: right; margin-bottom: 10px; }
+                    table { font-size: 10px; width: 100% !important; }
+                    th, td { padding: 4px 2px; }
+                </style>
+            </head>
+            <body>
+                ${printContent}
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        setTimeout(function() {
+                            window.close();
+                        }, 500);
+                    }
+                <\/script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }, 500);
+}
             
             document.getElementById('previewFilterInfo').textContent = filterInfo;
             document.getElementById('previewDate').textContent = new Date().toLocaleDateString('id-ID');
@@ -3452,20 +3645,20 @@
             window.print();
         }
         
-        // Fungsi untuk mendapatkan data yang difilter untuk cetak/ekspor
-        function getFilteredDataForPrint() {
-            const tahun = document.getElementById('printTahun').value;
-            const kecamatan = document.getElementById('printKecamatan').value;
-            const jenisBantuan = document.getElementById('printJenisBantuan').value;
-            
-            return appData.filter(item => {
-                return (
-                    (!tahun || item.tahunAnggaran == tahun) &&
-                    (!kecamatan || item.kecamatan === kecamatan) &&
-                    (!jenisBantuan || item.jenisBantuan === jenisBantuan)
-                );
-            });
-        }
+          // Fungsi untuk mendapatkan data yang difilter untuk cetak/ekspor
+            function getFilteredDataForPrint() {
+                const tahun = document.getElementById('printTahun').value;
+                const kecamatan = document.getElementById('printKecamatan').value;
+                const jenis = document.getElementById('printJenis').value;
+                
+                return appData.filter(item => {
+                    return (
+                        (!tahun || item.tahunAnggaran == tahun) &&
+                        (!kecamatan || item.kecamatan === kecamatan) &&
+                        (!jenis || item.jenisBantuan === jenis)
+                    );
+                });
+            }
         
         // Fungsi untuk mendapatkan data yang difilter untuk ekspor
         function getFilteredDataForExport() {
