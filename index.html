@@ -1597,18 +1597,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="card bg-light">
-                                                <div class="card-body text-center">
-                                                    <i class="fas fa-print fa-3x text-primary mb-3"></i>
-                                                    <h5>Cetak Langsung</h5>
-                                                    <p class="text-muted">Cetak laporan langsung ke printer</p>
-                                                    <button class="btn btn-primary mt-2" id="printDirectBtn">
-                                                        <i class="fas fa-print me-1"></i> Cetak Sekarang
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="col-md-4">
                                             <div class="card bg-light">
                                                 <div class="card-body text-center">
@@ -1997,29 +1986,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <button type="button" class="btn btn-danger" id="confirmResetBtn" disabled>Reset Data</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal Preview Laporan -->
-    <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Pratinjau Laporan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="previewContent">
-                        <!-- Konten pratinjau akan diisi oleh JavaScript -->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-primary" id="printFromPreviewBtn">
-                        <i class="fas fa-print me-1"></i> Cetak
-                    </button>
                 </div>
             </div>
         </div>
@@ -3193,12 +3159,7 @@
             
             showNotification('PDF Siap', 'Laporan PDF telah berhasil diunduh.', 'success');
         }
-        
-        // Fungsi untuk print direct
-        function printDirect() {
-            window.print();
-        }
-        
+               
         // Fungsi untuk show preview
         function showPreview() {
             if (appData.length === 0) {
@@ -3309,11 +3270,6 @@
             
             document.getElementById('previewContent').innerHTML = previewContent;
             previewModal.show();
-        }
-        
-        // Fungsi untuk print dari pratinjau
-        function printFromPreview() {
-            window.print();
         }
         
         // Fungsi untuk export to Excel
