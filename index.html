@@ -2421,7 +2421,7 @@
                 id: Date.now(), // ID unik berdasarkan timestamp
                 nama: document.getElementById('nama').value,
                 nik: document.getElementById('nik').value,
-                whatsapp: document.getElementById('whatsapp').value,
+                whatsapp: document.getElementById('whatsapp').getAttribute('data-raw-value') || document.getElementById('whatsapp').value.replace(/\D/g, ''),
                 namaKelompok: document.getElementById('namaKelompok').value,
                 jabatan: document.getElementById('jabatan').value,
                 tahunAnggaran: document.getElementById('tahunAnggaran').value,
@@ -2521,26 +2521,30 @@
         
         // Fungsi untuk format nomor WhatsApp
         function formatWhatsAppNumber(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            
-            // Jika dimulai dengan 0, ganti dengan 62
-            if (value.startsWith('0')) {
-                value = '62' + value.substring(1);
-            }
-            
-            // Format tampilan: 62-xxx-xxxx-xxxx
-            if (value.length > 2) {
-                value = value.substring(0, 2) + '-' + value.substring(2);
-            }
-            if (value.length > 6) {
-                value = value.substring(0, 6) + '-' + value.substring(6);
-            }
-            if (value.length > 11) {
-                value = value.substring(0, 11) + '-' + value.substring(11);
-            }
-            
-            e.target.value = value;
+        let value = e.target.value.replace(/\D/g, '');
+        
+        // Jika dimulai dengan 0, ganti dengan 62
+        if (value.startsWith('0')) {
+            value = '62' + value.substring(1);
         }
+        
+        // Simpan nilai asli (tanpa tanda hubung) di data attribute
+        e.target.setAttribute('data-raw-value', value);
+        
+        // Format tampilan: 62-xxx-xxxx-xxxx hanya untuk tampilan
+        let displayValue = value;
+        if (value.length > 2) {
+            displayValue = value.substring(0, 2) + '-' + value.substring(2);
+        }
+        if (value.length > 6) {
+            displayValue = value.substring(0, 6) + '-' + value.substring(6);
+        }
+        if (value.length > 11) {
+            displayValue = value.substring(0, 11) + '-' + value.substring(11);
+        }
+        
+        e.target.value = displayValue;
+    }
         
         // Fungsi untuk mengecek apakah NIK sudah ada
         function isNikExists(nik) {
