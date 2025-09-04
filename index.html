@@ -2064,9 +2064,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-primary" id="printFromPreviewBtn">
-                        <i class="fas fa-print me-1"></i> Cetak
-                    </button>
                 </div>
             </div>
         </div>
@@ -2321,11 +2318,6 @@
             
             // Jenis bantuan change event
             document.getElementById('jenisBantuan').addEventListener('change', updateSatuanBantuan);
-
-            // Print from preview button
-            document.getElementById('printFromPreviewBtn').addEventListener('click', function() {
-                window.print();
-            });
         }
         
         // Fungsi untuk handle login
@@ -2750,6 +2742,23 @@
                 generatedCodes = JSON.parse(savedCodes);
             }
             
+            // Load settings
+            const savedSettings = localStorage.getItem('barjasSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                document.getElementById('appName').value = settings.appName || 'BARJAS';
+                document.getElementById('appSubtitle').value = settings.appSubtitle || 'Sistem Bantuan Terpadu';
+                document.getElementById('defaultTahun').value = settings.defaultTahun || new Date().getFullYear();
+                document.getElementById('itemsPerPage').value = settings.itemsPerPage || 25;
+                document.getElementById('backupInterval').value = settings.backupInterval || 7;
+                document.getElementById('securityCode').value = settings.securityCode || '1234';
+                document.getElementById('autoSave').checked = settings.autoSave !== false;
+                document.getElementById('notifications').checked = settings.notifications !== false;
+                
+                // Update security code
+                securityCode = settings.securityCode || '1234';
+            }
+            
             renderDataTable();
         }
         
@@ -2804,7 +2813,7 @@
                     <td>${data.kodeValidasi}</td>
                     <td>
                         <div class="btn-group btn-group-sm">
-                            <button class="btn btn-primary" onclick="editData(${data.id})">
+                            <button class="btn btn-warning" onclick="editData(${data.id})">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn btn-danger" onclick="deleteData(${data.id})">
@@ -3339,7 +3348,7 @@
             previewContent += `</tr></thead><tbody>`;
             
             // Isi data
-            dataToPrint.forEach((data, index) => {
+            dataToPrint.forEach((data, index) {
                 const whatsappDisplay = data.whatsapp ? data.whatsapp.replace('62', '0') : '-';
                 
                 previewContent += `
@@ -3610,7 +3619,24 @@
         function saveSettings(e) {
             e.preventDefault();
             
-            // Simpan pengaturan (dalam contoh ini hanya disimulasikan)
+            // Simpan pengaturan
+            const settings = {
+                appName: document.getElementById('appName').value,
+                appSubtitle: document.getElementById('appSubtitle').value,
+                defaultTahun: document.getElementById('defaultTahun').value,
+                itemsPerPage: document.getElementById('itemsPerPage').value,
+                backupInterval: document.getElementById('backupInterval').value,
+                securityCode: document.getElementById('securityCode').value,
+                autoSave: document.getElementById('autoSave').checked,
+                notifications: document.getElementById('notifications').checked
+            };
+            
+            // Simpan ke localStorage
+            localStorage.setItem('barjasSettings', JSON.stringify(settings));
+            
+            // Update security code
+            securityCode = document.getElementById('securityCode').value;
+            
             showNotification('Pengaturan berhasil disimpan.', 'success');
         }
         
