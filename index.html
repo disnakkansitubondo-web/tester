@@ -1059,6 +1059,42 @@
         .whatsapp-input {
             padding-left: 30px;
         }
+
+        /* Preview modal styles */
+        .preview-container {
+            max-height: 70vh;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .preview-table th, 
+        .preview-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .preview-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .preview-table tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        .preview-table tr:hover {
+            background-color: #eaeaea;
+        }
     </style>
 </head>
 <body>
@@ -2022,12 +2058,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="previewContent">
+                    <div class="preview-container" id="previewContent">
                         <!-- Konten pratinjau akan diisi oleh JavaScript -->
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary" id="printFromPreviewBtn">
+                        <i class="fas fa-print me-1"></i> Cetak
+                    </button>
                 </div>
             </div>
         </div>
@@ -2282,6 +2321,11 @@
             
             // Jenis bantuan change event
             document.getElementById('jenisBantuan').addEventListener('change', updateSatuanBantuan);
+
+            // Print from preview button
+            document.getElementById('printFromPreviewBtn').addEventListener('click', function() {
+                window.print();
+            });
         }
         
         // Fungsi untuk handle login
@@ -3175,14 +3219,14 @@
             }
             
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            const doc = new jsPDF('landscape', 'pt', 'a4');
             
             // Judul laporan
             doc.setFontSize(18);
-            doc.text('LAPORAN DATA BANTUAN', 105, 15, { align: 'center' });
+            doc.text('LAPORAN DATA BANTUAN', 400, 30, { align: 'center' });
             doc.setFontSize(12);
-            doc.text('Sistem Bantuan Terpadu (BARJAS) - Kabupaten Situbondo', 105, 22, { align: 'center' });
-            doc.text(`Dicetak pada: ${new Date().toLocaleDateString('id-ID')}`, 105, 29, { align: 'center' });
+            doc.text('Sistem Bantuan Terpadu (BARJAS) - Kabupaten Situbondo', 400, 50, { align: 'center' });
+            doc.text(`Dicetak pada: ${new Date().toLocaleDateString('id-ID')}`, 400, 70, { align: 'center' });
             
             // Data untuk tabel
             const tableColumn = ["No", "Nama", "NIK", "WhatsApp", "Desa", "Jenis", "Nama Bantuan", "Jumlah", "Tanggal", "Petugas"];
@@ -3211,7 +3255,7 @@
             doc.autoTable({
                 head: [tableColumn],
                 body: tableRows,
-                startY: 35,
+                startY: 80,
                 theme: 'grid',
                 styles: { fontSize: 8 },
                 headStyles: { fillColor: [13, 71, 161] }
@@ -3263,7 +3307,7 @@
                     <p class="print-subtitle">Kabupaten Situbondo</p>
                     <p class="print-date">${formatDate(new Date().toISOString())}</p>
                 </div>
-                <table class="table table-bordered">
+                <table class="preview-table">
                     <thead>
                         <tr>
                             <th>No</th>
