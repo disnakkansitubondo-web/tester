@@ -383,7 +383,7 @@
         }
         
         .control-title {
-            font-size: 1rem;
+            font-size: 1.re;
             color: var(--primary-color);
             font-weight: 600;
             margin-bottom: 15px;
@@ -2509,7 +2509,7 @@
                                 +62${item.noTelepon}
                             </a>
                         </td>
-                        <td>${item.alamat}</td>
+                        <td>${item.alamat</td>
                         <td>${item.desa}</td>
                         <td>${formatDate(item.tanggalTerima)}</td>
                         <td>${item.jenisBantuan}</td>
@@ -3373,6 +3373,8 @@
                 
                 // Create workbook
                 const workbook = XLSX.utils.book_new();
+                                // Create workbook
+                const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, 'Data Bantuan');
                 
                 // Generate Excel file
@@ -3399,7 +3401,7 @@
                 // Add title
                 doc.setFontSize(16);
                 doc.setTextColor(40);
-                doc.text('DATA BANTUAN SOSIAL (SEMUA DATA)', 105, 15, { align: 'center' });
+                doc.text('DATA BANTUAN SOSIAL - SEMUA DATA', 105, 15, { align: 'center' });
                 
                 doc.setFontSize(12);
                 doc.text('Aplikasi BARJAS - Sistem Informasi Bantuan Sosial', 105, 22, { align: 'center' });
@@ -3451,7 +3453,7 @@
                 showNotification('Semua data berhasil diekspor ke PDF!', 'success');
             }
             
-            // Function to import data
+            // Function to import data from Excel
             function importData() {
                 const fileInput = document.getElementById('importFile');
                 const file = fileInput.files[0];
@@ -3473,45 +3475,46 @@
                         const jsonData = XLSX.utils.sheet_to_json(worksheet);
                         
                         if (jsonData.length === 0) {
-                            showNotification('File Excel tidak berisi data!', 'error');
+                            showNotification('File Excel tidak mengandung data!', 'error');
                             return;
                         }
                         
                         // Map Excel data to our format
                         const importedData = jsonData.map(item => {
-                            // Extract phone number (remove +62 if present)
-                            let noTelepon = item['No. Telepon'] || '';
-                            if (noTelepon.startsWith('+62')) {
-                                noTelepon = noTelepon.substring(3);
-                            } else if (noTelepon.startsWith('62')) {
-                                noTelepon = noTelepon.substring(2);
-                            }
-                            
-                            // Extract amount (handle string or number)
-                            let jumlahBantuan = item['Jumlah Bantuan'];
-                            if (typeof jumlahBantuan === 'string') {
-                                // Remove currency symbols and commas
-                                jumlahBantuan = jumlahBantuan.replace(/[^\d]/g, '');
-                            }
+                            // Handle different possible column names
+                            const namaPenerima = item['Nama Penerima'] || item['Nama'] || '';
+                            const nik = item['NIK'] || '';
+                            const noTelepon = (item['No. Telepon'] || item['Telepon'] || '').toString().replace('+62', '');
+                            const alamat = item['Alamat'] || '';
+                            const desa = item['Desa'] || '';
+                            const tanggalTerima = item['Tanggal Terima'] || '';
+                            const jenisBantuan = item['Jenis Bantuan'] || item['Jenis'] || '';
+                            const jumlahBantuan = parseInt(item['Jumlah Bantuan'] || item['Jumlah'] || 0);
+                            const keterangan = item['Keterangan'] || '';
+                            const linkDrive = item['Link Drive'] || item['Link'] || '';
+                            const kodeValidasi = item['Kode Validasi'] || item['Kode'] || '';
                             
                             return {
-                                id: Date.now() + Math.floor(Math.random() * 1000), // Unique ID
-                                namaPenerima: item['Nama Penerima'] || '',
-                                nik: item['NIK'] || '',
-                                noTelepon: noTelepon.toString(),
-                                alamat: item['Alamat'] || '',
-                                desa: item['Desa'] || '',
-                                tanggalTerima: item['Tanggal Terima'] ? 
-                                    new Date(item['Tanggal Terima']).toISOString().split('T')[0] : 
-                                    new Date().toISOString().split('T')[0],
-                                jenisBantuan: item['Jenis Bantuan'] || '',
-                                jumlahBantuan: parseInt(jumlahBantuan) || 0,
-                                keterangan: item['Keterangan'] || '',
-                                linkDrive: item['Link Drive'] || '',
-                                kodeValidasi: item['Kode Validasi'] || generateRandomCode(),
+                                id: Date.now() + Math.random(), // Unique ID
+                                namaPenerima,
+                                nik,
+                                noTelepon,
+                                alamat,
+                                desa,
+                                tanggalTerima: formatDateForImport(tanggalTerima),
+                                jenisBantuan,
+                                jumlahBantuan,
+                                keterangan,
+                                linkDrive,
+                                kodeValidasi,
                                 createdAt: new Date().toISOString()
                             };
-                        });
+                        }).filter(item => item.namaPenerima && item.nik); // Filter out empty rows
+                        
+                        if (importedData.length === 0) {
+                            showNotification('Tidak ada data valid yang dapat diimpor!', 'error');
+                            return;
+                        }
                         
                         // Add imported data to existing data
                         bantuanData = [...bantuanData, ...importedData];
@@ -3525,7 +3528,7 @@
                         // Reset file input
                         fileInput.value = '';
                         
-                        // Reload data table if visible
+                        // Reload data if on data table section
                         if (!document.getElementById('dataTable').classList.contains('d-none')) {
                             loadDataTable();
                         }
@@ -3534,21 +3537,26 @@
                         if (!document.getElementById('dashboard').classList.contains('d-none')) {
                             loadDashboard();
                         }
+                        
                     } catch (error) {
                         console.error('Error importing data:', error);
                         showNotification('Terjadi kesalahan saat mengimpor data!', 'error');
                     }
                 };
                 
+                reader.onerror = function() {
+                    showNotification('Gagal membaca file!', 'error');
+                };
+                
                 reader.readAsArrayBuffer(file);
             }
             
-            // Function to show reset confirmation
+            // Function to show reset confirmation modal
             function showResetConfirmation() {
                 confirmResetModal.show();
             }
             
-            // Function to confirm reset data
+            // Function to confirm and reset all data
             function confirmResetData() {
                 const confirmationCode = document.getElementById('resetConfirmationCode').value;
                 
@@ -3557,20 +3565,20 @@
                     return;
                 }
                 
-                // Reset data
+                // Reset all data
                 bantuanData = [];
                 localStorage.setItem('bantuanData', JSON.stringify(bantuanData));
-                
-                // Show success notification
-                showNotification('Semua data berhasil direset!', 'success');
                 
                 // Close modal
                 confirmResetModal.hide();
                 
-                // Clear confirmation code
+                // Show success notification
+                showNotification('Semua data berhasil direset!', 'success');
+                
+                // Clear confirmation field
                 document.getElementById('resetConfirmationCode').value = '';
                 
-                // Reload data table if visible
+                // Reload data if on data table section
                 if (!document.getElementById('dataTable').classList.contains('d-none')) {
                     loadDataTable();
                 }
@@ -3579,47 +3587,47 @@
                 if (!document.getElementById('dashboard').classList.contains('d-none')) {
                     loadDashboard();
                 }
+                
+                // Update pengaturan info
+                if (!document.getElementById('pengaturan').classList.contains('d-none')) {
+                    loadPengaturan();
+                }
             }
             
-            // Function to show notification
-            function showNotification(message, type = 'info') {
-                const toast = document.querySelector('.notification-toast');
-                const toastBody = toast.querySelector('.toast-body');
+            // Helper function to format date for import
+            function formatDateForImport(dateValue) {
+                if (!dateValue) return new Date().toISOString().split('T')[0];
                 
-                // Set message and style
-                toastBody.textContent = message;
-                
-                // Set header icon and color based on type
-                const toastHeader = toast.querySelector('.toast-header');
-                const headerIcon = toastHeader.querySelector('i');
-                
-                switch (type) {
-                    case 'success':
-                        headerIcon.className = 'fas fa-check-circle text-success me-2';
-                        break;
-                    case 'error':
-                        headerIcon.className = 'fas fa-exclamation-circle text-danger me-2';
-                        break;
-                    case 'warning':
-                        headerIcon.className = 'fas fa-exclamation-triangle text-warning me-2';
-                        break;
-                    default:
-                        headerIcon.className = 'fas fa-bell text-primary me-2';
+                // If it's already a date string in YYYY-MM-DD format
+                if (typeof dateValue === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+                    return dateValue;
                 }
                 
-                // Show toast
-                const bsToast = new bootstrap.Toast(toast);
-                bsToast.show();
+                // If it's a Excel serial date number
+                if (typeof dateValue === 'number') {
+                    const excelEpoch = new Date(1899, 11, 30);
+                    const date = new Date(excelEpoch.getTime() + dateValue * 24 * 60 * 60 * 1000);
+                    return date.toISOString().split('T')[0];
+                }
+                
+                // Try to parse as date
+                try {
+                    const date = new Date(dateValue);
+                    if (!isNaN(date.getTime())) {
+                        return date.toISOString().split('T')[0];
+                    }
+                } catch (e) {
+                    console.error('Error parsing date:', e);
+                }
+                
+                // Fallback to current date
+                return new Date().toISOString().split('T')[0];
             }
             
             // Helper function to format date
             function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleDateString('id-ID', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
+                const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                return new Date(dateString).toLocaleDateString('id-ID', options);
             }
             
             // Helper function to format currency
@@ -3644,14 +3652,33 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
             }
             
-            // Helper function to generate random code
-            function generateRandomCode() {
-                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-                let result = '';
-                for (let i = 0; i < 6; i++) {
-                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+            // Helper function to show notification
+            function showNotification(message, type = 'info') {
+                const toast = document.querySelector('.notification-toast');
+                const toastBody = toast.querySelector('.toast-body');
+                
+                // Set message and style
+                toastBody.textContent = message;
+                
+                // Change header icon based on type
+                const toastHeaderIcon = toast.querySelector('.me-2');
+                switch (type) {
+                    case 'success':
+                        toastHeaderIcon.className = 'fas fa-check-circle text-success me-2';
+                        break;
+                    case 'error':
+                        toastHeaderIcon.className = 'fas fa-exclamation-circle text-danger me-2';
+                        break;
+                    case 'warning':
+                        toastHeaderIcon.className = 'fas fa-exclamation-triangle text-warning me-2';
+                        break;
+                    default:
+                        toastHeaderIcon.className = 'fas fa-bell text-primary me-2';
                 }
-                return result;
+                
+                // Show toast
+                const bsToast = new bootstrap.Toast(toast);
+                bsToast.show();
             }
         }
     </script>
