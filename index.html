@@ -1932,8 +1932,14 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="securityCode" class="form-label">Kode Keamanan</label>
-                                                <input type="password" class="form-control" id="securityCode" value="1234">
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" id="securityCodeInput" placeholder="Masukkan kode keamanan baru">
+                                                    <button class="btn btn-outline-secondary toggle-security-password" type="button">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
                                                 <div class="form-text">Kode untuk mengakses aplikasi</div>
+                                                <div class="error-message" id="securityCodeError"></div>
                                             </div>
                                         </div>
                                         
@@ -2139,6 +2145,11 @@
             "Telempong", "Tenggir", "Tepos", "Tokelan", "Tlogosari", "Trigonco", "Trebungan", "Widoropayung", "Wonokoyo", "Wonorejo", "Wringinanom"
         ];
         
+        // Konstanta untuk kode keamanan
+        const DEFAULT_SECURITY_CODE = "1234";
+        const MIN_SECURITY_CODE_LENGTH = 4;
+        let securityCode = localStorage.getItem('barjasSecurityCode') || DEFAULT_SECURITY_CODE;
+        
         // DOM Ready
         document.addEventListener('DOMContentLoaded', function() {
             // Inisialisasi aplikasi
@@ -2181,6 +2192,9 @@
             
             // Setup browser info
             setupBrowserInfo();
+            
+            // Set nilai kode keamanan di form pengaturan
+            document.getElementById('securityCodeInput').value = securityCode;
         }
         
         // Fungsi untuk mengisi dropdown tahun (2020-2090)
@@ -2307,6 +2321,7 @@
             
             // Settings
             document.getElementById('settingsForm').addEventListener('submit', saveSettings);
+            document.querySelector('.toggle-security-password').addEventListener('click', toggleSecurityPasswordVisibility);
             
             // Mobile menu
             document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
@@ -2337,7 +2352,7 @@
                 return;
             }
             
-            const securityCode = document.getElementById('securityCode').value;
+            const securityCodeInput = document.getElementById('securityCode').value;
             
             // Tampilkan spinner
             document.getElementById('loginSpinner').classList.remove('d-none');
@@ -2346,7 +2361,7 @@
             
             // Simulasi proses login
             setTimeout(() => {
-                if (securityCode === '1234') { // Kode default
+                if (validateSecurityCode(securityCodeInput)) {
                     // Login berhasil
                     document.getElementById('loginSpinner').classList.add('d-none');
                     document.querySelector('.login-button-text').textContent = 'Masuk ke Aplikasi';
@@ -2389,10 +2404,49 @@
             }, 1000);
         }
         
+        // Fungsi untuk validasi kode keamanan
+        function validateSecurityCode(code) {
+            return code === securityCode;
+        }
+        
+        // Fungsi untuk update kode keamanan
+        function updateSecurityCode(newCode) {
+            // Validasi panjang kode
+            if (newCode.length < MIN_SECURITY_CODE_LENGTH) {
+                return {
+                    success: false,
+                    message: `Kode keamanan minimal ${MIN_SECURITY_CODE_LENGTH} karakter`
+                };
+            }
+            
+            // Update kode keamanan
+            securityCode = newCode;
+            localStorage.setItem('barjasSecurityCode', newCode);
+            
+            return {
+                success: true,
+                message: 'Kode keamanan berhasil diperbarui'
+            };
+        }
+        
         // Fungsi untuk toggle password visibility
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('securityCode');
             const toggleButton = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+        
+        // Fungsi untuk toggle security password visibility
+        function toggleSecurityPasswordVisibility() {
+            const passwordInput = document.getElementById('securityCodeInput');
+            const toggleButton = document.querySelector('.toggle-security-password');
             
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
@@ -2458,68 +2512,68 @@
         
         // Fungsi untuk handle form submit
         function handleFormSubmit(e) {
-    e.preventDefault();
-    
-    // Validasi form
-    if (!validateForm()) {
-        return;
-    }
-    
-    // Ambil nilai dari form
-    const formData = {
-        nama: document.getElementById('nama').value,
-        nik: document.getElementById('nik').value,
-        whatsapp: document.getElementById('whatsapp').getAttribute('data-raw-value') || document.getElementById('whatsapp').value.replace(/\D/g, ''),
-        namaKelompok: document.getElementById('namaKelompok').value,
-        jabatan: document.getElementById('jabatan').value,
-        tahunAnggaran: document.getElementById('tahunAnggaran').value,
-        kecamatan: document.getElementById('kecamatan').value,
-        desa: document.getElementById('desa').value,
-        alamat: document.getElementById('alamat').value,
-        jenisBantuan: document.getElementById('jenisBantuan').value,
-        namaBantuan: document.getElementById('namaBantuan').value,
-        jumlahBantuan: document.getElementById('jumlahBantuan').value,
-        satuanBantuan: document.getElementById('satuanBantuan').value,
-        tanggalTerima: document.getElementById('tanggalTerima').value,
-        namaPetugas: document.getElementById('namaPetugas').value,
-        driveLink: document.getElementById('driveLink').value,
-        kodeValidasi: document.getElementById('kodeValidasi').value,
-        keterangan: document.getElementById('keterangan').value,
-        tanggalInput: new Date().toISOString()
-    };
-    
-    // Cek apakah sedang dalam mode edit
-    const editId = document.getElementById('inputForm').getAttribute('data-edit-id');
-    if (editId) {
-        // Mode edit - update data yang ada
-        const id = parseInt(editId);
-        const index = appData.findIndex(item => item.id === id);
-        
-        if (index !== -1) {
-            // Pertahankan ID asli
-            formData.id = id;
-            appData[index] = formData;
+            e.preventDefault();
             
-            showNotification('Data berhasil diperbarui!', 'success');
+            // Validasi form
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Ambil nilai dari form
+            const formData = {
+                nama: document.getElementById('nama').value,
+                nik: document.getElementById('nik').value,
+                whatsapp: document.getElementById('whatsapp').getAttribute('data-raw-value') || document.getElementById('whatsapp').value.replace(/\D/g, ''),
+                namaKelompok: document.getElementById('namaKelompok').value,
+                jabatan: document.getElementById('jabatan').value,
+                tahunAnggaran: document.getElementById('tahunAnggaran').value,
+                kecamatan: document.getElementById('kecamatan').value,
+                desa: document.getElementById('desa').value,
+                alamat: document.getElementById('alamat').value,
+                jenisBantuan: document.getElementById('jenisBantuan').value,
+                namaBantuan: document.getElementById('namaBantuan').value,
+                jumlahBantuan: document.getElementById('jumlahBantuan').value,
+                satuanBantuan: document.getElementById('satuanBantuan').value,
+                tanggalTerima: document.getElementById('tanggalTerima').value,
+                namaPetugas: document.getElementById('namaPetugas').value,
+                driveLink: document.getElementById('driveLink').value,
+                kodeValidasi: document.getElementById('kodeValidasi').value,
+                keterangan: document.getElementById('keterangan').value,
+                tanggalInput: new Date().toISOString()
+            };
+            
+            // Cek apakah sedang dalam mode edit
+            const editId = document.getElementById('inputForm').getAttribute('data-edit-id');
+            if (editId) {
+                // Mode edit - update data yang ada
+                const id = parseInt(editId);
+                const index = appData.findIndex(item => item.id === id);
+                
+                if (index !== -1) {
+                    // Pertahankan ID asli
+                    formData.id = id;
+                    appData[index] = formData;
+                    
+                    showNotification('Data berhasil diperbarui!', 'success');
+                }
+            } else {
+                // Mode tambah - buat data baru
+                formData.id = Date.now(); // ID unik berdasarkan timestamp
+                appData.push(formData);
+                
+                showNotification('Data berhasil disimpan!', 'success');
+            }
+            
+            // Simpan data
+            saveData();
+            
+            // Reset form
+            cancelEdit();
+            
+            // Update UI
+            updateDashboard();
+            renderDataTable();
         }
-    } else {
-        // Mode tambah - buat data baru
-        formData.id = Date.now(); // ID unik berdasarkan timestamp
-        appData.push(formData);
-        
-        showNotification('Data berhasil disimpan!', 'success');
-    }
-    
-    // Simpan data
-    saveData();
-    
-    // Reset form
-    cancelEdit();
-    
-    // Update UI
-    updateDashboard();
-    renderDataTable();
-}
         
         // Fungsi untuk validasi form
         function validateForm() {
@@ -2616,17 +2670,17 @@
         }
         
         // Fungsi untuk mengecek apakah NIK sudah ada
-       function isNikExists(nik) {
-        const editId = document.getElementById('inputForm').getAttribute('data-edit-id');
-        
-        return appData.some(data => {
-            // Jika sedang dalam mode edit, abaikan data yang sedang diedit
-            if (editId && data.id === parseInt(editId)) {
-                return false;
-            }
-            return data.nik === nik;
-        });
-    }
+        function isNikExists(nik) {
+            const editId = document.getElementById('inputForm').getAttribute('data-edit-id');
+            
+            return appData.some(data => {
+                // Jika sedang dalam mode edit, abaikan data yang sedang diedit
+                if (editId && data.id === parseInt(editId)) {
+                    return false;
+                }
+                return data.nik === nik;
+            });
+        }
         
         // Fungsi untuk set "Bukan Kelompok"
         function setBukanKelompok() {
@@ -2764,6 +2818,12 @@
                 generatedCodes = JSON.parse(savedCodes);
             }
             
+            // Load kode keamanan
+            const savedSecurityCode = localStorage.getItem('barjasSecurityCode');
+            if (savedSecurityCode) {
+                securityCode = savedSecurityCode;
+            }
+            
             renderDataTable();
         }
         
@@ -2771,6 +2831,7 @@
         function saveData() {
             localStorage.setItem('barjasData', JSON.stringify(appData));
             localStorage.setItem('barjasGeneratedCodes', JSON.stringify(generatedCodes));
+            localStorage.setItem('barjasSecurityCode', securityCode);
         }
         
         // Fungsi untuk render data table
@@ -3006,7 +3067,7 @@
                     <td>${data.namaKelompok || '-'}</td>
                     <td>${data.jabatan || '-'}</td>
                     <td>${data.tahunAnggaran}</td>
-                    <td>${data.kecamatan}</td>
+                    <td>${data.kecamatan</td>
                     <td>${data.desa}</td>
                     <td>${data.jenisBantuan}</td>
                     <td>${data.namaBantuan || '-'}</td>
@@ -3038,95 +3099,96 @@
         }
         
         // Fungsi untuk edit data
-       function editData(id) {
-    const data = appData.find(item => item.id === id);
-    if (!data) return;
-    
-    // Isi form dengan data yang akan diedit
-    document.getElementById('nama').value = data.nama || '';
-    document.getElementById('nik').value = data.nik || '';
-    
-    // Format nomor WhatsApp untuk tampilan
-    let whatsappValue = data.whatsapp || '';
-    if (whatsappValue && !whatsappValue.startsWith('0') && !whatsappValue.startsWith('62')) {
-        whatsappValue = '62' + whatsappValue;
-    }
-    document.getElementById('whatsapp').value = whatsappValue;
-    document.getElementById('whatsapp').setAttribute('data-raw-value', whatsappValue);
-    
-    document.getElementById('namaKelompok').value = data.namaKelompok || '';
-    document.getElementById('jabatan').value = data.jabatan || 'Individu';
-    document.getElementById('tahunAnggaran').value = data.tahunAnggaran || new Date().getFullYear();
-    document.getElementById('kecamatan').value = data.kecamatan || '';
-    document.getElementById('desa').value = data.desa || '';
-    document.getElementById('alamat').value = data.alamat || '';
-    document.getElementById('jenisBantuan').value = data.jenisBantuan || 'Uang';
-    document.getElementById('namaBantuan').value = data.namaBantuan || '';
-    document.getElementById('jumlahBantuan').value = data.jumlahBantuan || '';
-    document.getElementById('satuanBantuan').value = data.satuanBantuan || 'Rupiah';
-    document.getElementById('tanggalTerima').value = data.tanggalTerima || new Date().toISOString().split('T')[0];
-    document.getElementById('namaPetugas').value = data.namaPetugas || '';
-    document.getElementById('driveLink').value = data.driveLink || '';
-    document.getElementById('kodeValidasi').value = data.kodeValidasi || '';
-    document.getElementById('keterangan').value = data.keterangan || '';
-    
-    // Set data-id untuk mengetahui data mana yang sedang diedit
-    document.getElementById('inputForm').setAttribute('data-edit-id', id);
-    
-    // Scroll ke form input
-    document.getElementById('v-pills-input-tab').click();
-    
-    // Ubah tombol submit menjadi "Update Data"
-    const submitButton = document.querySelector('#inputForm button[type="submit"]');
-    submitButton.innerHTML = '<i class="fas fa-sync me-1"></i> Update Data';
-    
-    // Tambahkan tombol batal edit
-    if (!document.getElementById('cancelEditBtn')) {
-        const cancelButton = document.createElement('button');
-        cancelButton.type = 'button';
-        cancelButton.id = 'cancelEditBtn';
-        cancelButton.className = 'btn btn-secondary me-2';
-        cancelButton.innerHTML = '<i class="fas fa-times me-1"></i> Batal Edit';
-        cancelButton.onclick = cancelEdit;
-        
-        submitButton.parentNode.insertBefore(cancelButton, submitButton);
-    }
-    
-    showNotification('Data siap untuk diedit. Klik "Update Data" setelah melakukan perubahan.', 'info');
-}
+        function editData(id) {
+            const data = appData.find(item => item.id === id);
+            if (!data) return;
+            
+            // Isi form dengan data yang akan diedit
+            document.getElementById('nama').value = data.nama || '';
+            document.getElementById('nik').value = data.nik || '';
+            
+            // Format nomor WhatsApp untuk tampilan
+            let whatsappValue = data.whatsapp || '';
+            if (whatsappValue && !whatsappValue.startsWith('0') && !whatsappValue.startsWith('62')) {
+                whatsappValue = '62' + whatsappValue;
+            }
+            document.getElementById('whatsapp').value = whatsappValue;
+            document.getElementById('whatsapp').setAttribute('data-raw-value', whatsappValue);
+            
+            document.getElementById('namaKelompok').value = data.namaKelompok || '';
+            document.getElementById('jabatan').value = data.jabatan || 'Individu';
+            document.getElementById('tahunAnggaran').value = data.tahunAnggaran || new Date().getFullYear();
+            document.getElementById('kecamatan').value = data.kecamatan || '';
+            document.getElementById('desa').value = data.desa || '';
+            document.getElementById('alamat').value = data.alamat || '';
+            document.getElementById('jenisBantuan').value = data.jenisBantuan || 'Uang';
+            document.getElementById('namaBantuan').value = data.namaBantuan || '';
+            document.getElementById('jumlahBantuan').value = data.jumlahBantuan || '';
+            document.getElementById('satuanBantuan').value = data.satuanBantuan || 'Rupiah';
+            document.getElementById('tanggalTerima').value = data.tanggalTerima || new Date().toISOString().split('T')[0];
+            document.getElementById('namaPetugas').value = data.namaPetugas || '';
+            document.getElementById('driveLink').value = data.driveLink || '';
+            document.getElementById('kodeValidasi').value = data.kodeValidasi || '';
+            document.getElementById('keterangan').value = data.keterangan || '';
+            
+            // Set data-id untuk mengetahui data mana yang sedang diedit
+            document.getElementById('inputForm').setAttribute('data-edit-id', id);
+            
+            // Scroll ke form input
+            document.getElementById('v-pills-input-tab').click();
+            
+            // Ubah tombol submit menjadi "Update Data"
+            const submitButton = document.querySelector('#inputForm button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-sync me-1"></i> Update Data';
+            
+            // Tambahkan tombol batal edit
+            if (!document.getElementById('cancelEditBtn')) {
+                const cancelButton = document.createElement('button');
+                cancelButton.type = 'button';
+                cancelButton.id = 'cancelEditBtn';
+                cancelButton.className = 'btn btn-secondary me-2';
+                cancelButton.innerHTML = '<i class="fas fa-times me-1"></i> Batal Edit';
+                cancelButton.onclick = cancelEdit;
+                
+                submitButton.parentNode.insertBefore(cancelButton, submitButton);
+            }
+            
+            showNotification('Data siap untuk diedit. Klik "Update Data" setelah melakukan perubahan.', 'info');
+        }
 
-// Fungsi untuk membatalkan edit
-function cancelEdit() {
-    // Reset form
-    document.getElementById('inputForm').reset();
-    
-    // Reset jabatan ke default
-    document.getElementById('jabatan').value = 'Individu';
-    
-    // Set tahun ke default
-    document.getElementById('tahunAnggaran').value = new Date().getFullYear();
-    
-    // Set tanggal hari ini
-    document.getElementById('tanggalTerima').value = new Date().toISOString().split('T')[0];
-    
-    // Reset kode validasi
-    document.getElementById('kodeValidasi').value = '';
-    
-    // Hapus data-id edit
-    document.getElementById('inputForm').removeAttribute('data-edit-id');
-    
-    // Kembalikan tombol submit ke keadaan semula
-    const submitButton = document.querySelector('#inputForm button[type="submit"]');
-    submitButton.innerHTML = '<i class="fas fa-save me-1"></i> Simpan Data';
-    
-    // Hapus tombol batal
-    const cancelButton = document.getElementById('cancelEditBtn');
-    if (cancelButton) {
-        cancelButton.remove();
-    }
-    
-    showNotification('Edit data dibatalkan.', 'info');
-}
+        // Fungsi untuk membatalkan edit
+        function cancelEdit() {
+            // Reset form
+            document.getElementById('inputForm').reset();
+            
+            // Reset jabatan ke default
+            document.getElementById('jabatan').value = 'Individu';
+            
+            // Set tahun ke default
+            document.getElementById('tahunAnggaran').value = new Date().getFullYear();
+            
+            // Set tanggal hari ini
+            document.getElementById('tanggalTerima').value = new Date().toISOString().split('T')[0];
+            
+            // Reset kode validasi
+            document.getElementById('kodeValidasi').value = '';
+            
+            // Hapus data-id edit
+            document.getElementById('inputForm').removeAttribute('data-edit-id');
+            
+            // Kembalikan tombol submit ke keadaan semula
+            const submitButton = document.querySelector('#inputForm button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-save me-1"></i> Simpan Data';
+            
+            // Hapus tombol batal
+            const cancelButton = document.getElementById('cancelEditBtn');
+            if (cancelButton) {
+                cancelButton.remove();
+            }
+            
+            showNotification('Edit data dibatalkan.', 'info');
+        }
+        
         // Fungsi untuk delete data
         function deleteData(id, showNotification = true) {
             if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
@@ -3304,7 +3366,7 @@ function cancelEdit() {
             
             const dataToPrint = isFilterActive ? filteredData : appData;
             
-            dataToPrint.forEach((data, index) => {
+            dataToPrint.forEach((data, index) {
                 const whatsappDisplay = data.whatsapp ? data.whatsapp.replace('62', '0') : '-';
                 const rowData = [
                     index + 1,
@@ -3409,7 +3471,7 @@ function cancelEdit() {
             previewContent += `</tr></thead><tbody>`;
             
             // Isi data
-            dataToPrint.forEach((data, index) => {
+            dataToPrint.forEach((data, index) {
                 const whatsappDisplay = data.whatsapp ? data.whatsapp.replace('62', '0') : '-';
                 
                 previewContent += `
@@ -3680,8 +3742,26 @@ function cancelEdit() {
         function saveSettings(e) {
             e.preventDefault();
             
-            // Simpan pengaturan (dalam contoh ini hanya disimulasikan)
-            showNotification('Pengaturan berhasil disimpan.', 'success');
+            // Validasi dan simpan kode keamanan
+            const newSecurityCode = document.getElementById('securityCodeInput').value;
+            
+            if (newSecurityCode.length < MIN_SECURITY_CODE_LENGTH) {
+                document.getElementById('securityCodeError').textContent = `Kode keamanan minimal ${MIN_SECURITY_CODE_LENGTH} karakter`;
+                document.getElementById('securityCodeError').style.display = 'block';
+                document.getElementById('securityCodeInput').classList.add('input-error');
+                return;
+            }
+            
+            // Update kode keamanan
+            const result = updateSecurityCode(newSecurityCode);
+            
+            if (result.success) {
+                showNotification('Pengaturan berhasil disimpan.', 'success');
+                document.getElementById('securityCodeError').style.display = 'none';
+                document.getElementById('securityCodeInput').classList.remove('input-error');
+            } else {
+                showNotification(result.message, 'error');
+            }
         }
         
         // Fungsi untuk setup browser info
